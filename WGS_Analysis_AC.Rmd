@@ -55,9 +55,9 @@ This analysis will include both of these classes of analyses, but in addition to
 ## Data import
 three data sets to import: 1) WGS Kraken empirical data; 2) Kraken simulation results; 3) sample metadata
 ```{r data import}
-krak = read.csv("/Users/ajcutle/Documents/Kraken Analysis/R-Kraken/kraken.csv")
-mixes = read.csv("/Users/ajcutle/Documents/Kraken Analysis/R-Kraken/pollen-mixes-proportions.csv")
-simkrak = read.csv("/Users/ajcutle/Documents/Kraken Analysis/R-Kraken/kraken_sim.csv")
+krak = read.csv("/Users/ajcutle/Kraken/kraken.csv")
+mixes = read.csv("/Users/ajcutle/Kraken/pollen-mixes-proportions.csv")
+simkrak = read.csv("/Users/ajcutle/Kraken/kraken_sim.csv")
 
 # 'mixes' comes in with some rows duplicated (because in the spreadsheet, each was assessed with both ITS2 and with rbcL); fix this here:
 mixes = unique(mixes)
@@ -445,7 +445,7 @@ kable(coefs_summ)
 
 #Import qualitative results from amplicon analysis
 
-load("/Users/ajcutle/Documents/Mol Ecol 2018 docs/qual_amplicon_results.RData")
+load("/Users/ajcutle/Kraken/qual_amplicon_results.RData")
 
 #Create data frame to hold ITS results: 3 questions x 2 datasets x 2 taxonomic levels x 1 markers = 12 rows
 ITS_comp_AIC= data.frame(question = rep(NA,12), taxon  = rep(NA,12), data.subset  = rep(NA,12), Krak_AIC = rep(NA,12), Amp_AIC  = rep(NA,12))
@@ -534,7 +534,7 @@ kable(rbcL_comp_AIC)
 
 #Import quantitative results from amplicon analysis
 
-load("/Users/ajcutle/Documents/Mol Ecol 2018 docs/quant_amplicon_results.RData")
+load("/Users/ajcutle/Kraken/quant_amplicon_results.RData")
 
 #Create data frame to hold ITS results: 3 taxon levels x 1 marker = 3 rows
 ITS_comp_AIC= data.frame(taxon  = rep(NA,3), Krak_AIC = rep(NA,3), Amp_AIC  = rep(NA,3))
