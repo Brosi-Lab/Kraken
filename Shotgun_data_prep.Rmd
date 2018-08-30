@@ -1,0 +1,177 @@
+---
+title: "Shotgun Metagenomics Data Preparation"
+author: "Jamie Botsch"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: html_document
+---
+#Initial data manipulation
+Before importing the data, I had to do a few things to get the data ready for `R`. 
+
+One file, summary.pdf in the mike-kraken folder, had to be converted to a .txt file. I did this by uploading it to `Google Drive` and using the `DocHub` extension I downloaded it as a .doc, which I then saved as a .txt file. This did an okay job converting it to a .txt file.  
+
+In both of the ohter data files, I had to open the .report files in `TextEditor` and save them as .txt files. 
+
+Then I opened these .txt files in `Excel`. First, I used find and replace to remove the extraneous bits at the beginning and end of every sample (e.g. ==> ... .filteredreport<==). After that I could take the sample headers, and use a function to fill this down in a new column, which I would later title mix.id.  The function I used was (for a sample in cell A2) `=IF(isblank(C1),B1,A1)` which says if the third column (hits) in row above is blank then copy the title from B2 (since I added column A), if not copy the value from above. 
+
+##Import data
+```{r data import}
+require(readr)
+ # k1 <- read_delim("~/Dropbox/analysis-data_shotgun metagenomics/mike-kraken/kraken-9July2015/kraken_summary_9july2015.txt", 
+#     "\t", escape_double = FALSE, trim_ws = TRUE) #these are the data from 9 July 2015. There is an extra column where excel put a delimeter in the wrong place. This only occurs in this sample and 
+
+k2 <- read_csv("~/Dropbox/analysis-data_shotgun metagenomics/all-filtered-reports_Kraken-5-9-2016.csv") #these are the kraken data 
+
+e1 <- read_csv("~/Dropbox/analysis-data_shotgun metagenomics/emory-sequence-data-kraken-reports/emory_sequence_summary.csv") #there's an extra column where I was doing a check to confirm the equation worked. That'll be easy to remove.
+```
+
+
+Now I'm ready to start getting the data ready to be formatted. 
+
+First thing I'll do is get rid of those X8 columns and get all of the colnames to match
+
+```{r removing X8s}
+require(dplyr)
+#first confirm everything worked in excel
+unique(e1$X8)
+
+#all TRUE means all good. Let's remove it.
+e1=e1%>%
+  select(-X8)
+
+#k1 will be a little more difficult, but not by much
+#use paste to combine where the things were split weirdly.
+# unique(k1$X8)
+# unique(k1$id) # just to confirm that none of the things from the tax.id column moved over
+
+# k1$id=ifelse(is.na(k1$X8), k1$id,  paste(k1$id, k1$X8, sep = " "))
+# k1=select(k1,-X8)
+
+# seeing if colnames match
+# colnames(e1)==colnames(k1)
+colnames(e1)==colnames(k2)
+
+#fixing the issue
+colnames(k2)=colnames(e1)
+
+```
+
+Since the data were collected from two different sources, I'll add a column which explains what's what.
+
+```{r emory/uga source}
+e1$source="Emory"
+# k1$source="UGA 9Jul15"
+k2$source="UGA 9May16" #not totally sure 5-9-16 is 9 May 16
+```
+
+Now everything is in the format to join the data together using rbind.
+
+```{r creating a single datafile}
+kraken= rbind(e1,k2)
+
+rm(e1,k2)
+```
+
+Here's where the fun starts, I'm going to first get rid of the clades other than Order, Family, Genus, Species. Then I'm going to create columns for each.
+
+To do this, I'm going to first filter out the unnecessary taxonomic data, Domain kingdom phylum and class. I was hesitant about class, but there are subsets of the data, particularly from Emory's location, where classes aren't included for some. 
+
+Then I will create columns for each taxonomic level. I'll subset the characters before the space in species to get genus for those columns, then I'll apply a for loop to get the order and family column information. 
+
+
+
+```{r data manipulation}
+kraken= kraken%>%
+  filter(tax!="-")%>%
+  filter(tax!="D")%>%
+  filter(tax!="K")%>%
+  filter(tax!="P")%>%
+  filter(tax!="C")
+
+kraken$order=ifelse(kraken$tax=="O", kraken$id,NA)
+kraken$family=ifelse(kraken$tax=="F", kraken$id,NA)
+kraken$genus=ifelse(kraken$tax=="G", kraken$id,NA)
+kraken$species=ifelse(kraken$tax=="S", kraken$id,NA)
+
+kraken$genus=ifelse(kraken$tax=="S", gsub( " .*$", "", kraken$species), kraken$genus)
+
+#family
+for (i in 1:dim(kraken)[1]) {
+    if (!is.na(kraken$genus[i])) {
+      kraken$family[i]=kraken$family[i-1]
+    } else {
+      kraken$family[i]=kraken$family[i]
+    }
+}
+
+#order
+for (i in 1:dim(kraken)[1]) {
+    if (!is.na(kraken$family[i])) {
+      kraken$order[i]=kraken$order[i-1]
+    } else {
+      kraken$order[i]=kraken$order[i]
+    }
+}
+
+tax_kraken=kraken%>%
+  select(order, family, genus, species, id)
+
+tax_kraken=unique(tax_kraken)
+
+kraken=kraken%>%
+  select(-order, -family, -genus, -species)
+```
+
+```{r error finding}
+tax_kraken$errors=ifelse(is.na(tax_kraken$order), "error", "good")
+filter(tax_kraken, errors=="error")
+
+```
+So it looks like there is one error, where there is no family for the *Helicosporidium* genus.
+
+I'll just google that value and fill in the family. 
+
+```{r filling in family for Helicosporidium}
+tax_kraken$family=ifelse(tax_kraken$errors=="error","Chlorellaceae", tax_kraken$family)
+tax_kraken$order=ifelse(tax_kraken$errors=="error","Chlorellales", tax_kraken$order)
+#View(tax_kraken) looks good 
+```
+
+I know that code is really ugly, but since all the errors right now are in the same genus it's okay. If there were more errors in different families this would not be a good solution.
+
+
+This is actually nearly what Berry wanted.
+```{r joining the two together to get long format data}
+kraken_final= left_join(kraken, tax_kraken, by="id")
+kraken_final=kraken_final%>%
+  select(-errors)
+write.csv(kraken_final, "kraken.csv")
+```
+
+
+<!-- The last thing I want to do is get the data in the same shape as rdp.ITS2 and rdp.rbcL this means having the rows be the species and the columns being the mixes. This should be fairly straightforward using reshape2. -->
+
+# ```{r final forms}
+# #make a matrix similar to rdp_rbcL and rdp_ITS2 with the mixes as the columns and the taxonomic group as the rows
+# require(reshape2)
+# 
+# k_wide=dcast(kraken, id~mix.id, value.var="perc.hit")
+# k_wide[is.na(k_wide)] <- 0
+# 
+# #join the new data set with the taxonomy
+# k_wide=left_join(k_wide, tax_kraken, by="id")
+# 
+# #reorder data
+# refcols <- c("order", "family", "genus", "species", "id")
+# k_wide <- k_wide[, c(refcols, setdiff(names(k_wide), refcols))]
+# 
+# k_wide=k_wide%>%
+#   select(-id, -errors)
+# 
+# write.csv(k_wide, "kraken.csv")
+```
+
+
+#Documentation
+```{r doc}
+sessionInfo()
+```

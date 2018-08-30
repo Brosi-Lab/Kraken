@@ -1,0 +1,879 @@
+---
+title: "Whole-Genome Shotgun Pollen ID paper analysis"
+author: "Berry Brosi"
+date: "25-April-2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+suppressPackageStartupMessages(require(knitr))
+```
+
+## Table of Contents
+
+* A. overview
+* B. data import
+* C. data prep + formatting
+* D. data analysis
+
+## A. overview
+The basic idea behind this analysis is to largely repeat the analysis we did on the mixed-amplicon paper, especially given that the inputs (known / constructed pollen mixtures) are exactly the same; this `.Rmd` file is based directly on that analysis.
+
+The pollen input samples were constructed to vary in three dimensions:
+
+1. Question 1: species richness (1-9 species)
+2. Question 2: rarity (actual proportion of grains this taxon has in a sample; from roughly half & half to < 1% of the rarer type)
+3. Question 3: taxonomic relatedness (within genus to across broad clades in the seed plants)
+
+The mixed-amplicon paper included two broad classes of analyses:
+
+1. Qualitative matching 
+    a. false negative analysis (binomial GLMMs, response = taxon presence in a sample)
+    b. false positive analysis---*for the mixed-amplicon paper, this was not analyzed formally; false positives are essentially ubiquitous so a formal presence / absence analysis may not be informative*
+2. Quantitative matching
+
+This analysis will include both of these classes of analyses, but in addition to looking at these on their own (i.e., comparing known sample input to statistical output from Kraken), it will also include: 
+
+1. a comparison of the Kraken simulation vs. empirical results (probably qualitative? but we will have to analyze the simulations in the same way as the empirical data)
+2. a direct comparison of how the *amplicon-based* results compare to the whole-genome shotgun results.
+    a. one possibility is to use likelihoods to compare them (?) based on goodness-of-fit to the real data (?)
+    b.look at Bolker book, also Hilborn & Mangel
+    c. will need to think this out more; worst-case (not that bad) is to compare qualitatively
+
+### 1. Qualitative matching
+#### 1a. False negatives: series of binomial-errors GLMMs:
+For this, the response variable is whether or not species that were present in the mix were detected above the contamination threshold. There is typically >1 species pesent in each mix, so there are multiple data points per sample. In addition, detection probability is not independent of species ID. Thus, take a GLMM approach with random effects: sample ID nested within mix, and then species as a crossed random effect. Ideally, we would be able to correct for the presence of non-focal species in a mix; including 'mix' takes care of that somewhat, but imperfectly; don't know a better way to do it.
+
+* taxonomic assignments
+    + quantitatively assess the proportions assigned correctly overall
+* species richness
+* rarity
+* relatedness
+    + right now we do not have quantitative branch lengths for relatedness
+    + could do the phylogeny (potentially with the `picante` package?)
+    + or could do an analysis with an ordinal Linnean predictor
+
+### 3. Quantitative matching
+Essentially looking at quantitative correlations between input pollen % and output sequence count %.
+
+## B. data import
+four data sets to import: 1) WGS Kraken empirical data; 2) Kraken simulation results; 3) sample metadata; 4) mixed-amplicon results (for later comparison)
+
+```{r data import}
+krak = read.csv("~/Dropbox/analysis-data_shotgun metagenomics/R-Kraken/kraken.csv")
+mixes = read.csv("~/Dropbox/analysis-data_shotgun metagenomics/R-Kraken/pollen-mixes-proportions.csv")
+simkrak = read.csv("~/Dropbox/analysis-data_shotgun metagenomics/R-Kraken/kraken_sim.csv")
+
+# 'mixes' comes in with some rows duplicated (because in the spreadsheet, each was assessed with both ITS2 and with rbcL); fix this here:
+mixes = unique(mixes)
+
+# 'krak' and 'simkrak' come with an extra numeric column at the beginning ('X'); delete
+krak = krak[,-1]
+simkrak = simkrak[,-1]
+
+# change name of 'krak' & 'simkrak' identifier columns
+# identifier column is called 'mix.id' but it is very different from the 'mix.ID' column in the 'mixes' data; we will ultimately want to join by 'mix.ID'
+names(krak)[1] = "sample.id"
+names(simkrak)[1] = "sample.id"
+
+# check them out to make sure we're all good:
+# View(krak)
+# View(simkrak)
+# View(mixes)
+```
+
+## C. data formatting / setup
+
+* C.1 Kraken data prep
+    + Jamie formatted these (25-Apr-2018) from the raw Kraken output to have the family / genus / species separated out into columns; see `Shotgun_data_prep.Rmd`
+    + unlike the QIIME Illumina data, we do not need to do any aggregation of read counts as this was done automatically by Kraken (nice touch)
+    + step 1: filter to include only matches at family / genus / species taxonomic resolutions (not anything coarser, and no intermediate clades)
+    + step 2: create new columns for `mix.ID` that matches the column in the sample (`pollen-mixes-proportions.csv`) data
+* C.2 filter data to remove reads below the isolation / PCR negative control thresholds
+* C.3 combine Kraken & sample data
+
+### C.1 Kraken data prep:
+
+  1. filter by `tax.cat` column, including only species / genus / family levels
+  2. create new column for `mix.ID` that matches the column in the sample (`pollen-mixes-proportions.csv`) data
+
+```{r C.1: Kraken data prep}
+
+# C.1.1: Kraken filtering (easy-peasy)
+suppressPackageStartupMessages(require(dplyr))
+# first, filter out the reads to only include those at the family / genus / species levels
+krak = filter(krak, tax == "F" | tax == "G" | tax == "S")
+
+# for simkrak, results are already only order / family / genus / species matches
+# thus, just exclude order-level matches
+simkrak = filter(simkrak, tax != "O")
+
+# C.1.2: create new column for `mix.ID` that matches the column in the sample (`pollen-mixes-proportions.csv`) data
+# this is a bit more involved... a primary issue is that Emory and UGA used different naming conventions for the samples
+
+# also create a new 'replicate.ID'; we will use this later to back-fill in the 'mixes' dataframe
+
+## MIX.ID
+## FIRST ONLY FOR 'KRAK' ('SIMKRAK' comes later)
+
+# first, create the column; fill in temporarily the first 5 characters in the 'sample.id' column
+krak$mix.ID = substr(krak$sample.id, 1, 5)
+
+# move the new column to be second in order (not at the end where it's hard to see)
+krak = krak[, c(1, ncol(krak), 3:ncol(krak)-1)]
+
+# second, replace underscores and dashes in the temp 'mix.ID' with periods so that they match the 'mixes' data
+krak$mix.ID = gsub("-", ".", krak$mix.ID)
+krak$mix.ID = gsub("_", ".", krak$mix.ID)
+
+  # 2.1--fix capitalization for pecan ("c.ill"" should be "C.ill")
+  krak$mix.ID = gsub("c.i", "C.i", krak$mix.ID)
+
+# third, for the Emory mixes (different label), extract the mix from the text in the 'sample.id' column
+# use 'str_extract' from the 'stringr' library (thank you tidyverse!) plus 'replace'
+# (... took me quite a while to figure this out, dang regular expressions...)
+# then do some cleanup
+suppressPackageStartupMessages(require(stringr))
+
+  # 4.1--extract strings and subset to only the relevant values  
+  new.vals = str_extract(krak$sample.id, "mix_.*/")
+  new.vals = new.vals[is.na(new.vals) == F]
+  
+  # 4.2--replace old vals with new.vals
+  krak$mix.ID = replace(krak$mix.ID, krak$mix.ID=="repla", new.vals)
+  
+  # 4.3--cleanup
+  krak$mix.ID = gsub("_", ".", krak$mix.ID)
+  krak$mix.ID = gsub("/", "", krak$mix.ID)
+
+# fourth, remove periods in between the text "mix" and the number 
+krak$mix.ID = gsub("mix.", "mix", krak$mix.ID)
+
+  
+## 'REP.ID'
+# noticed a weird quirk of the data: in the "B.pap" samples, the "1" at the end of the 'sample.id' is cut off. It may not really matter, but by making it consistent it will help make there be fewer levels / potential complications when appending onto the 'mixes' data
+krak$sample.id = as.character(krak$sample.id)
+indexy = str_sub(krak$sample.id, -1, -1)==0 # identifies which are missing the '1' at the end
+# indexy = which(krak$mix.ID=="B.pap" & krak$rep.ID=="01.R")
+krak$sample.id = replace(krak$sample.id, indexy, paste(krak$sample.id[indexy],"1", sep = ""))
+
+# first, create the column; fill in the relevant characters from the 'sample.id' column
+krak$rep.ID = substr(krak$sample.id, nchar(as.character(krak$sample.id))-7, nchar(as.character(krak$sample.id))-4) # 
+# switch underscore to period
+krak$rep.ID = gsub("_", ".", krak$rep.ID)
+
+# move the new column to be second in order (not at the end where it's hard to see)
+krak = krak[, c(1:2, ncol(krak), 4:ncol(krak)-1)]
+
+
+# NOW FOR SIMKRAK... STILL NEED TO DO THIS!
+  
+#Create a column for mix.id with the characters 6-10 of the sample id
+simkrak$mix.ID = substr(simkrak$sample.id, 6, 10)
+
+#Remove underscore for mixes with single digit
+simkrak$mix.ID = gsub("_", "", simkrak$mix.ID)
+
+#Move to second column as done in krak
+simkrak = simkrak[, c(1, ncol(simkrak), 3:ncol(simkrak)-1)]
+
+```
+
+#### C.2 filter data to remove reads below the isolation / PCR negative control thresholds
+
+**I THINK WE ACTUALLY WANT TO DO THIS ONLY AFTER WE DO THE INITIAL JOIN WITH THE MIXES DATA, BECAUSE THIS COULD REMOVE SOME OF THE REPLICATES FROM THE DATA AND WE WANT TO REGISTER THAT THEY DIDN'T HAVE ANY HITS**
+
+1. remove reads below the isolation / PCR negative control thresholds
+      a) this step is only for the empirical data (unnecessary for the simulated data)
+      b) ideally, would base these on negative controls **for a given Illumina run** (two separate runs here, at UGA and Emory Genome center; we will need to keep those separate); but **unfortunately** there do not appear to be negative controls for the Emory Genome Center data; I will use the UGA thresholds for all the data
+      c) this entails removing rows with k-mer counts below the threshold
+      d) in the Illumina QIIME amplicon data, we did this separately for (entire) taxa below the threshold level, and for reads, because of the way that the data were formatted in a taxon-by-sample matrix; the Kraken output is already formatted in a way that is closer to `tidy` so we only need to do this step once here.
+2. remove negative control rows (once the above is completed)
+
+```{r C.2 remove reads below contamination threshold}
+
+# # first check out number of rows before filtering out noise:
+# # nrow(krak) # 1120
+# 
+# # establish threshold (identify the maximum across all rows of negative controls):
+maxy = max(krak$hits[krak$mix.ID=="negat"])
+# 
+# # set up index of rows to remove (with 'hits' <= maxy)
+indexy = which(krak$hits <= maxy)
+# 
+# # remove them!
+krak = krak[-indexy,]
+# 
+# # remove negative control rows
+krak = filter(krak, mix.ID!="negat")
+# 
+# # now check out number of rows AFTER filtering out noise:
+# # nrow(krak) #965
+
+
+```
+
+
+#### C.3 combine Kraken & sample / mix data overview:
+new aggregated datasheeet, based on sample metadata, but which matches sample data back to the Kraken data so we can run analyses about probability of matching (both qualitative and quantitative). In particular this is taking account of sample "replicates" (not true replicates at all, but forward vs. reverse reads); also different Illumina lanes in the Emory Genome Center data.
+
+use 'mix.ID' as the variable to combine by...
+
+```{r C.3 merge kraken data and metadata}
+
+require(dplyr)
+# first thing we want to do is merge the 'rep.ID' info from the 'kraken' data with the 'mixes' dataframe
+
+# first create a dataframe of the unique combinations of 'mix.ID' and 'rep.ID'
+# (found in the actual kraken data)
+unicorn = unique(select(krak, mix.ID, rep.ID))
+
+# then merge that with the 'mixes' data:
+# calling this "base" because this data frame forms the reference base for all subsequent analyses
+# in particular, it has each combination of mix / taxa / and replicates, that we assessed with kraken
+# for each mix / taxon / and replicate we want to assess if there was a match:
+base = merge(mixes, unicorn, by = "mix.ID", all = F)
+rm(unicorn) # clean up
+
+# now combine the base with the kraken data
+# keep all entries from 'base' (all.x = T) but only those from 'kraken' that match (all.y = F))
+# need to repeat this for species, genus, and family
+# filter by 'tax' column to include only hits at the appropriate level
+agg.species =  merge(base, filter(krak, tax =="S"), by = c("mix.ID", "rep.ID", "species"), all.x = T, all.y = F)
+agg.genus =  merge(base, filter(krak, tax =="G"), by = c("mix.ID", "rep.ID", "genus"), all.x = T, all.y = F)
+agg.family =  merge(base, filter(krak, tax =="F"), by = c("mix.ID", "rep.ID", "family"), all.x = T, all.y = F)
+
+# note that for 'agg.family' there are still more rows than there are in the 'base' dataframe
+# this is because some mixes had multiple species of the same family (e.g. mix 2, Poa and Zea)
+
+
+```
+
+
+#### C.3.4 match Kraken data to sample data, qualitatively & quantitatively
+
+alternative approach based on `merge`; ultimately we want the 'mixes' dataset back (i.e. the input), with whether or not there was matching output.
+
+**TO CONDUCT THIS COMPONENT WE FIRST NEED TO FILL IN THE SAMPLE REPLICATES INTO THE 'MIXES' TABLE--OTHERWISE WE WILL GET MORE MATCHES THAN WE HAVE ROWS IN 'MIXES'**
+
+* use `merge` to do series of left-joins starting with the `mixes` dataset as the 'left' dataset and `krak` as the 'right' dataset
+* three separate joins: family, genus, and species
+    + each dataset can then be used to run analyses
+    + (not run) alternatively could do them subsequently (first by family, then use that result to join by genus, then repeat for species)---but this will create a lot of duplication
+* after joining, we 
+
+
+here is what we did with the amplicon data:
+
+* select the row by matching with the taxon ID; if NA, then no match
+* select the column by matching with the sample / mix ID
+* with row and column data, return the value of that cell (proportion of column total, i.e. proportion of matching reads for that sample); return 0 for non-matches
+* then create a separate qualitative match which can be based on the quantitative match (i.e., if quant match > 0)
+* we will need to repeat the quant and qual each 3x, for {family, genus, and species}
+* use a nested `for` loop approach, with taxon / marker / dataset row 
+
+
+```{r match Illumina to sample data}
+
+family =  merge(mixes, filter(krak, tax == "F"), by = c("mix.ID", "family"), all.x = T, all.y = F)
+genus =  merge(mixes, filter(krak, tax == "G"), by = c("mix.ID", "genus"), all.x = T, all.y = F)
+species =  merge(mixes, filter(krak, tax == "S"), by = c("mix.ID", "species"), all.x = T, all.y = F)
+
+
+# first set up a dataframe to hold the results; later can 'cbind' this to our data
+# step 1: generate setup for naming columns automatically using 'expand.grid'
+# there is almost certainly a more efficient way to do this!
+bob = expand.grid(qq = c("quant","qual"), taxon = c("species","genus","family"))
+# step 2: create dataframe full of zeros, of the right size:
+results = data.frame(matrix(data = 0, nrow = nrow(agg), ncol = 6))
+# step 3: rename with correct names by combining the names from step 1
+names(results) = paste(bob$qq, bob$taxon, sep = ".")
+rm(bob) # get rid of unnecessary dataframe holding name components
+
+# qualitative matches
+# nested 'for' loop (taxon / rows of dataset) for matching, first with row and then with column; importantly, need to match to the correct dataframe by taxon
+
+for(k in 1:3){ # 'taxon': species, genus or family
+  # for(j in 1:2) { # 'marker': rbcL or ITS2
+    for(i in 1:nrow(agg)){ # cycles through the rows of the dataset
+      # first, match to the row ('ro'):
+      name.ro = paste('ro = match(agg$', taxon[k], "[i], ", ".", taxon[k], "$", taxon[k], ")", sep = "")
+      ro = eval(parse(text = name.ro))
+      # second, match to the column ('col'):
+      name.col = paste("col = match(agg$sample.mix[i], names(", ".", taxon[k], "))", sep = "")
+      col = eval(parse(text = name.col))
+      # third, put row and column together to generate the actual quantitative match:
+      quanter = paste(marker[j], ".", taxon[k], "[", ro, ", ", col, "]", sep = "")
+      # want to return 0 if no match (i.e. if either ro or col is NA)
+      quant = as.double(ifelse(is.na(col) == T | is.na(ro) == T, 0, eval(parse(text = quanter))))
+      # also need to divide by column sum to get proportions
+      colsum.txt = paste("colSums(", marker[j], ".", taxon[k], "[,", col, "])", sep = "")
+      colsum = as.double(eval(parse(text = colsum.txt)))
+      quant = quant / colsum
+      # fourth, put that quantitative match in the right place in the 'results' dataframe:
+      resulter = paste("results$quant.",taxon[k], ".", marker[j], "[i] = quant", sep = "")
+      eval(parse(text = resulter))
+    }
+  }
+}
+
+# now do the qualtitative matches:
+for(k in 1:3){ # 'taxon': species, genus or family
+  for(j in 1:2) { # 'marker': rbcL or ITS2
+    # first, generate index of which are qualitative matches:
+    indexier = paste("indexy = which(results$quant.", taxon[k], ".", marker[j], " > 0)", sep = "")
+    eval(parse(text = indexier))
+    # then, change those entries to 1s in the 'results' dataframe:
+    resultier = paste("results$qual.", taxon[k], ".", marker[j], "[indexy] = 1", sep = "")
+    eval(parse(text = resultier))
+  }
+}
+
+# finally, append the 'results' data onto the 'agg' data to create final dataframe to use for analyses:
+agg = cbind(agg, results)
+```
+
+## D. data analysis 
+
+### D1. False negative analysis: proportion of samples that correctly report true positives
+
+given the focus on false negatives, response here is qualitative match.
+
+mixed-effects modeling approach throughout. sample nested within mix `(1|mix.ID/sample)` throughout, crossed with taxon e.g. `(1|species)`, `(1|genus)`, `(1|family)`. Given qualitative match, use a binomial-errors approach
+
+treat each taxonomic level and each marker (*rbcL* vs. ITS2) separately
+
+three questions: 
+
+* Question 1: species richness
+* Question 2: rarity (actual proportion of grains a taxon has in a sample)
+* Question 3: taxonomic relatedness
+
+#### first task: set up different data subsets for the analyses
+just summarize data for taxonomic level. During the data analysis step, we can subset each of these datasets. Since the data are summarized (literally summed) for genus and for family, we need to have separate datasets for them. Better to have only 3 datasets kept in memory.
+
+```{r D1 data subsetting}
+
+# take out Zea for now:
+agg = filter(agg, genus!="Zea")
+
+# species
+data.species = agg
+
+# genus
+# with this approach, columns get re-arranged but shouldn't matter
+data.genus = agg %>% select(sample.mix, genus, 13:ncol(agg)) %>% group_by(sample.mix, genus) %>% summarize_all(sum)
+# NOTE--THIS APPROACH SUMS UP GENERA MATCHES WITHIN MIXES. If there are genera with >1 species (e.g. Populus in this case), then for the qualitative and quantitative matches, the numbers can sum to >1.
+# FIX:
+bobby = as.matrix(data.genus[,3:ncol(data.genus)])
+bobby[bobby > 1] <- 1
+data.genus = cbind(data.frame(data.genus[,1:2]),data.frame(bobby))
+# check:
+which(data.genus[,3:ncol(data.genus)] >1)
+
+
+data.genus = merge(data.genus, agg, all.x = T, all.y = F)
+# remove additional too-fine taxonomic identifiers for clarity:
+data.genus = select(data.genus, -species)
+
+# family
+data.family = agg %>% select(sample.mix, family, 13:ncol(agg)) %>% group_by(sample.mix, family) %>% summarize_all(sum)
+# see aggregation issue above
+bobby = as.matrix(data.family[,3:ncol(data.family)])
+bobby[bobby > 1] <- 1
+data.family = cbind(data.frame(data.family[,1:2]),data.frame(bobby))
+
+data.family = merge(data.family, agg, all.x = T, all.y = F)
+# remove additional too-fine taxonomic identifiers for clarity:
+data.family = select(data.family, -species, -genus)
+
+```
+
+#### D1 Analyses
+
+Decided to set up one `for` loop for all of the various analyses, since there are 36 of them altogether:
+
+* 3 questions (spp.rich, pollen.grain.proportion, relatedness)
+* 3 taxonomic levels (species, genus, family)
+* 2 markers (rbcL, ITS2)
+* 2 data subsets (either all data, or just the subset designed for the question)
+
+**NOTES** 
+
+* for the time being I have removed *Zea* from the analyses as it seemed to be screwing things up
+* I also am not currently running models for the 'family' taxonomic level as in some cases there was no variance in the data (all correct identifications)
+
+
+```{r D1.1 pooled analyses}
+require(lme4)
+
+# first set up a table for the results:
+# I will set this up with 36 entries, but only fill in 24 (since we are skipping the 'family' level for the time being)
+results.table = data.frame(question = rep(NA,36), taxon  = rep(NA,36), marker  = rep(NA,36), data.subset  = rep(NA,36), model.name = rep(NA,36), p.val  = rep(1.000001,36), n  = rep(9999,36), warning.msg = rep(NA,36))
+
+# keep track of which row of the table to record in:
+tracker = 1
+
+# # EXAMPLE FORMULA
+# Q1.species.rbcL.sub = glmer(qual.species.rbcL ~ spp.rich + (1|mix.ID/sample) + (1|species), family = binomial, data = data.species, control = glmerControl(optimizer="bobyqa"))
+# summary(Q1.species.rbcL.sub)
+
+# basis of subsetting:
+# sub = filter(data, question.1 ==1 | question.2 ==1 | question.3==1)
+datasubset = c("sub", "all") # whether we are using the designated subset of data designed for the question, or all data
+
+# response variables relating to each of the three questions (column names in data)
+question = c("spp.rich", "relatedness", "pollen.grain.proportion")
+
+for(q in 1:3) { # 'question': response variables for Q1 / Q2 / Q3
+    # FOR NOW ONLY DOING SPECIES AND GENUS, SINCE FAMILY SOMETIMES HAS 100% MATCHING
+    for(k in 1:2){ # 'taxon': species, genus ** (SET TO K in 1:3 to include FAMILY)! **
+    for(j in 1:2) { # 'marker': rbcL or ITS2
+      for(l in 1:2) { # 'datasubset': sub or all
+        # first, name the analysis:
+        namer = paste("Q", q, ".", taxon[k], ".", marker[j], ".", datasubset[l], sep = "")
+        # # 1.5, print name of which model was evaluated
+        # print("**************************************************")
+        # print(paste("*********************     ", namer, "     *********************"))
+        # print(paste("question q = ", q, "; taxon k = ", k, "; marker j = ", j, "; datasubset l = ", l))
+        # print("**************************************************")
+        # second, set which taxonomic data to use:
+        data.to.use = paste("data.", taxon[k], sep = "")
+        # third, set up the data subset (may or may not use)
+        subster = paste("data.sub = filter(", data.to.use, ", question.1 == ", q, " | question.2 == ", q, " | question.3 == ",q, ")", sep = "")
+        eval(parse(text = subster)) # probably not the most efficient thing ever... 
+        # fourth, set whether or not data subset is used (vs. all data)
+        if(datasubset[l]=="sub") {data.to.use = "data.sub"} # i.e., doesn't change if all data are to be            used
+        # fifth, set up mixed-effects model: 
+        mixed = paste(namer, " = suppressWarnings(glmer(qual.", taxon[k], ".", marker[j],
+          " ~ ",  question[q], " + (1|mix.ID/sample) + (1|", taxon[k], "), family = binomial, 
+          data = ", data.to.use, ", control = glmerControl(optimizer=\"bobyqa\")))", sep = "")
+        # sixth, evaluate the mixed-effects model
+        eval(parse(text = mixed))
+            # # eighth, print summary of model [SKIP FOR NOW]
+            # summarizer = paste("print(summary(", namer, "))", sep = "")
+            # eval(parse(text = summarizer)) # print summary of the mixed-effects model
+        
+        ## extract p-value
+        # example: coef(summary(Q3.genus.ITS.all))[2,4]
+        pvaller = paste("pval <- coef(summary(", namer, "))[2,4]", sep = "")
+        eval(parse(text = pvaller))
+        
+        # extract convergence failures
+        converger = paste(namer, "@optinfo$conv$lme4$code", sep = "")
+        converg = eval(parse(text = converger))
+        converg.return = ifelse(length(converg)==1, "ERROR!!", "")
+        
+        # record results in table
+        results.table[tracker,1] = question[q]
+        results.table[tracker,2] = taxon[k]
+        results.table[tracker,3] = marker[j]
+        results.table[tracker,4] = datasubset[l]
+        results.table[tracker,5] = namer
+        results.table[tracker,6] = pval
+        results.table[tracker,7] = nrow(eval(parse(text = data.to.use)))
+        results.table[tracker,8] = converg.return
+        
+        # advance tracker
+        tracker = tracker + 1
+      }
+    }
+  }
+}
+
+```
+
+*note: warning messages suppressed for neatness. Any model with convergence errors is noted in the table below*
+
+## RESULTS: mixed-effects models for qualitative matching
+
+**REMEMBER: THESE DATA DO NOT INCLUDE ZEA**
+
+**TAKE-HOME MESSAGE:** None of the factors we examined is a statistically important driver of qualitative matching. Just two models without problems / errors were statistically significant: 
+
+* `Q2.genus.rbcL.all`---rarity / proportion of pollen grains, matched at the genus level, for *rbcL* and including all data (not just the subset of data focused on rarity)
+* `Q3.genus.rbcL.all`---relatedness, matched at the genus level, for *rbcL* and including all data (not just the subset of data focused on relatedness)
+
+It is worth noting that the models that used all the data included the single-species data as well as the mixes. I think that we should largely focus on the **subset** models, as they were designed with the questions in mind.
+
+More detail on any particular model can be obtained by typing "summary(model)" in the console, and replacing 'model' with the model name from the 'model.name' column in the results table below.
+
+```{R display results}
+# display results table
+# note that the 'kable' function is part of the 'knitr' package, which I required at the very top of this document. 
+kable(results.table[1:24,])
+```
+
+## 3. Quantitative Matching
+
+Note that while it is important to assess if there is a statistical relationship between input pollen grain proportion and output proportion of sequence reads, evidence of such a relationship does not mean that metabarcoding is quantitative. If metabarcoding were quantitative, we would want a very high $R^{2}$ value, not only a low $p$-value. My *a priori* expectation is that there will be a statistically significant relationship between input pollen grain proportion and output proportion of sequence reads.
+
+Quantitative matching is more straightforward than the qualitative matching. We want to use all of the data (no particular subset, though potentially could have used the rarity analysis; but this question is relevant whenever metabarcoding is applied). Just four results: {species and genus} x {rbcL and ITS2}. Use a linear mixed-effects modeling approach with the `lmerTest` package to generate $p$-values, with `mix.ID` and `species` as crossed random effects. Proportion of sequence reads is the response variable, and pollen grain proportion going in is the sole fixed effect.
+
+*May want to add in some code to assess $R^{2}$ values for these models. This is somewhat complex philosophically for mixed-effects models, and a couple of different ways of doing it, but my thought would be to try a couple of different ways.*
+
+```{R quantitative matching}
+require(lmerTest)
+require(r2glmm)
+
+# ultimately want 4 analyses: {species and genus} x {rbcL and ITS2}
+# rbcL species
+quant.rbcL.species = lmer(quant.species.rbcL ~ pollen.grain.proportion + (1|mix.ID) + (1|species), data = data.species)
+plot(quant.rbcL.species)
+# summary(quant.rbcL.species)
+
+# rbcL genus
+quant.rbcL.genus = lmer(quant.genus.rbcL ~ pollen.grain.proportion + (1|mix.ID) + (1|genus), data = data.genus)
+# summary(quant.rbcL.genus)
+
+# rbcL family
+quant.rbcL.family = lmer(quant.family.rbcL ~ pollen.grain.proportion + (1|mix.ID) + (1|family), data = data.family)
+# summary(quant.rbcL.family)
+
+# ITS2 species
+quant.ITS.species = lmer(quant.species.ITS ~ pollen.grain.proportion + (1|mix.ID) + (1|species), data = data.species)
+# summary(quant.ITS.species)
+
+# ITS2 genus
+quant.ITS.genus = lmer(quant.genus.ITS ~ pollen.grain.proportion + (1|mix.ID) + (1|genus), data = data.genus)
+# summary(quant.ITS.genus)
+
+# ITS2 family
+quant.ITS.family = lmer(quant.family.ITS ~ pollen.grain.proportion + (1|mix.ID) + (1|family), data = data.family)
+# summary(quant.ITS.family)
+
+#=========================================
+# r-squared calculations at the family level
+r2.rbcL.family = r2beta(quant.rbcL.family)
+r2.ITS.family = r2beta(quant.ITS.family)
+
+```
+
+#### Results of quantitative matching
+
+All four models are highly statistically significant, $p < 2^{-07}$ at a maximum. Thus, there is a statistically significant relationship between input pollen grain proportion and output proportion of sequence reads. Again, that is not evidence of metabarcoding being quantitative.
+
+When we drill into the $R^2$ values, this becomes more clear. For ITS2, the $R^2$ = 0.099; For *rbcL*, $R^2$ = 0.473. 
+
+So, for ITS2, the $R^2$ value is very low; i.e. the proportion of pollen grains going into a reaction predicts only ~10% of the variance in terms of the number of reads that come back. Yikes. Definitely not quantitative. 
+
+for *rbcL*, this seems more respectable, ~50%. But first off, this is not really that great; the input pollen grain proportion explains only about half of the variance in the data. Where is the other half coming from? This is even worse given that the regression line in an ideal world should have a slope of exactly 1: if zero % of pollen grains are coming in from species X, the proportion of reads corresponding to X should = 0, and if input = 100%, then output should also = 100%. And on down the line for intermediate proportions. But instead, the slope is not 1 but is ~0.41. so, when the proportion of input pollen of a particular taxon is 100%, this model is estimating that the output proportion of pollen grains is ~40%. That's pretty cruddy. 
+
+## 4. GRAPHS
+
+Want the plots to inform our particular questions:
+
+* Question 1: species richness (integer, 1-9 species)
+    + potentially mean with binomial CI of % matched, with species richness on X?
+    + box-and-whisker plots don't seem to work well (played around with them) because everything ranges from zero to one. binomial CIs are much better
+* Question 2: rarity (continuous, actual proportion of grains a taxon has in a sample)
+    + potentially model fits from logistic regressions?
+* Question 3: taxonomic relatedness (integer: 0 = one species in sample; 1 = congeneric; 2 = same family; 3 = same class; 4 = different classes)
+    + potentially mean with CI of % matched, with relatedness on X?
+
+In general I think it makes the most sense to create plots based on the data subsets we created for particular questions, as opposed to using all of the data
+
+We can make plots based on species matching and based on genus matching, and for the two different markers (ITS2 and *rbcL*). Thus, four different possible plots for each question. Probably go ahead and make all 4, and then use just two for each question (at one taxonomic level, but for both markers).
+
+
+### Data prep for graphs
+
+basically need to create mean and binomial CI for each level of both spp richness and relatedness. Given that there are different levels, and different data subsets involved, create these separately for the two questions / responses (richness and relatedness). Within each of those two datasets, we want to summarize the data for each of the four graphs we want to create (for the two markers, and two levels of taxonomic matching). 
+
+To do this right, we need to summarize 3x---once for sample, once per mix, and then by each factor we are interested in (spp rich or relatedness). Otherwise samples with multiple species will get over-represented in terms of the overall means. We will keep track of integers at each step, and will do the summarizing with `dplyr`. We will summarize with `dplyr` twice, once per mix and then once per sample. Then within each level of the factor of interest, we will summarize with `metafor` (for those levels with multiple samples per level) or with `binom` (for those levels with just one sample per level).
+
+* `metafor` package: computing the "exact" 95% CIs using the `binom.test()` function and then passing those bounds to `forest()`
+    + https://stackoverflow.com/questions/36967850/using-metafor-or-meta-for-meta-analysis-of-proportions
+    + this only works for those data that are replicated within each level of the factor, e.g. if there are multiple observations with species richness == 2, but fails if not replicated within level
+    + in that case, pooling doesn't matter, so use the `binom` library to just create standard binomial CIs
+* I tried these two packages but couldn't get them to work:
+    * package `binomSamSize` for calculating binomial pooled CIs with the `poolbinom.logit` function.
+    * `binGroup` package, `pooledBin` function
+* looks like what we want to do is have `dplyr` summarize the data such that we have
+    + sums of positive IDs for each species within each sample
+    + number of species within each sample
+    
+
+```{r data prep for graphs}
+require(dplyr)
+require(binom)
+# require(binomSamSize)
+# require(binGroup)
+require(metafor)
+
+# 'pooledBin' function example
+# returns a single point estimate + upper & lower CIs for the pooled data (exactly what we want) 
+    # Consider an imaginary example, where pools of size
+    # 1, 5, 10 and 50 are tested, 5 pools of each size
+    # among the 5 pools with size 1 and 5, no pool is positive,
+    # while among the 5 pools of size 10 and 50, 1 and 2 positive
+    # pools are identified, respectively.
+    
+    # x1 <- c(0,0,1,2) # positive counts (number of positive pools)
+    # m1 <- c(1,5,10,50) # size of pools
+    # n1 <- c(5,5,5,5) # number of each pool of a given size
+    
+    # n1 <- c(1,1,1,1) # (didn't work)
+    # !! NOTE !!: each value of n must be at least as big or bigger than the corresponding value of x 
+    # pooledBin(x=x1, m=m1, n=n1)
+
+# # so basically we need to feed it one dataset for each level of species richness
+# rich.2 = filter(data.rich.plots, spp.rich==2)
+# rich.2.binom = pooledBin(x = rich.2$species.ITS, m = rich.2$num, n = rep(1, nrow(rich.2)))
+
+# one issue: we have taken Zea out of the data, so species richness numbers are not accurate
+# however, by calculating the n for each sample we can correct for that easily
+
+# calculate pooled binomial CIs with the `poolbinom.logit` function
+
+# first, summarize by spp.rich, mix.ID, sample:
+# calculate pool size for each sample ('n()'), as well as sum # of positive identifications
+CI.data.1 = data.species %>% 
+select(mix.ID, sample, spp.rich, qual.species.rbcL, qual.species.ITS, qual.genus.rbcL, qual.genus.ITS) %>% group_by(spp.rich, mix.ID, sample) %>% 
+summarize(pool.size = n(),
+  species.ITS = sum(qual.species.ITS), 
+  species.rbcL = sum(qual.species.rbcL), 
+  genus.ITS = sum(qual.genus.ITS), 
+  genus.rbcL = sum(qual.genus.rbcL))
+
+  # mix.15 = filter(data.rich.plots, mix.ID == "mix15")
+
+  # d = poolbinom.logit(mix.15$species.ITS, mix.15$num, rep(prod(mix.15$num), 3))
+  # d = poolbinom.logit(mix.15$species.ITS, mix.15$num, mix.15$num)
+  # d = poolbinom.logit(data.rich.plots$species.ITS, data.rich.plots$num, data.rich.plots$num)
+
+  # d = pooledBin(data.rich.plots$species.ITS, data.rich.plots$num, data.rich.plots$num)
+
+# second step: group_by(spp.rich, mix.ID, pool.size)
+CI.data.2 = CI.data.1 %>% group_by(spp.rich, mix.ID, pool.size) %>% 
+  summarize(pool.num = n(),
+  species.ITS = sum(species.ITS), 
+  species.rbcL = sum(species.rbcL), 
+  genus.ITS = sum(genus.ITS), 
+  genus.rbcL = sum(genus.rbcL)) # %>% 
+  # multiply pool size & number to get total number of possibilities of matches
+  CI.data.2$n2 = CI.data.2$pool.size * CI.data.2$pool.num
+  
+  write.csv
+  # mutate(n.2 = as.integer(pool.size)*as.integer(pool.num))) 
+
+
+# now that we have summarized the data, time to get the actual values
+# 1. set up a results table to dump results into
+# 2. 'for' loop running through each level of species richness (1:9)
+# 3. put results into table
+# 4. 
+
+
+# 1. set up a results table to dump results into
+  # we want to repeat this for:
+  #   - 2 levels of species richness (only ones that are replicated with different mixes in the dataset)
+  #   - 2 markers (rbcL and ITS2)
+  #   - 2 taxonomic levels (species and genus) # START OUT WITH JUST SPECIES
+# starter = expand.grid(spp.rich = 1:9, taxon = c("species", "genus"), marker = c("rbcL", "ITS"))
+starter = expand.grid(spp.rich = 1:2, taxon = c("species"), marker = c("rbcL", "ITS"))
+
+# run a GLMM with metafor to get data to use 
+meta.sp.rbcL <- rma.glmm(measure="PLO", xi=species.rbcL, ni=n2, data=CI.data.2)
+# actual predictions (easy!)
+bob = predict(meta.sp.rbcL, transf=transf.ilogit)
+# use them to create a data frame with 9 rows:
+resultsier = data.frame(matrix(data = rep(bob,nrow(starter)), nrow = nrow(starter), byrow = T))
+# match names of data frame to predictions
+names(resultsier) = names(bob)
+# then get rid of 'bob' for cleanup:
+rm(bob)
+# pull out only the mean and upper / lower CIs:
+resultsier = resultsier[,c(1,3:4)]
+
+# merge 'starter' and 'resultsier':
+resultsier = cbind(starter, resultsier)
+
+# set vals of resultsier to be very low, so we can tell when they've been changed:
+resultsier[,4:6] = rep(0.00001, nrow(resultsier))
+
+# # test glmm:
+# meta <- rma.glmm(measure="PLO", xi=species.rbcL, ni=n2, data=CI.data.2)
+# temp = as.data.frame(predict(meta, transf=transf.ilogit))
+
+# 2. and 3. set up 'for' loop to generate results, put them into a table
+# taxon = c("species", "genus") 
+# not using the above for the moment as 'genus' is not working--no variance in at least one level of species richness
+taxon = "species"
+marker = c("rbcL", "ITS")
+counter = 1
+
+for(i in 1:2){ # species = i HERE THIS IS JUST FOR SPECIES RICHNESS of 1 and 2
+  for(j in 1:length(taxon)) { # taxon = j # here this is just for species, not genus (j = 1)
+    for(k in 1:length(marker)) { # marker = k # = 2 (ITS & rbcL)
+      # set up text string of model to run; 'rma.glmm' function from 'metafor' package:
+      # probably would be better to set this up with explicit random effects, but oh well...
+      temp.expr = paste("meta <- rma.glmm(measure=\"PLO\", xi = ", 
+                        taxon[j], ".", marker[k], ", ni=n2, data = filter(CI.data.2, spp.rich == ",
+                        i, "))", sep = "")
+      # run the model via evaluation:
+      eval(parse(text = temp.expr))
+      # pull out mean / CI predictions:
+      temp = as.data.frame(predict(meta, transf=transf.ilogit))
+      temp = temp[,1:3]
+      # put results into the results table:
+      resultsier[counter,4:6] = temp
+      # put correct levels into results table, (just to be sure):
+      resultsier[counter,1] = i # species richness
+      resultsier[counter,2] = taxon[j] # taxon
+      resultsier[counter,3] = marker[k] # marker
+      # advance counter
+      counter = counter + 1
+    }  
+  }
+}
+
+# 4. use 'binom' package to generate the mean and CIs for the other levels of spp rich
+# (those greater than 2)
+require(binom)
+spp.rich.3plus = filter(CI.data.2, spp.rich > 2)
+bb = binom.confint(spp.rich.3plus$species.rbcL, spp.rich.3plus$n2, methods = "exact")
+
+# NEXT STEPS: since 'binom.confint' works on a data frame, 
+# potentially melt "spp.rich.3plus" so that we can do this all in one fell swoop
+# i.e. have a separate row for each taxon and marker for each level of species richness
+# use 'reshape2' package for this
+
+# then 'cbind' the results back onto the melted "spp.rich.3plus" to line results up with data
+# then 'rbind' these back onto the metafor results
+
+
+
+  
+# # third step: group_by(spp.rich)
+# CI.data.3 = CI.data.2 %>% group_by(spp.rich, num) %>% 
+#   summarize(N = sum(N), n = n(), 
+#   species.ITS = sum(species.ITS), 
+#   species.rbcL = sum(species.rbcL), 
+#   genus.ITS = sum(genus.ITS), 
+#   genus.rbcL = sum(genus.rbcL))
+
+
+################################################
+
+# # first step: group_by(mix.ID, sample, spp.rich)
+# data.rich.plots = data.species %>% 
+# select(mix.ID, sample, spp.rich, qual.species.rbcL, qual.species.ITS, qual.genus.rbcL, qual.genus.ITS) %>% group_by(mix.ID, sample, spp.rich) %>% 
+# summarize(species.ITS = mean(qual.species.ITS), 
+#   species.rbcL = mean(qual.species.rbcL), 
+#   genus.ITS = mean(qual.genus.ITS), 
+#   genus.rbcL = mean(qual.genus.rbcL),
+#   # variances; denoted with ".v" to disambiguate from variances in third step
+#   # some of these will be "NA" but I think those shouldn't scale to the third step
+#   species.ITS.v = var(qual.species.ITS), 
+#   species.rbcL.v = var(qual.species.rbcL), 
+#   genus.ITS.v = var(qual.genus.ITS), 
+#   genus.rbcL.v = var(qual.genus.rbcL))
+# 
+# # second step: group_by(mix.ID, spp.rich)
+# data.rich.plots = data.rich.plots %>% group_by(mix.ID, spp.rich) %>% 
+#   summarize(species.ITS = mean(species.ITS), 
+#   species.rbcL = mean(species.rbcL), 
+#   genus.ITS = mean(genus.ITS), 
+#   genus.rbcL = mean(genus.rbcL),
+#   # variances; no mixes are repeated so no real variance here, just repeating from the previous
+#   species.ITS.v = mean(species.ITS.v), 
+#   species.rbcL.v = mean(species.rbcL.v), 
+#   genus.ITS.v = mean(genus.ITS.v), 
+#   genus.rbcL.v = mean(genus.rbcL.v))
+# 
+# 
+# # third step: group_by(spp.rich); calculate CIs
+# data.rich.plots = data.rich.plots %>% group_by(spp.rich) %>% 
+# # summarize:
+# summarize(num = n(), # start with the count
+#     # means
+#     species.ITS.mean = mean(species.ITS), 
+#     species.rbcL.mean = mean(species.rbcL), 
+#     genus.ITS.mean = mean(genus.ITS), 
+#     genus.rbcL.mean = mean(genus.rbcL), 
+#     # variances: for those levels of species richness with only one mix, need to use variance from previous step
+#     species.ITS.var = ifelse(is.na(var(species.ITS)), mean(species.ITS.v), var(species.ITS)), 
+#     species.rbcL.var = ifelse(is.na(var(species.rbcL)), mean(species.rbcL.v), var(species.rbcL)), 
+#     genus.ITS.var = ifelse(is.na(var(genus.ITS)), mean(genus.ITS.v), var(genus.ITS)),
+#     genus.rbcL.var = ifelse(is.na(var(genus.rbcL)), mean(genus.rbcL.v), var(genus.rbcL))) %>% 
+# # mutate:
+# # NEED TO MULTIPLY THESE BY 1.96 ******!!!!!!!
+# mutate(species.rbcL.CI.plus = (sqrt(species.rbcL.var)/sqrt(num) + species.rbcL.mean), 
+#     species.ITS.CI.plus = (sqrt(species.ITS.var)/sqrt(num) + species.ITS.mean), 
+#     genus.rbcL.CI.plus = (sqrt(genus.rbcL.var)/sqrt(num) + genus.rbcL.mean), 
+#     genus.ITS.CI.plus = (sqrt(genus.ITS.var)/sqrt(num) + genus.ITS.mean),
+#     species.rbcL.CI.minus = (species.rbcL.mean - sqrt(species.rbcL.var)/sqrt(num)), 
+#     species.ITS.CI.minus = (species.ITS.mean - sqrt(species.ITS.var)/sqrt(num)), 
+#     genus.rbcL.CI.minus = (genus.rbcL.mean - sqrt(genus.rbcL.var)/sqrt(num)), 
+#     genus.ITS.CI.minus = (genus.ITS.mean - sqrt(genus.ITS.var)/sqrt(num)))
+
+# # View(data.rich.plots)
+# max(data.rich.plots[,3:ncol(data.rich.plots)])
+```
+
+### Question 1: Species Richness
+
+```{r species richness plots}
+require(ggplot2)
+
+# first going to create some made-up data to get the code for plotting down
+  # then we can swap out those data for the real data to create the plots
+# we ultimately want a dataframe with one row for each level of species richness (1-9)
+# for each of those, we want a mean proportion as well as ± CI
+
+fake = data.frame(spp.rich = 1:9, n = rep(31, 9))
+fake$x = fake$n - round(runif(9, min = 10, max = 30))
+
+fakebin = binom.confint(x = fake$x, n = fake$n, methods = "logit")
+fake = merge(fakebin, fake, by = c("x", "n"))
+rm(fakebin)
+# View(fake) # looks good
+
+# SECOND, create plots:
+limits.all <- aes(ymax = upper, ymin = lower)
+spp.rich.plot <- ggplot(fake, aes(x = factor(spp.rich), y = mean))
+    # (by converting spp.rich to a factor, x-axis is automatically correct)
+spp.rich.plot <- spp.rich.plot + geom_point() + geom_errorbar(limits.all, width=0.2) + 
+  xlab("species richness") + ylab("proportion of correct matches")
+spp.rich.plot
+
+
+
+```
+
+**This plot is an EXAMPLE made with FAKE DATA, it is not real**
+
+### Question 2: Rarity / % of pollen grains
+
+thought here is to do a logistic-regression plot:
+
+* where there are multiple values of y (successful identification) for a given x (% of pollen in a sample), then we want the mean 
+* where there are not multiple values, plot the single data point (either 0 or 1)
+* could also split out by species? but probably start without that
+* set this up with `dplyr`: mean of successful identifications by % of pollen grains
+* then need to extract the regression line from the glmer
+    + check out when I've done this in the past--will need to set up a fake dataframe
+    + may have code for this from the grad stats class taught spring 2016
+
+```{r rarity plots}
+require(dplyr)
+require(ggplot2)
+
+data.rarity.plot = data.species %>% select(c(10, 13:24)) %>% group_by(pollen.grain.proportion) %>% summarize(pool.num = n(),
+  species.ITS = sum(qual.species.ITS), 
+  species.rbcL = sum(qual.species.rbcL), 
+  genus.ITS = sum(qual.genus.ITS), 
+  genus.rbcL = sum(qual.genus.rbcL))
+
+# now need to 
+
+```
+
+
+
+
+
+
+

@@ -1,0 +1,1514 @@
+"","mix.id","perc.hit","hits","misses","tax","tax.id","id","source","order","family","genus","species"
+"1","c_illinoinensis/EIGC13-3_S18_L001_R1_001",32.59,247223,8709,"O",3502,"Fagales","Emory","Fagales",NA,NA,NA
+"2","c_illinoinensis/EIGC13-3_S18_L001_R1_001",30.15,228720,0,"F",16714,"Juglandaceae","Emory","Fagales","Juglandaceae",NA,NA
+"3","c_illinoinensis/EIGC13-3_S18_L001_R1_001",30.15,228720,0,"G",16718,"Juglans","Emory","Fagales","Juglandaceae","Juglans",NA
+"4","c_illinoinensis/EIGC13-3_S18_L001_R1_001",30.15,228720,228720,"S",51240,"Juglans regia","Emory","Fagales","Juglandaceae","Juglans","Juglans regia"
+"5","c_illinoinensis/EIGC13-3_S18_L001_R1_001",2.64,20061,0,"O",72025,"Fabales","Emory","Fabales",NA,NA,NA
+"6","c_illinoinensis/EIGC13-3_S18_L001_R1_001",2.64,20061,0,"F",3803,"Fabaceae","Emory","Fabales","Fabaceae",NA,NA
+"7","c_illinoinensis/EIGC13-3_S18_L001_R1_001",2.21,16784,999,"O",3744,"Rosales","Emory","Rosales",NA,NA,NA
+"8","c_illinoinensis/EIGC13-3_S18_L001_R1_001",1.33,10084,311,"O",3646,"Malpighiales","Emory","Malpighiales",NA,NA,NA
+"9","c_illinoinensis/EIGC13-3_S18_L001_R1_001",1.61,12236,327,"O",3699,"Brassicales","Emory","Brassicales",NA,NA,NA
+"10","c_illinoinensis/EIGC13-3_S18_L001_R1_001",1.41,10674,990,"F",3700,"Brassicaceae","Emory","Brassicales","Brassicaceae",NA,NA
+"11","c_illinoinensis/EIGC13-3_S18_L001_R1_001",1.2,9109,154,"O",41938,"Malvales","Emory","Malvales",NA,NA,NA
+"12","c_illinoinensis/EIGC13-3_S18_L001_R1_001",3.94,29884,329,"O",4069,"Solanales","Emory","Solanales",NA,NA,NA
+"13","c_illinoinensis/EIGC13-3_S18_L001_R1_001",3.8,28842,1979,"F",4070,"Solanaceae","Emory","Solanales","Solanaceae",NA,NA
+"14","c_illinoinensis/EIGC13-3_S18_L001_R1_001",1.24,9445,1053,"G",4107,"Solanum","Emory","Solanales","Solanaceae","Solanum",NA
+"15","c_illinoinensis/EIGC13-3_S18_L001_R1_001",1.34,10170,5340,"G",4085,"Nicotiana","Emory","Solanales","Solanaceae","Nicotiana",NA
+"16","c_illinoinensis/EIGC13-3_S18_L001_R1_001",1.81,13768,0,"O",38820,"Poales","Emory","Poales",NA,NA,NA
+"17","c_illinoinensis/EIGC13-3_S18_L001_R1_001",1.81,13768,824,"F",4479,"Poaceae","Emory","Poales","Poaceae",NA,NA
+"18","c_illinoinensis/EIGC13-3_S18_L001_R1_001",8.24,62517,0,"O",1446380,"Pinales","Emory","Pinales",NA,NA,NA
+"19","c_illinoinensis/EIGC13-3_S18_L001_R1_001",8.24,62517,4763,"F",3318,"Pinaceae","Emory","Pinales","Pinaceae",NA,NA
+"20","c_illinoinensis/EIGC13-3_S18_L001_R1_001",6.13,46470,4600,"G",3337,"Pinus","Emory","Pinales","Pinaceae","Pinus",NA
+"21","c_illinoinensis/EIGC13-3_S18_L001_R1_001",3.16,23945,23945,"S",3343,"Pinus lambertiana","Emory","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"22","c_illinoinensis/EIGC13-3_S18_L001_R1_001",2.36,17925,17925,"S",3352,"Pinus taeda","Emory","Pinales","Pinaceae","Pinus","Pinus taeda"
+"23","c_illinoinensis/EIGC13-3_S18_L001_R1_001",1.49,11284,0,"G",3328,"Picea","Emory","Pinales","Pinaceae","Picea",NA
+"24","c_illinoinensis/EIGC13-3_S18_L001_R1_001",1.49,11284,11284,"S",3330,"Picea glauca","Emory","Pinales","Pinaceae","Picea","Picea glauca"
+"25","c_illinoinensis/EIGC13-3_S18_L001_R2_001",31.73,240726,8630,"O",3502,"Fagales","Emory","Fagales",NA,NA,NA
+"26","c_illinoinensis/EIGC13-3_S18_L001_R2_001",29.3,222322,0,"F",16714,"Juglandaceae","Emory","Fagales","Juglandaceae",NA,NA
+"27","c_illinoinensis/EIGC13-3_S18_L001_R2_001",29.3,222322,0,"G",16718,"Juglans","Emory","Fagales","Juglandaceae","Juglans",NA
+"28","c_illinoinensis/EIGC13-3_S18_L001_R2_001",29.3,222322,222322,"S",51240,"Juglans regia","Emory","Fagales","Juglandaceae","Juglans","Juglans regia"
+"29","c_illinoinensis/EIGC13-3_S18_L001_R2_001",2.69,20446,0,"O",72025,"Fabales","Emory","Fabales",NA,NA,NA
+"30","c_illinoinensis/EIGC13-3_S18_L001_R2_001",2.69,20446,0,"F",3803,"Fabaceae","Emory","Fabales","Fabaceae",NA,NA
+"31","c_illinoinensis/EIGC13-3_S18_L001_R2_001",2.27,17214,971,"O",3744,"Rosales","Emory","Rosales",NA,NA,NA
+"32","c_illinoinensis/EIGC13-3_S18_L001_R2_001",1,7577,161,"F",3745,"Rosaceae","Emory","Rosales","Rosaceae",NA,NA
+"33","c_illinoinensis/EIGC13-3_S18_L001_R2_001",1.36,10297,353,"O",3646,"Malpighiales","Emory","Malpighiales",NA,NA,NA
+"34","c_illinoinensis/EIGC13-3_S18_L001_R2_001",1.69,12793,323,"O",3699,"Brassicales","Emory","Brassicales",NA,NA,NA
+"35","c_illinoinensis/EIGC13-3_S18_L001_R2_001",1.47,11141,1001,"F",3700,"Brassicaceae","Emory","Brassicales","Brassicaceae",NA,NA
+"36","c_illinoinensis/EIGC13-3_S18_L001_R2_001",1.21,9154,143,"O",41938,"Malvales","Emory","Malvales",NA,NA,NA
+"37","c_illinoinensis/EIGC13-3_S18_L001_R2_001",4.01,30435,290,"O",4069,"Solanales","Emory","Solanales",NA,NA,NA
+"38","c_illinoinensis/EIGC13-3_S18_L001_R2_001",3.88,29417,2057,"F",4070,"Solanaceae","Emory","Solanales","Solanaceae",NA,NA
+"39","c_illinoinensis/EIGC13-3_S18_L001_R2_001",1.27,9647,1076,"G",4107,"Solanum","Emory","Solanales","Solanaceae","Solanum",NA
+"40","c_illinoinensis/EIGC13-3_S18_L001_R2_001",1.35,10219,5387,"G",4085,"Nicotiana","Emory","Solanales","Solanaceae","Nicotiana",NA
+"41","c_illinoinensis/EIGC13-3_S18_L001_R2_001",1.88,14292,0,"O",38820,"Poales","Emory","Poales",NA,NA,NA
+"42","c_illinoinensis/EIGC13-3_S18_L001_R2_001",1.88,14292,914,"F",4479,"Poaceae","Emory","Poales","Poaceae",NA,NA
+"43","c_illinoinensis/EIGC13-3_S18_L001_R2_001",8.42,63854,0,"O",1446380,"Pinales","Emory","Pinales",NA,NA,NA
+"44","c_illinoinensis/EIGC13-3_S18_L001_R2_001",8.42,63854,4781,"F",3318,"Pinaceae","Emory","Pinales","Pinaceae",NA,NA
+"45","c_illinoinensis/EIGC13-3_S18_L001_R2_001",6.25,47447,4547,"G",3337,"Pinus","Emory","Pinales","Pinaceae","Pinus",NA
+"46","c_illinoinensis/EIGC13-3_S18_L001_R2_001",3.24,24550,24550,"S",3343,"Pinus lambertiana","Emory","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"47","c_illinoinensis/EIGC13-3_S18_L001_R2_001",2.42,18350,18350,"S",3352,"Pinus taeda","Emory","Pinales","Pinaceae","Pinus","Pinus taeda"
+"48","c_illinoinensis/EIGC13-3_S18_L001_R2_001",1.53,11626,0,"G",3328,"Picea","Emory","Pinales","Pinaceae","Picea",NA
+"49","c_illinoinensis/EIGC13-3_S18_L001_R2_001",1.53,11626,11626,"S",3330,"Picea glauca","Emory","Pinales","Pinaceae","Picea","Picea glauca"
+"50","c_illinoinensis/EIGC13-3_S18_L002_R1_001",32.67,250225,8592,"O",3502,"Fagales","Emory","Fagales",NA,NA,NA
+"51","c_illinoinensis/EIGC13-3_S18_L002_R1_001",30.29,231968,0,"F",16714,"Juglandaceae","Emory","Fagales","Juglandaceae",NA,NA
+"52","c_illinoinensis/EIGC13-3_S18_L002_R1_001",30.29,231968,0,"G",16718,"Juglans","Emory","Fagales","Juglandaceae","Juglans",NA
+"53","c_illinoinensis/EIGC13-3_S18_L002_R1_001",30.29,231968,231968,"S",51240,"Juglans regia","Emory","Fagales","Juglandaceae","Juglans","Juglans regia"
+"54","c_illinoinensis/EIGC13-3_S18_L002_R1_001",2.63,20146,0,"O",72025,"Fabales","Emory","Fabales",NA,NA,NA
+"55","c_illinoinensis/EIGC13-3_S18_L002_R1_001",2.63,20146,0,"F",3803,"Fabaceae","Emory","Fabales","Fabaceae",NA,NA
+"56","c_illinoinensis/EIGC13-3_S18_L002_R1_001",2.24,17164,1040,"O",3744,"Rosales","Emory","Rosales",NA,NA,NA
+"57","c_illinoinensis/EIGC13-3_S18_L002_R1_001",1.33,10188,358,"O",3646,"Malpighiales","Emory","Malpighiales",NA,NA,NA
+"58","c_illinoinensis/EIGC13-3_S18_L002_R1_001",1.62,12439,296,"O",3699,"Brassicales","Emory","Brassicales",NA,NA,NA
+"59","c_illinoinensis/EIGC13-3_S18_L002_R1_001",1.41,10812,941,"F",3700,"Brassicaceae","Emory","Brassicales","Brassicaceae",NA,NA
+"60","c_illinoinensis/EIGC13-3_S18_L002_R1_001",1.18,9044,158,"O",41938,"Malvales","Emory","Malvales",NA,NA,NA
+"61","c_illinoinensis/EIGC13-3_S18_L002_R1_001",3.91,29941,289,"O",4069,"Solanales","Emory","Solanales",NA,NA,NA
+"62","c_illinoinensis/EIGC13-3_S18_L002_R1_001",3.78,28928,2047,"F",4070,"Solanaceae","Emory","Solanales","Solanaceae",NA,NA
+"63","c_illinoinensis/EIGC13-3_S18_L002_R1_001",1.24,9479,1059,"G",4107,"Solanum","Emory","Solanales","Solanaceae","Solanum",NA
+"64","c_illinoinensis/EIGC13-3_S18_L002_R1_001",1.32,10086,5325,"G",4085,"Nicotiana","Emory","Solanales","Solanaceae","Nicotiana",NA
+"65","c_illinoinensis/EIGC13-3_S18_L002_R1_001",1.81,13824,0,"O",38820,"Poales","Emory","Poales",NA,NA,NA
+"66","c_illinoinensis/EIGC13-3_S18_L002_R1_001",1.81,13824,872,"F",4479,"Poaceae","Emory","Poales","Poaceae",NA,NA
+"67","c_illinoinensis/EIGC13-3_S18_L002_R1_001",8.14,62339,0,"O",1446380,"Pinales","Emory","Pinales",NA,NA,NA
+"68","c_illinoinensis/EIGC13-3_S18_L002_R1_001",8.14,62339,4771,"F",3318,"Pinaceae","Emory","Pinales","Pinaceae",NA,NA
+"69","c_illinoinensis/EIGC13-3_S18_L002_R1_001",6.05,46318,4664,"G",3337,"Pinus","Emory","Pinales","Pinaceae","Pinus",NA
+"70","c_illinoinensis/EIGC13-3_S18_L002_R1_001",3.09,23648,23648,"S",3343,"Pinus lambertiana","Emory","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"71","c_illinoinensis/EIGC13-3_S18_L002_R1_001",2.35,18006,18006,"S",3352,"Pinus taeda","Emory","Pinales","Pinaceae","Pinus","Pinus taeda"
+"72","c_illinoinensis/EIGC13-3_S18_L002_R1_001",1.47,11250,0,"G",3328,"Picea","Emory","Pinales","Pinaceae","Picea",NA
+"73","c_illinoinensis/EIGC13-3_S18_L002_R1_001",1.47,11250,11250,"S",3330,"Picea glauca","Emory","Pinales","Pinaceae","Picea","Picea glauca"
+"74","c_illinoinensis/EIGC13-3_S18_L002_R2_001",31.78,243399,8657,"O",3502,"Fagales","Emory","Fagales",NA,NA,NA
+"75","c_illinoinensis/EIGC13-3_S18_L002_R2_001",29.38,224989,0,"F",16714,"Juglandaceae","Emory","Fagales","Juglandaceae",NA,NA
+"76","c_illinoinensis/EIGC13-3_S18_L002_R2_001",29.38,224989,0,"G",16718,"Juglans","Emory","Fagales","Juglandaceae","Juglans",NA
+"77","c_illinoinensis/EIGC13-3_S18_L002_R2_001",29.38,224989,224989,"S",51240,"Juglans regia","Emory","Fagales","Juglandaceae","Juglans","Juglans regia"
+"78","c_illinoinensis/EIGC13-3_S18_L002_R2_001",2.65,20297,0,"O",72025,"Fabales","Emory","Fabales",NA,NA,NA
+"79","c_illinoinensis/EIGC13-3_S18_L002_R2_001",2.65,20297,0,"F",3803,"Fabaceae","Emory","Fabales","Fabaceae",NA,NA
+"80","c_illinoinensis/EIGC13-3_S18_L002_R2_001",2.26,17315,1008,"O",3744,"Rosales","Emory","Rosales",NA,NA,NA
+"81","c_illinoinensis/EIGC13-3_S18_L002_R2_001",1,7657,202,"F",3745,"Rosaceae","Emory","Rosales","Rosaceae",NA,NA
+"82","c_illinoinensis/EIGC13-3_S18_L002_R2_001",1.32,10115,351,"O",3646,"Malpighiales","Emory","Malpighiales",NA,NA,NA
+"83","c_illinoinensis/EIGC13-3_S18_L002_R2_001",1.67,12791,295,"O",3699,"Brassicales","Emory","Brassicales",NA,NA,NA
+"84","c_illinoinensis/EIGC13-3_S18_L002_R2_001",1.46,11195,1016,"F",3700,"Brassicaceae","Emory","Brassicales","Brassicaceae",NA,NA
+"85","c_illinoinensis/EIGC13-3_S18_L002_R2_001",1.21,9265,188,"O",41938,"Malvales","Emory","Malvales",NA,NA,NA
+"86","c_illinoinensis/EIGC13-3_S18_L002_R2_001",3.98,30473,322,"O",4069,"Solanales","Emory","Solanales",NA,NA,NA
+"87","c_illinoinensis/EIGC13-3_S18_L002_R2_001",3.84,29413,2063,"F",4070,"Solanaceae","Emory","Solanales","Solanaceae",NA,NA
+"88","c_illinoinensis/EIGC13-3_S18_L002_R2_001",1.27,9700,1085,"G",4107,"Solanum","Emory","Solanales","Solanaceae","Solanum",NA
+"89","c_illinoinensis/EIGC13-3_S18_L002_R2_001",1.35,10331,5283,"G",4085,"Nicotiana","Emory","Solanales","Solanaceae","Nicotiana",NA
+"90","c_illinoinensis/EIGC13-3_S18_L002_R2_001",1.86,14219,0,"O",38820,"Poales","Emory","Poales",NA,NA,NA
+"91","c_illinoinensis/EIGC13-3_S18_L002_R2_001",1.86,14219,862,"F",4479,"Poaceae","Emory","Poales","Poaceae",NA,NA
+"92","c_illinoinensis/EIGC13-3_S18_L002_R2_001",8.38,64139,0,"O",1446380,"Pinales","Emory","Pinales",NA,NA,NA
+"93","c_illinoinensis/EIGC13-3_S18_L002_R2_001",8.38,64139,4882,"F",3318,"Pinaceae","Emory","Pinales","Pinaceae",NA,NA
+"94","c_illinoinensis/EIGC13-3_S18_L002_R2_001",6.22,47623,4775,"G",3337,"Pinus","Emory","Pinales","Pinaceae","Pinus",NA
+"95","c_illinoinensis/EIGC13-3_S18_L002_R2_001",3.19,24412,24412,"S",3343,"Pinus lambertiana","Emory","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"96","c_illinoinensis/EIGC13-3_S18_L002_R2_001",2.41,18436,18436,"S",3352,"Pinus taeda","Emory","Pinales","Pinaceae","Pinus","Pinus taeda"
+"97","c_illinoinensis/EIGC13-3_S18_L002_R2_001",1.52,11634,0,"G",3328,"Picea","Emory","Pinales","Pinaceae","Picea",NA
+"98","c_illinoinensis/EIGC13-3_S18_L002_R2_001",1.52,11634,11634,"S",3330,"Picea glauca","Emory","Pinales","Pinaceae","Picea","Picea glauca"
+"99","replacement_mix_1/EIGC13-1_S16_L001_R1_001",3.99,27286,1689,"O",3744,"Rosales","Emory","Rosales",NA,NA,NA
+"100","replacement_mix_1/EIGC13-1_S16_L001_R1_001",1.25,8566,199,"F",3487,"Moraceae","Emory","Rosales","Moraceae",NA,NA
+"101","replacement_mix_1/EIGC13-1_S16_L001_R1_001",1.23,8393,178,"F",3745,"Rosaceae","Emory","Rosales","Rosaceae",NA,NA
+"102","replacement_mix_1/EIGC13-1_S16_L001_R1_001",1.05,7190,210,"F",3481,"Cannabaceae","Emory","Rosales","Cannabaceae",NA,NA
+"103","replacement_mix_1/EIGC13-1_S16_L001_R1_001",3.48,23771,0,"O",72025,"Fabales","Emory","Fabales",NA,NA,NA
+"104","replacement_mix_1/EIGC13-1_S16_L001_R1_001",3.48,23771,0,"F",3803,"Fabaceae","Emory","Fabales","Fabaceae",NA,NA
+"105","replacement_mix_1/EIGC13-1_S16_L001_R1_001",1.58,10828,407,"O",3646,"Malpighiales","Emory","Malpighiales",NA,NA,NA
+"106","replacement_mix_1/EIGC13-1_S16_L001_R1_001",1.04,7094,196,"O",3502,"Fagales","Emory","Fagales",NA,NA,NA
+"107","replacement_mix_1/EIGC13-1_S16_L001_R1_001",2.39,16352,319,"O",3699,"Brassicales","Emory","Brassicales",NA,NA,NA
+"108","replacement_mix_1/EIGC13-1_S16_L001_R1_001",2.11,14442,1315,"F",3700,"Brassicaceae","Emory","Brassicales","Brassicaceae",NA,NA
+"109","replacement_mix_1/EIGC13-1_S16_L001_R1_001",1.75,11962,231,"O",41938,"Malvales","Emory","Malvales",NA,NA,NA
+"110","replacement_mix_1/EIGC13-1_S16_L001_R1_001",1.41,9609,162,"F",3629,"Malvaceae","Emory","Malvales","Malvaceae",NA,NA
+"111","replacement_mix_1/EIGC13-1_S16_L001_R1_001",1.2,8180,3705,"G",3633,"Gossypium","Emory","Malvales","Malvaceae","Gossypium",NA
+"112","replacement_mix_1/EIGC13-1_S16_L001_R1_001",6.42,43831,457,"O",4069,"Solanales","Emory","Solanales",NA,NA,NA
+"113","replacement_mix_1/EIGC13-1_S16_L001_R1_001",6.21,42414,3123,"F",4070,"Solanaceae","Emory","Solanales","Solanaceae",NA,NA
+"114","replacement_mix_1/EIGC13-1_S16_L001_R1_001",1.98,13534,1451,"G",4107,"Solanum","Emory","Solanales","Solanaceae","Solanum",NA
+"115","replacement_mix_1/EIGC13-1_S16_L001_R1_001",1.42,9686,0,"G",4071,"Capsicum","Emory","Solanales","Solanaceae","Capsicum",NA
+"116","replacement_mix_1/EIGC13-1_S16_L001_R1_001",1.42,9686,9686,"S",4072,"Capsicum annuum","Emory","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"117","replacement_mix_1/EIGC13-1_S16_L001_R1_001",2.14,14650,7502,"G",4085,"Nicotiana","Emory","Solanales","Solanaceae","Nicotiana",NA
+"118","replacement_mix_1/EIGC13-1_S16_L001_R1_001",6.47,44210,0,"O",4209,"Asterales","Emory","Asterales",NA,NA,NA
+"119","replacement_mix_1/EIGC13-1_S16_L001_R1_001",6.47,44210,813,"F",4210,"Asteraceae","Emory","Asterales","Asteraceae",NA,NA
+"120","replacement_mix_1/EIGC13-1_S16_L001_R1_001",4.68,31999,0,"G",4219,"Artemisia","Emory","Asterales","Asteraceae","Artemisia",NA
+"121","replacement_mix_1/EIGC13-1_S16_L001_R1_001",4.68,31999,0,"S",55611,"Artemisia tridentata","Emory","Asterales","Asteraceae","Artemisia","Artemisia tridentata"
+"122","replacement_mix_1/EIGC13-1_S16_L001_R1_001",1.09,7469,0,"G",4235,"Lactuca","Emory","Asterales","Asteraceae","Lactuca",NA
+"123","replacement_mix_1/EIGC13-1_S16_L001_R1_001",1.09,7469,7469,"S",4236,"Lactuca sativa","Emory","Asterales","Asteraceae","Lactuca","Lactuca sativa"
+"124","replacement_mix_1/EIGC13-1_S16_L001_R1_001",11.77,80406,0,"O",38820,"Poales","Emory","Poales",NA,NA,NA
+"125","replacement_mix_1/EIGC13-1_S16_L001_R1_001",11.77,80406,1502,"F",4479,"Poaceae","Emory","Poales","Poaceae",NA,NA
+"126","replacement_mix_1/EIGC13-1_S16_L001_R1_001",9.65,65943,0,"G",4575,"Zea","Emory","Poales","Poaceae","Zea",NA
+"127","replacement_mix_1/EIGC13-1_S16_L001_R1_001",9.65,65943,65943,"S",4577,"Zea mays","Emory","Poales","Poaceae","Zea","Zea mays"
+"128","replacement_mix_1/EIGC13-1_S16_L001_R1_001",11.84,80905,0,"O",1446380,"Pinales","Emory","Pinales",NA,NA,NA
+"129","replacement_mix_1/EIGC13-1_S16_L001_R1_001",11.84,80905,6100,"F",3318,"Pinaceae","Emory","Pinales","Pinaceae",NA,NA
+"130","replacement_mix_1/EIGC13-1_S16_L001_R1_001",8.72,59570,5789,"G",3337,"Pinus","Emory","Pinales","Pinaceae","Pinus",NA
+"131","replacement_mix_1/EIGC13-1_S16_L001_R1_001",4.79,32727,32727,"S",3343,"Pinus lambertiana","Emory","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"132","replacement_mix_1/EIGC13-1_S16_L001_R1_001",3.08,21054,21054,"S",3352,"Pinus taeda","Emory","Pinales","Pinaceae","Pinus","Pinus taeda"
+"133","replacement_mix_1/EIGC13-1_S16_L001_R1_001",2.23,15235,0,"G",3328,"Picea","Emory","Pinales","Pinaceae","Picea",NA
+"134","replacement_mix_1/EIGC13-1_S16_L001_R1_001",2.23,15235,15235,"S",3330,"Picea glauca","Emory","Pinales","Pinaceae","Picea","Picea glauca"
+"135","replacement_mix_1/EIGC13-1_S16_L001_R2_001",3.9,26663,1347,"O",3744,"Rosales","Emory","Rosales",NA,NA,NA
+"136","replacement_mix_1/EIGC13-1_S16_L001_R2_001",1.22,8308,236,"F",3487,"Moraceae","Emory","Rosales","Moraceae",NA,NA
+"137","replacement_mix_1/EIGC13-1_S16_L001_R2_001",1.21,8294,166,"F",3745,"Rosaceae","Emory","Rosales","Rosaceae",NA,NA
+"138","replacement_mix_1/EIGC13-1_S16_L001_R2_001",1.08,7349,220,"F",3481,"Cannabaceae","Emory","Rosales","Cannabaceae",NA,NA
+"139","replacement_mix_1/EIGC13-1_S16_L001_R2_001",3.48,23786,0,"O",72025,"Fabales","Emory","Fabales",NA,NA,NA
+"140","replacement_mix_1/EIGC13-1_S16_L001_R2_001",3.48,23786,0,"F",3803,"Fabaceae","Emory","Fabales","Fabaceae",NA,NA
+"141","replacement_mix_1/EIGC13-1_S16_L001_R2_001",1.6,10954,449,"O",3646,"Malpighiales","Emory","Malpighiales",NA,NA,NA
+"142","replacement_mix_1/EIGC13-1_S16_L001_R2_001",1.03,7069,209,"O",3502,"Fagales","Emory","Fagales",NA,NA,NA
+"143","replacement_mix_1/EIGC13-1_S16_L001_R2_001",2.4,16381,317,"O",3699,"Brassicales","Emory","Brassicales",NA,NA,NA
+"144","replacement_mix_1/EIGC13-1_S16_L001_R2_001",2.11,14431,1329,"F",3700,"Brassicaceae","Emory","Brassicales","Brassicaceae",NA,NA
+"145","replacement_mix_1/EIGC13-1_S16_L001_R2_001",1.77,12116,238,"O",41938,"Malvales","Emory","Malvales",NA,NA,NA
+"146","replacement_mix_1/EIGC13-1_S16_L001_R2_001",1.42,9702,155,"F",3629,"Malvaceae","Emory","Malvales","Malvaceae",NA,NA
+"147","replacement_mix_1/EIGC13-1_S16_L001_R2_001",1.21,8254,3769,"G",3633,"Gossypium","Emory","Malvales","Malvaceae","Gossypium",NA
+"148","replacement_mix_1/EIGC13-1_S16_L001_R2_001",6.43,43952,438,"O",4069,"Solanales","Emory","Solanales",NA,NA,NA
+"149","replacement_mix_1/EIGC13-1_S16_L001_R2_001",6.23,42579,3037,"F",4070,"Solanaceae","Emory","Solanales","Solanaceae",NA,NA
+"150","replacement_mix_1/EIGC13-1_S16_L001_R2_001",1.97,13482,1386,"G",4107,"Solanum","Emory","Solanales","Solanaceae","Solanum",NA
+"151","replacement_mix_1/EIGC13-1_S16_L001_R2_001",1.44,9835,0,"G",4071,"Capsicum","Emory","Solanales","Solanaceae","Capsicum",NA
+"152","replacement_mix_1/EIGC13-1_S16_L001_R2_001",1.44,9835,9835,"S",4072,"Capsicum annuum","Emory","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"153","replacement_mix_1/EIGC13-1_S16_L001_R2_001",2.16,14727,7532,"G",4085,"Nicotiana","Emory","Solanales","Solanaceae","Nicotiana",NA
+"154","replacement_mix_1/EIGC13-1_S16_L001_R2_001",6.31,43106,0,"O",4209,"Asterales","Emory","Asterales",NA,NA,NA
+"155","replacement_mix_1/EIGC13-1_S16_L001_R2_001",6.31,43106,748,"F",4210,"Asteraceae","Emory","Asterales","Asteraceae",NA,NA
+"156","replacement_mix_1/EIGC13-1_S16_L001_R2_001",4.55,31065,0,"G",4219,"Artemisia","Emory","Asterales","Asteraceae","Artemisia",NA
+"157","replacement_mix_1/EIGC13-1_S16_L001_R2_001",4.55,31065,0,"S",55611,"Artemisia tridentata","Emory","Asterales","Asteraceae","Artemisia","Artemisia tridentata"
+"158","replacement_mix_1/EIGC13-1_S16_L001_R2_001",1.1,7492,0,"G",4235,"Lactuca","Emory","Asterales","Asteraceae","Lactuca",NA
+"159","replacement_mix_1/EIGC13-1_S16_L001_R2_001",1.1,7492,7492,"S",4236,"Lactuca sativa","Emory","Asterales","Asteraceae","Lactuca","Lactuca sativa"
+"160","replacement_mix_1/EIGC13-1_S16_L001_R2_001",11.73,80150,0,"O",38820,"Poales","Emory","Poales",NA,NA,NA
+"161","replacement_mix_1/EIGC13-1_S16_L001_R2_001",11.73,80150,1598,"F",4479,"Poaceae","Emory","Poales","Poaceae",NA,NA
+"162","replacement_mix_1/EIGC13-1_S16_L001_R2_001",9.56,65298,0,"G",4575,"Zea","Emory","Poales","Poaceae","Zea",NA
+"163","replacement_mix_1/EIGC13-1_S16_L001_R2_001",9.56,65298,65298,"S",4577,"Zea mays","Emory","Poales","Poaceae","Zea","Zea mays"
+"164","replacement_mix_1/EIGC13-1_S16_L001_R2_001",11.95,81677,0,"O",1446380,"Pinales","Emory","Pinales",NA,NA,NA
+"165","replacement_mix_1/EIGC13-1_S16_L001_R2_001",11.95,81677,6242,"F",3318,"Pinaceae","Emory","Pinales","Pinaceae",NA,NA
+"166","replacement_mix_1/EIGC13-1_S16_L001_R2_001",8.78,60008,5881,"G",3337,"Pinus","Emory","Pinales","Pinaceae","Pinus",NA
+"167","replacement_mix_1/EIGC13-1_S16_L001_R2_001",4.81,32897,32897,"S",3343,"Pinus lambertiana","Emory","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"168","replacement_mix_1/EIGC13-1_S16_L001_R2_001",3.11,21230,21230,"S",3352,"Pinus taeda","Emory","Pinales","Pinaceae","Pinus","Pinus taeda"
+"169","replacement_mix_1/EIGC13-1_S16_L001_R2_001",2.26,15427,0,"G",3328,"Picea","Emory","Pinales","Pinaceae","Picea",NA
+"170","replacement_mix_1/EIGC13-1_S16_L001_R2_001",2.26,15427,15427,"S",3330,"Picea glauca","Emory","Pinales","Pinaceae","Picea","Picea glauca"
+"171","replacement_mix_1/EIGC13-1_S16_L002_R1_001",4.05,27786,1654,"O",3744,"Rosales","Emory","Rosales",NA,NA,NA
+"172","replacement_mix_1/EIGC13-1_S16_L002_R1_001",1.28,8799,203,"F",3487,"Moraceae","Emory","Rosales","Moraceae",NA,NA
+"173","replacement_mix_1/EIGC13-1_S16_L002_R1_001",1.24,8477,159,"F",3745,"Rosaceae","Emory","Rosales","Rosaceae",NA,NA
+"174","replacement_mix_1/EIGC13-1_S16_L002_R1_001",1.08,7396,205,"F",3481,"Cannabaceae","Emory","Rosales","Cannabaceae",NA,NA
+"175","replacement_mix_1/EIGC13-1_S16_L002_R1_001",3.47,23804,0,"O",72025,"Fabales","Emory","Fabales",NA,NA,NA
+"176","replacement_mix_1/EIGC13-1_S16_L002_R1_001",3.47,23804,0,"F",3803,"Fabaceae","Emory","Fabales","Fabaceae",NA,NA
+"177","replacement_mix_1/EIGC13-1_S16_L002_R1_001",1.58,10838,415,"O",3646,"Malpighiales","Emory","Malpighiales",NA,NA,NA
+"178","replacement_mix_1/EIGC13-1_S16_L002_R1_001",1.03,7067,238,"O",3502,"Fagales","Emory","Fagales",NA,NA,NA
+"179","replacement_mix_1/EIGC13-1_S16_L002_R1_001",2.37,16244,327,"O",3699,"Brassicales","Emory","Brassicales",NA,NA,NA
+"180","replacement_mix_1/EIGC13-1_S16_L002_R1_001",2.09,14358,1353,"F",3700,"Brassicaceae","Emory","Brassicales","Brassicaceae",NA,NA
+"181","replacement_mix_1/EIGC13-1_S16_L002_R1_001",1.75,11970,225,"O",41938,"Malvales","Emory","Malvales",NA,NA,NA
+"182","replacement_mix_1/EIGC13-1_S16_L002_R1_001",1.4,9621,168,"F",3629,"Malvaceae","Emory","Malvales","Malvaceae",NA,NA
+"183","replacement_mix_1/EIGC13-1_S16_L002_R1_001",1.2,8220,3719,"G",3633,"Gossypium","Emory","Malvales","Malvaceae","Gossypium",NA
+"184","replacement_mix_1/EIGC13-1_S16_L002_R1_001",6.4,43883,455,"O",4069,"Solanales","Emory","Solanales",NA,NA,NA
+"185","replacement_mix_1/EIGC13-1_S16_L002_R1_001",6.19,42463,3120,"F",4070,"Solanaceae","Emory","Solanales","Solanaceae",NA,NA
+"186","replacement_mix_1/EIGC13-1_S16_L002_R1_001",1.94,13334,1385,"G",4107,"Solanum","Emory","Solanales","Solanaceae","Solanum",NA
+"187","replacement_mix_1/EIGC13-1_S16_L002_R1_001",1.45,9910,0,"G",4071,"Capsicum","Emory","Solanales","Solanaceae","Capsicum",NA
+"188","replacement_mix_1/EIGC13-1_S16_L002_R1_001",1.45,9910,9910,"S",4072,"Capsicum annuum","Emory","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"189","replacement_mix_1/EIGC13-1_S16_L002_R1_001",2.14,14666,7469,"G",4085,"Nicotiana","Emory","Solanales","Solanaceae","Nicotiana",NA
+"190","replacement_mix_1/EIGC13-1_S16_L002_R1_001",6.6,45221,0,"O",4209,"Asterales","Emory","Asterales",NA,NA,NA
+"191","replacement_mix_1/EIGC13-1_S16_L002_R1_001",6.6,45221,856,"F",4210,"Asteraceae","Emory","Asterales","Asteraceae",NA,NA
+"192","replacement_mix_1/EIGC13-1_S16_L002_R1_001",4.74,32509,0,"G",4219,"Artemisia","Emory","Asterales","Asteraceae","Artemisia",NA
+"193","replacement_mix_1/EIGC13-1_S16_L002_R1_001",4.74,32509,0,"S",55611,"Artemisia tridentata","Emory","Asterales","Asteraceae","Artemisia","Artemisia tridentata"
+"194","replacement_mix_1/EIGC13-1_S16_L002_R1_001",1.14,7821,0,"G",4235,"Lactuca","Emory","Asterales","Asteraceae","Lactuca",NA
+"195","replacement_mix_1/EIGC13-1_S16_L002_R1_001",1.14,7821,7821,"S",4236,"Lactuca sativa","Emory","Asterales","Asteraceae","Lactuca","Lactuca sativa"
+"196","replacement_mix_1/EIGC13-1_S16_L002_R1_001",11.76,80611,0,"O",38820,"Poales","Emory","Poales",NA,NA,NA
+"197","replacement_mix_1/EIGC13-1_S16_L002_R1_001",11.76,80611,1510,"F",4479,"Poaceae","Emory","Poales","Poaceae",NA,NA
+"198","replacement_mix_1/EIGC13-1_S16_L002_R1_001",9.66,66232,0,"G",4575,"Zea","Emory","Poales","Poaceae","Zea",NA
+"199","replacement_mix_1/EIGC13-1_S16_L002_R1_001",9.66,66232,66232,"S",4577,"Zea mays","Emory","Poales","Poaceae","Zea","Zea mays"
+"200","replacement_mix_1/EIGC13-1_S16_L002_R1_001",11.79,80826,0,"O",1446380,"Pinales","Emory","Pinales",NA,NA,NA
+"201","replacement_mix_1/EIGC13-1_S16_L002_R1_001",11.79,80826,6040,"F",3318,"Pinaceae","Emory","Pinales","Pinaceae",NA,NA
+"202","replacement_mix_1/EIGC13-1_S16_L002_R1_001",8.69,59609,5775,"G",3337,"Pinus","Emory","Pinales","Pinaceae","Pinus",NA
+"203","replacement_mix_1/EIGC13-1_S16_L002_R1_001",4.77,32703,32703,"S",3343,"Pinus lambertiana","Emory","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"204","replacement_mix_1/EIGC13-1_S16_L002_R1_001",3.08,21131,21131,"S",3352,"Pinus taeda","Emory","Pinales","Pinaceae","Pinus","Pinus taeda"
+"205","replacement_mix_1/EIGC13-1_S16_L002_R1_001",2.21,15177,0,"G",3328,"Picea","Emory","Pinales","Pinaceae","Picea",NA
+"206","replacement_mix_1/EIGC13-1_S16_L002_R1_001",2.21,15177,15177,"S",3330,"Picea glauca","Emory","Pinales","Pinaceae","Picea","Picea glauca"
+"207","replacement_mix_1/EIGC13-1_S16_L002_R2_001",3.97,27204,1504,"O",3744,"Rosales","Emory","Rosales",NA,NA,NA
+"208","replacement_mix_1/EIGC13-1_S16_L002_R2_001",1.26,8616,189,"F",3487,"Moraceae","Emory","Rosales","Moraceae",NA,NA
+"209","replacement_mix_1/EIGC13-1_S16_L002_R2_001",1.21,8320,177,"F",3745,"Rosaceae","Emory","Rosales","Rosaceae",NA,NA
+"210","replacement_mix_1/EIGC13-1_S16_L002_R2_001",1.07,7342,190,"F",3481,"Cannabaceae","Emory","Rosales","Cannabaceae",NA,NA
+"211","replacement_mix_1/EIGC13-1_S16_L002_R2_001",3.47,23766,0,"O",72025,"Fabales","Emory","Fabales",NA,NA,NA
+"212","replacement_mix_1/EIGC13-1_S16_L002_R2_001",3.47,23766,0,"F",3803,"Fabaceae","Emory","Fabales","Fabaceae",NA,NA
+"213","replacement_mix_1/EIGC13-1_S16_L002_R2_001",1.6,10968,432,"O",3646,"Malpighiales","Emory","Malpighiales",NA,NA,NA
+"214","replacement_mix_1/EIGC13-1_S16_L002_R2_001",1.04,7104,195,"O",3502,"Fagales","Emory","Fagales",NA,NA,NA
+"215","replacement_mix_1/EIGC13-1_S16_L002_R2_001",2.39,16399,325,"O",3699,"Brassicales","Emory","Brassicales",NA,NA,NA
+"216","replacement_mix_1/EIGC13-1_S16_L002_R2_001",2.11,14501,1375,"F",3700,"Brassicaceae","Emory","Brassicales","Brassicaceae",NA,NA
+"217","replacement_mix_1/EIGC13-1_S16_L002_R2_001",1.75,11973,240,"O",41938,"Malvales","Emory","Malvales",NA,NA,NA
+"218","replacement_mix_1/EIGC13-1_S16_L002_R2_001",1.4,9616,143,"F",3629,"Malvaceae","Emory","Malvales","Malvaceae",NA,NA
+"219","replacement_mix_1/EIGC13-1_S16_L002_R2_001",1.2,8260,3770,"G",3633,"Gossypium","Emory","Malvales","Malvaceae","Gossypium",NA
+"220","replacement_mix_1/EIGC13-1_S16_L002_R2_001",6.38,43773,450,"O",4069,"Solanales","Emory","Solanales",NA,NA,NA
+"221","replacement_mix_1/EIGC13-1_S16_L002_R2_001",6.17,42335,3075,"F",4070,"Solanaceae","Emory","Solanales","Solanaceae",NA,NA
+"222","replacement_mix_1/EIGC13-1_S16_L002_R2_001",1.97,13540,1422,"G",4107,"Solanum","Emory","Solanales","Solanaceae","Solanum",NA
+"223","replacement_mix_1/EIGC13-1_S16_L002_R2_001",1.42,9716,0,"G",4071,"Capsicum","Emory","Solanales","Solanaceae","Capsicum",NA
+"224","replacement_mix_1/EIGC13-1_S16_L002_R2_001",1.42,9716,9716,"S",4072,"Capsicum annuum","Emory","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"225","replacement_mix_1/EIGC13-1_S16_L002_R2_001",2.12,14562,7490,"G",4085,"Nicotiana","Emory","Solanales","Solanaceae","Nicotiana",NA
+"226","replacement_mix_1/EIGC13-1_S16_L002_R2_001",6.38,43715,0,"O",4209,"Asterales","Emory","Asterales",NA,NA,NA
+"227","replacement_mix_1/EIGC13-1_S16_L002_R2_001",6.38,43715,787,"F",4210,"Asteraceae","Emory","Asterales","Asteraceae",NA,NA
+"228","replacement_mix_1/EIGC13-1_S16_L002_R2_001",4.59,31464,0,"G",4219,"Artemisia","Emory","Asterales","Asteraceae","Artemisia",NA
+"229","replacement_mix_1/EIGC13-1_S16_L002_R2_001",4.59,31464,0,"S",55611,"Artemisia tridentata","Emory","Asterales","Asteraceae","Artemisia","Artemisia tridentata"
+"230","replacement_mix_1/EIGC13-1_S16_L002_R2_001",1.11,7579,0,"G",4235,"Lactuca","Emory","Asterales","Asteraceae","Lactuca",NA
+"231","replacement_mix_1/EIGC13-1_S16_L002_R2_001",1.11,7579,7579,"S",4236,"Lactuca sativa","Emory","Asterales","Asteraceae","Lactuca","Lactuca sativa"
+"232","replacement_mix_1/EIGC13-1_S16_L002_R2_001",11.73,80412,0,"O",38820,"Poales","Emory","Poales",NA,NA,NA
+"233","replacement_mix_1/EIGC13-1_S16_L002_R2_001",11.73,80412,1503,"F",4479,"Poaceae","Emory","Poales","Poaceae",NA,NA
+"234","replacement_mix_1/EIGC13-1_S16_L002_R2_001",9.56,65580,0,"G",4575,"Zea","Emory","Poales","Poaceae","Zea",NA
+"235","replacement_mix_1/EIGC13-1_S16_L002_R2_001",9.56,65580,65580,"S",4577,"Zea mays","Emory","Poales","Poaceae","Zea","Zea mays"
+"236","replacement_mix_1/EIGC13-1_S16_L002_R2_001",11.93,81787,0,"O",1446380,"Pinales","Emory","Pinales",NA,NA,NA
+"237","replacement_mix_1/EIGC13-1_S16_L002_R2_001",11.93,81787,6291,"F",3318,"Pinaceae","Emory","Pinales","Pinaceae",NA,NA
+"238","replacement_mix_1/EIGC13-1_S16_L002_R2_001",8.77,60134,5811,"G",3337,"Pinus","Emory","Pinales","Pinaceae","Pinus",NA
+"239","replacement_mix_1/EIGC13-1_S16_L002_R2_001",4.8,32886,32886,"S",3343,"Pinus lambertiana","Emory","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"240","replacement_mix_1/EIGC13-1_S16_L002_R2_001",3.13,21437,21437,"S",3352,"Pinus taeda","Emory","Pinales","Pinaceae","Pinus","Pinus taeda"
+"241","replacement_mix_1/EIGC13-1_S16_L002_R2_001",2.24,15362,0,"G",3328,"Picea","Emory","Pinales","Pinaceae","Picea",NA
+"242","replacement_mix_1/EIGC13-1_S16_L002_R2_001",2.24,15362,15362,"S",3330,"Picea glauca","Emory","Pinales","Pinaceae","Picea","Picea glauca"
+"243","replacement_mix_2/EIGC13-2_S17_L001_R1_001",3.23,20885,1026,"O",3744,"Rosales","Emory","Rosales",NA,NA,NA
+"244","replacement_mix_2/EIGC13-2_S17_L001_R1_001",1.11,7153,130,"F",3745,"Rosaceae","Emory","Rosales","Rosaceae",NA,NA
+"245","replacement_mix_2/EIGC13-2_S17_L001_R1_001",3.03,19592,0,"O",72025,"Fabales","Emory","Fabales",NA,NA,NA
+"246","replacement_mix_2/EIGC13-2_S17_L001_R1_001",3.03,19592,0,"F",3803,"Fabaceae","Emory","Fabales","Fabaceae",NA,NA
+"247","replacement_mix_2/EIGC13-2_S17_L001_R1_001",1.39,8999,363,"O",3646,"Malpighiales","Emory","Malpighiales",NA,NA,NA
+"248","replacement_mix_2/EIGC13-2_S17_L001_R1_001",2.11,13649,271,"O",3699,"Brassicales","Emory","Brassicales",NA,NA,NA
+"249","replacement_mix_2/EIGC13-2_S17_L001_R1_001",1.87,12048,1057,"F",3700,"Brassicaceae","Emory","Brassicales","Brassicaceae",NA,NA
+"250","replacement_mix_2/EIGC13-2_S17_L001_R1_001",1.51,9765,200,"O",41938,"Malvales","Emory","Malvales",NA,NA,NA
+"251","replacement_mix_2/EIGC13-2_S17_L001_R1_001",1.2,7737,133,"F",3629,"Malvaceae","Emory","Malvales","Malvaceae",NA,NA
+"252","replacement_mix_2/EIGC13-2_S17_L001_R1_001",1.03,6632,2868,"G",3633,"Gossypium","Emory","Malvales","Malvaceae","Gossypium",NA
+"253","replacement_mix_2/EIGC13-2_S17_L001_R1_001",5.47,35330,349,"O",4069,"Solanales","Emory","Solanales",NA,NA,NA
+"254","replacement_mix_2/EIGC13-2_S17_L001_R1_001",5.3,34242,2390,"F",4070,"Solanaceae","Emory","Solanales","Solanaceae",NA,NA
+"255","replacement_mix_2/EIGC13-2_S17_L001_R1_001",1.66,10744,1111,"G",4107,"Solanum","Emory","Solanales","Solanaceae","Solanum",NA
+"256","replacement_mix_2/EIGC13-2_S17_L001_R1_001",1.21,7827,0,"G",4071,"Capsicum","Emory","Solanales","Solanaceae","Capsicum",NA
+"257","replacement_mix_2/EIGC13-2_S17_L001_R1_001",1.21,7827,7827,"S",4072,"Capsicum annuum","Emory","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"258","replacement_mix_2/EIGC13-2_S17_L001_R1_001",1.89,12209,6242,"G",4085,"Nicotiana","Emory","Solanales","Solanaceae","Nicotiana",NA
+"259","replacement_mix_2/EIGC13-2_S17_L001_R1_001",3.84,24774,0,"O",4209,"Asterales","Emory","Asterales",NA,NA,NA
+"260","replacement_mix_2/EIGC13-2_S17_L001_R1_001",3.84,24774,461,"F",4210,"Asteraceae","Emory","Asterales","Asteraceae",NA,NA
+"261","replacement_mix_2/EIGC13-2_S17_L001_R1_001",2.62,16925,0,"G",4219,"Artemisia","Emory","Asterales","Asteraceae","Artemisia",NA
+"262","replacement_mix_2/EIGC13-2_S17_L001_R1_001",2.62,16925,0,"S",55611,"Artemisia tridentata","Emory","Asterales","Asteraceae","Artemisia","Artemisia tridentata"
+"263","replacement_mix_2/EIGC13-2_S17_L001_R1_001",1.57,10133,193,"O",3524,"Caryophyllales","Emory","Caryophyllales",NA,NA,NA
+"264","replacement_mix_2/EIGC13-2_S17_L001_R1_001",1.19,7703,245,"F",3563,"Amaranthaceae","Emory","Caryophyllales","Amaranthaceae",NA,NA
+"265","replacement_mix_2/EIGC13-2_S17_L001_R1_001",17.64,113915,0,"O",38820,"Poales","Emory","Poales",NA,NA,NA
+"266","replacement_mix_2/EIGC13-2_S17_L001_R1_001",17.64,113915,3647,"F",4479,"Poaceae","Emory","Poales","Poaceae",NA,NA
+"267","replacement_mix_2/EIGC13-2_S17_L001_R1_001",3.08,19857,2128,"G",4512,"Hordeum","Emory","Poales","Poaceae","Hordeum",NA
+"268","replacement_mix_2/EIGC13-2_S17_L001_R1_001",1.48,9524,9524,"S",112521,"Hordeum pubiflorum","Emory","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"269","replacement_mix_2/EIGC13-2_S17_L001_R1_001",1.27,8205,0,"S",4513,"Hordeum vulgare","Emory","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"270","replacement_mix_2/EIGC13-2_S17_L001_R1_001",2.65,17093,0,"G",4544,"Poa","Emory","Poales","Poaceae","Poa",NA
+"271","replacement_mix_2/EIGC13-2_S17_L001_R1_001",2.65,17093,17093,"S",4545,"Poa pratensis","Emory","Poales","Poaceae","Poa","Poa pratensis"
+"272","replacement_mix_2/EIGC13-2_S17_L001_R1_001",5.42,34981,0,"G",4575,"Zea","Emory","Poales","Poaceae","Zea",NA
+"273","replacement_mix_2/EIGC13-2_S17_L001_R1_001",5.42,34981,34981,"S",4577,"Zea mays","Emory","Poales","Poaceae","Zea","Zea mays"
+"274","replacement_mix_2/EIGC13-2_S17_L001_R1_001",11.52,74380,0,"O",1446380,"Pinales","Emory","Pinales",NA,NA,NA
+"275","replacement_mix_2/EIGC13-2_S17_L001_R1_001",11.52,74380,5317,"F",3318,"Pinaceae","Emory","Pinales","Pinaceae",NA,NA
+"276","replacement_mix_2/EIGC13-2_S17_L001_R1_001",8.54,55143,5206,"G",3337,"Pinus","Emory","Pinales","Pinaceae","Pinus",NA
+"277","replacement_mix_2/EIGC13-2_S17_L001_R1_001",4.62,29860,29860,"S",3343,"Pinus lambertiana","Emory","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"278","replacement_mix_2/EIGC13-2_S17_L001_R1_001",3.11,20077,20077,"S",3352,"Pinus taeda","Emory","Pinales","Pinaceae","Pinus","Pinus taeda"
+"279","replacement_mix_2/EIGC13-2_S17_L001_R1_001",2.16,13920,0,"G",3328,"Picea","Emory","Pinales","Pinaceae","Picea",NA
+"280","replacement_mix_2/EIGC13-2_S17_L001_R1_001",2.16,13920,13920,"S",3330,"Picea glauca","Emory","Pinales","Pinaceae","Picea","Picea glauca"
+"281","replacement_mix_2/EIGC13-2_S17_L001_R2_001",3.23,20828,1042,"O",3744,"Rosales","Emory","Rosales",NA,NA,NA
+"282","replacement_mix_2/EIGC13-2_S17_L001_R2_001",1.12,7238,145,"F",3745,"Rosaceae","Emory","Rosales","Rosaceae",NA,NA
+"283","replacement_mix_2/EIGC13-2_S17_L001_R2_001",3.06,19748,0,"O",72025,"Fabales","Emory","Fabales",NA,NA,NA
+"284","replacement_mix_2/EIGC13-2_S17_L001_R2_001",3.06,19748,0,"F",3803,"Fabaceae","Emory","Fabales","Fabaceae",NA,NA
+"285","replacement_mix_2/EIGC13-2_S17_L001_R2_001",1.4,9018,351,"O",3646,"Malpighiales","Emory","Malpighiales",NA,NA,NA
+"286","replacement_mix_2/EIGC13-2_S17_L001_R2_001",2.13,13743,258,"O",3699,"Brassicales","Emory","Brassicales",NA,NA,NA
+"287","replacement_mix_2/EIGC13-2_S17_L001_R2_001",1.88,12118,1093,"F",3700,"Brassicaceae","Emory","Brassicales","Brassicaceae",NA,NA
+"288","replacement_mix_2/EIGC13-2_S17_L001_R2_001",1.52,9804,190,"O",41938,"Malvales","Emory","Malvales",NA,NA,NA
+"289","replacement_mix_2/EIGC13-2_S17_L001_R2_001",1.2,7779,127,"F",3629,"Malvaceae","Emory","Malvales","Malvaceae",NA,NA
+"290","replacement_mix_2/EIGC13-2_S17_L001_R2_001",1.03,6629,2963,"G",3633,"Gossypium","Emory","Malvales","Malvaceae","Gossypium",NA
+"291","replacement_mix_2/EIGC13-2_S17_L001_R2_001",5.58,36026,374,"O",4069,"Solanales","Emory","Solanales",NA,NA,NA
+"292","replacement_mix_2/EIGC13-2_S17_L001_R2_001",5.4,34836,2444,"F",4070,"Solanaceae","Emory","Solanales","Solanaceae",NA,NA
+"293","replacement_mix_2/EIGC13-2_S17_L001_R2_001",1.68,10857,1147,"G",4107,"Solanum","Emory","Solanales","Solanaceae","Solanum",NA
+"294","replacement_mix_2/EIGC13-2_S17_L001_R2_001",1.24,8025,0,"G",4071,"Capsicum","Emory","Solanales","Solanaceae","Capsicum",NA
+"295","replacement_mix_2/EIGC13-2_S17_L001_R2_001",1.24,8025,8025,"S",4072,"Capsicum annuum","Emory","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"296","replacement_mix_2/EIGC13-2_S17_L001_R2_001",1.92,12393,6187,"G",4085,"Nicotiana","Emory","Solanales","Solanaceae","Nicotiana",NA
+"297","replacement_mix_2/EIGC13-2_S17_L001_R2_001",3.7,23885,0,"O",4209,"Asterales","Emory","Asterales",NA,NA,NA
+"298","replacement_mix_2/EIGC13-2_S17_L001_R2_001",3.7,23885,452,"F",4210,"Asteraceae","Emory","Asterales","Asteraceae",NA,NA
+"299","replacement_mix_2/EIGC13-2_S17_L001_R2_001",2.52,16288,0,"G",4219,"Artemisia","Emory","Asterales","Asteraceae","Artemisia",NA
+"300","replacement_mix_2/EIGC13-2_S17_L001_R2_001",2.52,16288,0,"S",55611,"Artemisia tridentata","Emory","Asterales","Asteraceae","Artemisia","Artemisia tridentata"
+"301","replacement_mix_2/EIGC13-2_S17_L001_R2_001",1.57,10167,163,"O",3524,"Caryophyllales","Emory","Caryophyllales",NA,NA,NA
+"302","replacement_mix_2/EIGC13-2_S17_L001_R2_001",1.19,7692,306,"F",3563,"Amaranthaceae","Emory","Caryophyllales","Amaranthaceae",NA,NA
+"303","replacement_mix_2/EIGC13-2_S17_L001_R2_001",17.42,112475,0,"O",38820,"Poales","Emory","Poales",NA,NA,NA
+"304","replacement_mix_2/EIGC13-2_S17_L001_R2_001",17.42,112475,3619,"F",4479,"Poaceae","Emory","Poales","Poaceae",NA,NA
+"305","replacement_mix_2/EIGC13-2_S17_L001_R2_001",3.01,19445,2040,"G",4512,"Hordeum","Emory","Poales","Poaceae","Hordeum",NA
+"306","replacement_mix_2/EIGC13-2_S17_L001_R2_001",1.44,9307,9307,"S",112521,"Hordeum pubiflorum","Emory","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"307","replacement_mix_2/EIGC13-2_S17_L001_R2_001",1.25,8098,0,"S",4513,"Hordeum vulgare","Emory","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"308","replacement_mix_2/EIGC13-2_S17_L001_R2_001",2.59,16727,0,"G",4544,"Poa","Emory","Poales","Poaceae","Poa",NA
+"309","replacement_mix_2/EIGC13-2_S17_L001_R2_001",2.59,16727,16727,"S",4545,"Poa pratensis","Emory","Poales","Poaceae","Poa","Poa pratensis"
+"310","replacement_mix_2/EIGC13-2_S17_L001_R2_001",5.36,34600,0,"G",4575,"Zea","Emory","Poales","Poaceae","Zea",NA
+"311","replacement_mix_2/EIGC13-2_S17_L001_R2_001",5.36,34600,34600,"S",4577,"Zea mays","Emory","Poales","Poaceae","Zea","Zea mays"
+"312","replacement_mix_2/EIGC13-2_S17_L001_R2_001",11.7,75536,0,"O",1446380,"Pinales","Emory","Pinales",NA,NA,NA
+"313","replacement_mix_2/EIGC13-2_S17_L001_R2_001",11.7,75536,5348,"F",3318,"Pinaceae","Emory","Pinales","Pinaceae",NA,NA
+"314","replacement_mix_2/EIGC13-2_S17_L001_R2_001",8.68,56069,5183,"G",3337,"Pinus","Emory","Pinales","Pinaceae","Pinus",NA
+"315","replacement_mix_2/EIGC13-2_S17_L001_R2_001",4.71,30406,30406,"S",3343,"Pinus lambertiana","Emory","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"316","replacement_mix_2/EIGC13-2_S17_L001_R2_001",3.17,20480,20480,"S",3352,"Pinus taeda","Emory","Pinales","Pinaceae","Pinus","Pinus taeda"
+"317","replacement_mix_2/EIGC13-2_S17_L001_R2_001",2.19,14119,0,"G",3328,"Picea","Emory","Pinales","Pinaceae","Picea",NA
+"318","replacement_mix_2/EIGC13-2_S17_L001_R2_001",2.19,14119,14119,"S",3330,"Picea glauca","Emory","Pinales","Pinaceae","Picea","Picea glauca"
+"319","replacement_mix_2/EIGC13-2_S17_L002_R1_001",3.24,21031,1075,"O",3744,"Rosales","Emory","Rosales",NA,NA,NA
+"320","replacement_mix_2/EIGC13-2_S17_L002_R1_001",1.08,7026,143,"F",3745,"Rosaceae","Emory","Rosales","Rosaceae",NA,NA
+"321","replacement_mix_2/EIGC13-2_S17_L002_R1_001",3.01,19552,0,"O",72025,"Fabales","Emory","Fabales",NA,NA,NA
+"322","replacement_mix_2/EIGC13-2_S17_L002_R1_001",3.01,19552,0,"F",3803,"Fabaceae","Emory","Fabales","Fabaceae",NA,NA
+"323","replacement_mix_2/EIGC13-2_S17_L002_R1_001",1.34,8683,323,"O",3646,"Malpighiales","Emory","Malpighiales",NA,NA,NA
+"324","replacement_mix_2/EIGC13-2_S17_L002_R1_001",2.08,13523,258,"O",3699,"Brassicales","Emory","Brassicales",NA,NA,NA
+"325","replacement_mix_2/EIGC13-2_S17_L002_R1_001",1.85,11980,1055,"F",3700,"Brassicaceae","Emory","Brassicales","Brassicaceae",NA,NA
+"326","replacement_mix_2/EIGC13-2_S17_L002_R1_001",1.5,9740,160,"O",41938,"Malvales","Emory","Malvales",NA,NA,NA
+"327","replacement_mix_2/EIGC13-2_S17_L002_R1_001",1.19,7712,110,"F",3629,"Malvaceae","Emory","Malvales","Malvaceae",NA,NA
+"328","replacement_mix_2/EIGC13-2_S17_L002_R1_001",1.01,6574,2950,"G",3633,"Gossypium","Emory","Malvales","Malvaceae","Gossypium",NA
+"329","replacement_mix_2/EIGC13-2_S17_L002_R1_001",5.49,35635,330,"O",4069,"Solanales","Emory","Solanales",NA,NA,NA
+"330","replacement_mix_2/EIGC13-2_S17_L002_R1_001",5.31,34453,2361,"F",4070,"Solanaceae","Emory","Solanales","Solanaceae",NA,NA
+"331","replacement_mix_2/EIGC13-2_S17_L002_R1_001",1.68,10907,1082,"G",4107,"Solanum","Emory","Solanales","Solanaceae","Solanum",NA
+"332","replacement_mix_2/EIGC13-2_S17_L002_R1_001",1.19,7707,0,"G",4071,"Capsicum","Emory","Solanales","Solanaceae","Capsicum",NA
+"333","replacement_mix_2/EIGC13-2_S17_L002_R1_001",1.19,7707,7707,"S",4072,"Capsicum annuum","Emory","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"334","replacement_mix_2/EIGC13-2_S17_L002_R1_001",1.91,12386,6207,"G",4085,"Nicotiana","Emory","Solanales","Solanaceae","Nicotiana",NA
+"335","replacement_mix_2/EIGC13-2_S17_L002_R1_001",3.82,24828,0,"O",4209,"Asterales","Emory","Asterales",NA,NA,NA
+"336","replacement_mix_2/EIGC13-2_S17_L002_R1_001",3.82,24828,447,"F",4210,"Asteraceae","Emory","Asterales","Asteraceae",NA,NA
+"337","replacement_mix_2/EIGC13-2_S17_L002_R1_001",2.64,17166,0,"G",4219,"Artemisia","Emory","Asterales","Asteraceae","Artemisia",NA
+"338","replacement_mix_2/EIGC13-2_S17_L002_R1_001",2.64,17166,0,"S",55611,"Artemisia tridentata","Emory","Asterales","Asteraceae","Artemisia","Artemisia tridentata"
+"339","replacement_mix_2/EIGC13-2_S17_L002_R1_001",1.56,10131,163,"O",3524,"Caryophyllales","Emory","Caryophyllales",NA,NA,NA
+"340","replacement_mix_2/EIGC13-2_S17_L002_R1_001",1.19,7734,262,"F",3563,"Amaranthaceae","Emory","Caryophyllales","Amaranthaceae",NA,NA
+"341","replacement_mix_2/EIGC13-2_S17_L002_R1_001",17.51,113661,0,"O",38820,"Poales","Emory","Poales",NA,NA,NA
+"342","replacement_mix_2/EIGC13-2_S17_L002_R1_001",17.51,113661,3617,"F",4479,"Poaceae","Emory","Poales","Poaceae",NA,NA
+"343","replacement_mix_2/EIGC13-2_S17_L002_R1_001",3.09,20035,2158,"G",4512,"Hordeum","Emory","Poales","Poaceae","Hordeum",NA
+"344","replacement_mix_2/EIGC13-2_S17_L002_R1_001",1.49,9671,9671,"S",112521,"Hordeum pubiflorum","Emory","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"345","replacement_mix_2/EIGC13-2_S17_L002_R1_001",1.26,8206,0,"S",4513,"Hordeum vulgare","Emory","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"346","replacement_mix_2/EIGC13-2_S17_L002_R1_001",2.65,17195,0,"G",4544,"Poa","Emory","Poales","Poaceae","Poa",NA
+"347","replacement_mix_2/EIGC13-2_S17_L002_R1_001",2.65,17195,17195,"S",4545,"Poa pratensis","Emory","Poales","Poaceae","Poa","Poa pratensis"
+"348","replacement_mix_2/EIGC13-2_S17_L002_R1_001",5.37,34845,0,"G",4575,"Zea","Emory","Poales","Poaceae","Zea",NA
+"349","replacement_mix_2/EIGC13-2_S17_L002_R1_001",5.37,34845,34845,"S",4577,"Zea mays","Emory","Poales","Poaceae","Zea","Zea mays"
+"350","replacement_mix_2/EIGC13-2_S17_L002_R1_001",11.54,74952,0,"O",1446380,"Pinales","Emory","Pinales",NA,NA,NA
+"351","replacement_mix_2/EIGC13-2_S17_L002_R1_001",11.54,74952,5545,"F",3318,"Pinaceae","Emory","Pinales","Pinaceae",NA,NA
+"352","replacement_mix_2/EIGC13-2_S17_L002_R1_001",8.53,55415,5359,"G",3337,"Pinus","Emory","Pinales","Pinaceae","Pinus",NA
+"353","replacement_mix_2/EIGC13-2_S17_L002_R1_001",4.62,29966,29966,"S",3343,"Pinus lambertiana","Emory","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"354","replacement_mix_2/EIGC13-2_S17_L002_R1_001",3.09,20090,20090,"S",3352,"Pinus taeda","Emory","Pinales","Pinaceae","Pinus","Pinus taeda"
+"355","replacement_mix_2/EIGC13-2_S17_L002_R1_001",2.15,13992,0,"G",3328,"Picea","Emory","Pinales","Pinaceae","Picea",NA
+"356","replacement_mix_2/EIGC13-2_S17_L002_R1_001",2.15,13992,13992,"S",3330,"Picea glauca","Emory","Pinales","Pinaceae","Picea","Picea glauca"
+"357","replacement_mix_2/EIGC13-2_S17_L002_R2_001",3.24,21007,1037,"O",3744,"Rosales","Emory","Rosales",NA,NA,NA
+"358","replacement_mix_2/EIGC13-2_S17_L002_R2_001",1.1,7112,145,"F",3745,"Rosaceae","Emory","Rosales","Rosaceae",NA,NA
+"359","replacement_mix_2/EIGC13-2_S17_L002_R2_001",3.05,19796,0,"O",72025,"Fabales","Emory","Fabales",NA,NA,NA
+"360","replacement_mix_2/EIGC13-2_S17_L002_R2_001",3.05,19796,0,"F",3803,"Fabaceae","Emory","Fabales","Fabaceae",NA,NA
+"361","replacement_mix_2/EIGC13-2_S17_L002_R2_001",1.38,8985,319,"O",3646,"Malpighiales","Emory","Malpighiales",NA,NA,NA
+"362","replacement_mix_2/EIGC13-2_S17_L002_R2_001",2.1,13646,243,"O",3699,"Brassicales","Emory","Brassicales",NA,NA,NA
+"363","replacement_mix_2/EIGC13-2_S17_L002_R2_001",1.85,12023,1117,"F",3700,"Brassicaceae","Emory","Brassicales","Brassicaceae",NA,NA
+"364","replacement_mix_2/EIGC13-2_S17_L002_R2_001",1.54,10006,196,"O",41938,"Malvales","Emory","Malvales",NA,NA,NA
+"365","replacement_mix_2/EIGC13-2_S17_L002_R2_001",1.2,7810,114,"F",3629,"Malvaceae","Emory","Malvales","Malvaceae",NA,NA
+"366","replacement_mix_2/EIGC13-2_S17_L002_R2_001",1.02,6638,2921,"G",3633,"Gossypium","Emory","Malvales","Malvaceae","Gossypium",NA
+"367","replacement_mix_2/EIGC13-2_S17_L002_R2_001",5.6,36343,356,"O",4069,"Solanales","Emory","Solanales",NA,NA,NA
+"368","replacement_mix_2/EIGC13-2_S17_L002_R2_001",5.41,35130,2502,"F",4070,"Solanaceae","Emory","Solanales","Solanaceae",NA,NA
+"369","replacement_mix_2/EIGC13-2_S17_L002_R2_001",1.69,10972,1129,"G",4107,"Solanum","Emory","Solanales","Solanaceae","Solanum",NA
+"370","replacement_mix_2/EIGC13-2_S17_L002_R2_001",1.22,7935,0,"G",4071,"Capsicum","Emory","Solanales","Solanaceae","Capsicum",NA
+"371","replacement_mix_2/EIGC13-2_S17_L002_R2_001",1.22,7935,7935,"S",4072,"Capsicum annuum","Emory","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"372","replacement_mix_2/EIGC13-2_S17_L002_R2_001",1.96,12695,6322,"G",4085,"Nicotiana","Emory","Solanales","Solanaceae","Nicotiana",NA
+"373","replacement_mix_2/EIGC13-2_S17_L002_R2_001",3.71,24062,0,"O",4209,"Asterales","Emory","Asterales",NA,NA,NA
+"374","replacement_mix_2/EIGC13-2_S17_L002_R2_001",3.71,24062,443,"F",4210,"Asteraceae","Emory","Asterales","Asteraceae",NA,NA
+"375","replacement_mix_2/EIGC13-2_S17_L002_R2_001",2.53,16410,0,"G",4219,"Artemisia","Emory","Asterales","Asteraceae","Artemisia",NA
+"376","replacement_mix_2/EIGC13-2_S17_L002_R2_001",2.53,16410,0,"S",55611,"Artemisia tridentata","Emory","Asterales","Asteraceae","Artemisia","Artemisia tridentata"
+"377","replacement_mix_2/EIGC13-2_S17_L002_R2_001",1.55,10070,169,"O",3524,"Caryophyllales","Emory","Caryophyllales",NA,NA,NA
+"378","replacement_mix_2/EIGC13-2_S17_L002_R2_001",1.16,7523,255,"F",3563,"Amaranthaceae","Emory","Caryophyllales","Amaranthaceae",NA,NA
+"379","replacement_mix_2/EIGC13-2_S17_L002_R2_001",17.28,112215,0,"O",38820,"Poales","Emory","Poales",NA,NA,NA
+"380","replacement_mix_2/EIGC13-2_S17_L002_R2_001",17.28,112215,3760,"F",4479,"Poaceae","Emory","Poales","Poaceae",NA,NA
+"381","replacement_mix_2/EIGC13-2_S17_L002_R2_001",3.05,19780,2114,"G",4512,"Hordeum","Emory","Poales","Poaceae","Hordeum",NA
+"382","replacement_mix_2/EIGC13-2_S17_L002_R2_001",1.47,9545,9545,"S",112521,"Hordeum pubiflorum","Emory","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"383","replacement_mix_2/EIGC13-2_S17_L002_R2_001",1.25,8121,0,"S",4513,"Hordeum vulgare","Emory","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"384","replacement_mix_2/EIGC13-2_S17_L002_R2_001",2.55,16539,0,"G",4544,"Poa","Emory","Poales","Poaceae","Poa",NA
+"385","replacement_mix_2/EIGC13-2_S17_L002_R2_001",2.55,16539,16539,"S",4545,"Poa pratensis","Emory","Poales","Poaceae","Poa","Poa pratensis"
+"386","replacement_mix_2/EIGC13-2_S17_L002_R2_001",5.3,34415,0,"G",4575,"Zea","Emory","Poales","Poaceae","Zea",NA
+"387","replacement_mix_2/EIGC13-2_S17_L002_R2_001",5.3,34415,34415,"S",4577,"Zea mays","Emory","Poales","Poaceae","Zea","Zea mays"
+"388","replacement_mix_2/EIGC13-2_S17_L002_R2_001",11.77,76436,0,"O",1446380,"Pinales","Emory","Pinales",NA,NA,NA
+"389","replacement_mix_2/EIGC13-2_S17_L002_R2_001",11.77,76436,5492,"F",3318,"Pinaceae","Emory","Pinales","Pinaceae",NA,NA
+"390","replacement_mix_2/EIGC13-2_S17_L002_R2_001",8.72,56612,5235,"G",3337,"Pinus","Emory","Pinales","Pinaceae","Pinus",NA
+"391","replacement_mix_2/EIGC13-2_S17_L002_R2_001",4.77,30989,30989,"S",3343,"Pinus lambertiana","Emory","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"392","replacement_mix_2/EIGC13-2_S17_L002_R2_001",3.14,20388,20388,"S",3352,"Pinus taeda","Emory","Pinales","Pinaceae","Pinus","Pinus taeda"
+"393","replacement_mix_2/EIGC13-2_S17_L002_R2_001",2.21,14332,0,"G",3328,"Picea","Emory","Pinales","Pinaceae","Picea",NA
+"394","replacement_mix_2/EIGC13-2_S17_L002_R2_001",2.21,14332,14332,"S",3330,"Picea glauca","Emory","Pinales","Pinaceae","Picea","Picea glauca"
+"395","A-artemisiifolia-F3_S17_L001_R1_001",4.48,43071,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"396","A-artemisiifolia-F3_S17_L001_R1_001",4.48,43071,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"397","A-artemisiifolia-F3_S17_L001_R1_001",3.68,35380,2192,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"398","A-artemisiifolia-F3_S17_L001_R1_001",1.66,16013,432,"F",3745,"Rosaceae","UGA 9May16","Rosales","Rosaceae",NA,NA
+"399","A-artemisiifolia-F3_S17_L001_R1_001",1.35,12951,321,"F",3481,"Cannabaceae","UGA 9May16","Rosales","Cannabaceae",NA,NA
+"400","A-artemisiifolia-F3_S17_L001_R1_001",1.01,9724,0,"G",3484,"Humulus","UGA 9May16","Rosales","Cannabaceae","Humulus",NA
+"401","A-artemisiifolia-F3_S17_L001_R1_001",1.01,9724,0,"S",3486,"Humulus lupulus","UGA 9May16","Rosales","Cannabaceae","Humulus","Humulus lupulus"
+"402","A-artemisiifolia-F3_S17_L001_R1_001",2.07,19946,794,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"403","A-artemisiifolia-F3_S17_L001_R1_001",1.15,11055,202,"F",3977,"Euphorbiaceae","UGA 9May16","Malpighiales","Euphorbiaceae",NA,NA
+"404","A-artemisiifolia-F3_S17_L001_R1_001",1.43,13769,488,"O",3502,"Fagales","UGA 9May16","Fagales",NA,NA,NA
+"405","A-artemisiifolia-F3_S17_L001_R1_001",2.98,28652,568,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"406","A-artemisiifolia-F3_S17_L001_R1_001",2.68,25798,2582,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"407","A-artemisiifolia-F3_S17_L001_R1_001",2.26,21758,432,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"408","A-artemisiifolia-F3_S17_L001_R1_001",1.77,17051,206,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"409","A-artemisiifolia-F3_S17_L001_R1_001",1.56,15042,6021,"G",3633,"Gossypium","UGA 9May16","Malvales","Malvaceae","Gossypium",NA
+"410","A-artemisiifolia-F3_S17_L001_R1_001",8.73,83978,819,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"411","A-artemisiifolia-F3_S17_L001_R1_001",8.49,81693,6208,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"412","A-artemisiifolia-F3_S17_L001_R1_001",2.53,24385,2758,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"413","A-artemisiifolia-F3_S17_L001_R1_001",1.88,18050,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"414","A-artemisiifolia-F3_S17_L001_R1_001",1.88,18050,18050,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"415","A-artemisiifolia-F3_S17_L001_R1_001",3.15,30317,14157,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"416","A-artemisiifolia-F3_S17_L001_R1_001",4.13,39748,0,"O",4209,"Asterales","UGA 9May16","Asterales",NA,NA,NA
+"417","A-artemisiifolia-F3_S17_L001_R1_001",4.13,39748,1378,"F",4210,"Asteraceae","UGA 9May16","Asterales","Asteraceae",NA,NA
+"418","A-artemisiifolia-F3_S17_L001_R1_001",2.47,23743,0,"G",4235,"Lactuca","UGA 9May16","Asterales","Asteraceae","Lactuca",NA
+"419","A-artemisiifolia-F3_S17_L001_R1_001",2.47,23743,23743,"S",4236,"Lactuca sativa","UGA 9May16","Asterales","Asteraceae","Lactuca","Lactuca sativa"
+"420","A-artemisiifolia-F3_S17_L001_R1_001",2.03,19491,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"421","A-artemisiifolia-F3_S17_L001_R1_001",2.03,19491,938,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"422","A-artemisiifolia-F3_S17_L001_R1_001",14.39,138441,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"423","A-artemisiifolia-F3_S17_L001_R1_001",14.39,138441,9208,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"424","A-artemisiifolia-F3_S17_L001_R1_001",10.75,103392,8302,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"425","A-artemisiifolia-F3_S17_L001_R1_001",6.05,58205,58205,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"426","A-artemisiifolia-F3_S17_L001_R1_001",3.83,36885,36885,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"427","A-artemisiifolia-F3_S17_L001_R1_001",2.69,25841,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"428","A-artemisiifolia-F3_S17_L001_R1_001",2.69,25841,25841,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"429","A-artemisiifolia-F3_S17_L001_R2_001",4.46,42864,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"430","A-artemisiifolia-F3_S17_L001_R2_001",4.46,42864,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"431","A-artemisiifolia-F3_S17_L001_R2_001",3.72,35818,2332,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"432","A-artemisiifolia-F3_S17_L001_R2_001",1.67,16085,435,"F",3745,"Rosaceae","UGA 9May16","Rosales","Rosaceae",NA,NA
+"433","A-artemisiifolia-F3_S17_L001_R2_001",1.37,13175,324,"F",3481,"Cannabaceae","UGA 9May16","Rosales","Cannabaceae",NA,NA
+"434","A-artemisiifolia-F3_S17_L001_R2_001",1.03,9886,0,"G",3484,"Humulus","UGA 9May16","Rosales","Cannabaceae","Humulus",NA
+"435","A-artemisiifolia-F3_S17_L001_R2_001",1.03,9886,0,"S",3486,"Humulus lupulus","UGA 9May16","Rosales","Cannabaceae","Humulus","Humulus lupulus"
+"436","A-artemisiifolia-F3_S17_L001_R2_001",2.1,20235,848,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"437","A-artemisiifolia-F3_S17_L001_R2_001",1.16,11138,195,"F",3977,"Euphorbiaceae","UGA 9May16","Malpighiales","Euphorbiaceae",NA,NA
+"438","A-artemisiifolia-F3_S17_L001_R2_001",1.44,13877,446,"O",3502,"Fagales","UGA 9May16","Fagales",NA,NA,NA
+"439","A-artemisiifolia-F3_S17_L001_R2_001",2.98,28712,560,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"440","A-artemisiifolia-F3_S17_L001_R2_001",2.68,25807,2485,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"441","A-artemisiifolia-F3_S17_L001_R2_001",2.27,21792,474,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"442","A-artemisiifolia-F3_S17_L001_R2_001",1.77,16990,174,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"443","A-artemisiifolia-F3_S17_L001_R2_001",1.56,15055,5898,"G",3633,"Gossypium","UGA 9May16","Malvales","Malvaceae","Gossypium",NA
+"444","A-artemisiifolia-F3_S17_L001_R2_001",8.76,84323,766,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"445","A-artemisiifolia-F3_S17_L001_R2_001",8.53,82062,6173,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"446","A-artemisiifolia-F3_S17_L001_R2_001",2.57,24769,2804,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"447","A-artemisiifolia-F3_S17_L001_R2_001",1.88,18068,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"448","A-artemisiifolia-F3_S17_L001_R2_001",1.88,18068,18068,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"449","A-artemisiifolia-F3_S17_L001_R2_001",3.15,30325,13964,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"450","A-artemisiifolia-F3_S17_L001_R2_001",4.09,39329,0,"O",4209,"Asterales","UGA 9May16","Asterales",NA,NA,NA
+"451","A-artemisiifolia-F3_S17_L001_R2_001",4.09,39329,1440,"F",4210,"Asteraceae","UGA 9May16","Asterales","Asteraceae",NA,NA
+"452","A-artemisiifolia-F3_S17_L001_R2_001",2.43,23372,0,"G",4235,"Lactuca","UGA 9May16","Asterales","Asteraceae","Lactuca",NA
+"453","A-artemisiifolia-F3_S17_L001_R2_001",2.43,23372,23372,"S",4236,"Lactuca sativa","UGA 9May16","Asterales","Asteraceae","Lactuca","Lactuca sativa"
+"454","A-artemisiifolia-F3_S17_L001_R2_001",2.05,19754,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"455","A-artemisiifolia-F3_S17_L001_R2_001",2.05,19754,1015,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"456","A-artemisiifolia-F3_S17_L001_R2_001",14.39,138446,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"457","A-artemisiifolia-F3_S17_L001_R2_001",14.39,138446,9252,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"458","A-artemisiifolia-F3_S17_L001_R2_001",10.73,103186,8358,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"459","A-artemisiifolia-F3_S17_L001_R2_001",6.06,58326,58326,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"460","A-artemisiifolia-F3_S17_L001_R2_001",3.79,36502,36502,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"461","A-artemisiifolia-F3_S17_L001_R2_001",2.7,26008,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"462","A-artemisiifolia-F3_S17_L001_R2_001",2.7,26008,26008,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"463","A-tridentata-A3_S14_L001_R1_001",4.39,38833,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"464","A-tridentata-A3_S14_L001_R1_001",4.39,38833,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"465","A-tridentata-A3_S14_L001_R1_001",3.56,31483,2181,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"466","A-tridentata-A3_S14_L001_R1_001",1.51,13403,336,"F",3745,"Rosaceae","UGA 9May16","Rosales","Rosaceae",NA,NA
+"467","A-tridentata-A3_S14_L001_R1_001",1.36,12079,299,"F",3481,"Cannabaceae","UGA 9May16","Rosales","Cannabaceae",NA,NA
+"468","A-tridentata-A3_S14_L001_R1_001",1.03,9074,0,"G",3484,"Humulus","UGA 9May16","Rosales","Cannabaceae","Humulus",NA
+"469","A-tridentata-A3_S14_L001_R1_001",1.03,9074,0,"S",3486,"Humulus lupulus","UGA 9May16","Rosales","Cannabaceae","Humulus","Humulus lupulus"
+"470","A-tridentata-A3_S14_L001_R1_001",1.93,17125,649,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"471","A-tridentata-A3_S14_L001_R1_001",1.13,10032,129,"F",3977,"Euphorbiaceae","UGA 9May16","Malpighiales","Euphorbiaceae",NA,NA
+"472","A-tridentata-A3_S14_L001_R1_001",1.23,10885,326,"O",3502,"Fagales","UGA 9May16","Fagales",NA,NA,NA
+"473","A-tridentata-A3_S14_L001_R1_001",2.79,24720,562,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"474","A-tridentata-A3_S14_L001_R1_001",2.48,21982,2318,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"475","A-tridentata-A3_S14_L001_R1_001",2.12,18807,360,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"476","A-tridentata-A3_S14_L001_R1_001",1.72,15250,235,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"477","A-tridentata-A3_S14_L001_R1_001",1.5,13263,5393,"G",3633,"Gossypium","UGA 9May16","Malvales","Malvaceae","Gossypium",NA
+"478","A-tridentata-A3_S14_L001_R1_001",10.98,97205,0,"O",4209,"Asterales","UGA 9May16","Asterales",NA,NA,NA
+"479","A-tridentata-A3_S14_L001_R1_001",10.98,97205,1307,"F",4210,"Asteraceae","UGA 9May16","Asterales","Asteraceae",NA,NA
+"480","A-tridentata-A3_S14_L001_R1_001",8.23,72882,0,"G",4219,"Artemisia","UGA 9May16","Asterales","Asteraceae","Artemisia",NA
+"481","A-tridentata-A3_S14_L001_R1_001",8.23,72882,0,"S",55611,"Artemisia tridentata","UGA 9May16","Asterales","Asteraceae","Artemisia","Artemisia tridentata"
+"482","A-tridentata-A3_S14_L001_R1_001",1.7,15016,0,"G",4235,"Lactuca","UGA 9May16","Asterales","Asteraceae","Lactuca",NA
+"483","A-tridentata-A3_S14_L001_R1_001",1.7,15016,15016,"S",4236,"Lactuca sativa","UGA 9May16","Asterales","Asteraceae","Lactuca","Lactuca sativa"
+"484","A-tridentata-A3_S14_L001_R1_001",8.57,75834,735,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"485","A-tridentata-A3_S14_L001_R1_001",8.34,73843,5654,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"486","A-tridentata-A3_S14_L001_R1_001",2.43,21520,2280,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"487","A-tridentata-A3_S14_L001_R1_001",1.95,17263,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"488","A-tridentata-A3_S14_L001_R1_001",1.95,17263,17263,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"489","A-tridentata-A3_S14_L001_R1_001",3.03,26847,12446,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"490","A-tridentata-A3_S14_L001_R1_001",1.55,13689,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"491","A-tridentata-A3_S14_L001_R1_001",1.55,13689,668,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"492","A-tridentata-A3_S14_L001_R1_001",13.29,117638,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"493","A-tridentata-A3_S14_L001_R1_001",13.29,117638,7415,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"494","A-tridentata-A3_S14_L001_R1_001",10.17,89994,7353,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"495","A-tridentata-A3_S14_L001_R1_001",5.84,51674,51674,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"496","A-tridentata-A3_S14_L001_R1_001",3.5,30967,30967,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"497","A-tridentata-A3_S14_L001_R1_001",2.29,20229,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"498","A-tridentata-A3_S14_L001_R1_001",2.29,20229,20229,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"499","A-tridentata-A3_S14_L001_R2_001",4.35,38549,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"500","A-tridentata-A3_S14_L001_R2_001",4.35,38549,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"501","A-tridentata-A3_S14_L001_R2_001",3.54,31293,2156,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"502","A-tridentata-A3_S14_L001_R2_001",1.49,13228,325,"F",3745,"Rosaceae","UGA 9May16","Rosales","Rosaceae",NA,NA
+"503","A-tridentata-A3_S14_L001_R2_001",1.36,12038,295,"F",3481,"Cannabaceae","UGA 9May16","Rosales","Cannabaceae",NA,NA
+"504","A-tridentata-A3_S14_L001_R2_001",1.02,9014,0,"G",3484,"Humulus","UGA 9May16","Rosales","Cannabaceae","Humulus",NA
+"505","A-tridentata-A3_S14_L001_R2_001",1.02,9014,0,"S",3486,"Humulus lupulus","UGA 9May16","Rosales","Cannabaceae","Humulus","Humulus lupulus"
+"506","A-tridentata-A3_S14_L001_R2_001",1.9,16861,632,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"507","A-tridentata-A3_S14_L001_R2_001",1.11,9847,128,"F",3977,"Euphorbiaceae","UGA 9May16","Malpighiales","Euphorbiaceae",NA,NA
+"508","A-tridentata-A3_S14_L001_R2_001",1.24,11000,387,"O",3502,"Fagales","UGA 9May16","Fagales",NA,NA,NA
+"509","A-tridentata-A3_S14_L001_R2_001",2.77,24483,588,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"510","A-tridentata-A3_S14_L001_R2_001",2.45,21661,2152,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"511","A-tridentata-A3_S14_L001_R2_001",2.12,18757,386,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"512","A-tridentata-A3_S14_L001_R2_001",1.72,15189,246,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"513","A-tridentata-A3_S14_L001_R2_001",1.49,13196,5177,"G",3633,"Gossypium","UGA 9May16","Malvales","Malvaceae","Gossypium",NA
+"514","A-tridentata-A3_S14_L001_R2_001",10.89,96406,0,"O",4209,"Asterales","UGA 9May16","Asterales",NA,NA,NA
+"515","A-tridentata-A3_S14_L001_R2_001",10.89,96406,1342,"F",4210,"Asteraceae","UGA 9May16","Asterales","Asteraceae",NA,NA
+"516","A-tridentata-A3_S14_L001_R2_001",8.15,72175,0,"G",4219,"Artemisia","UGA 9May16","Asterales","Asteraceae","Artemisia",NA
+"517","A-tridentata-A3_S14_L001_R2_001",8.15,72175,0,"S",55611,"Artemisia tridentata","UGA 9May16","Asterales","Asteraceae","Artemisia","Artemisia tridentata"
+"518","A-tridentata-A3_S14_L001_R2_001",1.68,14889,0,"G",4235,"Lactuca","UGA 9May16","Asterales","Asteraceae","Lactuca",NA
+"519","A-tridentata-A3_S14_L001_R2_001",1.68,14889,14889,"S",4236,"Lactuca sativa","UGA 9May16","Asterales","Asteraceae","Lactuca","Lactuca sativa"
+"520","A-tridentata-A3_S14_L001_R2_001",8.56,75814,696,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"521","A-tridentata-A3_S14_L001_R2_001",8.35,73902,5690,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"522","A-tridentata-A3_S14_L001_R2_001",2.44,21642,2282,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"523","A-tridentata-A3_S14_L001_R2_001",1.95,17227,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"524","A-tridentata-A3_S14_L001_R2_001",1.95,17227,17227,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"525","A-tridentata-A3_S14_L001_R2_001",3.03,26788,12383,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"526","A-tridentata-A3_S14_L001_R2_001",1.55,13752,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"527","A-tridentata-A3_S14_L001_R2_001",1.55,13752,624,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"528","A-tridentata-A3_S14_L001_R2_001",13.34,118126,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"529","A-tridentata-A3_S14_L001_R2_001",13.34,118126,7298,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"530","A-tridentata-A3_S14_L001_R2_001",10.23,90518,7522,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"531","A-tridentata-A3_S14_L001_R2_001",5.9,52197,52197,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"532","A-tridentata-A3_S14_L001_R2_001",3.48,30799,30799,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"533","A-tridentata-A3_S14_L001_R2_001",2.29,20310,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"534","A-tridentata-A3_S14_L001_R2_001",2.29,20310,20310,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"535","B-papyrifera-F2_S12_L001_R1_00",6.67,1,0,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"536","B-papyrifera-F2_S12_L001_R1_00",6.67,1,0,"F",3745,"Rosaceae","UGA 9May16","Rosales","Rosaceae",NA,NA
+"537","B-papyrifera-F2_S12_L001_R1_00",6.67,1,0,"G",3746,"Fragaria","UGA 9May16","Rosales","Rosaceae","Fragaria",NA
+"538","B-papyrifera-F2_S12_L001_R1_00",6.67,1,1,"S",60188,"Fragaria nubicola","UGA 9May16","Rosales","Rosaceae","Fragaria","Fragaria nubicola"
+"539","B-papyrifera-F2_S12_L001_R1_00",26.67,4,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"540","B-papyrifera-F2_S12_L001_R1_00",26.67,4,0,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"541","B-papyrifera-F2_S12_L001_R1_00",13.33,2,0,"G",4575,"Zea","UGA 9May16","Poales","Poaceae","Zea",NA
+"542","B-papyrifera-F2_S12_L001_R1_00",13.33,2,2,"S",4577,"Zea mays","UGA 9May16","Poales","Poaceae","Zea","Zea mays"
+"543","B-papyrifera-F2_S12_L001_R1_00",6.67,1,0,"G",4544,"Poa","UGA 9May16","Poales","Poaceae","Poa",NA
+"544","B-papyrifera-F2_S12_L001_R1_00",6.67,1,1,"S",4545,"Poa pratensis","UGA 9May16","Poales","Poaceae","Poa","Poa pratensis"
+"545","B-papyrifera-F2_S12_L001_R1_00",6.67,1,0,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"546","B-papyrifera-F2_S12_L001_R1_00",6.67,1,1,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"547","B-papyrifera-F2_S12_L001_R1_00",13.33,2,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"548","B-papyrifera-F2_S12_L001_R1_00",13.33,2,0,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"549","B-papyrifera-F2_S12_L001_R1_00",13.33,2,0,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"550","B-papyrifera-F2_S12_L001_R1_00",6.67,1,1,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"551","B-papyrifera-F2_S12_L001_R1_00",6.67,1,1,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"552","B-papyrifera-F2_S12_L001_R2_001",33.33,5,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"553","B-papyrifera-F2_S12_L001_R2_001",33.33,5,0,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"554","B-papyrifera-F2_S12_L001_R2_001",13.33,2,0,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"555","B-papyrifera-F2_S12_L001_R2_001",6.67,1,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"556","B-papyrifera-F2_S12_L001_R2_001",6.67,1,1,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"557","B-papyrifera-F2_S12_L001_R2_001",6.67,1,0,"G",4575,"Zea","UGA 9May16","Poales","Poaceae","Zea",NA
+"558","B-papyrifera-F2_S12_L001_R2_001",6.67,1,1,"S",4577,"Zea mays","UGA 9May16","Poales","Poaceae","Zea","Zea mays"
+"559","B-papyrifera-F2_S12_L001_R2_001",6.67,1,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"560","B-papyrifera-F2_S12_L001_R2_001",6.67,1,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"561","B-papyrifera-F2_S12_L001_R2_001",6.67,1,0,"G",3846,"Glycine","UGA 9May16","Fabales","Fabaceae","Glycine",NA
+"562","B-papyrifera-F2_S12_L001_R2_001",6.67,1,1,"S",3847,"Glycine max","UGA 9May16","Fabales","Fabaceae","Glycine","Glycine max"
+"563","B-papyrifera-F2_S12_L001_R2_001",6.67,1,0,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"564","B-papyrifera-F2_S12_L001_R2_001",6.67,1,0,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"565","B-papyrifera-F2_S12_L001_R2_001",6.67,1,0,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"566","B-papyrifera-F2_S12_L001_R2_001",6.67,1,1,"S",4091,"Nicotiana otophora","UGA 9May16","Solanales","Solanaceae","Nicotiana","Nicotiana otophora"
+"567","B-papyrifera-F2_S12_L001_R2_001",13.33,2,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"568","B-papyrifera-F2_S12_L001_R2_001",13.33,2,0,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"569","B-papyrifera-F2_S12_L001_R2_001",6.67,1,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"570","B-papyrifera-F2_S12_L001_R2_001",6.67,1,1,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"571","B-papyrifera-F2_S12_L001_R2_001",6.67,1,0,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"572","B-papyrifera-F2_S12_L001_R2_001",6.67,1,1,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"573","B-papyrifera-F2_S12_L001_R2_001",6.67,1,0,"O",35460,"Chlorellales","UGA 9May16","Chlorellales",NA,NA,NA
+"574","B-papyrifera-F2_S12_L001_R2_001",6.67,1,0,"G",145474,"Helicosporidium","UGA 9May16","Chlorellales","Chlorellaceae","Helicosporidium",NA
+"575","B-papyrifera-F2_S12_L001_R2_001",6.67,1,1,"S",1291522,"Helicosporidium sp. ATCC 50920","UGA 9May16","Chlorellales","Chlorellaceae","Helicosporidium","Helicosporidium sp. ATCC 50920"
+"576","B-scoparia-H2_S13_L001_R1_001",26.83,240138,3347,"O",3524,"Caryophyllales","UGA 9May16","Caryophyllales",NA,NA,NA
+"577","B-scoparia-H2_S13_L001_R1_001",25.62,229372,7844,"F",3563,"Amaranthaceae","UGA 9May16","Caryophyllales","Amaranthaceae",NA,NA
+"578","B-scoparia-H2_S13_L001_R1_001",18.24,163300,0,"G",83153,"Bassia","UGA 9May16","Caryophyllales","Amaranthaceae","Bassia",NA
+"579","B-scoparia-H2_S13_L001_R1_001",18.24,163300,163300,"S",83154,"Bassia scoparia","UGA 9May16","Caryophyllales","Amaranthaceae","Bassia","Bassia scoparia"
+"580","B-scoparia-H2_S13_L001_R1_001",5.06,45308,0,"G",3554,"Beta","UGA 9May16","Caryophyllales","Amaranthaceae","Beta",NA
+"581","B-scoparia-H2_S13_L001_R1_001",5.06,45308,0,"S",161934,"Beta vulgaris","UGA 9May16","Caryophyllales","Amaranthaceae","Beta","Beta vulgaris"
+"582","B-scoparia-H2_S13_L001_R1_001",1.21,10872,0,"G",3561,"Spinacia","UGA 9May16","Caryophyllales","Amaranthaceae","Spinacia",NA
+"583","B-scoparia-H2_S13_L001_R1_001",1.21,10872,10872,"S",3562,"Spinacia oleracea","UGA 9May16","Caryophyllales","Amaranthaceae","Spinacia","Spinacia oleracea"
+"584","B-scoparia-H2_S13_L001_R1_001",3.49,31218,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"585","B-scoparia-H2_S13_L001_R1_001",3.49,31218,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"586","B-scoparia-H2_S13_L001_R1_001",2.85,25543,1603,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"587","B-scoparia-H2_S13_L001_R1_001",1.22,10914,292,"F",3481,"Cannabaceae","UGA 9May16","Rosales","Cannabaceae",NA,NA
+"588","B-scoparia-H2_S13_L001_R1_001",1.15,10261,285,"F",3745,"Rosaceae","UGA 9May16","Rosales","Rosaceae",NA,NA
+"589","B-scoparia-H2_S13_L001_R1_001",1.48,13208,451,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"590","B-scoparia-H2_S13_L001_R1_001",1.26,11240,286,"O",3502,"Fagales","UGA 9May16","Fagales",NA,NA,NA
+"591","B-scoparia-H2_S13_L001_R1_001",2.08,18619,438,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"592","B-scoparia-H2_S13_L001_R1_001",1.82,16248,1589,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"593","B-scoparia-H2_S13_L001_R1_001",1.69,15142,308,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"594","B-scoparia-H2_S13_L001_R1_001",1.29,11583,143,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"595","B-scoparia-H2_S13_L001_R1_001",1.12,10053,3799,"G",3633,"Gossypium","UGA 9May16","Malvales","Malvaceae","Gossypium",NA
+"596","B-scoparia-H2_S13_L001_R1_001",6.67,59742,557,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"597","B-scoparia-H2_S13_L001_R1_001",6.5,58224,4590,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"598","B-scoparia-H2_S13_L001_R1_001",1.88,16796,1668,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"599","B-scoparia-H2_S13_L001_R1_001",1.41,12601,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"600","B-scoparia-H2_S13_L001_R1_001",1.41,12601,12601,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"601","B-scoparia-H2_S13_L001_R1_001",2.49,22294,10278,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"602","B-scoparia-H2_S13_L001_R1_001",1.7,15206,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"603","B-scoparia-H2_S13_L001_R1_001",1.7,15206,753,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"604","B-scoparia-H2_S13_L001_R1_001",10.43,93384,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"605","B-scoparia-H2_S13_L001_R1_001",10.43,93384,5821,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"606","B-scoparia-H2_S13_L001_R1_001",7.95,71128,5806,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"607","B-scoparia-H2_S13_L001_R1_001",4.35,38969,38969,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"608","B-scoparia-H2_S13_L001_R1_001",2.94,26353,26353,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"609","B-scoparia-H2_S13_L001_R1_001",1.84,16435,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"610","B-scoparia-H2_S13_L001_R1_001",1.84,16435,16435,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"611","B-scoparia-H2_S13_L001_R2_001",26.47,236934,3179,"O",3524,"Caryophyllales","UGA 9May16","Caryophyllales",NA,NA,NA
+"612","B-scoparia-H2_S13_L001_R2_001",25.29,226362,7694,"F",3563,"Amaranthaceae","UGA 9May16","Caryophyllales","Amaranthaceae",NA,NA
+"613","B-scoparia-H2_S13_L001_R2_001",17.99,161045,0,"G",83153,"Bassia","UGA 9May16","Caryophyllales","Amaranthaceae","Bassia",NA
+"614","B-scoparia-H2_S13_L001_R2_001",17.99,161045,161045,"S",83154,"Bassia scoparia","UGA 9May16","Caryophyllales","Amaranthaceae","Bassia","Bassia scoparia"
+"615","B-scoparia-H2_S13_L001_R2_001",5,44797,0,"G",3554,"Beta","UGA 9May16","Caryophyllales","Amaranthaceae","Beta",NA
+"616","B-scoparia-H2_S13_L001_R2_001",5,44797,0,"S",161934,"Beta vulgaris","UGA 9May16","Caryophyllales","Amaranthaceae","Beta","Beta vulgaris"
+"617","B-scoparia-H2_S13_L001_R2_001",1.2,10773,0,"G",3561,"Spinacia","UGA 9May16","Caryophyllales","Amaranthaceae","Spinacia",NA
+"618","B-scoparia-H2_S13_L001_R2_001",1.2,10773,10773,"S",3562,"Spinacia oleracea","UGA 9May16","Caryophyllales","Amaranthaceae","Spinacia","Spinacia oleracea"
+"619","B-scoparia-H2_S13_L001_R2_001",3.47,31082,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"620","B-scoparia-H2_S13_L001_R2_001",3.47,31082,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"621","B-scoparia-H2_S13_L001_R2_001",2.91,26024,1662,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"622","B-scoparia-H2_S13_L001_R2_001",1.21,10834,280,"F",3481,"Cannabaceae","UGA 9May16","Rosales","Cannabaceae",NA,NA
+"623","B-scoparia-H2_S13_L001_R2_001",1.19,10615,294,"F",3745,"Rosaceae","UGA 9May16","Rosales","Rosaceae",NA,NA
+"624","B-scoparia-H2_S13_L001_R2_001",1.49,13350,490,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"625","B-scoparia-H2_S13_L001_R2_001",1.24,11085,317,"O",3502,"Fagales","UGA 9May16","Fagales",NA,NA,NA
+"626","B-scoparia-H2_S13_L001_R2_001",2.1,18761,409,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"627","B-scoparia-H2_S13_L001_R2_001",1.84,16474,1576,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"628","B-scoparia-H2_S13_L001_R2_001",1.69,15098,266,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"629","B-scoparia-H2_S13_L001_R2_001",1.31,11686,139,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"630","B-scoparia-H2_S13_L001_R2_001",1.13,10126,3853,"G",3633,"Gossypium","UGA 9May16","Malvales","Malvaceae","Gossypium",NA
+"631","B-scoparia-H2_S13_L001_R2_001",6.69,59928,539,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"632","B-scoparia-H2_S13_L001_R2_001",6.53,58455,4515,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"633","B-scoparia-H2_S13_L001_R2_001",1.91,17079,1738,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"634","B-scoparia-H2_S13_L001_R2_001",1.42,12701,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"635","B-scoparia-H2_S13_L001_R2_001",1.42,12701,12701,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"636","B-scoparia-H2_S13_L001_R2_001",2.48,22201,10331,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"637","B-scoparia-H2_S13_L001_R2_001",1.75,15698,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"638","B-scoparia-H2_S13_L001_R2_001",1.75,15698,818,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"639","B-scoparia-H2_S13_L001_R2_001",10.47,93722,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"640","B-scoparia-H2_S13_L001_R2_001",10.47,93722,5725,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"641","B-scoparia-H2_S13_L001_R2_001",7.98,71415,5881,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"642","B-scoparia-H2_S13_L001_R2_001",4.4,39350,39350,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"643","B-scoparia-H2_S13_L001_R2_001",2.93,26184,26184,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"644","B-scoparia-H2_S13_L001_R2_001",1.85,16582,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"645","B-scoparia-H2_S13_L001_R2_001",1.85,16582,16582,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"646","mix-10-B2_S8_L001_R1_001",35.25,238840,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"647","mix-10-B2_S8_L001_R1_001",35.25,238840,6990,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"648","mix-10-B2_S8_L001_R1_001",9.71,65809,7096,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"649","mix-10-B2_S8_L001_R1_001",4.92,33349,33349,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"650","mix-10-B2_S8_L001_R1_001",3.74,25364,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"651","mix-10-B2_S8_L001_R1_001",2.92,19777,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"652","mix-10-B2_S8_L001_R1_001",2.92,19777,19777,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"653","mix-10-B2_S8_L001_R1_001",2.52,17082,169,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"654","mix-10-B2_S8_L001_R1_001",2.45,16624,16624,"S",4572,"Triticum urartu","UGA 9May16","Poales","Poaceae","Triticum","Triticum urartu"
+"655","mix-10-B2_S8_L001_R1_001",9.44,63946,0,"G",4544,"Poa","UGA 9May16","Poales","Poaceae","Poa",NA
+"656","mix-10-B2_S8_L001_R1_001",9.44,63946,63946,"S",4545,"Poa pratensis","UGA 9May16","Poales","Poaceae","Poa","Poa pratensis"
+"657","mix-10-B2_S8_L001_R1_001",2.63,17820,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"658","mix-10-B2_S8_L001_R1_001",2.63,17820,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"659","mix-10-B2_S8_L001_R1_001",2.33,15767,857,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"660","mix-10-B2_S8_L001_R1_001",1.14,7740,298,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"661","mix-10-B2_S8_L001_R1_001",1.73,11699,205,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"662","mix-10-B2_S8_L001_R1_001",1.53,10392,941,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"663","mix-10-B2_S8_L001_R1_001",1.28,8674,129,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"664","mix-10-B2_S8_L001_R1_001",1.01,6834,122,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"665","mix-10-B2_S8_L001_R1_001",4.99,33835,271,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"666","mix-10-B2_S8_L001_R1_001",4.87,32982,2098,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"667","mix-10-B2_S8_L001_R1_001",1.42,9653,923,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"668","mix-10-B2_S8_L001_R1_001",1.1,7421,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"669","mix-10-B2_S8_L001_R1_001",1.1,7421,7421,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"670","mix-10-B2_S8_L001_R1_001",1.9,12891,5726,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"671","mix-10-B2_S8_L001_R1_001",11.54,78195,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"672","mix-10-B2_S8_L001_R1_001",11.54,78195,4554,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"673","mix-10-B2_S8_L001_R1_001",8.96,60716,4766,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"674","mix-10-B2_S8_L001_R1_001",4.96,33596,33596,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"675","mix-10-B2_S8_L001_R1_001",3.3,22354,22354,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"676","mix-10-B2_S8_L001_R1_001",1.91,12925,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"677","mix-10-B2_S8_L001_R1_001",1.91,12925,12925,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"678","mix-10-B2_S8_L001_R2_001",34.18,231596,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"679","mix-10-B2_S8_L001_R2_001",34.18,231596,7124,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"680","mix-10-B2_S8_L001_R2_001",9.44,63947,6890,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"681","mix-10-B2_S8_L001_R2_001",4.72,31964,31964,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"682","mix-10-B2_S8_L001_R2_001",3.7,25093,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"683","mix-10-B2_S8_L001_R2_001",2.88,19492,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"684","mix-10-B2_S8_L001_R2_001",2.88,19492,19492,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"685","mix-10-B2_S8_L001_R2_001",2.48,16838,177,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"686","mix-10-B2_S8_L001_R2_001",2.42,16415,16415,"S",4572,"Triticum urartu","UGA 9May16","Poales","Poaceae","Triticum","Triticum urartu"
+"687","mix-10-B2_S8_L001_R2_001",8.86,60027,0,"G",4544,"Poa","UGA 9May16","Poales","Poaceae","Poa",NA
+"688","mix-10-B2_S8_L001_R2_001",8.86,60027,60027,"S",4545,"Poa pratensis","UGA 9May16","Poales","Poaceae","Poa","Poa pratensis"
+"689","mix-10-B2_S8_L001_R2_001",2.65,17942,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"690","mix-10-B2_S8_L001_R2_001",2.65,17942,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"691","mix-10-B2_S8_L001_R2_001",2.31,15636,832,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"692","mix-10-B2_S8_L001_R2_001",1.17,7944,317,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"693","mix-10-B2_S8_L001_R2_001",1.76,11928,239,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"694","mix-10-B2_S8_L001_R2_001",1.56,10566,997,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"695","mix-10-B2_S8_L001_R2_001",1.31,8880,154,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"696","mix-10-B2_S8_L001_R2_001",1.03,6985,111,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"697","mix-10-B2_S8_L001_R2_001",5.06,34309,297,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"698","mix-10-B2_S8_L001_R2_001",4.93,33395,2192,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"699","mix-10-B2_S8_L001_R2_001",1.42,9641,901,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"700","mix-10-B2_S8_L001_R2_001",1.09,7408,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"701","mix-10-B2_S8_L001_R2_001",1.09,7408,7408,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"702","mix-10-B2_S8_L001_R2_001",1.95,13223,5949,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"703","mix-10-B2_S8_L001_R2_001",11.85,80320,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"704","mix-10-B2_S8_L001_R2_001",11.85,80320,4538,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"705","mix-10-B2_S8_L001_R2_001",9.19,62304,4719,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"706","mix-10-B2_S8_L001_R2_001",5.12,34720,34720,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"707","mix-10-B2_S8_L001_R2_001",3.37,22865,22865,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"708","mix-10-B2_S8_L001_R2_001",1.99,13478,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"709","mix-10-B2_S8_L001_R2_001",1.99,13478,13478,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"710","mix-11-C2_S9_L001_R1_001",35.06,353859,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"711","mix-11-C2_S9_L001_R1_001",35.06,353859,9984,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"712","mix-11-C2_S9_L001_R1_001",9.71,97961,10536,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"713","mix-11-C2_S9_L001_R1_001",4.91,49598,49598,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"714","mix-11-C2_S9_L001_R1_001",3.75,37827,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"715","mix-11-C2_S9_L001_R1_001",2.91,29401,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"716","mix-11-C2_S9_L001_R1_001",2.91,29401,29401,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"717","mix-11-C2_S9_L001_R1_001",2.51,25298,254,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"718","mix-11-C2_S9_L001_R1_001",2.44,24622,24622,"S",4572,"Triticum urartu","UGA 9May16","Poales","Poaceae","Triticum","Triticum urartu"
+"719","mix-11-C2_S9_L001_R1_001",9.46,95443,0,"G",4544,"Poa","UGA 9May16","Poales","Poaceae","Poa",NA
+"720","mix-11-C2_S9_L001_R1_001",9.46,95443,95443,"S",4545,"Poa pratensis","UGA 9May16","Poales","Poaceae","Poa","Poa pratensis"
+"721","mix-11-C2_S9_L001_R1_001",2.65,26786,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"722","mix-11-C2_S9_L001_R1_001",2.65,26786,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"723","mix-11-C2_S9_L001_R1_001",2.29,23084,1323,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"724","mix-11-C2_S9_L001_R1_001",1.16,11712,507,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"725","mix-11-C2_S9_L001_R1_001",1.74,17522,294,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"726","mix-11-C2_S9_L001_R1_001",1.55,15619,1446,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"727","mix-11-C2_S9_L001_R1_001",1.29,12992,232,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"728","mix-11-C2_S9_L001_R1_001",1.01,10154,178,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"729","mix-11-C2_S9_L001_R1_001",5.03,50786,442,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"730","mix-11-C2_S9_L001_R1_001",4.89,49395,3231,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"731","mix-11-C2_S9_L001_R1_001",1.43,14385,1370,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"732","mix-11-C2_S9_L001_R1_001",1.09,11001,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"733","mix-11-C2_S9_L001_R1_001",1.09,11001,11001,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"734","mix-11-C2_S9_L001_R1_001",1.92,19405,8691,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"735","mix-11-C2_S9_L001_R1_001",11.57,116768,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"736","mix-11-C2_S9_L001_R1_001",11.57,116768,6775,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"737","mix-11-C2_S9_L001_R1_001",8.95,90271,6973,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"738","mix-11-C2_S9_L001_R1_001",4.97,50158,50158,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"739","mix-11-C2_S9_L001_R1_001",3.28,33140,33140,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"740","mix-11-C2_S9_L001_R1_001",1.95,19722,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"741","mix-11-C2_S9_L001_R1_001",1.95,19722,19722,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"742","mix-11-C2_S9_L001_R2_001",2.68,27020,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"743","mix-11-C2_S9_L001_R2_001",2.68,27020,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"744","mix-11-C2_S9_L001_R2_001",2.32,23377,1299,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"745","mix-11-C2_S9_L001_R2_001",1.18,11885,472,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"746","mix-11-C2_S9_L001_R2_001",1.74,17607,318,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"747","mix-11-C2_S9_L001_R2_001",1.55,15608,1387,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"748","mix-11-C2_S9_L001_R2_001",1.29,13009,228,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"749","mix-11-C2_S9_L001_R2_001",1.01,10204,140,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"750","mix-11-C2_S9_L001_R2_001",5.04,50818,404,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"751","mix-11-C2_S9_L001_R2_001",4.9,49443,3208,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"752","mix-11-C2_S9_L001_R2_001",1.43,14395,1299,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"753","mix-11-C2_S9_L001_R2_001",1.1,11051,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"754","mix-11-C2_S9_L001_R2_001",1.1,11051,11051,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"755","mix-11-C2_S9_L001_R2_001",1.92,19416,8660,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"756","mix-11-C2_S9_L001_R2_001",34.17,344840,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"757","mix-11-C2_S9_L001_R2_001",34.17,344840,10212,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"758","mix-11-C2_S9_L001_R2_001",9.45,95397,10136,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"759","mix-11-C2_S9_L001_R2_001",4.73,47750,47750,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"760","mix-11-C2_S9_L001_R2_001",3.72,37511,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"761","mix-11-C2_S9_L001_R2_001",2.86,28874,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"762","mix-11-C2_S9_L001_R2_001",2.86,28874,28874,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"763","mix-11-C2_S9_L001_R2_001",2.49,25106,221,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"764","mix-11-C2_S9_L001_R2_001",2.43,24495,24495,"S",4572,"Triticum urartu","UGA 9May16","Poales","Poaceae","Triticum","Triticum urartu"
+"765","mix-11-C2_S9_L001_R2_001",8.93,90143,0,"G",4544,"Poa","UGA 9May16","Poales","Poaceae","Poa",NA
+"766","mix-11-C2_S9_L001_R2_001",8.93,90143,90143,"S",4545,"Poa pratensis","UGA 9May16","Poales","Poaceae","Poa","Poa pratensis"
+"767","mix-11-C2_S9_L001_R2_001",11.8,119128,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"768","mix-11-C2_S9_L001_R2_001",11.8,119128,6941,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"769","mix-11-C2_S9_L001_R2_001",9.11,91976,6943,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"770","mix-11-C2_S9_L001_R2_001",5.07,51185,51185,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"771","mix-11-C2_S9_L001_R2_001",3.35,33848,33848,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"772","mix-11-C2_S9_L001_R2_001",2,20211,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"773","mix-11-C2_S9_L001_R2_001",2,20211,20211,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"774","mix-3-C1_S1_L001_R1_001",8.04,73619,1082,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"775","mix-3-C1_S1_L001_R1_001",6.96,63776,0,"F",3688,"Salicaceae","UGA 9May16","Malpighiales","Salicaceae",NA,NA
+"776","mix-3-C1_S1_L001_R1_001",6.96,63776,17626,"G",3689,"Populus","UGA 9May16","Malpighiales","Salicaceae","Populus",NA
+"777","mix-3-C1_S1_L001_R1_001",2.35,21501,21501,"S",3694,"Populus trichocarpa","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus trichocarpa"
+"778","mix-3-C1_S1_L001_R1_001",2.3,21058,21058,"S",75702,"Populus euphratica","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus euphratica"
+"779","mix-3-C1_S1_L001_R1_001",3.36,30794,1698,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"780","mix-3-C1_S1_L001_R1_001",1.1,10084,223,"F",3745,"Rosaceae","UGA 9May16","Rosales","Rosaceae",NA,NA
+"781","mix-3-C1_S1_L001_R1_001",1.02,9368,253,"F",3481,"Cannabaceae","UGA 9May16","Rosales","Cannabaceae",NA,NA
+"782","mix-3-C1_S1_L001_R1_001",3.16,28940,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"783","mix-3-C1_S1_L001_R1_001",3.16,28940,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"784","mix-3-C1_S1_L001_R1_001",1.54,14117,365,"O",3502,"Fagales","UGA 9May16","Fagales",NA,NA,NA
+"785","mix-3-C1_S1_L001_R1_001",2,18280,354,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"786","mix-3-C1_S1_L001_R1_001",1.78,16284,1579,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"787","mix-3-C1_S1_L001_R1_001",1.54,14115,275,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"788","mix-3-C1_S1_L001_R1_001",1.24,11329,177,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"789","mix-3-C1_S1_L001_R1_001",1.07,9775,3898,"G",3633,"Gossypium","UGA 9May16","Malvales","Malvaceae","Gossypium",NA
+"790","mix-3-C1_S1_L001_R1_001",6.02,55154,526,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"791","mix-3-C1_S1_L001_R1_001",5.86,53660,3888,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"792","mix-3-C1_S1_L001_R1_001",1.73,15867,1589,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"793","mix-3-C1_S1_L001_R1_001",1.34,12253,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"794","mix-3-C1_S1_L001_R1_001",1.34,12253,12253,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"795","mix-3-C1_S1_L001_R1_001",2.18,20016,9267,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"796","mix-3-C1_S1_L001_R1_001",4.89,44765,0,"O",4209,"Asterales","UGA 9May16","Asterales",NA,NA,NA
+"797","mix-3-C1_S1_L001_R1_001",4.89,44765,594,"F",4210,"Asteraceae","UGA 9May16","Asterales","Asteraceae",NA,NA
+"798","mix-3-C1_S1_L001_R1_001",3.53,32320,0,"G",4219,"Artemisia","UGA 9May16","Asterales","Asteraceae","Artemisia",NA
+"799","mix-3-C1_S1_L001_R1_001",3.53,32320,0,"S",55611,"Artemisia tridentata","UGA 9May16","Asterales","Asteraceae","Artemisia","Artemisia tridentata"
+"800","mix-3-C1_S1_L001_R1_001",1.35,12352,183,"O",3524,"Caryophyllales","UGA 9May16","Caryophyllales",NA,NA,NA
+"801","mix-3-C1_S1_L001_R1_001",1.05,9610,257,"F",3563,"Amaranthaceae","UGA 9May16","Caryophyllales","Amaranthaceae",NA,NA
+"802","mix-3-C1_S1_L001_R1_001",18.2,166715,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"803","mix-3-C1_S1_L001_R1_001",18.2,166715,4298,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"804","mix-3-C1_S1_L001_R1_001",4.01,36739,3775,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"805","mix-3-C1_S1_L001_R1_001",2.02,18466,18466,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"806","mix-3-C1_S1_L001_R1_001",1.58,14498,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"807","mix-3-C1_S1_L001_R1_001",1.25,11422,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"808","mix-3-C1_S1_L001_R1_001",1.25,11422,11422,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"809","mix-3-C1_S1_L001_R1_001",1.14,10471,97,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"810","mix-3-C1_S1_L001_R1_001",1.12,10249,10249,"S",4572,"Triticum urartu","UGA 9May16","Poales","Poaceae","Triticum","Triticum urartu"
+"811","mix-3-C1_S1_L001_R1_001",3.83,35104,0,"G",4544,"Poa","UGA 9May16","Poales","Poaceae","Poa",NA
+"812","mix-3-C1_S1_L001_R1_001",3.83,35104,35104,"S",4545,"Poa pratensis","UGA 9May16","Poales","Poaceae","Poa","Poa pratensis"
+"813","mix-3-C1_S1_L001_R1_001",3.47,31834,0,"G",4575,"Zea","UGA 9May16","Poales","Poaceae","Zea",NA
+"814","mix-3-C1_S1_L001_R1_001",3.47,31834,31834,"S",4577,"Zea mays","UGA 9May16","Poales","Poaceae","Zea","Zea mays"
+"815","mix-3-C1_S1_L001_R1_001",10.95,100334,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"816","mix-3-C1_S1_L001_R1_001",10.95,100334,6002,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"817","mix-3-C1_S1_L001_R1_001",8.45,77384,6389,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"818","mix-3-C1_S1_L001_R1_001",4.73,43347,43347,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"819","mix-3-C1_S1_L001_R1_001",3.02,27648,27648,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"820","mix-3-C1_S1_L001_R1_001",1.85,16948,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"821","mix-3-C1_S1_L001_R1_001",1.85,16948,16948,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"822","mix-3-C1_S1_L001_R2_001",7.9,72358,1112,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"823","mix-3-C1_S1_L001_R2_001",6.83,62545,0,"F",3688,"Salicaceae","UGA 9May16","Malpighiales","Salicaceae",NA,NA
+"824","mix-3-C1_S1_L001_R2_001",6.83,62545,17234,"G",3689,"Populus","UGA 9May16","Malpighiales","Salicaceae","Populus",NA
+"825","mix-3-C1_S1_L001_R2_001",2.3,21070,21070,"S",3694,"Populus trichocarpa","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus trichocarpa"
+"826","mix-3-C1_S1_L001_R2_001",2.25,20649,20649,"S",75702,"Populus euphratica","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus euphratica"
+"827","mix-3-C1_S1_L001_R2_001",3.34,30603,1779,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"828","mix-3-C1_S1_L001_R2_001",1.1,10094,287,"F",3745,"Rosaceae","UGA 9May16","Rosales","Rosaceae",NA,NA
+"829","mix-3-C1_S1_L001_R2_001",1,9195,227,"F",3481,"Cannabaceae","UGA 9May16","Rosales","Cannabaceae",NA,NA
+"830","mix-3-C1_S1_L001_R2_001",3.15,28864,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"831","mix-3-C1_S1_L001_R2_001",3.15,28864,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"832","mix-3-C1_S1_L001_R2_001",1.55,14191,414,"O",3502,"Fagales","UGA 9May16","Fagales",NA,NA,NA
+"833","mix-3-C1_S1_L001_R2_001",2.03,18619,389,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"834","mix-3-C1_S1_L001_R2_001",1.8,16513,1585,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"835","mix-3-C1_S1_L001_R2_001",1.54,14067,260,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"836","mix-3-C1_S1_L001_R2_001",1.24,11339,187,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"837","mix-3-C1_S1_L001_R2_001",1.07,9802,3939,"G",3633,"Gossypium","UGA 9May16","Malvales","Malvaceae","Gossypium",NA
+"838","mix-3-C1_S1_L001_R2_001",6.07,55644,471,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"839","mix-3-C1_S1_L001_R2_001",5.92,54196,3876,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"840","mix-3-C1_S1_L001_R2_001",1.75,16041,1659,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"841","mix-3-C1_S1_L001_R2_001",1.34,12315,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"842","mix-3-C1_S1_L001_R2_001",1.34,12315,12315,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"843","mix-3-C1_S1_L001_R2_001",2.21,20206,9346,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"844","mix-3-C1_S1_L001_R2_001",4.77,43669,0,"O",4209,"Asterales","UGA 9May16","Asterales",NA,NA,NA
+"845","mix-3-C1_S1_L001_R2_001",4.77,43669,585,"F",4210,"Asteraceae","UGA 9May16","Asterales","Asteraceae",NA,NA
+"846","mix-3-C1_S1_L001_R2_001",3.41,31264,0,"G",4219,"Artemisia","UGA 9May16","Asterales","Asteraceae","Artemisia",NA
+"847","mix-3-C1_S1_L001_R2_001",3.41,31264,0,"S",55611,"Artemisia tridentata","UGA 9May16","Asterales","Asteraceae","Artemisia","Artemisia tridentata"
+"848","mix-3-C1_S1_L001_R2_001",1.32,12111,201,"O",3524,"Caryophyllales","UGA 9May16","Caryophyllales",NA,NA,NA
+"849","mix-3-C1_S1_L001_R2_001",1.03,9398,248,"F",3563,"Amaranthaceae","UGA 9May16","Caryophyllales","Amaranthaceae",NA,NA
+"850","mix-3-C1_S1_L001_R2_001",18.03,165150,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"851","mix-3-C1_S1_L001_R2_001",18.03,165150,4608,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"852","mix-3-C1_S1_L001_R2_001",3.96,36281,3686,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"853","mix-3-C1_S1_L001_R2_001",1.98,18162,18162,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"854","mix-3-C1_S1_L001_R2_001",1.58,14433,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"855","mix-3-C1_S1_L001_R2_001",1.26,11537,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"856","mix-3-C1_S1_L001_R2_001",1.26,11537,11537,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"857","mix-3-C1_S1_L001_R2_001",1.13,10328,105,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"858","mix-3-C1_S1_L001_R2_001",1.1,10091,10091,"S",4572,"Triticum urartu","UGA 9May16","Poales","Poaceae","Triticum","Triticum urartu"
+"859","mix-3-C1_S1_L001_R2_001",3.67,33646,0,"G",4544,"Poa","UGA 9May16","Poales","Poaceae","Poa",NA
+"860","mix-3-C1_S1_L001_R2_001",3.67,33646,33646,"S",4545,"Poa pratensis","UGA 9May16","Poales","Poaceae","Poa","Poa pratensis"
+"861","mix-3-C1_S1_L001_R2_001",3.46,31702,0,"G",4575,"Zea","UGA 9May16","Poales","Poaceae","Zea",NA
+"862","mix-3-C1_S1_L001_R2_001",3.46,31702,31702,"S",4577,"Zea mays","UGA 9May16","Poales","Poaceae","Zea","Zea mays"
+"863","mix-3-C1_S1_L001_R2_001",11.05,101242,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"864","mix-3-C1_S1_L001_R2_001",11.05,101242,6054,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"865","mix-3-C1_S1_L001_R2_001",8.49,77786,6230,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"866","mix-3-C1_S1_L001_R2_001",4.79,43840,43840,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"867","mix-3-C1_S1_L001_R2_001",3.03,27716,27716,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"868","mix-3-C1_S1_L001_R2_001",1.9,17402,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"869","mix-3-C1_S1_L001_R2_001",1.9,17402,17402,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"870","mix-4-D1_S2_L001_R1_001",11.08,104010,1226,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"871","mix-4-D1_S2_L001_R1_001",9.97,93563,0,"F",3688,"Salicaceae","UGA 9May16","Malpighiales","Salicaceae",NA,NA
+"872","mix-4-D1_S2_L001_R1_001",9.97,93563,24414,"G",3689,"Populus","UGA 9May16","Malpighiales","Salicaceae","Populus",NA
+"873","mix-4-D1_S2_L001_R1_001",3.36,31535,31535,"S",3694,"Populus trichocarpa","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus trichocarpa"
+"874","mix-4-D1_S2_L001_R1_001",3.11,29162,29162,"S",75702,"Populus euphratica","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus euphratica"
+"875","mix-4-D1_S2_L001_R1_001",3.33,31215,1808,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"876","mix-4-D1_S2_L001_R1_001",1.1,10367,238,"F",3745,"Rosaceae","UGA 9May16","Rosales","Rosaceae",NA,NA
+"877","mix-4-D1_S2_L001_R1_001",3.1,29068,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"878","mix-4-D1_S2_L001_R1_001",3.1,29068,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"879","mix-4-D1_S2_L001_R1_001",1.63,15298,480,"O",3502,"Fagales","UGA 9May16","Fagales",NA,NA,NA
+"880","mix-4-D1_S2_L001_R1_001",2,18799,361,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"881","mix-4-D1_S2_L001_R1_001",1.78,16746,1658,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"882","mix-4-D1_S2_L001_R1_001",1.54,14476,271,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"883","mix-4-D1_S2_L001_R1_001",1.24,11684,158,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"884","mix-4-D1_S2_L001_R1_001",1.07,10071,4038,"G",3633,"Gossypium","UGA 9May16","Malvales","Malvaceae","Gossypium",NA
+"885","mix-4-D1_S2_L001_R1_001",6.04,56677,490,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"886","mix-4-D1_S2_L001_R1_001",5.89,55261,4063,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"887","mix-4-D1_S2_L001_R1_001",1.76,16495,1700,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"888","mix-4-D1_S2_L001_R1_001",1.33,12517,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"889","mix-4-D1_S2_L001_R1_001",1.33,12517,12517,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"890","mix-4-D1_S2_L001_R1_001",2.17,20379,9304,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"891","mix-4-D1_S2_L001_R1_001",4.57,42889,0,"O",4209,"Asterales","UGA 9May16","Asterales",NA,NA,NA
+"892","mix-4-D1_S2_L001_R1_001",4.57,42889,669,"F",4210,"Asteraceae","UGA 9May16","Asterales","Asteraceae",NA,NA
+"893","mix-4-D1_S2_L001_R1_001",3.04,28562,0,"G",4219,"Artemisia","UGA 9May16","Asterales","Asteraceae","Artemisia",NA
+"894","mix-4-D1_S2_L001_R1_001",3.04,28562,0,"S",55611,"Artemisia tridentata","UGA 9May16","Asterales","Asteraceae","Artemisia","Artemisia tridentata"
+"895","mix-4-D1_S2_L001_R1_001",1.28,12046,183,"O",3524,"Caryophyllales","UGA 9May16","Caryophyllales",NA,NA,NA
+"896","mix-4-D1_S2_L001_R1_001",16.15,151551,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"897","mix-4-D1_S2_L001_R1_001",16.15,151551,4081,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"898","mix-4-D1_S2_L001_R1_001",3.54,33185,3299,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"899","mix-4-D1_S2_L001_R1_001",1.76,16560,16560,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"900","mix-4-D1_S2_L001_R1_001",1.42,13326,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"901","mix-4-D1_S2_L001_R1_001",1.11,10456,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"902","mix-4-D1_S2_L001_R1_001",1.11,10456,10456,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"903","mix-4-D1_S2_L001_R1_001",1.01,9486,88,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"904","mix-4-D1_S2_L001_R1_001",3.31,31087,0,"G",4544,"Poa","UGA 9May16","Poales","Poaceae","Poa",NA
+"905","mix-4-D1_S2_L001_R1_001",3.31,31087,31087,"S",4545,"Poa pratensis","UGA 9May16","Poales","Poaceae","Poa","Poa pratensis"
+"906","mix-4-D1_S2_L001_R1_001",3.17,29797,0,"G",4575,"Zea","UGA 9May16","Poales","Poaceae","Zea",NA
+"907","mix-4-D1_S2_L001_R1_001",3.17,29797,29797,"S",4577,"Zea mays","UGA 9May16","Poales","Poaceae","Zea","Zea mays"
+"908","mix-4-D1_S2_L001_R1_001",10.63,99745,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"909","mix-4-D1_S2_L001_R1_001",10.63,99745,6085,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"910","mix-4-D1_S2_L001_R1_001",8.12,76236,6063,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"911","mix-4-D1_S2_L001_R1_001",4.6,43204,43204,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"912","mix-4-D1_S2_L001_R1_001",2.87,26969,26969,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"913","mix-4-D1_S2_L001_R1_001",1.86,17424,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"914","mix-4-D1_S2_L001_R1_001",1.86,17424,17424,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"915","mix-4-D1_S2_L001_R2_001",10.96,102855,1266,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"916","mix-4-D1_S2_L001_R2_001",9.86,92537,0,"F",3688,"Salicaceae","UGA 9May16","Malpighiales","Salicaceae",NA,NA
+"917","mix-4-D1_S2_L001_R2_001",9.86,92537,24453,"G",3689,"Populus","UGA 9May16","Malpighiales","Salicaceae","Populus",NA
+"918","mix-4-D1_S2_L001_R2_001",3.29,30855,30855,"S",3694,"Populus trichocarpa","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus trichocarpa"
+"919","mix-4-D1_S2_L001_R2_001",3.08,28931,28931,"S",75702,"Populus euphratica","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus euphratica"
+"920","mix-4-D1_S2_L001_R2_001",3.31,31033,1821,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"921","mix-4-D1_S2_L001_R2_001",1.11,10400,280,"F",3745,"Rosaceae","UGA 9May16","Rosales","Rosaceae",NA,NA
+"922","mix-4-D1_S2_L001_R2_001",1,9365,269,"F",3481,"Cannabaceae","UGA 9May16","Rosales","Cannabaceae",NA,NA
+"923","mix-4-D1_S2_L001_R2_001",3.13,29397,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"924","mix-4-D1_S2_L001_R2_001",3.13,29397,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"925","mix-4-D1_S2_L001_R2_001",1.61,15159,445,"O",3502,"Fagales","UGA 9May16","Fagales",NA,NA,NA
+"926","mix-4-D1_S2_L001_R2_001",2.02,18979,392,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"927","mix-4-D1_S2_L001_R2_001",1.79,16803,1653,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"928","mix-4-D1_S2_L001_R2_001",1.55,14579,266,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"929","mix-4-D1_S2_L001_R2_001",1.24,11626,179,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"930","mix-4-D1_S2_L001_R2_001",1.08,10113,4112,"G",3633,"Gossypium","UGA 9May16","Malvales","Malvaceae","Gossypium",NA
+"931","mix-4-D1_S2_L001_R2_001",6.02,56499,470,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"932","mix-4-D1_S2_L001_R2_001",5.87,55080,4063,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"933","mix-4-D1_S2_L001_R2_001",1.75,16421,1723,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"934","mix-4-D1_S2_L001_R2_001",1.33,12459,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"935","mix-4-D1_S2_L001_R2_001",1.33,12459,12459,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"936","mix-4-D1_S2_L001_R2_001",2.17,20358,9490,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"937","mix-4-D1_S2_L001_R2_001",4.48,42050,0,"O",4209,"Asterales","UGA 9May16","Asterales",NA,NA,NA
+"938","mix-4-D1_S2_L001_R2_001",4.48,42050,607,"F",4210,"Asteraceae","UGA 9May16","Asterales","Asteraceae",NA,NA
+"939","mix-4-D1_S2_L001_R2_001",2.98,27951,0,"G",4219,"Artemisia","UGA 9May16","Asterales","Asteraceae","Artemisia",NA
+"940","mix-4-D1_S2_L001_R2_001",2.98,27951,0,"S",55611,"Artemisia tridentata","UGA 9May16","Asterales","Asteraceae","Artemisia","Artemisia tridentata"
+"941","mix-4-D1_S2_L001_R2_001",1.27,11888,166,"O",3524,"Caryophyllales","UGA 9May16","Caryophyllales",NA,NA,NA
+"942","mix-4-D1_S2_L001_R2_001",16.03,150427,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"943","mix-4-D1_S2_L001_R2_001",16.03,150427,4101,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"944","mix-4-D1_S2_L001_R2_001",3.53,33141,3367,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"945","mix-4-D1_S2_L001_R2_001",1.75,16420,16420,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"946","mix-4-D1_S2_L001_R2_001",1.42,13354,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"947","mix-4-D1_S2_L001_R2_001",1.1,10360,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"948","mix-4-D1_S2_L001_R2_001",1.1,10360,10360,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"949","mix-4-D1_S2_L001_R2_001",1.01,9473,105,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"950","mix-4-D1_S2_L001_R2_001",3.21,30120,0,"G",4544,"Poa","UGA 9May16","Poales","Poaceae","Poa",NA
+"951","mix-4-D1_S2_L001_R2_001",3.21,30120,30120,"S",4545,"Poa pratensis","UGA 9May16","Poales","Poaceae","Poa","Poa pratensis"
+"952","mix-4-D1_S2_L001_R2_001",3.17,29787,0,"G",4575,"Zea","UGA 9May16","Poales","Poaceae","Zea",NA
+"953","mix-4-D1_S2_L001_R2_001",3.17,29787,29787,"S",4577,"Zea mays","UGA 9May16","Poales","Poaceae","Zea","Zea mays"
+"954","mix-4-D1_S2_L001_R2_001",10.78,101229,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"955","mix-4-D1_S2_L001_R2_001",10.78,101229,6250,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"956","mix-4-D1_S2_L001_R2_001",8.25,77399,6080,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"957","mix-4-D1_S2_L001_R2_001",4.67,43883,43883,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"958","mix-4-D1_S2_L001_R2_001",2.92,27436,27436,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"959","mix-4-D1_S2_L001_R2_001",1.87,17580,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"960","mix-4-D1_S2_L001_R2_001",1.87,17580,17580,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"961","mix-5-E1_S3_L001_R1_001",83.25,659308,5553,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"962","mix-5-E1_S3_L001_R1_001",82.31,651865,0,"F",3688,"Salicaceae","UGA 9May16","Malpighiales","Salicaceae",NA,NA
+"963","mix-5-E1_S3_L001_R1_001",82.31,651865,169748,"G",3689,"Populus","UGA 9May16","Malpighiales","Salicaceae","Populus",NA
+"964","mix-5-E1_S3_L001_R1_001",28.11,222613,222613,"S",3694,"Populus trichocarpa","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus trichocarpa"
+"965","mix-5-E1_S3_L001_R1_001",25.07,198580,198580,"S",75702,"Populus euphratica","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus euphratica"
+"966","mix-5-E1_S3_L001_R1_001",6.63,52468,52468,"S",3696,"Populus deltoides","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus deltoides"
+"967","mix-5-E1_S3_L001_R1_001",1.07,8456,8456,"S",3693,"Populus tremuloides","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus tremuloides"
+"968","mix-5-E1_S3_L001_R1_001",1,7941,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"969","mix-5-E1_S3_L001_R1_001",1,7941,423,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"970","mix-5-E1_S3_L001_R2_001",82.14,650524,5649,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"971","mix-5-E1_S3_L001_R2_001",81.16,642718,0,"F",3688,"Salicaceae","UGA 9May16","Malpighiales","Salicaceae",NA,NA
+"972","mix-5-E1_S3_L001_R2_001",81.16,642718,168277,"G",3689,"Populus","UGA 9May16","Malpighiales","Salicaceae","Populus",NA
+"973","mix-5-E1_S3_L001_R2_001",27.65,218969,218969,"S",3694,"Populus trichocarpa","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus trichocarpa"
+"974","mix-5-E1_S3_L001_R2_001",24.73,195834,195834,"S",75702,"Populus euphratica","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus euphratica"
+"975","mix-5-E1_S3_L001_R2_001",6.5,51500,51500,"S",3696,"Populus deltoides","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus deltoides"
+"976","mix-5-E1_S3_L001_R2_001",1.03,8138,8138,"S",3693,"Populus tremuloides","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus tremuloides"
+"977","mix-5-E1_S3_L001_R2_001",1.14,9036,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"978","mix-5-E1_S3_L001_R2_001",1.14,9036,507,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"979","mix-6-F1_S4_L001_R1_001",41.65,317367,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"980","mix-6-F1_S4_L001_R1_001",41.65,317367,7780,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"981","mix-6-F1_S4_L001_R1_001",8.84,67395,7115,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"982","mix-6-F1_S4_L001_R1_001",4.45,33893,33893,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"983","mix-6-F1_S4_L001_R1_001",3.46,26387,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"984","mix-6-F1_S4_L001_R1_001",2.68,20454,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"985","mix-6-F1_S4_L001_R1_001",2.68,20454,20454,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"986","mix-6-F1_S4_L001_R1_001",2.33,17721,168,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"987","mix-6-F1_S4_L001_R1_001",2.27,17321,17321,"S",4572,"Triticum urartu","UGA 9May16","Poales","Poaceae","Triticum","Triticum urartu"
+"988","mix-6-F1_S4_L001_R1_001",8.51,64863,0,"G",4544,"Poa","UGA 9May16","Poales","Poaceae","Poa",NA
+"989","mix-6-F1_S4_L001_R1_001",8.51,64863,64863,"S",4545,"Poa pratensis","UGA 9May16","Poales","Poaceae","Poa","Poa pratensis"
+"990","mix-6-F1_S4_L001_R1_001",9.69,73838,0,"G",4575,"Zea","UGA 9May16","Poales","Poaceae","Zea",NA
+"991","mix-6-F1_S4_L001_R1_001",9.69,73838,73838,"S",4577,"Zea mays","UGA 9May16","Poales","Poaceae","Zea","Zea mays"
+"992","mix-6-F1_S4_L001_R1_001",2.33,17741,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"993","mix-6-F1_S4_L001_R1_001",2.33,17741,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"994","mix-6-F1_S4_L001_R1_001",1.94,14749,839,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"995","mix-6-F1_S4_L001_R1_001",1.04,7902,297,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"996","mix-6-F1_S4_L001_R1_001",1.54,11713,219,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"997","mix-6-F1_S4_L001_R1_001",1.36,10388,975,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"998","mix-6-F1_S4_L001_R1_001",1.15,8790,158,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"999","mix-6-F1_S4_L001_R1_001",4.51,34344,291,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"1000","mix-6-F1_S4_L001_R1_001",4.38,33401,2134,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"1001","mix-6-F1_S4_L001_R1_001",1.26,9612,934,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"1002","mix-6-F1_S4_L001_R1_001",1.73,13188,5792,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"1003","mix-6-F1_S4_L001_R1_001",10.48,79843,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"1004","mix-6-F1_S4_L001_R1_001",10.48,79843,4578,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"1005","mix-6-F1_S4_L001_R1_001",8.12,61877,4768,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"1006","mix-6-F1_S4_L001_R1_001",4.52,34473,34473,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"1007","mix-6-F1_S4_L001_R1_001",2.97,22636,22636,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"1008","mix-6-F1_S4_L001_R1_001",1.76,13388,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"1009","mix-6-F1_S4_L001_R1_001",1.76,13388,13388,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"1010","mix-6-F1_S4_L001_R2_001",40.79,310824,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"1011","mix-6-F1_S4_L001_R2_001",40.79,310824,7749,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"1012","mix-6-F1_S4_L001_R2_001",8.61,65606,7034,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"1013","mix-6-F1_S4_L001_R2_001",4.33,32985,32985,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"1014","mix-6-F1_S4_L001_R2_001",3.36,25587,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"1015","mix-6-F1_S4_L001_R2_001",2.67,20344,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"1016","mix-6-F1_S4_L001_R2_001",2.67,20344,20344,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"1017","mix-6-F1_S4_L001_R2_001",2.31,17641,156,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"1018","mix-6-F1_S4_L001_R2_001",2.26,17213,17213,"S",4572,"Triticum urartu","UGA 9May16","Poales","Poaceae","Triticum","Triticum urartu"
+"1019","mix-6-F1_S4_L001_R2_001",8.05,61335,0,"G",4544,"Poa","UGA 9May16","Poales","Poaceae","Poa",NA
+"1020","mix-6-F1_S4_L001_R2_001",8.05,61335,61335,"S",4545,"Poa pratensis","UGA 9May16","Poales","Poaceae","Poa","Poa pratensis"
+"1021","mix-6-F1_S4_L001_R2_001",9.66,73580,0,"G",4575,"Zea","UGA 9May16","Poales","Poaceae","Zea",NA
+"1022","mix-6-F1_S4_L001_R2_001",9.66,73580,73580,"S",4577,"Zea mays","UGA 9May16","Poales","Poaceae","Zea","Zea mays"
+"1023","mix-6-F1_S4_L001_R2_001",2.35,17887,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"1024","mix-6-F1_S4_L001_R2_001",2.35,17887,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"1025","mix-6-F1_S4_L001_R2_001",1.97,15001,870,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"1026","mix-6-F1_S4_L001_R2_001",1.05,8015,298,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"1027","mix-6-F1_S4_L001_R2_001",1.56,11896,217,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"1028","mix-6-F1_S4_L001_R2_001",1.38,10509,944,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"1029","mix-6-F1_S4_L001_R2_001",1.15,8766,141,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"1030","mix-6-F1_S4_L001_R2_001",4.54,34571,302,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"1031","mix-6-F1_S4_L001_R2_001",4.41,33611,2082,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"1032","mix-6-F1_S4_L001_R2_001",1.29,9820,946,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"1033","mix-6-F1_S4_L001_R2_001",1.74,13228,5946,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"1034","mix-6-F1_S4_L001_R2_001",10.77,82052,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"1035","mix-6-F1_S4_L001_R2_001",10.77,82052,4745,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"1036","mix-6-F1_S4_L001_R2_001",8.34,63587,5092,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"1037","mix-6-F1_S4_L001_R2_001",4.62,35211,35211,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"1038","mix-6-F1_S4_L001_R2_001",3.06,23284,23284,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"1039","mix-6-F1_S4_L001_R2_001",1.8,13720,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"1040","mix-6-F1_S4_L001_R2_001",1.8,13720,13720,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"1041","mix-7-G1_S5_L001_R1_001",4.97,45730,2567,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"1042","mix-7-G1_S5_L001_R1_001",1.56,14355,256,"F",3487,"Moraceae","UGA 9May16","Rosales","Moraceae",NA,NA
+"1043","mix-7-G1_S5_L001_R1_001",1.15,10592,0,"G",66379,"Broussonetia","UGA 9May16","Rosales","Moraceae","Broussonetia",NA
+"1044","mix-7-G1_S5_L001_R1_001",1.15,10592,10592,"S",172644,"Broussonetia papyrifera","UGA 9May16","Rosales","Moraceae","Broussonetia","Broussonetia papyrifera"
+"1045","mix-7-G1_S5_L001_R1_001",1.52,14012,343,"F",3745,"Rosaceae","UGA 9May16","Rosales","Rosaceae",NA,NA
+"1046","mix-7-G1_S5_L001_R1_001",1.38,12700,329,"F",3481,"Cannabaceae","UGA 9May16","Rosales","Cannabaceae",NA,NA
+"1047","mix-7-G1_S5_L001_R1_001",1.02,9433,0,"G",3484,"Humulus","UGA 9May16","Rosales","Cannabaceae","Humulus",NA
+"1048","mix-7-G1_S5_L001_R1_001",1.02,9433,0,"S",3486,"Humulus lupulus","UGA 9May16","Rosales","Cannabaceae","Humulus","Humulus lupulus"
+"1049","mix-7-G1_S5_L001_R1_001",4.5,41387,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"1050","mix-7-G1_S5_L001_R1_001",4.5,41387,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"1051","mix-7-G1_S5_L001_R1_001",1.93,17722,762,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"1052","mix-7-G1_S5_L001_R1_001",1.12,10312,137,"F",3977,"Euphorbiaceae","UGA 9May16","Malpighiales","Euphorbiaceae",NA,NA
+"1053","mix-7-G1_S5_L001_R1_001",1.21,11098,383,"O",3502,"Fagales","UGA 9May16","Fagales",NA,NA,NA
+"1054","mix-7-G1_S5_L001_R1_001",2.8,25755,540,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"1055","mix-7-G1_S5_L001_R1_001",2.49,22938,2349,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"1056","mix-7-G1_S5_L001_R1_001",2.19,20167,389,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"1057","mix-7-G1_S5_L001_R1_001",1.78,16432,248,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"1058","mix-7-G1_S5_L001_R1_001",1.56,14392,5957,"G",3633,"Gossypium","UGA 9May16","Malvales","Malvaceae","Gossypium",NA
+"1059","mix-7-G1_S5_L001_R1_001",10.13,93291,0,"O",4209,"Asterales","UGA 9May16","Asterales",NA,NA,NA
+"1060","mix-7-G1_S5_L001_R1_001",10.13,93291,1253,"F",4210,"Asteraceae","UGA 9May16","Asterales","Asteraceae",NA,NA
+"1061","mix-7-G1_S5_L001_R1_001",7.58,69792,0,"G",4219,"Artemisia","UGA 9May16","Asterales","Asteraceae","Artemisia",NA
+"1062","mix-7-G1_S5_L001_R1_001",7.58,69792,0,"S",55611,"Artemisia tridentata","UGA 9May16","Asterales","Asteraceae","Artemisia","Artemisia tridentata"
+"1063","mix-7-G1_S5_L001_R1_001",1.58,14565,0,"G",4235,"Lactuca","UGA 9May16","Asterales","Asteraceae","Lactuca",NA
+"1064","mix-7-G1_S5_L001_R1_001",1.58,14565,14565,"S",4236,"Lactuca sativa","UGA 9May16","Asterales","Asteraceae","Lactuca","Lactuca sativa"
+"1065","mix-7-G1_S5_L001_R1_001",8.53,78496,764,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"1066","mix-7-G1_S5_L001_R1_001",8.31,76501,5859,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"1067","mix-7-G1_S5_L001_R1_001",2.47,22782,2375,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"1068","mix-7-G1_S5_L001_R1_001",1.95,17997,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"1069","mix-7-G1_S5_L001_R1_001",1.95,17997,17997,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"1070","mix-7-G1_S5_L001_R1_001",2.95,27132,12707,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"1071","mix-7-G1_S5_L001_R1_001",1.54,14168,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"1072","mix-7-G1_S5_L001_R1_001",1.54,14168,625,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"1073","mix-7-G1_S5_L001_R1_001",12.61,116079,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"1074","mix-7-G1_S5_L001_R1_001",12.61,116079,7090,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"1075","mix-7-G1_S5_L001_R1_001",9.68,89121,7447,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"1076","mix-7-G1_S5_L001_R1_001",5.56,51219,51219,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"1077","mix-7-G1_S5_L001_R1_001",3.31,30455,30455,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"1078","mix-7-G1_S5_L001_R1_001",2.16,19868,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"1079","mix-7-G1_S5_L001_R1_001",2.16,19868,19868,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"1080","mix-7-G1_S5_L001_R2_001",4.94,45472,2629,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"1081","mix-7-G1_S5_L001_R2_001",1.52,14028,245,"F",3487,"Moraceae","UGA 9May16","Rosales","Moraceae",NA,NA
+"1082","mix-7-G1_S5_L001_R2_001",1.13,10420,0,"G",66379,"Broussonetia","UGA 9May16","Rosales","Moraceae","Broussonetia",NA
+"1083","mix-7-G1_S5_L001_R2_001",1.13,10420,10420,"S",172644,"Broussonetia papyrifera","UGA 9May16","Rosales","Moraceae","Broussonetia","Broussonetia papyrifera"
+"1084","mix-7-G1_S5_L001_R2_001",1.5,13849,354,"F",3745,"Rosaceae","UGA 9May16","Rosales","Rosaceae",NA,NA
+"1085","mix-7-G1_S5_L001_R2_001",1.4,12921,313,"F",3481,"Cannabaceae","UGA 9May16","Rosales","Cannabaceae",NA,NA
+"1086","mix-7-G1_S5_L001_R2_001",1.05,9628,0,"G",3484,"Humulus","UGA 9May16","Rosales","Cannabaceae","Humulus",NA
+"1087","mix-7-G1_S5_L001_R2_001",1.05,9628,0,"S",3486,"Humulus lupulus","UGA 9May16","Rosales","Cannabaceae","Humulus","Humulus lupulus"
+"1088","mix-7-G1_S5_L001_R2_001",4.45,40941,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"1089","mix-7-G1_S5_L001_R2_001",4.45,40941,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"1090","mix-7-G1_S5_L001_R2_001",1.92,17691,718,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"1091","mix-7-G1_S5_L001_R2_001",1.12,10282,142,"F",3977,"Euphorbiaceae","UGA 9May16","Malpighiales","Euphorbiaceae",NA,NA
+"1092","mix-7-G1_S5_L001_R2_001",1.23,11306,425,"O",3502,"Fagales","UGA 9May16","Fagales",NA,NA,NA
+"1093","mix-7-G1_S5_L001_R2_001",2.75,25359,494,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"1094","mix-7-G1_S5_L001_R2_001",2.45,22578,2313,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"1095","mix-7-G1_S5_L001_R2_001",2.17,20007,403,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"1096","mix-7-G1_S5_L001_R2_001",1.77,16290,246,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"1097","mix-7-G1_S5_L001_R2_001",1.55,14294,5908,"G",3633,"Gossypium","UGA 9May16","Malvales","Malvaceae","Gossypium",NA
+"1098","mix-7-G1_S5_L001_R2_001",8.6,79203,703,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"1099","mix-7-G1_S5_L001_R2_001",8.4,77336,5852,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"1100","mix-7-G1_S5_L001_R2_001",2.52,23188,2396,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"1101","mix-7-G1_S5_L001_R2_001",1.95,17981,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"1102","mix-7-G1_S5_L001_R2_001",1.95,17981,17981,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"1103","mix-7-G1_S5_L001_R2_001",3,27635,12984,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"1104","mix-7-G1_S5_L001_R2_001",10.02,92222,0,"O",4209,"Asterales","UGA 9May16","Asterales",NA,NA,NA
+"1105","mix-7-G1_S5_L001_R2_001",10.02,92222,1275,"F",4210,"Asteraceae","UGA 9May16","Asterales","Asteraceae",NA,NA
+"1106","mix-7-G1_S5_L001_R2_001",7.51,69157,0,"G",4219,"Artemisia","UGA 9May16","Asterales","Asteraceae","Artemisia",NA
+"1107","mix-7-G1_S5_L001_R2_001",7.51,69157,0,"S",55611,"Artemisia tridentata","UGA 9May16","Asterales","Asteraceae","Artemisia","Artemisia tridentata"
+"1108","mix-7-G1_S5_L001_R2_001",1.55,14311,0,"G",4235,"Lactuca","UGA 9May16","Asterales","Asteraceae","Lactuca",NA
+"1109","mix-7-G1_S5_L001_R2_001",1.55,14311,14311,"S",4236,"Lactuca sativa","UGA 9May16","Asterales","Asteraceae","Lactuca","Lactuca sativa"
+"1110","mix-7-G1_S5_L001_R2_001",1.53,14129,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"1111","mix-7-G1_S5_L001_R2_001",1.53,14129,716,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"1112","mix-7-G1_S5_L001_R2_001",12.7,116884,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"1113","mix-7-G1_S5_L001_R2_001",12.7,116884,7254,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"1114","mix-7-G1_S5_L001_R2_001",9.73,89562,7513,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"1115","mix-7-G1_S5_L001_R2_001",5.56,51191,51191,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"1116","mix-7-G1_S5_L001_R2_001",3.35,30858,30858,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"1117","mix-7-G1_S5_L001_R2_001",2.18,20068,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"1118","mix-7-G1_S5_L001_R2_001",2.18,20068,20068,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"1119","mix-8-H1_S6_L001_R1_001",3.9,29241,1438,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"1120","mix-8-H1_S6_L001_R1_001",1.7,12768,249,"F",3487,"Moraceae","UGA 9May16","Rosales","Moraceae",NA,NA
+"1121","mix-8-H1_S6_L001_R1_001",1.35,10096,0,"G",66379,"Broussonetia","UGA 9May16","Rosales","Moraceae","Broussonetia",NA
+"1122","mix-8-H1_S6_L001_R1_001",1.35,10096,10096,"S",172644,"Broussonetia papyrifera","UGA 9May16","Rosales","Moraceae","Broussonetia","Broussonetia papyrifera"
+"1123","mix-8-H1_S6_L001_R1_001",2.8,20967,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"1124","mix-8-H1_S6_L001_R1_001",2.8,20967,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"1125","mix-8-H1_S6_L001_R1_001",1.22,9119,334,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"1126","mix-8-H1_S6_L001_R1_001",1.82,13614,264,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"1127","mix-8-H1_S6_L001_R1_001",1.62,12133,1110,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"1128","mix-8-H1_S6_L001_R1_001",1.39,10436,178,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"1129","mix-8-H1_S6_L001_R1_001",1.1,8253,142,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"1130","mix-8-H1_S6_L001_R1_001",5.16,38680,315,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"1131","mix-8-H1_S6_L001_R1_001",5.02,37643,2520,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"1132","mix-8-H1_S6_L001_R1_001",1.49,11186,1084,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"1133","mix-8-H1_S6_L001_R1_001",1.13,8447,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"1134","mix-8-H1_S6_L001_R1_001",1.13,8447,8447,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"1135","mix-8-H1_S6_L001_R1_001",1.92,14366,6397,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"1136","mix-8-H1_S6_L001_R1_001",32.81,246039,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"1137","mix-8-H1_S6_L001_R1_001",32.81,246039,7014,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"1138","mix-8-H1_S6_L001_R1_001",9.05,67859,7166,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"1139","mix-8-H1_S6_L001_R1_001",4.58,34310,34310,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"1140","mix-8-H1_S6_L001_R1_001",3.52,26383,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"1141","mix-8-H1_S6_L001_R1_001",2.72,20425,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"1142","mix-8-H1_S6_L001_R1_001",2.72,20425,20425,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"1143","mix-8-H1_S6_L001_R1_001",2.33,17478,192,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"1144","mix-8-H1_S6_L001_R1_001",2.27,17016,17016,"S",4572,"Triticum urartu","UGA 9May16","Poales","Poaceae","Triticum","Triticum urartu"
+"1145","mix-8-H1_S6_L001_R1_001",8.88,66563,0,"G",4544,"Poa","UGA 9May16","Poales","Poaceae","Poa",NA
+"1146","mix-8-H1_S6_L001_R1_001",8.88,66563,66563,"S",4545,"Poa pratensis","UGA 9May16","Poales","Poaceae","Poa","Poa pratensis"
+"1147","mix-8-H1_S6_L001_R1_001",11.28,84601,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"1148","mix-8-H1_S6_L001_R1_001",11.28,84601,4902,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"1149","mix-8-H1_S6_L001_R1_001",8.73,65468,5150,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"1150","mix-8-H1_S6_L001_R1_001",4.85,36379,36379,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"1151","mix-8-H1_S6_L001_R1_001",3.19,23939,23939,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"1152","mix-8-H1_S6_L001_R1_001",1.9,14231,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"1153","mix-8-H1_S6_L001_R1_001",1.9,14231,14231,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"1154","mix-8-H1_S6_L001_R2_001",3.88,29099,1405,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"1155","mix-8-H1_S6_L001_R2_001",1.67,12502,268,"F",3487,"Moraceae","UGA 9May16","Rosales","Moraceae",NA,NA
+"1156","mix-8-H1_S6_L001_R2_001",1.31,9830,0,"G",66379,"Broussonetia","UGA 9May16","Rosales","Moraceae","Broussonetia",NA
+"1157","mix-8-H1_S6_L001_R2_001",1.31,9830,9830,"S",172644,"Broussonetia papyrifera","UGA 9May16","Rosales","Moraceae","Broussonetia","Broussonetia papyrifera"
+"1158","mix-8-H1_S6_L001_R2_001",2.8,21019,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"1159","mix-8-H1_S6_L001_R2_001",2.8,21019,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"1160","mix-8-H1_S6_L001_R2_001",1.2,8961,359,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"1161","mix-8-H1_S6_L001_R2_001",1.8,13462,248,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"1162","mix-8-H1_S6_L001_R2_001",1.59,11948,1091,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"1163","mix-8-H1_S6_L001_R2_001",1.35,10148,162,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"1164","mix-8-H1_S6_L001_R2_001",1.07,7990,115,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"1165","mix-8-H1_S6_L001_R2_001",5.16,38711,302,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"1166","mix-8-H1_S6_L001_R2_001",5.03,37713,2509,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"1167","mix-8-H1_S6_L001_R2_001",1.49,11154,1017,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"1168","mix-8-H1_S6_L001_R2_001",1.16,8679,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"1169","mix-8-H1_S6_L001_R2_001",1.16,8679,8679,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"1170","mix-8-H1_S6_L001_R2_001",1.91,14286,6466,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"1171","mix-8-H1_S6_L001_R2_001",32.68,245025,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"1172","mix-8-H1_S6_L001_R2_001",32.68,245025,7067,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"1173","mix-8-H1_S6_L001_R2_001",9.03,67743,7237,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"1174","mix-8-H1_S6_L001_R2_001",4.56,34229,34229,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"1175","mix-8-H1_S6_L001_R2_001",3.5,26277,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"1176","mix-8-H1_S6_L001_R2_001",2.75,20609,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"1177","mix-8-H1_S6_L001_R2_001",2.75,20609,20609,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"1178","mix-8-H1_S6_L001_R2_001",2.36,17723,178,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"1179","mix-8-H1_S6_L001_R2_001",2.31,17305,17305,"S",4572,"Triticum urartu","UGA 9May16","Poales","Poaceae","Triticum","Triticum urartu"
+"1180","mix-8-H1_S6_L001_R2_001",8.68,65114,0,"G",4544,"Poa","UGA 9May16","Poales","Poaceae","Poa",NA
+"1181","mix-8-H1_S6_L001_R2_001",8.68,65114,65114,"S",4545,"Poa pratensis","UGA 9May16","Poales","Poaceae","Poa","Poa pratensis"
+"1182","mix-8-H1_S6_L001_R2_001",11.3,84728,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"1183","mix-8-H1_S6_L001_R2_001",11.3,84728,4933,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"1184","mix-8-H1_S6_L001_R2_001",8.74,65570,5187,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"1185","mix-8-H1_S6_L001_R2_001",4.86,36471,36471,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"1186","mix-8-H1_S6_L001_R2_001",3.19,23912,23912,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"1187","mix-8-H1_S6_L001_R2_001",1.9,14225,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"1188","mix-8-H1_S6_L001_R2_001",1.9,14225,14225,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"1189","mix-9-A2_S7_L001_R1_001",34.91,225933,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"1190","mix-9-A2_S7_L001_R1_001",34.91,225933,6436,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"1191","mix-9-A2_S7_L001_R1_001",9.63,62321,6830,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"1192","mix-9-A2_S7_L001_R1_001",4.85,31390,31390,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"1193","mix-9-A2_S7_L001_R1_001",3.72,24101,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"1194","mix-9-A2_S7_L001_R1_001",2.91,18831,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"1195","mix-9-A2_S7_L001_R1_001",2.91,18831,18831,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"1196","mix-9-A2_S7_L001_R1_001",2.52,16338,160,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"1197","mix-9-A2_S7_L001_R1_001",2.46,15914,15914,"S",4572,"Triticum urartu","UGA 9May16","Poales","Poaceae","Triticum","Triticum urartu"
+"1198","mix-9-A2_S7_L001_R1_001",9.31,60273,0,"G",4544,"Poa","UGA 9May16","Poales","Poaceae","Poa",NA
+"1199","mix-9-A2_S7_L001_R1_001",9.31,60273,60273,"S",4545,"Poa pratensis","UGA 9May16","Poales","Poaceae","Poa","Poa pratensis"
+"1200","mix-9-A2_S7_L001_R1_001",2.66,17223,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"1201","mix-9-A2_S7_L001_R1_001",2.66,17223,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"1202","mix-9-A2_S7_L001_R1_001",2.51,16219,894,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"1203","mix-9-A2_S7_L001_R1_001",1.15,7432,269,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"1204","mix-9-A2_S7_L001_R1_001",1.72,11122,198,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"1205","mix-9-A2_S7_L001_R1_001",1.53,9910,893,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"1206","mix-9-A2_S7_L001_R1_001",1.33,8579,151,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"1207","mix-9-A2_S7_L001_R1_001",1.05,6792,125,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"1208","mix-9-A2_S7_L001_R1_001",5.01,32436,279,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"1209","mix-9-A2_S7_L001_R1_001",4.88,31589,1999,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"1210","mix-9-A2_S7_L001_R1_001",1.44,9330,835,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"1211","mix-9-A2_S7_L001_R1_001",1.09,7040,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"1212","mix-9-A2_S7_L001_R1_001",1.09,7040,7040,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"1213","mix-9-A2_S7_L001_R1_001",1.91,12340,5488,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"1214","mix-9-A2_S7_L001_R1_001",11.56,74855,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"1215","mix-9-A2_S7_L001_R1_001",11.56,74855,4268,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"1216","mix-9-A2_S7_L001_R1_001",8.94,57849,4465,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"1217","mix-9-A2_S7_L001_R1_001",4.94,31956,31956,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"1218","mix-9-A2_S7_L001_R1_001",3.31,21428,21428,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"1219","mix-9-A2_S7_L001_R1_001",1.97,12738,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"1220","mix-9-A2_S7_L001_R1_001",1.97,12738,12738,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"1221","mix-9-A2_S7_L001_R2_001",34.59,223870,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"1222","mix-9-A2_S7_L001_R2_001",34.59,223870,6617,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"1223","mix-9-A2_S7_L001_R2_001",9.56,61854,6672,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"1224","mix-9-A2_S7_L001_R2_001",4.77,30900,30900,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"1225","mix-9-A2_S7_L001_R2_001",3.75,24282,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"1226","mix-9-A2_S7_L001_R2_001",2.95,19070,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"1227","mix-9-A2_S7_L001_R2_001",2.95,19070,19070,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"1228","mix-9-A2_S7_L001_R2_001",2.48,16032,156,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"1229","mix-9-A2_S7_L001_R2_001",2.42,15632,15632,"S",4572,"Triticum urartu","UGA 9May16","Poales","Poaceae","Triticum","Triticum urartu"
+"1230","mix-9-A2_S7_L001_R2_001",9.08,58743,0,"G",4544,"Poa","UGA 9May16","Poales","Poaceae","Poa",NA
+"1231","mix-9-A2_S7_L001_R2_001",9.08,58743,58743,"S",4545,"Poa pratensis","UGA 9May16","Poales","Poaceae","Poa","Poa pratensis"
+"1232","mix-9-A2_S7_L001_R2_001",2.65,17162,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"1233","mix-9-A2_S7_L001_R2_001",2.65,17162,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"1234","mix-9-A2_S7_L001_R2_001",2.48,16065,939,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"1235","mix-9-A2_S7_L001_R2_001",1.17,7587,296,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"1236","mix-9-A2_S7_L001_R2_001",1.77,11451,216,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"1237","mix-9-A2_S7_L001_R2_001",1.57,10145,896,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"1238","mix-9-A2_S7_L001_R2_001",1.27,8245,133,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"1239","mix-9-A2_S7_L001_R2_001",1,6492,111,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"1240","mix-9-A2_S7_L001_R2_001",4.99,32282,254,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"1241","mix-9-A2_S7_L001_R2_001",4.85,31417,1975,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"1242","mix-9-A2_S7_L001_R2_001",1.41,9144,828,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"1243","mix-9-A2_S7_L001_R2_001",1.1,7091,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"1244","mix-9-A2_S7_L001_R2_001",1.1,7091,7091,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"1245","mix-9-A2_S7_L001_R2_001",1.9,12301,5535,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"1246","mix-9-A2_S7_L001_R2_001",11.69,75692,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"1247","mix-9-A2_S7_L001_R2_001",11.69,75692,4384,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"1248","mix-9-A2_S7_L001_R2_001",9.06,58668,4450,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"1249","mix-9-A2_S7_L001_R2_001",5.04,32614,32614,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"1250","mix-9-A2_S7_L001_R2_001",3.34,21604,21604,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"1251","mix-9-A2_S7_L001_R2_001",1.95,12640,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"1252","mix-9-A2_S7_L001_R2_001",1.95,12640,12640,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"1253","negative-control-2-H3_S19_L001_R1_001",37.44,2479,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"1254","negative-control-2-H3_S19_L001_R1_001",37.44,2479,217,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"1255","negative-control-2-H3_S19_L001_R1_001",6.71,444,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"1256","negative-control-2-H3_S19_L001_R1_001",6.71,444,444,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"1257","negative-control-2-H3_S19_L001_R1_001",3.32,220,0,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"1258","negative-control-2-H3_S19_L001_R1_001",3.29,218,218,"S",4572,"Triticum urartu","UGA 9May16","Poales","Poaceae","Triticum","Triticum urartu"
+"1259","negative-control-2-H3_S19_L001_R1_001",7.37,488,33,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"1260","negative-control-2-H3_S19_L001_R1_001",3.67,243,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"1261","negative-control-2-H3_S19_L001_R1_001",3.2,212,212,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"1262","negative-control-2-H3_S19_L001_R1_001",3.87,256,65,"G",4527,"Oryza","UGA 9May16","Poales","Poaceae","Oryza",NA
+"1263","negative-control-2-H3_S19_L001_R1_001",2.88,191,0,"G",4575,"Zea","UGA 9May16","Poales","Poaceae","Zea",NA
+"1264","negative-control-2-H3_S19_L001_R1_001",2.88,191,191,"S",4577,"Zea mays","UGA 9May16","Poales","Poaceae","Zea","Zea mays"
+"1265","negative-control-2-H3_S19_L001_R1_001",3.05,202,1,"O",3502,"Fagales","UGA 9May16","Fagales",NA,NA,NA
+"1266","negative-control-2-H3_S19_L001_R1_001",2.73,181,0,"F",3503,"Fagaceae","UGA 9May16","Fagales","Fagaceae",NA,NA
+"1267","negative-control-2-H3_S19_L001_R1_001",2.73,181,0,"G",21019,"Castanea","UGA 9May16","Fagales","Fagaceae","Castanea",NA
+"1268","negative-control-2-H3_S19_L001_R1_001",2.73,181,181,"S",60419,"Castanea mollissima","UGA 9May16","Fagales","Fagaceae","Castanea","Castanea mollissima"
+"1269","negative-control-2-H3_S19_L001_R1_001",2.7,179,3,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"1270","negative-control-2-H3_S19_L001_R1_001",1.56,103,0,"F",3481,"Cannabaceae","UGA 9May16","Rosales","Cannabaceae",NA,NA
+"1271","negative-control-2-H3_S19_L001_R1_001",1.47,97,0,"G",3484,"Humulus","UGA 9May16","Rosales","Cannabaceae","Humulus",NA
+"1272","negative-control-2-H3_S19_L001_R1_001",1.47,97,0,"S",3486,"Humulus lupulus","UGA 9May16","Rosales","Cannabaceae","Humulus","Humulus lupulus"
+"1273","negative-control-2-H3_S19_L001_R1_001",1.06,70,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"1274","negative-control-2-H3_S19_L001_R1_001",1.06,70,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"1275","negative-control-2-H3_S19_L001_R1_001",1.15,76,2,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"1276","negative-control-2-H3_S19_L001_R1_001",2.31,153,1,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"1277","negative-control-2-H3_S19_L001_R1_001",2.21,146,2,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"1278","negative-control-2-H3_S19_L001_R1_001",1.06,70,21,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"1279","negative-control-2-H3_S19_L001_R1_001",1.66,110,0,"O",3524,"Caryophyllales","UGA 9May16","Caryophyllales",NA,NA,NA
+"1280","negative-control-2-H3_S19_L001_R1_001",1.53,101,0,"F",3563,"Amaranthaceae","UGA 9May16","Caryophyllales","Amaranthaceae",NA,NA
+"1281","negative-control-2-H3_S19_L001_R1_001",1.28,85,0,"G",3561,"Spinacia","UGA 9May16","Caryophyllales","Amaranthaceae","Spinacia",NA
+"1282","negative-control-2-H3_S19_L001_R1_001",1.28,85,85,"S",3562,"Spinacia oleracea","UGA 9May16","Caryophyllales","Amaranthaceae","Spinacia","Spinacia oleracea"
+"1283","negative-control-2-H3_S19_L001_R1_001",7.31,484,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"1284","negative-control-2-H3_S19_L001_R1_001",7.31,484,20,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"1285","negative-control-2-H3_S19_L001_R1_001",5.32,352,24,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"1286","negative-control-2-H3_S19_L001_R1_001",2.69,178,178,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"1287","negative-control-2-H3_S19_L001_R1_001",2.27,150,150,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"1288","negative-control-2-H3_S19_L001_R1_001",1.69,112,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"1289","negative-control-2-H3_S19_L001_R1_001",1.69,112,112,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"1290","negative-control-2-H3_S19_L001_R2_001",37.56,2487,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"1291","negative-control-2-H3_S19_L001_R2_001",37.56,2487,225,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"1292","negative-control-2-H3_S19_L001_R2_001",7.17,475,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"1293","negative-control-2-H3_S19_L001_R2_001",7.17,475,475,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"1294","negative-control-2-H3_S19_L001_R2_001",3.58,237,1,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"1295","negative-control-2-H3_S19_L001_R2_001",3.53,234,234,"S",4572,"Triticum urartu","UGA 9May16","Poales","Poaceae","Triticum","Triticum urartu"
+"1296","negative-control-2-H3_S19_L001_R2_001",7.54,499,29,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"1297","negative-control-2-H3_S19_L001_R2_001",3.87,256,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"1298","negative-control-2-H3_S19_L001_R2_001",3.23,214,214,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"1299","negative-control-2-H3_S19_L001_R2_001",3.73,247,66,"G",4527,"Oryza","UGA 9May16","Poales","Poaceae","Oryza",NA
+"1300","negative-control-2-H3_S19_L001_R2_001",2.16,143,0,"G",4575,"Zea","UGA 9May16","Poales","Poaceae","Zea",NA
+"1301","negative-control-2-H3_S19_L001_R2_001",2.16,143,143,"S",4577,"Zea mays","UGA 9May16","Poales","Poaceae","Zea","Zea mays"
+"1302","negative-control-2-H3_S19_L001_R2_001",2.96,196,4,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"1303","negative-control-2-H3_S19_L001_R2_001",1.89,125,0,"F",3481,"Cannabaceae","UGA 9May16","Rosales","Cannabaceae",NA,NA
+"1304","negative-control-2-H3_S19_L001_R2_001",1.84,122,0,"G",3484,"Humulus","UGA 9May16","Rosales","Cannabaceae","Humulus",NA
+"1305","negative-control-2-H3_S19_L001_R2_001",1.84,122,0,"S",3486,"Humulus lupulus","UGA 9May16","Rosales","Cannabaceae","Humulus","Humulus lupulus"
+"1306","negative-control-2-H3_S19_L001_R2_001",2.85,189,2,"O",3502,"Fagales","UGA 9May16","Fagales",NA,NA,NA
+"1307","negative-control-2-H3_S19_L001_R2_001",2.55,169,0,"F",3503,"Fagaceae","UGA 9May16","Fagales","Fagaceae",NA,NA
+"1308","negative-control-2-H3_S19_L001_R2_001",2.55,169,0,"G",21019,"Castanea","UGA 9May16","Fagales","Fagaceae","Castanea",NA
+"1309","negative-control-2-H3_S19_L001_R2_001",2.55,169,169,"S",60419,"Castanea mollissima","UGA 9May16","Fagales","Fagaceae","Castanea","Castanea mollissima"
+"1310","negative-control-2-H3_S19_L001_R2_001",1.01,67,1,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"1311","negative-control-2-H3_S19_L001_R2_001",2.17,144,0,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"1312","negative-control-2-H3_S19_L001_R2_001",2.04,135,5,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"1313","negative-control-2-H3_S19_L001_R2_001",1.12,74,33,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"1314","negative-control-2-H3_S19_L001_R2_001",1.39,92,0,"O",3524,"Caryophyllales","UGA 9May16","Caryophyllales",NA,NA,NA
+"1315","negative-control-2-H3_S19_L001_R2_001",1.18,78,0,"F",3563,"Amaranthaceae","UGA 9May16","Caryophyllales","Amaranthaceae",NA,NA
+"1316","negative-control-2-H3_S19_L001_R2_001",1,66,0,"G",3561,"Spinacia","UGA 9May16","Caryophyllales","Amaranthaceae","Spinacia",NA
+"1317","negative-control-2-H3_S19_L001_R2_001",1,66,66,"S",3562,"Spinacia oleracea","UGA 9May16","Caryophyllales","Amaranthaceae","Spinacia","Spinacia oleracea"
+"1318","negative-control-2-H3_S19_L001_R2_001",6.84,453,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"1319","negative-control-2-H3_S19_L001_R2_001",6.84,453,20,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"1320","negative-control-2-H3_S19_L001_R2_001",4.83,320,19,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"1321","negative-control-2-H3_S19_L001_R2_001",2.37,157,157,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"1322","negative-control-2-H3_S19_L001_R2_001",2.17,144,144,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"1323","negative-control-2-H3_S19_L001_R2_001",1.71,113,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"1324","negative-control-2-H3_S19_L001_R2_001",1.71,113,113,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"1325","negative-control-E3_S16_L001_R1_001",6.31,32,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"1326","negative-control-E3_S16_L001_R1_001",6.31,32,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"1327","negative-control-E3_S16_L001_R1_001",3.16,16,0,"G",3867,"Lotus","UGA 9May16","Fabales","Fabaceae","Lotus",NA
+"1328","negative-control-E3_S16_L001_R1_001",3.16,16,16,"S",34305,"Lotus japonicus","UGA 9May16","Fabales","Fabaceae","Lotus","Lotus japonicus"
+"1329","negative-control-E3_S16_L001_R1_001",1.18,6,0,"G",3817,"Arachis","UGA 9May16","Fabales","Fabaceae","Arachis",NA
+"1330","negative-control-E3_S16_L001_R1_001",4.54,23,1,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"1331","negative-control-E3_S16_L001_R1_001",2.96,15,0,"F",3688,"Salicaceae","UGA 9May16","Malpighiales","Salicaceae",NA,NA
+"1332","negative-control-E3_S16_L001_R1_001",2.96,15,6,"G",3689,"Populus","UGA 9May16","Malpighiales","Salicaceae","Populus",NA
+"1333","negative-control-E3_S16_L001_R1_001",1.18,6,6,"S",75702,"Populus euphratica","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus euphratica"
+"1334","negative-control-E3_S16_L001_R1_001",3.94,20,2,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"1335","negative-control-E3_S16_L001_R1_001",1.38,7,0,"F",3481,"Cannabaceae","UGA 9May16","Rosales","Cannabaceae",NA,NA
+"1336","negative-control-E3_S16_L001_R1_001",1.18,6,0,"G",3484,"Humulus","UGA 9May16","Rosales","Cannabaceae","Humulus",NA
+"1337","negative-control-E3_S16_L001_R1_001",1.18,6,0,"S",3486,"Humulus lupulus","UGA 9May16","Rosales","Cannabaceae","Humulus","Humulus lupulus"
+"1338","negative-control-E3_S16_L001_R1_001",1.18,6,1,"F",3487,"Moraceae","UGA 9May16","Rosales","Moraceae",NA,NA
+"1339","negative-control-E3_S16_L001_R1_001",1.78,9,1,"O",3502,"Fagales","UGA 9May16","Fagales",NA,NA,NA
+"1340","negative-control-E3_S16_L001_R1_001",1.97,10,0,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"1341","negative-control-E3_S16_L001_R1_001",1.97,10,1,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"1342","negative-control-E3_S16_L001_R1_001",1.18,6,0,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"1343","negative-control-E3_S16_L001_R1_001",3.16,16,0,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"1344","negative-control-E3_S16_L001_R1_001",3.16,16,0,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"1345","negative-control-E3_S16_L001_R1_001",1.97,10,6,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"1346","negative-control-E3_S16_L001_R1_001",3.35,17,0,"O",4209,"Asterales","UGA 9May16","Asterales",NA,NA,NA
+"1347","negative-control-E3_S16_L001_R1_001",3.35,17,0,"F",4210,"Asteraceae","UGA 9May16","Asterales","Asteraceae",NA,NA
+"1348","negative-control-E3_S16_L001_R1_001",2.37,12,0,"G",4219,"Artemisia","UGA 9May16","Asterales","Asteraceae","Artemisia",NA
+"1349","negative-control-E3_S16_L001_R1_001",2.37,12,0,"S",55611,"Artemisia tridentata","UGA 9May16","Asterales","Asteraceae","Artemisia","Artemisia tridentata"
+"1350","negative-control-E3_S16_L001_R1_001",1.58,8,0,"O",3524,"Caryophyllales","UGA 9May16","Caryophyllales",NA,NA,NA
+"1351","negative-control-E3_S16_L001_R1_001",16.77,85,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"1352","negative-control-E3_S16_L001_R1_001",16.77,85,2,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"1353","negative-control-E3_S16_L001_R1_001",1.78,9,0,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"1354","negative-control-E3_S16_L001_R1_001",1.78,9,9,"S",4572,"Triticum urartu","UGA 9May16","Poales","Poaceae","Triticum","Triticum urartu"
+"1355","negative-control-E3_S16_L001_R1_001",1.58,8,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"1356","negative-control-E3_S16_L001_R1_001",1.58,8,8,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"1357","negative-control-E3_S16_L001_R1_001",3.55,18,0,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"1358","negative-control-E3_S16_L001_R1_001",2.17,11,11,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"1359","negative-control-E3_S16_L001_R1_001",1.38,7,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"1360","negative-control-E3_S16_L001_R1_001",3.75,19,0,"G",4544,"Poa","UGA 9May16","Poales","Poaceae","Poa",NA
+"1361","negative-control-E3_S16_L001_R1_001",3.75,19,19,"S",4545,"Poa pratensis","UGA 9May16","Poales","Poaceae","Poa","Poa pratensis"
+"1362","negative-control-E3_S16_L001_R1_001",1.78,9,0,"G",4575,"Zea","UGA 9May16","Poales","Poaceae","Zea",NA
+"1363","negative-control-E3_S16_L001_R1_001",1.78,9,9,"S",4577,"Zea mays","UGA 9May16","Poales","Poaceae","Zea","Zea mays"
+"1364","negative-control-E3_S16_L001_R1_001",10.85,55,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"1365","negative-control-E3_S16_L001_R1_001",10.85,55,5,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"1366","negative-control-E3_S16_L001_R1_001",9.27,47,4,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"1367","negative-control-E3_S16_L001_R1_001",4.34,22,22,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"1368","negative-control-E3_S16_L001_R1_001",4.14,21,21,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"1369","negative-control-E3_S16_L001_R2_001",6.51,33,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"1370","negative-control-E3_S16_L001_R2_001",6.51,33,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"1371","negative-control-E3_S16_L001_R2_001",3.35,17,0,"G",3867,"Lotus","UGA 9May16","Fabales","Fabaceae","Lotus",NA
+"1372","negative-control-E3_S16_L001_R2_001",3.35,17,17,"S",34305,"Lotus japonicus","UGA 9May16","Fabales","Fabaceae","Lotus","Lotus japonicus"
+"1373","negative-control-E3_S16_L001_R2_001",4.14,21,1,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"1374","negative-control-E3_S16_L001_R2_001",3.16,16,0,"F",3688,"Salicaceae","UGA 9May16","Malpighiales","Salicaceae",NA,NA
+"1375","negative-control-E3_S16_L001_R2_001",3.16,16,6,"G",3689,"Populus","UGA 9May16","Malpighiales","Salicaceae","Populus",NA
+"1376","negative-control-E3_S16_L001_R2_001",1.18,6,6,"S",75702,"Populus euphratica","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus euphratica"
+"1377","negative-control-E3_S16_L001_R2_001",2.37,12,1,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"1378","negative-control-E3_S16_L001_R2_001",1.97,10,0,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"1379","negative-control-E3_S16_L001_R2_001",1.78,9,0,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"1380","negative-control-E3_S16_L001_R2_001",1.58,8,0,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"1381","negative-control-E3_S16_L001_R2_001",1.38,7,0,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"1382","negative-control-E3_S16_L001_R2_001",1.38,7,3,"G",3633,"Gossypium","UGA 9May16","Malvales","Malvaceae","Gossypium",NA
+"1383","negative-control-E3_S16_L001_R2_001",4.14,21,0,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"1384","negative-control-E3_S16_L001_R2_001",4.14,21,1,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"1385","negative-control-E3_S16_L001_R2_001",1.78,9,1,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"1386","negative-control-E3_S16_L001_R2_001",1.38,7,3,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"1387","negative-control-E3_S16_L001_R2_001",2.56,13,0,"O",4209,"Asterales","UGA 9May16","Asterales",NA,NA,NA
+"1388","negative-control-E3_S16_L001_R2_001",2.56,13,0,"F",4210,"Asteraceae","UGA 9May16","Asterales","Asteraceae",NA,NA
+"1389","negative-control-E3_S16_L001_R2_001",1.18,6,0,"G",4219,"Artemisia","UGA 9May16","Asterales","Asteraceae","Artemisia",NA
+"1390","negative-control-E3_S16_L001_R2_001",1.18,6,0,"S",55611,"Artemisia tridentata","UGA 9May16","Asterales","Asteraceae","Artemisia","Artemisia tridentata"
+"1391","negative-control-E3_S16_L001_R2_001",1.18,6,0,"O",3524,"Caryophyllales","UGA 9May16","Caryophyllales",NA,NA,NA
+"1392","negative-control-E3_S16_L001_R2_001",14.79,75,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"1393","negative-control-E3_S16_L001_R2_001",14.79,75,3,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"1394","negative-control-E3_S16_L001_R2_001",4.54,23,2,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"1395","negative-control-E3_S16_L001_R2_001",2.96,15,15,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"1396","negative-control-E3_S16_L001_R2_001",1.18,6,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"1397","negative-control-E3_S16_L001_R2_001",1.38,7,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"1398","negative-control-E3_S16_L001_R2_001",1.38,7,7,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"1399","negative-control-E3_S16_L001_R2_001",1.38,7,0,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"1400","negative-control-E3_S16_L001_R2_001",1.38,7,7,"S",4572,"Triticum urartu","UGA 9May16","Poales","Poaceae","Triticum","Triticum urartu"
+"1401","negative-control-E3_S16_L001_R2_001",1.18,6,2,"G",4527,"Oryza","UGA 9May16","Poales","Poaceae","Oryza",NA
+"1402","negative-control-E3_S16_L001_R2_001",1.97,10,0,"G",4575,"Zea","UGA 9May16","Poales","Poaceae","Zea",NA
+"1403","negative-control-E3_S16_L001_R2_001",1.97,10,10,"S",4577,"Zea mays","UGA 9May16","Poales","Poaceae","Zea","Zea mays"
+"1404","negative-control-E3_S16_L001_R2_001",15.98,81,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"1405","negative-control-E3_S16_L001_R2_001",15.98,81,7,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"1406","negative-control-E3_S16_L001_R2_001",12.43,63,10,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"1407","negative-control-E3_S16_L001_R2_001",6.11,31,31,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"1408","negative-control-E3_S16_L001_R2_001",4.34,22,22,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"1409","negative-control-E3_S16_L001_R2_001",2.17,11,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"1410","negative-control-E3_S16_L001_R2_001",2.17,11,11,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"1411","P-deltoides-E2_S11_L001_R1_001",84.25,679525,5483,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"1412","P-deltoides-E2_S11_L001_R1_001",83.41,672717,0,"F",3688,"Salicaceae","UGA 9May16","Malpighiales","Salicaceae",NA,NA
+"1413","P-deltoides-E2_S11_L001_R1_001",83.41,672717,157371,"G",3689,"Populus","UGA 9May16","Malpighiales","Salicaceae","Populus",NA
+"1414","P-deltoides-E2_S11_L001_R1_001",27.64,222933,222933,"S",3694,"Populus trichocarpa","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus trichocarpa"
+"1415","P-deltoides-E2_S11_L001_R1_001",23.06,185962,185962,"S",75702,"Populus euphratica","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus euphratica"
+"1416","P-deltoides-E2_S11_L001_R1_001",13.14,105989,105989,"S",3696,"Populus deltoides","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus deltoides"
+"1417","P-deltoides-E2_S11_L001_R2_001",83.99,677370,5604,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"1418","P-deltoides-E2_S11_L001_R2_001",83.11,670312,0,"F",3688,"Salicaceae","UGA 9May16","Malpighiales","Salicaceae",NA,NA
+"1419","P-deltoides-E2_S11_L001_R2_001",83.11,670312,157327,"G",3689,"Populus","UGA 9May16","Malpighiales","Salicaceae","Populus",NA
+"1420","P-deltoides-E2_S11_L001_R2_001",27.54,222129,222129,"S",3694,"Populus trichocarpa","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus trichocarpa"
+"1421","P-deltoides-E2_S11_L001_R2_001",22.95,185069,185069,"S",75702,"Populus euphratica","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus euphratica"
+"1422","P-deltoides-E2_S11_L001_R2_001",13.06,105316,105316,"S",3696,"Populus deltoides","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus deltoides"
+"1423","P-pratensis-G3_S18_L001_R1_001",35.27,320602,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"1424","P-pratensis-G3_S18_L001_R1_001",35.27,320602,8807,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"1425","P-pratensis-G3_S18_L001_R1_001",9.85,89524,9432,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"1426","P-pratensis-G3_S18_L001_R1_001",4.98,45253,45253,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"1427","P-pratensis-G3_S18_L001_R1_001",3.83,34839,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"1428","P-pratensis-G3_S18_L001_R1_001",2.96,26950,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"1429","P-pratensis-G3_S18_L001_R1_001",2.96,26950,26950,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"1430","P-pratensis-G3_S18_L001_R1_001",2.54,23071,243,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"1431","P-pratensis-G3_S18_L001_R1_001",2.47,22444,22444,"S",4572,"Triticum urartu","UGA 9May16","Poales","Poaceae","Triticum","Triticum urartu"
+"1432","P-pratensis-G3_S18_L001_R1_001",9.47,86052,0,"G",4544,"Poa","UGA 9May16","Poales","Poaceae","Poa",NA
+"1433","P-pratensis-G3_S18_L001_R1_001",9.47,86052,86052,"S",4545,"Poa pratensis","UGA 9May16","Poales","Poaceae","Poa","Poa pratensis"
+"1434","P-pratensis-G3_S18_L001_R1_001",2.63,23898,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"1435","P-pratensis-G3_S18_L001_R1_001",2.63,23898,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"1436","P-pratensis-G3_S18_L001_R1_001",2.14,19430,1133,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"1437","P-pratensis-G3_S18_L001_R1_001",1.17,10631,447,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"1438","P-pratensis-G3_S18_L001_R1_001",1.73,15718,276,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"1439","P-pratensis-G3_S18_L001_R1_001",1.53,13925,1301,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"1440","P-pratensis-G3_S18_L001_R1_001",1.29,11742,167,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"1441","P-pratensis-G3_S18_L001_R1_001",1.01,9222,167,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"1442","P-pratensis-G3_S18_L001_R1_001",4.99,45372,372,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"1443","P-pratensis-G3_S18_L001_R1_001",4.86,44184,2739,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"1444","P-pratensis-G3_S18_L001_R1_001",1.42,12920,1207,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"1445","P-pratensis-G3_S18_L001_R1_001",1.11,10064,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"1446","P-pratensis-G3_S18_L001_R1_001",1.11,10064,10064,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"1447","P-pratensis-G3_S18_L001_R1_001",1.9,17230,7608,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"1448","P-pratensis-G3_S18_L001_R1_001",11.66,105959,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"1449","P-pratensis-G3_S18_L001_R1_001",11.66,105959,6046,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"1450","P-pratensis-G3_S18_L001_R1_001",9.08,82513,6287,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"1451","P-pratensis-G3_S18_L001_R1_001",5.04,45807,45807,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"1452","P-pratensis-G3_S18_L001_R1_001",3.35,30419,30419,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"1453","P-pratensis-G3_S18_L001_R1_001",1.91,17400,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"1454","P-pratensis-G3_S18_L001_R1_001",1.91,17400,17400,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"1455","P-pratensis-G3_S18_L001_R2_001",35.11,319128,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"1456","P-pratensis-G3_S18_L001_R2_001",35.11,319128,9066,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"1457","P-pratensis-G3_S18_L001_R2_001",9.8,89068,9556,"G",4512,"Hordeum","UGA 9May16","Poales","Poaceae","Hordeum",NA
+"1458","P-pratensis-G3_S18_L001_R2_001",4.91,44672,44672,"S",112521,"Hordeum pubiflorum","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"1459","P-pratensis-G3_S18_L001_R2_001",3.83,34840,0,"S",4513,"Hordeum vulgare","UGA 9May16","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"1460","P-pratensis-G3_S18_L001_R2_001",2.95,26818,0,"G",4480,"Aegilops","UGA 9May16","Poales","Poaceae","Aegilops",NA
+"1461","P-pratensis-G3_S18_L001_R2_001",2.95,26818,26818,"S",37682,"Aegilops tauschii","UGA 9May16","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"1462","P-pratensis-G3_S18_L001_R2_001",2.58,23414,243,"G",4564,"Triticum","UGA 9May16","Poales","Poaceae","Triticum",NA
+"1463","P-pratensis-G3_S18_L001_R2_001",2.5,22767,22767,"S",4572,"Triticum urartu","UGA 9May16","Poales","Poaceae","Triticum","Triticum urartu"
+"1464","P-pratensis-G3_S18_L001_R2_001",9.27,84280,0,"G",4544,"Poa","UGA 9May16","Poales","Poaceae","Poa",NA
+"1465","P-pratensis-G3_S18_L001_R2_001",9.27,84280,84280,"S",4545,"Poa pratensis","UGA 9May16","Poales","Poaceae","Poa","Poa pratensis"
+"1466","P-pratensis-G3_S18_L001_R2_001",2.64,24036,0,"O",72025,"Fabales","UGA 9May16","Fabales",NA,NA,NA
+"1467","P-pratensis-G3_S18_L001_R2_001",2.64,24036,0,"F",3803,"Fabaceae","UGA 9May16","Fabales","Fabaceae",NA,NA
+"1468","P-pratensis-G3_S18_L001_R2_001",2.15,19562,1141,"O",3744,"Rosales","UGA 9May16","Rosales",NA,NA,NA
+"1469","P-pratensis-G3_S18_L001_R2_001",1.17,10656,436,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"1470","P-pratensis-G3_S18_L001_R2_001",1.73,15687,317,"O",3699,"Brassicales","UGA 9May16","Brassicales",NA,NA,NA
+"1471","P-pratensis-G3_S18_L001_R2_001",1.52,13852,1295,"F",3700,"Brassicaceae","UGA 9May16","Brassicales","Brassicaceae",NA,NA
+"1472","P-pratensis-G3_S18_L001_R2_001",1.29,11684,196,"O",41938,"Malvales","UGA 9May16","Malvales",NA,NA,NA
+"1473","P-pratensis-G3_S18_L001_R2_001",1.01,9182,148,"F",3629,"Malvaceae","UGA 9May16","Malvales","Malvaceae",NA,NA
+"1474","P-pratensis-G3_S18_L001_R2_001",4.99,45359,365,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"1475","P-pratensis-G3_S18_L001_R2_001",4.86,44195,2787,"F",4070,"Solanaceae","UGA 9May16","Solanales","Solanaceae",NA,NA
+"1476","P-pratensis-G3_S18_L001_R2_001",1.4,12761,1213,"G",4107,"Solanum","UGA 9May16","Solanales","Solanaceae","Solanum",NA
+"1477","P-pratensis-G3_S18_L001_R2_001",1.09,9947,0,"G",4071,"Capsicum","UGA 9May16","Solanales","Solanaceae","Capsicum",NA
+"1478","P-pratensis-G3_S18_L001_R2_001",1.09,9947,9947,"S",4072,"Capsicum annuum","UGA 9May16","Solanales","Solanaceae","Capsicum","Capsicum annuum"
+"1479","P-pratensis-G3_S18_L001_R2_001",1.92,17484,7684,"G",4085,"Nicotiana","UGA 9May16","Solanales","Solanaceae","Nicotiana",NA
+"1480","P-pratensis-G3_S18_L001_R2_001",11.71,106440,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"1481","P-pratensis-G3_S18_L001_R2_001",11.71,106440,5954,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"1482","P-pratensis-G3_S18_L001_R2_001",9.1,82729,6335,"G",3337,"Pinus","UGA 9May16","Pinales","Pinaceae","Pinus",NA
+"1483","P-pratensis-G3_S18_L001_R2_001",5.03,45766,45766,"S",3343,"Pinus lambertiana","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus lambertiana"
+"1484","P-pratensis-G3_S18_L001_R2_001",3.37,30628,30628,"S",3352,"Pinus taeda","UGA 9May16","Pinales","Pinaceae","Pinus","Pinus taeda"
+"1485","P-pratensis-G3_S18_L001_R2_001",1.95,17757,0,"G",3328,"Picea","UGA 9May16","Pinales","Pinaceae","Picea",NA
+"1486","P-pratensis-G3_S18_L001_R2_001",1.95,17757,17757,"S",3330,"Picea glauca","UGA 9May16","Pinales","Pinaceae","Picea","Picea glauca"
+"1487","P-tremuloides-D2_S10_L001_R1_001",81.7,679820,6209,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"1488","P-tremuloides-D2_S10_L001_R1_001",80.65,671108,0,"F",3688,"Salicaceae","UGA 9May16","Malpighiales","Salicaceae",NA,NA
+"1489","P-tremuloides-D2_S10_L001_R1_001",80.65,671108,184156,"G",3689,"Populus","UGA 9May16","Malpighiales","Salicaceae","Populus",NA
+"1490","P-tremuloides-D2_S10_L001_R1_001",27.91,232229,232229,"S",3694,"Populus trichocarpa","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus trichocarpa"
+"1491","P-tremuloides-D2_S10_L001_R1_001",26.13,217396,217396,"S",75702,"Populus euphratica","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus euphratica"
+"1492","P-tremuloides-D2_S10_L001_R1_001",3.04,25293,25293,"S",3696,"Populus deltoides","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus deltoides"
+"1493","P-tremuloides-D2_S10_L001_R1_001",1.45,12034,12034,"S",3693,"Populus tremuloides","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus tremuloides"
+"1494","P-tremuloides-D2_S10_L001_R1_001",1.15,9572,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"1495","P-tremuloides-D2_S10_L001_R1_001",1.15,9572,547,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"1496","P-tremuloides-D2_S10_L001_R2_001",81.22,675852,6220,"O",3646,"Malpighiales","UGA 9May16","Malpighiales",NA,NA,NA
+"1497","P-tremuloides-D2_S10_L001_R2_001",80.16,667014,0,"F",3688,"Salicaceae","UGA 9May16","Malpighiales","Salicaceae",NA,NA
+"1498","P-tremuloides-D2_S10_L001_R2_001",80.16,667014,184211,"G",3689,"Populus","UGA 9May16","Malpighiales","Salicaceae","Populus",NA
+"1499","P-tremuloides-D2_S10_L001_R2_001",27.69,230405,230405,"S",3694,"Populus trichocarpa","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus trichocarpa"
+"1500","P-tremuloides-D2_S10_L001_R2_001",25.95,215910,215910,"S",75702,"Populus euphratica","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus euphratica"
+"1501","P-tremuloides-D2_S10_L001_R2_001",2.98,24769,24769,"S",3696,"Populus deltoides","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus deltoides"
+"1502","P-tremuloides-D2_S10_L001_R2_001",1.41,11719,11719,"S",3693,"Populus tremuloides","UGA 9May16","Malpighiales","Salicaceae","Populus","Populus tremuloides"
+"1503","P-tremuloides-D2_S10_L001_R2_001",1.01,8414,135,"O",4069,"Solanales","UGA 9May16","Solanales",NA,NA,NA
+"1504","P-tremuloides-D2_S10_L001_R2_001",1.22,10114,0,"O",1446380,"Pinales","UGA 9May16","Pinales",NA,NA,NA
+"1505","P-tremuloides-D2_S10_L001_R2_001",1.22,10114,576,"F",3318,"Pinaceae","UGA 9May16","Pinales","Pinaceae",NA,NA
+"1506","Z-mays-D3_S15_L001_R1_001",95.09,765946,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"1507","Z-mays-D3_S15_L001_R1_001",95.09,765946,6350,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"1508","Z-mays-D3_S15_L001_R1_001",92.41,744324,0,"G",4575,"Zea","UGA 9May16","Poales","Poaceae","Zea",NA
+"1509","Z-mays-D3_S15_L001_R1_001",92.41,744324,744324,"S",4577,"Zea mays","UGA 9May16","Poales","Poaceae","Zea","Zea mays"
+"1510","Z-mays-D3_S15_L001_R2_001",93.89,756277,0,"O",38820,"Poales","UGA 9May16","Poales",NA,NA,NA
+"1511","Z-mays-D3_S15_L001_R2_001",93.89,756277,6569,"F",4479,"Poaceae","UGA 9May16","Poales","Poaceae",NA,NA
+"1512","Z-mays-D3_S15_L001_R2_001",91.02,733164,0,"G",4575,"Zea","UGA 9May16","Poales","Poaceae","Zea",NA
+"1513","Z-mays-D3_S15_L001_R2_001",91.02,733164,733164,"S",4577,"Zea mays","UGA 9May16","Poales","Poaceae","Zea","Zea mays"

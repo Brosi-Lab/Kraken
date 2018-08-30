@@ -1,0 +1,146 @@
+"","mix.id","perc.hit","hits","misses","tax","tax.id","id","source","order","family","genus","species"
+"1","seqs_mix10_1GB",65.77,8220734,0,"O",38820,"Poales","Simulated UGA 9Jul15","Poales",NA,NA,NA
+"2","seqs_mix10_1GB",65.77,8220734,374345,"F",4479,"Poaceae","Simulated UGA 9Jul15","Poales","Poaceae",NA,NA
+"3","seqs_mix10_1GB",40.17,5021523,238020,"G",4512,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum",NA
+"4","seqs_mix10_1GB",40.17,5021523,238020,"G",4512,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum"
+"5","seqs_mix10_1GB",35.59,4448318,0,"S",4513,"Hordeum vulgare","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"6","seqs_mix10_1GB",2.68,335185,335185,"S",112521,"Hordeum pubiflorum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"7","seqs_mix10_1GB",2.1,262319,0,"G",4480,"Aegilops","Simulated UGA 9Jul15","Poales","Poaceae","Aegilops",NA
+"8","seqs_mix10_1GB",2.1,262319,262319,"S",37682,"Aegilops tauschii","Simulated UGA 9Jul15","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"9","seqs_mix10_1GB",2.03,253272,8949,"G",4564,"Triticum","Simulated UGA 9Jul15","Poales","Poaceae","Triticum",NA
+"10","seqs_mix10_1GB",1.91,238799,238799,"S",4572,"Triticum urartu","Simulated UGA 9Jul15","Poales","Poaceae","Triticum","Triticum urartu"
+"11","seqs_mix10_1GB",2.3,287133,111345,"G",4527,"Oryza","Simulated UGA 9Jul15","Poales","Poaceae","Oryza",NA
+"12","seqs_mix10_1GB",4.72,590547,13928,"O",3744,"Rosales","Simulated UGA 9Jul15","Rosales",NA,NA,NA
+"13","seqs_mix10_1GB",3.36,420605,6915,"F",3487,"Moraceae","Simulated UGA 9Jul15","Rosales","Moraceae",NA,NA
+"14","seqs_mix10_1GB",3,374558,0,"G",66379,"Broussonetia","Simulated UGA 9Jul15","Rosales","Moraceae","Broussonetia",NA
+"15","seqs_mix10_1GB",3,374558,374558,"S",172644,"Broussonetia papyrifera","Simulated UGA 9Jul15","Rosales","Moraceae","Broussonetia","Broussonetia papyrifera"
+"16","seqs_mix10_1GB",2.31,289268,2512,"O",4069,"Solanales","Simulated UGA 9Jul15","Solanales",NA,NA,NA
+"17","seqs_mix10_1GB",2.2,275474,15020,"F",4070,"Solanaceae","Simulated UGA 9Jul15","Solanales","Solanaceae",NA,NA
+"18","seqs_mix10_2GB",65.75,16437676,0,"O",38820,"Poales","Simulated UGA 9Jul15","Poales",NA,NA,NA
+"19","seqs_mix10_2GB",65.75,16437676,748762,"F",4479,"Poaceae","Simulated UGA 9Jul15","Poales","Poaceae",NA,NA
+"20","seqs_mix10_2GB",40.16,10039905,474703,"G",4512,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum",NA
+"21","seqs_mix10_2GB",40.16,10039905,474703,"G",4512,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum"
+"22","seqs_mix10_2GB",35.58,8895263,0,"S",4513,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum",NA
+"23","seqs_mix10_2GB",35.58,8895263,0,"S",4513,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum"
+"24","seqs_mix10_2GB",2.68,669939,669939,"S",112521,"Hordeum pubiflorum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"25","seqs_mix10_2GB",2.09,523168,0,"G",4480,"Aegilops","Simulated UGA 9Jul15","Poales","Poaceae","Aegilops",NA
+"26","seqs_mix10_2GB",2.09,523168,523168,"S",37682,"Aegilops tauschii","Simulated UGA 9Jul15","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"27","seqs_mix10_2GB",2.03,506335,17684,"G",4564,"Triticum","Simulated UGA 9Jul15","Poales","Poaceae","Triticum",NA
+"28","seqs_mix10_2GB",1.91,477890,477890,"S",4572,"Triticum urartu","Simulated UGA 9Jul15","Poales","Poaceae","Triticum","Triticum urartu"
+"29","seqs_mix10_2GB",2.3,575070,223774,"G",4527,"Oryza","Simulated UGA 9Jul15","Poales","Poaceae","Oryza",NA
+"30","seqs_mix10_2GB",4.73,1181781,28030,"O",3744,"Rosales","Simulated UGA 9Jul15","Rosales",NA,NA,NA
+"31","seqs_mix10_2GB",3.37,841330,13861,"F",3487,"Moraceae","Simulated UGA 9Jul15","Rosales","Moraceae",NA,NA
+"32","seqs_mix10_2GB",2.99,748058,0,"G",66379,"Broussonetia","Simulated UGA 9Jul15","Rosales","Moraceae","Broussonetia",NA
+"33","seqs_mix10_2GB",2.99,748058,748058,"S",172644,"Broussonetia papyrifera","Simulated UGA 9Jul15","Rosales","Moraceae","Broussonetia","Broussonetia papyrifera"
+"34","seqs_mix10_2GB",2.31,577972,4863,"O",4069,"Solanales","Simulated UGA 9Jul15","Solanales",NA,NA,NA
+"35","seqs_mix10_2GB",2.2,550566,30137,"F",4070,"Solanaceae","Simulated UGA 9Jul15","Solanales","Solanaceae",NA,NA
+"36","seqs_mix11_1GB",68.41,8551795,0,"O",38820,"Poales","Simulated UGA 9Jul15","Poales",NA,NA,NA
+"37","seqs_mix11_1GB",68.41,8551795,389184,"F",4479,"Poaceae","Simulated UGA 9Jul15","Poales","Poaceae",NA,NA
+"38","seqs_mix11_1GB",41.83,5229309,247445,"G",4512,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum",NA
+"39","seqs_mix11_1GB",41.83,5229309,247445,"G",4512,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum"
+"40","seqs_mix11_1GB",37.07,4633800,0,"S",4513,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum",NA
+"41","seqs_mix11_1GB",37.07,4633800,0,"S",4513,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum"
+"42","seqs_mix11_1GB",2.78,348064,348064,"S",112521,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum",NA
+"43","seqs_mix11_1GB",2.78,348064,348064,"S",112521,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum"
+"44","seqs_mix11_1GB",2.17,271045,0,"G",4480,"Aegilops","Simulated UGA 9Jul15","Poales","Poaceae","Aegilops",NA
+"45","seqs_mix11_1GB",2.17,271045,271045,"S",37682,"Aegilops tauschii","Simulated UGA 9Jul15","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"46","seqs_mix11_1GB",2.1,262560,9085,"G",4564,"Triticum","Simulated UGA 9Jul15","Poales","Poaceae","Triticum",NA
+"47","seqs_mix11_1GB",1.98,247836,247836,"S",4572,"Triticum urartu","Simulated UGA 9Jul15","Poales","Poaceae","Triticum","Triticum urartu"
+"48","seqs_mix11_1GB",2.38,296930,115152,"G",4527,"Oryza","Simulated UGA 9Jul15","Poales","Poaceae","Oryza",NA
+"49","seqs_mix11_1GB",2.03,253750,7611,"O",3744,"Rosales","Simulated UGA 9Jul15","Rosales",NA,NA,NA
+"50","seqs_mix11_1GB",2.32,289475,2493,"O",4069,"Solanales","Simulated UGA 9Jul15","Solanales",NA,NA,NA
+"51","seqs_mix11_1GB",2.21,275655,14798,"F",4070,"Solanaceae","Simulated UGA 9Jul15","Solanales","Solanaceae",NA,NA
+"52","seqs_mix11_2GB",68.43,17107024,0,"O",38820,"Poales","Simulated UGA 9Jul15","Poales",NA,NA,NA
+"53","seqs_mix11_2GB",68.43,17107024,778923,"F",4479,"Poaceae","Simulated UGA 9Jul15","Poales","Poaceae",NA,NA
+"54","seqs_mix11_2GB",41.83,10458672,495197,"G",4512,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum",NA
+"55","seqs_mix11_2GB",41.83,10458672,495197,"G",4512,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum"
+"56","seqs_mix11_2GB",37.08,9269392,0,"S",4513,"Hordeum vulgare","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"57","seqs_mix11_2GB",2.78,694083,694083,"S",112521,"Hordeum pubiflorum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"58","seqs_mix11_2GB",2.18,543757,0,"G",4480,"Aegilops","Simulated UGA 9Jul15","Poales","Poaceae","Aegilops",NA
+"59","seqs_mix11_2GB",2.18,543757,543757,"S",37682,"Aegilops tauschii","Simulated UGA 9Jul15","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"60","seqs_mix11_2GB",2.1,524140,18388,"G",4564,"Triticum","Simulated UGA 9Jul15","Poales","Poaceae","Triticum",NA
+"61","seqs_mix11_2GB",1.98,494647,494647,"S",4572,"Triticum urartu","Simulated UGA 9Jul15","Poales","Poaceae","Triticum","Triticum urartu"
+"62","seqs_mix11_2GB",2.38,594755,230152,"G",4527,"Oryza","Simulated UGA 9Jul15","Poales","Poaceae","Oryza",NA
+"63","seqs_mix11_2GB",2.03,507991,15641,"O",3744,"Rosales","Simulated UGA 9Jul15","Rosales",NA,NA,NA
+"64","seqs_mix11_2GB",2.32,580470,4903,"O",4069,"Solanales","Simulated UGA 9Jul15","Solanales",NA,NA,NA
+"65","seqs_mix11_2GB",2.21,552812,29974,"F",4070,"Solanaceae","Simulated UGA 9Jul15","Solanales","Solanaceae",NA,NA
+"66","seqs_mix8_1GB",34.97,4371224,83252,"O",3744,"Rosales","Simulated UGA 9Jul15","Rosales",NA,NA,NA
+"67","seqs_mix8_1GB",32.37,4046155,63816,"F",3487,"Moraceae","Simulated UGA 9Jul15","Rosales","Moraceae",NA,NA
+"68","seqs_mix8_1GB",29.43,3678845,0,"G",66379,"Broussonetia","Simulated UGA 9Jul15","Rosales","Moraceae","Broussonetia",NA
+"69","seqs_mix8_1GB",29.43,3678845,3678845,"S",172644,"Broussonetia papyrifera","Simulated UGA 9Jul15","Rosales","Moraceae","Broussonetia","Broussonetia papyrifera"
+"70","seqs_mix8_1GB",2.43,303494,0,"G",3497,"Morus","Simulated UGA 9Jul15","Rosales","Moraceae","Morus",NA
+"71","seqs_mix8_1GB",2.43,303494,303494,"S",981085,"Morus notabilis","Simulated UGA 9Jul15","Rosales","Moraceae","Morus","Morus notabilis"
+"72","seqs_mix8_1GB",1.04,130158,4482,"F",3745,"Rosaceae","Simulated UGA 9Jul15","Rosales","Rosaceae",NA,NA
+"73","seqs_mix8_1GB",1.2,149705,0,"O",72025,"Fabales","Simulated UGA 9Jul15","Fabales",NA,NA,NA
+"74","seqs_mix8_1GB",1.2,149705,0,"F",3803,"Fabaceae","Simulated UGA 9Jul15","Fabales","Fabaceae",NA,NA
+"75","seqs_mix8_1GB",1.15,143665,5070,"O",3646,"Malpighiales","Simulated UGA 9Jul15","Malpighiales",NA,NA,NA
+"76","seqs_mix8_1GB",2.21,275735,2215,"O",4069,"Solanales","Simulated UGA 9Jul15","Solanales",NA,NA,NA
+"77","seqs_mix8_1GB",2.11,263384,17151,"F",4070,"Solanaceae","Simulated UGA 9Jul15","Solanales","Solanaceae",NA,NA
+"78","seqs_mix8_1GB",35.71,4464151,0,"O",38820,"Poales","Simulated UGA 9Jul15","Poales",NA,NA,NA
+"79","seqs_mix8_1GB",35.71,4464151,205621,"F",4479,"Poaceae","Simulated UGA 9Jul15","Poales","Poaceae",NA,NA
+"80","seqs_mix8_1GB",21.36,2670132,126277,"G",4512,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum",NA
+"81","seqs_mix8_1GB",21.36,2670132,126277,"G",4512,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum"
+"82","seqs_mix8_1GB",18.83,2353670,0,"S",4513,"Hordeum vulgare","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"83","seqs_mix8_1GB",1.52,190185,190185,"S",112521,"Hordeum pubiflorum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"84","seqs_mix8_1GB",1.2,149730,4831,"G",4564,"Triticum","Simulated UGA 9Jul15","Poales","Poaceae","Triticum",NA
+"85","seqs_mix8_1GB",1.13,141729,141729,"S",4572,"Triticum urartu","Simulated UGA 9Jul15","Poales","Poaceae","Triticum","Triticum urartu"
+"86","seqs_mix8_1GB",1.19,149216,0,"G",4480,"Aegilops","Simulated UGA 9Jul15","Poales","Poaceae","Aegilops",NA
+"87","seqs_mix8_1GB",1.19,149216,149216,"S",37682,"Aegilops tauschii","Simulated UGA 9Jul15","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"88","seqs_mix8_1GB",1.41,176620,71028,"G",4527,"Oryza","Simulated UGA 9Jul15","Poales","Poaceae","Oryza",NA
+"89","seqs_mix8_2GB",34.98,8744537,165917,"O",3744,"Rosales","Simulated UGA 9Jul15","Rosales",NA,NA,NA
+"90","seqs_mix8_2GB",32.38,8095312,127746,"F",3487,"Moraceae","Simulated UGA 9Jul15","Rosales","Moraceae",NA,NA
+"91","seqs_mix8_2GB",29.44,7360572,0,"G",66379,"Broussonetia","Simulated UGA 9Jul15","Rosales","Moraceae","Broussonetia",NA
+"92","seqs_mix8_2GB",29.44,7360572,7360572,"S",172644,"Broussonetia papyrifera","Simulated UGA 9Jul15","Rosales","Moraceae","Broussonetia","Broussonetia papyrifera"
+"93","seqs_mix8_2GB",2.43,606994,0,"G",3497,"Morus","Simulated UGA 9Jul15","Rosales","Moraceae","Morus",NA
+"94","seqs_mix8_2GB",2.43,606994,606994,"S",981085,"Morus notabilis","Simulated UGA 9Jul15","Rosales","Moraceae","Morus","Morus notabilis"
+"95","seqs_mix8_2GB",1.04,260388,8711,"F",3745,"Rosaceae","Simulated UGA 9Jul15","Rosales","Rosaceae",NA,NA
+"96","seqs_mix8_2GB",1.2,300590,0,"O",72025,"Fabales","Simulated UGA 9Jul15","Fabales",NA,NA,NA
+"97","seqs_mix8_2GB",1.2,300590,0,"F",3803,"Fabaceae","Simulated UGA 9Jul15","Fabales","Fabaceae",NA,NA
+"98","seqs_mix8_2GB",1.15,288524,10281,"O",3646,"Malpighiales","Simulated UGA 9Jul15","Malpighiales",NA,NA,NA
+"99","seqs_mix8_2GB",2.2,549797,4271,"O",4069,"Solanales","Simulated UGA 9Jul15","Solanales",NA,NA,NA
+"100","seqs_mix8_2GB",2.1,525104,34575,"F",4070,"Solanaceae","Simulated UGA 9Jul15","Solanales","Solanaceae",NA,NA
+"101","seqs_mix8_2GB",35.72,8931109,0,"O",38820,"Poales","Simulated UGA 9Jul15","Poales",NA,NA,NA
+"102","seqs_mix8_2GB",35.72,8931109,412877,"F",4479,"Poaceae","Simulated UGA 9Jul15","Poales","Poaceae",NA,NA
+"103","seqs_mix8_2GB",21.37,5343250,253055,"G",4512,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum",NA
+"104","seqs_mix8_2GB",21.37,5343250,253055,"G",4512,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum"
+"105","seqs_mix8_2GB",18.85,4711655,0,"S",4513,"Hordeu vulgare","Simulated UGA 9Jul15","Poales","Poaceae","Hordeu","Hordeu vulgare"
+"106","seqs_mix8_2GB",1.51,378540,378540,"S",112521,"Hordeum pubiflorum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"107","seqs_mix8_2GB",1.2,299038,9799,"G",4564,"Triticum","Simulated UGA 9Jul15","Poales","Poaceae","Triticum",NA
+"108","seqs_mix8_2GB",1.13,283020,283020,"S",4572,"Triticum urartu","Simulated UGA 9Jul15","Poales","Poaceae","Triticum","Triticum urartu"
+"109","seqs_mix8_2GB",1.19,298229,0,"G",4480,"Aegilops","Simulated UGA 9Jul15","Poales","Poaceae","Aegilops",NA
+"110","seqs_mix8_2GB",1.19,298229,298229,"S",37682,"Aegilops tauschii","Simulated UGA 9Jul15","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"111","seqs_mix8_2GB",1.41,352842,142758,"G",4527,"Oryza","Simulated UGA 9Jul15","Poales","Poaceae","Oryza",NA
+"112","seqs_mix9_1GB",62.43,7803169,0,"O",38820,"Poales","Simulated UGA 9Jul15","Poales",NA,NA,NA
+"113","seqs_mix9_1GB",62.43,7803169,356146,"F",4479,"Poaceae","Simulated UGA 9Jul15","Poales","Poaceae",NA,NA
+"114","seqs_mix9_1GB",38.09,4761601,225675,"G",4512,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum",NA
+"115","seqs_mix9_1GB",38.09,4761601,225675,"G",4512,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum"
+"116","seqs_mix9_1GB",33.74,4216989,0,"S",4513,"Hordeum vulgare","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"117","seqs_mix9_1GB",2.55,318937,318937,"S",112521,"Hordeum pubiflorum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"118","seqs_mix9_1GB",1.99,249371,0,"G",4480,"Aegilops","Simulated UGA 9Jul15","Poales","Poaceae","Aegilops",NA
+"119","seqs_mix9_1GB",1.99,249371,249371,"S",37682,"Aegilops tauschii","Simulated UGA 9Jul15","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"120","seqs_mix9_1GB",1.93,241365,8292,"G",4564,"Triticum","Simulated UGA 9Jul15","Poales","Poaceae","Triticum",NA
+"121","seqs_mix9_1GB",1.82,228019,228019,"S",4572,"Triticum urartu","Simulated UGA 9Jul15","Poales","Poaceae","Triticum","Triticum urartu"
+"122","seqs_mix9_1GB",2.2,275423,107314,"G",4527,"Oryza","Simulated UGA 9Jul15","Poales","Poaceae","Oryza",NA
+"123","seqs_mix9_1GB",8.09,1011375,21601,"O",3744,"Rosales","Simulated UGA 9Jul15","Rosales",NA,NA,NA
+"124","seqs_mix9_1GB",6.59,824034,13212,"F",3487,"Moraceae","Simulated UGA 9Jul15","Rosales","Moraceae",NA,NA
+"125","seqs_mix9_1GB",5.94,741975,0,"G",66379,"Broussonetia","Simulated UGA 9Jul15","Rosales","Moraceae","Broussonetia",NA
+"126","seqs_mix9_1GB",5.94,741975,741975,"S",172644,"Broussonetia papyrifera","Simulated UGA 9Jul15","Rosales","Moraceae","Broussonetia","Broussonetia papyrifera"
+"127","seqs_mix9_1GB",2.31,288364,2393,"O",4069,"Solanales","Simulated UGA 9Jul15","Solanales",NA,NA,NA
+"128","seqs_mix9_1GB",2.2,274839,15469,"F",4070,"Solanaceae","Simulated UGA 9Jul15","Solanales","Solanaceae",NA,NA
+"129","seqs_mix9_2GB",62.4,15600738,0,"O",38820,"Poales","Simulated UGA 9Jul15","Poales",NA,NA,NA
+"130","seqs_mix9_2GB",62.4,15600738,711418,"F",4479,"Poaceae","Simulated UGA 9Jul15","Poales","Poaceae",NA,NA
+"131","seqs_mix9_2GB",38.06,9514038,448863,"G",4512,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum",NA
+"132","seqs_mix9_2GB",38.06,9514038,448863,"G",4512,"Hordeum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum"
+"133","seqs_mix9_2GB",33.71,8427704,0,"S",4513,"Hordeum vulgare","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum vulgare"
+"134","seqs_mix9_2GB",2.55,637471,637471,"S",112521,"Hordeum pubiflorum","Simulated UGA 9Jul15","Poales","Poaceae","Hordeum","Hordeum pubiflorum"
+"135","seqs_mix9_2GB",1.99,498125,0,"G",4480,"Aegilops","Simulated UGA 9Jul15","Poales","Poaceae","Aegilops",NA
+"136","seqs_mix9_2GB",1.99,498125,498125,"S",37682,"Aegilops tauschii","Simulated UGA 9Jul15","Poales","Poaceae","Aegilops","Aegilops tauschii"
+"137","seqs_mix9_2GB",1.94,484284,16757,"G",4564,"Triticum","Simulated UGA 9Jul15","Poales","Poaceae","Triticum",NA
+"138","seqs_mix9_2GB",1.83,457125,457125,"S",4572,"Triticum urartu","Simulated UGA 9Jul15","Poales","Poaceae","Triticum","Triticum urartu"
+"139","seqs_mix9_2GB",2.2,550010,214062,"G",4527,"Oryza","Simulated UGA 9Jul15","Poales","Poaceae","Oryza",NA
+"140","seqs_mix9_2GB",8.08,2020374,43185,"O",3744,"Rosales","Simulated UGA 9Jul15","Rosales",NA,NA,NA
+"141","seqs_mix9_2GB",6.59,1646959,26530,"F",3487,"Moraceae","Simulated UGA 9Jul15","Rosales","Moraceae",NA,NA
+"142","seqs_mix9_2GB",5.93,1482603,0,"G",66379,"Broussonetia","Simulated UGA 9Jul15","Rosales","Moraceae","Broussonetia",NA
+"143","seqs_mix9_2GB",5.93,1482603,1482603,"S",172644,"Broussonetia papyrifera","Simulated UGA 9Jul15","Rosales","Moraceae","Broussonetia","Broussonetia papyrifera"
+"144","seqs_mix9_2GB",2.3,574260,4801,"O",4069,"Solanales","Simulated UGA 9Jul15","Solanales",NA,NA,NA
+"145","seqs_mix9_2GB",2.19,547046,30542,"F",4070,"Solanaceae","Simulated UGA 9Jul15","Solanales","Solanaceae",NA,NA
