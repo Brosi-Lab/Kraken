@@ -39,8 +39,11 @@ The pollen input samples were constructed to vary in three dimensions:
 The mixed-amplicon paper included two broad classes of analyses:
 
 1. Qualitative matching 
-    a. false negative analysis (binomial GLMMs, response = taxon presence in a sample)
-    b. false positive analysis---*for the mixed-amplicon paper, this was not analyzed formally; false positives are essentially ubiquitous so a formal presence / absence analysis may not be informative*
+    a. **false negative analysis** (binomial GLMMs, response = taxon presence in a sample). *I just realized that we can formally compare the qualitative performance of the amplicon-based approach to the WGS approach also with GLMMs*
+    b. the key bit is to aggregate the counts---for each sample-by-species combination---of whether or not a true positive was detected, merged into a single file for both the amplicon data and the Kraken data, with a column added for `sample.source` etc. *One key part of doing this will be to exclude samples from the amplicon data which do not have a corresponding Kraken data point*---we want all samples to be "paired".
+    b. **false positive analysis**---*for the mixed-amplicon paper, this was not analyzed formally; false positives are essentially ubiquitous so a formal presence / absence analysis may not be informative*. See below for a quantitative analysis of the proportions of false positives in a sample, following the point immediately above. 
+    c. when we go to do the `dada2` vs. `QIIME` analysis, this false-positive analysis will be particularly key.
+    
 2. Quantitative matching
 
 This analysis will include both of these classes of analyses, but in addition to looking at these on their own (i.e., comparing known sample input to statistical output from Kraken), it will also include: 
@@ -48,8 +51,13 @@ This analysis will include both of these classes of analyses, but in addition to
 1. a comparison of the Kraken simulation vs. empirical results (probably qualitative? but we will have to analyze the simulations in the same way as the empirical data)
 2. a direct comparison of how the *amplicon-based* results compare to the whole-genome shotgun results.
     a. one possibility is to use likelihoods to compare them (?) based on goodness-of-fit to the real data (?)
+    b. another possibility is to compare the two models with AIC... but... the data are different so I am thinking this will not work? it's tricky as the 'true data'---the samples used for both---are the same...
     b.look at Bolker book, also Hilborn & Mangel
     c. will need to think this out more; worst-case (not that bad) is to compare qualitatively
+3. FALSE POSITIVE ANALYSIS
+    a. while it would be uninformative to assess presence / absence of false positive (since they are essentially ubiquitous in both the WGS and the amplicon-based data), we can actually analyze either counts or proportions (*maybe proportions better? i.e. with binomial errors*) of how many reads were false positives (vs. true positives) were in each sample
+    b. this should be quite straightforward, i.e. binomial-errors mixed effects model with sample ID nested within sample type as random effects (*here I think we do not need to include 'species' as a random effect becuase the species mixtures are effectively covered by the sample type; and for each sample type we should have at least one sample from the amplicon data and from the WGS data*---essentially by setting up the random effects in this way we are running a paired-samples test); and the only fixed effect being the analysis method (amplicon vs. Kraken) 
+    c. The more time-consuming bit will be to aggregate the counts---for each sample---of how many of the reads were true positives vs. false positives, merged into a single file for both the amplicon data and the Kraken data, with a column added for `sample.source` etc. *One key part of doing this will be to exclude samples from the amplicon data which do not have a corresponding Kraken data point*---we want all samples to be "paired".
 
 
 ## Data import
