@@ -27,7 +27,7 @@ suppressPackageStartupMessages(require(knitr))
 * C. data prep + formatting
 * D. data analysis
 
-## A. overview
+## A. Overview
 The basic idea behind this analysis is to largely repeat the analysis we did on the mixed-amplicon paper, especially given that the inputs (known / constructed pollen mixtures) are exactly the same; this `.Rmd` file is based directly on that analysis.
 
 The pollen input samples were constructed to vary in three dimensions:
@@ -448,6 +448,7 @@ kable(coefs_summ)
 ```
 
 ##Comparison of amplicon and shotgun results: Qualitative data
+Run a GLMM for this comparison. 
 
 ```{r comparison shotgun and amplicon - qual}
 
