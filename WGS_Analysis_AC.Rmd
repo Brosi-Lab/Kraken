@@ -102,8 +102,10 @@ names(simkrak)[1] = "sample.id"
     + unlike the QIIME Illumina data, we do not need to do any aggregation of read counts as this was done automatically by Kraken (nice touch)
     + step 1: filter to include only matches at family / genus / species taxonomic resolutions (not anything coarser, and no intermediate clades)
     + step 2: create new columns for `mix.ID` that matches the column in the sample (`pollen-mixes-proportions.csv`) data
-* C.2 combine Kraken & sample data filter 
-* C.3 data to remove reads below the isolation / PCR negative control thresholds
+* C.2 Combine Kraken and sample data for false negative analysis
+* C.3 Remove Kraken reads below isolation threshhold
+* C.4 Combine simulation and empirical Kraken data
+* C.5 Combine amplicon and empirical Kraken data
 
 ### C.1 Kraken data prep:
 
@@ -201,7 +203,7 @@ simkrak$mix.ID = gsub("_", "", simkrak$mix.ID)
 simkrak = simkrak[, c(1, ncol(simkrak), 3:ncol(simkrak)-1)]
 ```
 
-#### C.2.1 combine Kraken & sample / mix data overview:
+### C.2.1 combine Kraken & sample / mix data overview:
 new aggregated datasheeet, based on sample metadata, but which matches sample data back to the Kraken data so we can run analyses about probability of matching (both qualitative and quantitative). In particular this is taking account of sample "replicates" (not true replicates at all, but forward vs. reverse reads); also different Illumina lanes in the Emory Genome Center data.
 
 use 'mix.ID' as the variable to combine by...
@@ -210,27 +212,31 @@ use 'mix.ID' as the variable to combine by...
 
 
 ## Merge sample and replicate IDs with mixes data
-mixes2 <- merge(mixes,krak_uniqueid, by.x="mix.ID", by.y="krak.mix.ID", all.x=T, all.y=T)
+krak_mixes <- merge(mixes,krak_uniqueid, by.x="mix.ID", by.y="krak.mix.ID")
 
-#Remove mixIDs from mixes data that is not contained in kraken data, and vice versa
-mixes2 <- mixes2[complete.cases(mixes2),]
+#Create separate datasets for family, genus, and species level, both including and excluding false positives
+truepos.krak.family =  merge(krak_mixes, filter(krak, tax == "F"), by = c("mix.ID", "family"), all.x=T)
+truepos.krak.genus =  merge(krak_mixes, filter(krak, tax == "G"), by = c("mix.ID", "genus"), all.x=T)
+truepos.krak.species =  merge(krak_mixes, filter(krak, tax == "S"), by = c("mix.ID", "species"), all.x=T)
 
-#Create separate datasets for family, genus, and species level
-krak.family =  merge(mixes2, filter(krak, tax == "F"), by = c("mix.ID", "family"), all.x = T, all.y = F)
-krak.genus =  merge(mixes2, filter(krak, tax == "G"), by = c("mix.ID", "genus"), all.x = T, all.y = F)
-krak.species =  merge(mixes2, filter(krak, tax == "S"), by = c("mix.ID", "species"), all.x = T, all.y = F)
+all.krak.family =  merge(krak_mixes, filter(krak, tax == "F"), by = c("mix.ID", "family"), all.x = T, all.y = T)
+all.krak.genus =  merge(krak_mixes, filter(krak, tax == "G"), by = c("mix.ID", "genus"), all.x = T, all.y = T)
+all.krak.species =  merge(krak_mixes, filter(krak, tax == "S"), by = c("mix.ID", "species"), all.x = T, all.y = T)
 
 #Repeat for SIMKRAK - Because there are no reps, need to subset mixes to the mixIDs contained in simkrak and merge data
-mixes3 <- subset(mixes, mixes$mix.ID %in% simkrak$mix.ID)
+sim_mixes <- subset(mixes, mixes$mix.ID %in% simkrak$mix.ID)
 
-simkrak.family = merge(mixes, filter(simkrak, tax == "F"), by = c("mix.ID", "family"), all.x = F, all.y = T)
-simkrak.genus = merge(mixes, filter(simkrak, tax == "G"), by = c("mix.ID", "genus"), all.x = F, all.y = T)
-simkrak.species = merge(mixes, filter(simkrak, tax == "S"), by = c("mix.ID", "species"), all.x = F, all.y = T)
+truepos.simkrak.family = merge(sim_mixes, filter(simkrak, tax == "F"), by = c("mix.ID", "family"), all.x = T)
+truepos.simkrak.genus = merge(sim_mixes, filter(simkrak, tax == "G"), by = c("mix.ID", "genus"), all.x = T)
+truepos.simkrak.species = merge(sim_mixes, filter(simkrak, tax == "S"), by = c("mix.ID", "species"), all.x = T)
 
+all.simkrak.family = merge(sim_mixes, filter(simkrak, tax == "F"), by = c("mix.ID", "family"), all.x = T, all.y = T)
+all.simkrak.genus = merge(sim_mixes, filter(simkrak, tax == "G"), by = c("mix.ID", "genus"), all.x = T, all.y=T)
+all.simkrak.species = merge(sim_mixes, filter(simkrak, tax == "S"), by = c("mix.ID", "species"), all.x = T, all.y=T)
 ```
 
 
-#### C.2.2 match Kraken data to sample data, qualitatively & quantitatively
+### C.2.2 match Kraken data to sample data, qualitatively & quantitatively
 
 alternative approach based on `merge`; ultimately we want the 'mixes' dataset back (i.e. the input), with whether or not there was matching output.
 
@@ -273,7 +279,7 @@ krak.genus$quant.genus = ifelse(is.na(krak.genus$quant.genus), 0, krak.genus$qua
 krak.species$quant.species = ifelse(is.na(krak.species$quant.species), 0, krak.species$quant.species)
 ```
 
-#### C.3 filter data to remove reads below the isolation / PCR negative control thresholds
+### C.3 filter data to remove reads below the isolation / PCR negative control thresholds
 
 **I THINK WE ACTUALLY WANT TO DO THIS ONLY AFTER WE DO THE INITIAL JOIN WITH THE MIXES DATA, BECAUSE THIS COULD REMOVE SOME OF THE REPLICATES FROM THE DATA AND WE WANT TO REGISTER THAT THEY DIDN'T HAVE ANY HITS**
 
@@ -299,7 +305,109 @@ indexy_species = which(krak.species$hits <= maxy)
 
 ```
 
-#### D.1 Analysis
+### C.4 Combine simulation and Kraken data
+*Need to figure out best way to do this analysis*
+
+### C.5 Combine WGS and amplicon data
+We need to combine the WGS with amplicon data by creating a dataframe showing the number of true positive and the number of false positive reads by source, mix ID, and sample ID.
+
+```{r C.5 WGS and amplicon aggregation}
+
+
+#Create list of amplicon data frames
+amp_data <- list(amp_its_family, amp_its_genus, amp_its_species, amp_rbc_family, amp_rbc_genus, amp_rbc_species)
+
+#Apply function to list
+amp_convert <- lapply(amp_data, function(x){
+  #convert first column name to "taxa"
+  names(x)[1] <- "taxa"
+  #convert from wide to long format
+  x <- melt(x, id.vars="taxa", value.name="hits")
+  #separate mix ID and sample ID
+  x[,4:5] <- colsplit(x$variable, "_", c("mix.ID", "sample"))
+  #remove variable "id"
+  x <- x[,-2]
+})
+
+#Extract data frames from list
+amp_its_family <- as.data.frame(amp_convert[1])
+amp_its_genus <- as.data.frame(amp_convert[2])
+amp_its_species <- as.data.frame(amp_convert[3])
+amp_rbc_family <- as.data.frame(amp_convert[4])
+amp_rbc_genus <- as.data.frame(amp_convert[5])
+amp_rbc_species <- as.data.frame(amp_convert[6])
+
+
+#Merge with mixes data by mixID and sampleID
+amp_its_family_mix <- merge(amp_its_family, mixes, by.x=c("mix.ID", "taxa"), by.y=c("mix.ID", "family"), all.x=T)
+amp_its_genus_mix <- merge(amp_its_genus, mixes, by.x=c("mix.ID", "taxa"), by.y=c("mix.ID", "genus"), all.x=T)
+amp_its_species_mix <- merge(amp_its_species, mixes, by.x=c("mix.ID", "taxa"), by.y=c("mix.ID", "species"), all.x=T)
+amp_rbc_family_mix <- merge(amp_rbc_family, mixes, by.x=c("mix.ID", "taxa"), by.y=c("mix.ID", "family"), all.x=T)
+amp_rbc_genus_mix <- merge(amp_rbc_genus, mixes, by.x=c("mix.ID", "taxa"), by.y=c("mix.ID", "genus"), all.x=T)
+amp_rbc_species_mix <- merge(amp_rbc_species, mixes, by.x=c("mix.ID", "taxa"), by.y=c("mix.ID", "species"), all.x=T)
+
+#Rows with mixes variables that are "NA" are false positive taxa. Create a data frame that indicates if row is true positive or false positive
+amp_its_family_mix$type <- ifelse(is.na(amp_its_family_mix$question.1), "false_pos", "true_pos")
+amp_its_genus_mix$type <- ifelse(is.na(amp_its_genus_mix$question.1), "false_pos", "true_pos")
+amp_its_species_mix$type <- ifelse(is.na(amp_its_species_mix$question.1), "false_pos", "true_pos")
+amp_rbc_family_mix$type <- ifelse(is.na(amp_rbc_family_mix$question.1), "false_pos", "true_pos")
+amp_rbc_genus_mix$type <- ifelse(is.na(amp_rbc_genus_mix$question.1), "false_pos", "true_pos")
+amp_rbc_species_mix$type <- ifelse(is.na(amp_rbc_species_mix$question.1), "false_pos", "true_pos")
+
+#New list of mixed datasets
+amp_mixed <- list(amp_its_family_mix, amp_its_genus_mix, amp_its_species_mix, amp_rbc_family_mix, amp_rbc_genus_mix, amp_rbc_species_mix)
+
+#Apply function to list
+amp_summed <- lapply(amp_mixed, function(x){
+  #summarize number of hits by mix.ID, sample, and type
+  x <- x %>%
+          select(mix.ID, taxa, hits, sample, type) %>%
+          group_by(mix.ID, sample, type) %>%
+          summarize(total_hits = sum(hits))
+  #Convert to wide format with one column for true positive hits and one column for false positive hits
+  #x <- reshape(x, idvar="sample", timevar="type", direction="wide")
+})
+
+amp_its_family_summ <- as.data.frame(amp_summed[1])
+amp_its_genus_summ <- as.data.frame(amp_summed[2])
+amp_its_species_summ <- as.data.frame(amp_summed[3])
+amp_rbc_family_summ <- as.data.frame(amp_summed[4])
+amp_rbc_genus_summ <- as.data.frame(amp_summed[5])
+amp_rbc_species_summ <- as.data.frame(amp_summed[6])
+
+
+#Add "A" to beginning of sample ID - couldn't get this to work in the lapply function
+amp_its_family_summ$sample <- paste("A_", amp_its_family_summ$sample, sep="")
+amp_its_genus_summ$sample <- paste("A_", amp_its_genus_summ$sample, sep="")
+amp_its_species_summ$sample <- paste("A_", amp_its_species_summ$sample, sep="")
+amp_rbc_family_summ$sample <- paste("A_", amp_rbc_family_summ$sample, sep="")
+amp_rbc_genus_summ$sample <- paste("A_", amp_rbc_genus_summ$sample, sep="")
+amp_rbc_species_summ$sample <- paste("A_", amp_rbc_species_summ$sample, sep="")
+
+#Convert to wide format with one column for true positive hits and one column for false positive hits - couldn't get this to work in the lapply function
+amp_its_family_reshape <- reshape(amp_its_family_summ, idvar=c("sample", "mix.ID"), timevar="type", direction="wide")
+amp_its_genus_reshape <- reshape(amp_its_genus_summ, idvar=c("sample", "mix.ID"), timevar="type", direction="wide")
+amp_its_species_reshape <- reshape(amp_its_species_summ, idvar=c("sample", "mix.ID"), timevar="type", direction="wide")
+amp_rbc_family_reshape <- reshape(amp_rbc_family_summ, idvar=c("sample", "mix.ID"), timevar="type", direction="wide")
+amp_rbc_genus_reshape <- reshape(amp_rbc_genus_summ, idvar=c("sample", "mix.ID"), timevar="type", direction="wide")
+amp_rbc_species_reshape <- reshape(amp_rbc_species_summ, idvar=c("sample", "mix.ID"), timevar="type", direction="wide")
+
+#Rename variables to "true_pos" and "false_pos"
+amp_its_family_reshape <- rename(amp_its_family_reshape, false_pos = total_hits.false_pos, true_pos = total_hits.true_pos)
+amp_its_genus_reshape <- rename(amp_its_genus_reshape, false_pos = total_hits.false_pos, true_pos = total_hits.true_pos)
+amp_its_species_reshape <- rename(amp_its_species_reshape, false_pos = total_hits.false_pos, true_pos = total_hits.true_pos)
+amp_rbc_family_reshape <- rename(amp_rbc_family_reshape, false_pos = total_hits.false_pos, true_pos = total_hits.true_pos)
+amp_rbc_genus_reshape <- rename(amp_rbc_genus_reshape, false_pos = total_hits.false_pos, true_pos = total_hits.true_pos)
+amp_rbc_species_reshape <- rename(amp_rbc_species_reshape, false_pos = total_hits.false_pos, true_pos = total_hits.true_pos)
+
+#Repeat for Kraken data
+
+#Merge Kraken and Amplicon data
+
+
+```
+
+## D.1 Analysis
 
 Repeat analysis from mixed amplicon analysis. For consistency, take out Zea and format data tables to have the same name as those in the mixed amplicon analysis. 
 
