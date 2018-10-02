@@ -529,7 +529,7 @@ amp_its_genus_reshape <- spread(amp_its_genus_summ, key=type, value=total_hits)
 amp_its_species_reshape <- spread(amp_its_species_summ, key=type, value=total_hits)
 amp_rbc_family_reshape <- spread(amp_rbc_family_summ, key=type, value=total_hits)
 amp_rbc_genus_reshape <- spread(amp_rbc_genus_summ, key=type, value=total_hits)
-amp_its_species_reshape <- spread(amp_its_species_summ, key=type, value=total_hits)
+amp_rbc_species_reshape <- spread(amp_its_species_summ, key=type, value=total_hits)
 
 #If positives are N/A, set to equal 0
 amp_its_family_reshape$true_pos = ifelse(is.na(amp_its_family_reshape$true_pos),0, amp_its_family_reshape$true_pos)
@@ -830,11 +830,11 @@ sim.r2.species = r2beta(sim.quant.species)
 
 #Merge the slope ("Estimate"), p-value ("Pr...t..") from the mixed models with the r-squared value for each test
 
-sim.coefs_quant.family <- cbind((data.frame(coef(summary(sim.quant.family)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.family[2,6]) 
+sim.coefs_quant.family <- cbind((data.frame(coef(summary(sim.quant.family)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), sim.r2.family[2,6]) 
 
-sim.coefs_quant.genus <- cbind((data.frame(coef(summary(sim.quant.genus)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.genus[2,6]) 
+sim.coefs_quant.genus <- cbind((data.frame(coef(summary(sim.quant.genus)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), sim.r2.genus[2,6]) 
 
-sim.coefs_quant.species <- cbind((data.frame(coef(summary(sim.quant.species)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.species[2,6]) 
+sim.coefs_quant.species <- cbind((data.frame(coef(summary(sim.quant.species)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), sim.r2.species[2,6]) 
 
 #Rename row names and column names 
 row.names(sim.coefs_quant.family) = "Family"
@@ -894,11 +894,11 @@ for(k in 1:3) { # 'taxon': species, genus, family
         converg.return = ifelse(length(converg)==1, "ERROR!!", "")
         
         # record results in table
-        krakamp.results.table[tracker,1] = taxon[k]
-        krakamp.results.table[tracker,2] = depth[l]
-        krakamp.results.table[tracker,3] = pval
-        krakamp.results.table[tracker,4] = nrow(eval(parse(text = data.to.use)))
-        krakamp.results.table[tracker,5] = converg.return
+        krak_sim.results.table[tracker,1] = taxon[k]
+        krak_sim.results.table[tracker,2] = depth[l]
+        krak_sim.results.table[tracker,3] = pval
+        krak_sim.results.table[tracker,4] = nrow(eval(parse(text = data.to.use)))
+        krak_sim.results.table[tracker,5] = converg.return
         
         # advance tracker
         tracker = tracker + 1
