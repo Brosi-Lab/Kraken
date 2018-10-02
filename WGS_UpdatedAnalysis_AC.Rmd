@@ -502,7 +502,7 @@ amp_summed <- lapply(amp_mixed, function(x){
   x <- x %>%
           select(mix.ID, taxa, hits, sample, type) %>%
           group_by(mix.ID, sample, type) %>%
-          summarize(total_hits = sum(hits))
+          summarize(total_hits = sum(as.numeric(hits)))
   #Convert to wide format with one column for true positive hits and one column for false positive hits
   #x <- reshape(x, idvar="sample", timevar="type", direction="wide")
 })
@@ -529,7 +529,7 @@ amp_its_genus_reshape <- spread(amp_its_genus_summ, key=type, value=total_hits)
 amp_its_species_reshape <- spread(amp_its_species_summ, key=type, value=total_hits)
 amp_rbc_family_reshape <- spread(amp_rbc_family_summ, key=type, value=total_hits)
 amp_rbc_genus_reshape <- spread(amp_rbc_genus_summ, key=type, value=total_hits)
-amp_rbc_species_reshape <- spread(amp_its_species_summ, key=type, value=total_hits)
+amp_rbc_species_reshape <- spread(amp_rbc_species_summ, key=type, value=total_hits)
 
 #If positives are N/A, set to equal 0
 amp_its_family_reshape$true_pos = ifelse(is.na(amp_its_family_reshape$true_pos),0, amp_its_family_reshape$true_pos)
