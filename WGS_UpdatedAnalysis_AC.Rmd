@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
 
 suppressPackageStartupMessages(require(dplyr))
 suppressPackageStartupMessages(require(stringr))
@@ -19,6 +19,7 @@ suppressPackageStartupMessages(require(r2glmm))
 suppressPackageStartupMessages(require(knitr))
 suppressPackageStartupMessages(require(stringr))
 suppressPackageStartupMessages(require(tidyr))
+suppressPackageStartupMessages(require(tibble))
 ```
 
 ## Table of Contents
@@ -911,6 +912,60 @@ for(k in 1:3) { # 'taxon': species, genus, family
 # note that the 'kable' function is part of the 'knitr' package, which I required at the very top of this document. 
 kable(krak_sim.results.table)
 
+#Convert to table format for chisquared test
+chi_family_1GB <- krak_simkrak_agg_family_1GB %>%
+          select(true_pos, false_pos, source) %>%
+          group_by(source) %>%
+          summarize(truepos_tot = sum(true_pos), falsepos_tot = sum(false_pos))
+
+chi_family_2GB <- krak_simkrak_agg_family_2GB %>%
+          select(true_pos, false_pos, source) %>%
+          group_by(source) %>%
+          summarize(truepos_tot = sum(true_pos), falsepos_tot = sum(false_pos))
+
+chi_genus_1GB <- krak_simkrak_agg_genus_1GB %>%
+          select(true_pos, false_pos, source) %>%
+          group_by(source) %>%
+          summarize(truepos_tot = sum(true_pos), falsepos_tot = sum(false_pos))
+
+chi_genus_2GB <- krak_simkrak_agg_genus_2GB %>%
+          select(true_pos, false_pos, source) %>%
+          group_by(source) %>%
+          summarize(truepos_tot = sum(true_pos), falsepos_tot = sum(false_pos))
+
+chi_species_1GB <- krak_simkrak_agg_species_1GB %>%
+          select(true_pos, false_pos, source) %>%
+          group_by(source) %>%
+          summarize(truepos_tot = sum(true_pos), falsepos_tot = sum(false_pos))
+
+chi_species_2GB <- krak_simkrak_agg_species_2GB %>%
+          select(true_pos, false_pos, source) %>%
+          group_by(source) %>%
+          summarize(truepos_tot = sum(true_pos), falsepos_tot = sum(false_pos))
+
+chi_family_1GB[2,1] = "simkrak_1GB"
+chi_family_2GB[2,1] = "simkrak_2GB"
+chi_genus_1GB[2,1] = "simkrak_1GB"
+chi_genus_2GB[2,1] = "simkrak_2GB"
+chi_species_1GB[2,1] = "simkrak_1GB"
+chi_species_2GB[2,1] = "simkrak_2GB"
+
+chitable_family = rbind(chi_family_1GB, chi_family_2GB[2,])
+chitable_genus = rbind(chi_genus_1GB, chi_genus_2GB[2,])
+chitable_species = rbind(chi_species_1GB, chi_species_2GB[2,])
+
+chitable_family = column_to_rownames(chitable_family, var="source")
+chitable_genus = column_to_rownames(chitable_genus, var="source")
+chitable_species = column_to_rownames(chitable_species, var="source")
+
+chisq_family = chisq.test(chitable_family)
+chisq_family
+
+chisq_genus = chisq.test(chitable_genus)
+chisq_genus
+
+chisq_species = chisq.test(chitable_species)
+chisq_species
 ```
 
 ## D6.1 Comparison of amplicon and shotgun results: Qualitative data - AIC comparison
