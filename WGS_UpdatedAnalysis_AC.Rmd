@@ -2,9 +2,13 @@
 title: "WGS_analysis_AC"
 author: "Anya Cutler"
 date: "8/16/2018"
-output:
-  html_document: default
-  pdf_document: default
+output: 
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    code_folding: hide
+    theme: cosmo
 ---
 
 ```{r setup, include=FALSE}
@@ -21,8 +25,6 @@ suppressPackageStartupMessages(require(stringr))
 suppressPackageStartupMessages(require(tidyr))
 suppressPackageStartupMessages(require(tibble))
 ```
-
-## Table of Contents
 
 ## Table of Contents
 
