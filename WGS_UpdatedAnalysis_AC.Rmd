@@ -441,12 +441,12 @@ krak_simkrak_agg_genus_all = (rbind(as.data.frame(agg.krak.genus), agg.simkrak.g
 krak_simkrak_agg_species_all = (rbind(as.data.frame(agg.krak.species), agg.simkrak.species[,c(1,3:7)]))
 
 krak_simkrak_agg_family_1GB = (rbind(as.data.frame(agg.krak.family), agg.simkrak.family[simkrak_family_1GB,c(1,3:7)]))
-krak_simkrak_agg_genus_1GB = (rbind(as.data.frame(agg.krak.genus), agg.simkrak.genus[simkrak_family_1GB,c(1,3:7)]))
-krak_simkrak_agg_species_1GB = (rbind(as.data.frame(agg.krak.species), agg.simkrak.species[simkrak_family_1GB,c(1,3:7)]))
+krak_simkrak_agg_genus_1GB = (rbind(as.data.frame(agg.krak.genus), agg.simkrak.genus[simkrak_genus_1GB,c(1,3:7)]))
+krak_simkrak_agg_species_1GB = (rbind(as.data.frame(agg.krak.species), agg.simkrak.species[simkrak_species_1GB,c(1,3:7)]))
 
 krak_simkrak_agg_family_2GB = (rbind(as.data.frame(agg.krak.family), agg.simkrak.family[simkrak_family_2GB,c(1,3:7)]))
-krak_simkrak_agg_genus_2GB = (rbind(as.data.frame(agg.krak.genus), agg.simkrak.genus[simkrak_family_2GB,c(1,3:7)]))
-krak_simkrak_agg_species_2GB = (rbind(as.data.frame(agg.krak.species), agg.simkrak.species[simkrak_family_2GB,c(1,3:7)]))
+krak_simkrak_agg_genus_2GB = (rbind(as.data.frame(agg.krak.genus), agg.simkrak.genus[simkrak_genus_2GB,c(1,3:7)]))
+krak_simkrak_agg_species_2GB = (rbind(as.data.frame(agg.krak.species), agg.simkrak.species[simkrak_species_2GB,c(1,3:7)]))
 ```
 
 
@@ -601,7 +601,9 @@ krakamp_rbc_species = rbind(subset(amp_rbc_species_reshape, mix.ID %in% agg.krak
     
 ### D1. Qualitative analysis of empirical false negatives 
 
-Repeat analysis from mixed amplicon analysis. For consistency, take out Zea and format data tables to have the same name as those in the mixed amplicon analysis. 
+To assess if species richness, relatedness, and pollen grain proportion have a significant effect on the ability of the empirical WGS to qualitatively detect the presence/absence of a species, use a binomial mixed effects model with species as a random effect and rep.ID nested in sample nested in mix.ID as a random effect. 
+
+For consistency, take out Zea and format data tables to have the same name as those in the mixed amplicon analysis. 
 
 ```{r D.1 analysis setup}
 
@@ -688,7 +690,15 @@ for(q in 1:3) { # 'question': response variables for Q1 / Q2 / Q3
 kable(results.table)
 ```
 
+For the empirical data, species richness has a significant effect on qualitative detection at the species level (in both the subsetted data and full data set) and at the genus level in the subsetted data, but the model gives errors at the genus level using the full dataset and at the family level. 
+
+Species relatedness has a significant effect on qualitative detection with the full dataset (highly significant - all p-values <0.0001), but not with the subsetted dataset (p=0.97 for species and genus level, p = 0.06 for family level). Not sure if this makes sense...
+
+Pollen grain proportion has a significant effect on qualitative detection at the species level with the full dataset and at the family level with the full dataset. The other tests gave errors. 
+
 ## D2. Quantitative results of empirical false negatives 
+
+To assess if pollen grain proportion is correlated to read proportion in the empirical WGS data, use a linear mixed model with mix.ID and species as a random effect. 
 
 ```{R quantitative matching}
 
@@ -737,11 +747,12 @@ coefs_summ <- rbind(coefs_quant.family, coefs_quant.genus, coefs_quant.species)
 kable(coefs_summ)
 
 ```
-
+Pollen grain proportion was significantly related to read proportion at the family (R2=0.81, p<0.000001), genus (R2=0.58, p<0.000001), and species level (R2=0.77, p<0.000001)
 
 ## D3 Qualitative analysis of simulation false negatives
 
-Yields an error message that the fixed effects model matrix is rank deficient. The observation number for the simulation data is very small - likely the reason the model won't run?
+Repeat D1 analysis, but with simulation data. 
+
 ```{r D.3 analysis setup}
 
 
@@ -806,8 +817,11 @@ for(q in 1:3) { # 'question': response variables for Q1 / Q2 / Q3
 # note that the 'kable' function is part of the 'knitr' package, which I required at the very top of this document. 
 kable(simkrak.results.table)
 ```
+Yields an error message that the fixed effects model matrix is rank deficient. The observation number for the simulation data is very small - likely the reason the model won't run?
 
 ## D4 Quantitative analysis of simulation false negatives
+
+Repeat D2, but with simulation data. 
 
 ```{r D4 - Quant analysis of simulation data}
 # ultimately want 3 analyses: {species, genus, and family}
@@ -856,7 +870,12 @@ kable(sim.coefs_summ)
 
 ```
 
+Pollen grain proportion is significantly correlated with read proportion at the family (R2=0.99, p<0.000001), genus (R2=0.75, p=0.000002), and species level (R2=0.75, p=0.000002). However, these data are so sparse that this may not be meaningful. 
+
 ## D5. Comparison of empirical and simulation kraken data
+
+To compare the empirical and simulation kraken data, use a binomial mixed effects model to look at the counts of false positives vs. true positives, with repID nested in sample nested in mix.ID as a random effect. 
+
 ```{r comparison empirical and simulation}
 
 taxon = c("species", "genus", "family")
@@ -970,13 +989,19 @@ chisq_species = chisq.test(chitable_species)
 chisq_species
 ```
 
+The binomial mixed model yielded error messages, likely do to the very small n in the simulated dataset. 
+
+The chi squared tests were all highly significant (p<2.2e-16), but the direction differed by taxonomic level. At the species and genus level, the simulation data had a much higher proportion of false positives than the empirical data (although, at the species level, both datasets had more false positives than true positives). However, at the family level, the simulation data had a much higher proportion of true positives than the empirical data. 
+
 ## D6.1 Comparison of amplicon and shotgun results: Qualitative data - AIC comparison
+
+This initial comparison of the amplicon and WGS data assesses which dataset provides a better model fit when looking at the effect of species richness/relatedness/pollen grain proportion on qualitative detection of species. In hindsight, this probably isn't a useful comparison because we are interested in whether or not overall detection is more accurate in WGS vs. amplicon, not which data can be better explained by species richness, etc. 
 
 ```{r comparison shotgun and amplicon - qual}
 
 #Import qualitative results from amplicon analysis
 
-load("/Users/ajcutle/Kraken/qual_amplicon_results.RData")
+load("qual_amplicon_results.RData")
 
 #Create data frame to hold ITS results: 3 questions x 2 datasets x 2 taxonomic levels x 1 markers = 12 rows
 ITS_comp_AIC= data.frame(question = rep(NA,12), taxon  = rep(NA,12), data.subset  = rep(NA,12), Krak_AIC = rep(NA,12), Amp_AIC  = rep(NA,12))
@@ -1058,15 +1083,18 @@ for(q in 1:3) { # 'question': response variables for Q1 / Q2 / Q3
 
 kable(rbcL_comp_AIC)
 ```
+Overall, the AIC values are very small for all models. There are no obvious trends in terms of one dataset providing a better fit than another. As stated above, this does not actually answer the question of which dataset (amplicon vs. WGS) more accurrately detects presence/absence of species.
 
 
 ## D6.2 Comparison of amplicon and shotgun results: Quantitative data - AIC comparison
+
+This analysis uses AIC to determine which dataset (amplicon vs. WGS) provides a better fit when modelling pollen grain proportion vs. read proportion. Unlike the qualitative analysis above, the AIC for these models will actually give some idea as to which dataset is more quantiatively accurate. 
 
 ```{r comparison shotgun and amplicon - quant}
 
 #Import quantitative results from amplicon analysis
 
-load("/Users/ajcutle/Kraken/quant_amplicon_results.RData")
+load("quant_amplicon_results.RData")
 
 #Create data frame to hold ITS results: 3 taxon levels x 1 marker = 3 rows
 ITS_comp_AIC= data.frame(taxon  = rep(NA,3), Krak_AIC = rep(NA,3), Amp_AIC  = rep(NA,3))
@@ -1138,8 +1166,11 @@ for(k in 1:3) { # 'taxon': species, genus, family
 kable(rbcL_comp_AIC)
 
 ```
+For all taxonomic levels, the AICs for the amplicon models are much smaller than for the Kraken data. This implies that the read proportion of the amplicon data is more quantitatively predictive of true pollen grain proportion. However, binomial mixed models can be used to more quantitatively answer this question (see D6.3) 
 
 ## D6.3 Amplicon vs. Shotgun comparison - GLMM
+
+This analysis uses binomial mixed models to assess if using amplicon vs. WGS has a significant effect on the ability to qualitatively detect true positives vs. false positives. Datasets were aggregated into counts of true positives vs. false positives by mixID, as was done for the comparison of empirical vs. simulated kraken data. 
 
 ```{r amplicon vs. WGS - GLMM}
 
@@ -1198,3 +1229,5 @@ for(k in 1:3) { # 'taxon': species, genus, family
 # note that the 'kable' function is part of the 'knitr' package, which I required at the very top of this document. 
 kable(krakamp.results.table)
 ```
+
+Most of the models gave errors, but p-values were all highly significant across taxonomic level and amplicon marker. For each test, amplicon data had a significantly lower rate of false positives/higher rate of true positives compared to the WGS data, corroborating the AIC analysis above. 
