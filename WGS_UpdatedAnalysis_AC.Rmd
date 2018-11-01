@@ -1288,8 +1288,6 @@ for(k in 1:3) { # 'taxon': species, genus, family
       }
     }
   
-
-
 # display results table
 # note that the 'kable' function is part of the 'knitr' package, which I required at the very top of this document. 
 kable(krakamp.results.table) %>% 
