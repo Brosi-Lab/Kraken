@@ -932,8 +932,6 @@ for(k in 1:3) { # 'taxon': species, genus, family
         tracker = tracker + 1
       }
     }
-  
-
 
 # display results table
 # note that the 'kable' function is part of the 'knitr' package, which I required at the very top of this document. 
@@ -983,9 +981,9 @@ chitable_family = rbind(chi_family_1GB, chi_family_2GB[2,])
 chitable_genus = rbind(chi_genus_1GB, chi_genus_2GB[2,])
 chitable_species = rbind(chi_species_1GB, chi_species_2GB[2,])
 
-chitable_family = column_to_rownames(chitable_family, var="source")
-chitable_genus = column_to_rownames(chitable_genus, var="source")
-chitable_species = column_to_rownames(chitable_species, var="source")
+chitable_family = column_to_rownames(data.frame(chitable_family), var="source")
+chitable_genus = column_to_rownames(data.frame(chitable_genus), var="source")
+chitable_species = column_to_rownames(data.frame(chitable_species), var="source")
 ```
 
 The results table for the GLMMs is not displayed, because all but one of the models had errors. This is probably due to the very small sample size for the simulated data.
@@ -1237,13 +1235,18 @@ For all taxonomic levels, the AICs for the Kraken data are much smaller than for
 
 This analysis uses binomial mixed models to assess if using amplicon vs. WGS has a significant effect on the ability to qualitatively detect true positives vs. false positives. Datasets were aggregated into counts of true positives vs. false positives by mixID, as was done for the comparison of empirical vs. simulated kraken data. 
 
-```{r amplicon vs. WGS - GLMM}
+### by marker and by taxonomic level (Amplicon vs Shotgun GLMM)
+
+First we will split out the analysis by amplicon marker (rbcL vs. ITS2) and by taxonomic level of identification (family / genus / species); next we will combine both amplicons but continue to assess at all three taxonomic levels.
+
+
+```{r amplicon vs. WGS - GLMM by marker}
 
 taxon = c("species", "genus", "family")
 marker = c("its", "rbc")
 
-# first set up a table for the results:
-# I will set this up with 18 entries
+# set up a data frame for the results: 
+# I will set this up with 6 rows (3 taxonomy levels x 2 markers)
 krakamp.results.table = data.frame(taxon  = rep(NA,6), marker  = rep(NA,6), p.val  = rep(1.000001,6), n  = rep(9999,6), warning.msg = rep(NA,6))
 
 # keep track of which row of the table to record in:
@@ -1254,7 +1257,7 @@ tracker = 1
 
 
 for(k in 1:3) { # 'taxon': species, genus, family
-    for(l in 1:2){ # 'marker': ITS or rbcL
+    for(l in 1:2){ # 'marker': ITS2 or rbcL
         # first, name the analysis:
         namer = paste(taxon[k], ".", marker[l], sep = "")
         
@@ -1294,4 +1297,76 @@ kable(krakamp.results.table) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 
-Most of the models gave errors, but $p$-values were all highly significant across taxonomic level and amplicon marker. For each test, amplicon data had a significantly lower rate of false positives/higher rate of true positives compared to the WGS data, corroborating the AIC analysis above. 
+Most of the models gave errors, but $p$-values were highly significant for ITS2 at both the species and family levels (the only two results for which there were not errors). For each comparison, the amplicon data had a significantly lower rate of false positives/higher rate of true positives compared to the WGS data, corroborating the AIC analysis above.
+
+### markers combined (Amplicon vs Shotgun GLMM)
+
+for this analysis we need to format the data a little differently; the formatted amplicon data are in different data frames based on the marker (ITS2 vs. *rbcL*). Need to combine those two to generate a single amplicon data frame; this has to happen at each taxonomic level. While seemingly easy with `rbind`, we have to take the additional step of aggregating for each mix.id and sample.id the two amplicon markers (add the false positives and false negatives together). Still, this is very straightforward with `dplyr`.
+
+```{r amplicon vs. WGS - GLMM markers combined}
+
+# first combine the two amplicon datasets, aggregating counts for the same mix and sample IDs
+# this has to happen at each taxonomic level
+ampkrak.family = rbind(amp_its_family_reshape, amp_rbc_family_reshape) %>% group_by(mix.ID, sample, rep.ID, source) %>% summarize(false_pos = sum(false_pos), true_pos = sum(true_pos))
+
+ampkrak.genus = rbind(amp_its_genus_reshape, amp_rbc_genus_reshape) %>% group_by(mix.ID, sample, rep.ID, source) %>% summarize(false_pos = sum(false_pos), true_pos = sum(true_pos))
+
+ampkrak.species = rbind(amp_its_species_reshape, amp_rbc_species_reshape) %>% group_by(mix.ID, sample, rep.ID, source) %>% summarize(false_pos = sum(false_pos), true_pos = sum(true_pos))
+
+# then combine amplicon data with kraken data
+ampkrak.family = rbind(data.frame(ampkrak.family), data.frame(agg.krak.family))
+ampkrak.genus = rbind(data.frame(ampkrak.genus), data.frame(agg.krak.genus))
+ampkrak.species = rbind(data.frame(ampkrak.species), data.frame(agg.krak.species))
+
+# set up a data frame for the results with 3 rows (by taxonomic level)
+krakamp.results.table = data.frame(taxon  = rep(NA,3), p.val  = rep(1.000001,3), n  = rep(9999,3), warning.msg = rep(NA,3))
+
+# keep track of which row of the table to record in:
+tracker = 1
+
+# # EXAMPLE FORMULA
+# glmer(cbind(true_pos,false_pos) ~ source + (1|mix.ID/sample/rep.ID), family = binomial, data = krakamp_its_species, control = glmerControl(optimizer="bobyqa"))
+
+
+for(k in 1:3) { # 'taxon': species, genus, family
+        # first, name the analysis:
+        namer = paste("krakamp.GLMM", taxon[k], sep = ".")
+        
+        # second, set which taxonomic data to use:
+        data.to.use = paste("ampkrak", taxon[k], sep = ".")
+        
+        # third, set up mixed-effects model: 
+        mixed = paste(namer, " = suppressWarnings(glmer(cbind(true_pos,false_pos) ~ source + (1|mix.ID/sample/rep.ID), family = binomial, data = ", data.to.use, ", control = glmerControl(optimizer=\"bobyqa\")))", sep = "")
+        
+        # fourth, evaluate the mixed-effects model
+        eval(parse(text = mixed))
+        
+        ## extract p-value
+        pvaller = paste("pval <- coef(summary(", namer, "))[2,4]", sep = "")
+        eval(parse(text = pvaller))
+        
+        # extract convergence failures
+        converger = paste(namer, "@optinfo$conv$lme4$code", sep = "")
+        converg = eval(parse(text = converger))
+        converg.return = ifelse(length(converg)==1, "ERROR!!", "")
+        
+        # record results in table
+        krakamp.results.table[tracker,1] = taxon[k]
+        # krakamp.results.table[tracker,2] = marker[l]
+        krakamp.results.table[tracker,2] = pval
+        krakamp.results.table[tracker,3] = nrow(eval(parse(text = data.to.use)))
+        krakamp.results.table[tracker,4] = converg.return
+        
+        # advance tracker
+        tracker = tracker + 1
+    }
+
+  
+# display results table
+# note that the 'kable' function is part of the 'knitr' package, which I required at the very top of this document. 
+kable(krakamp.results.table) %>% 
+  kable_styling(bootstrap_options = "striped", full_width = F)
+```
+
+In contrast to the previous analysis (in which results were split out by marker), here---with markers combined---we had better model performance / convergence. For all three taxonomic levels, we see statistically significant differences between the amplicon and the shotgun data. All three of the coefficients are negative (as we move from amplicon to kraken), indicating that the "successes" (true positives) were reduced as we moved in that direction, i.e. that amplicon performance was better than kraken performance.
+
