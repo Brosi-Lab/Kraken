@@ -26,6 +26,7 @@ suppressPackageStartupMessages(require(knitr))
 suppressPackageStartupMessages(require(stringr))
 suppressPackageStartupMessages(require(tidyr))
 suppressPackageStartupMessages(require(tibble))
+suppressPackageStartupMessages(require(data.table))
 ```
 
 # overview
@@ -66,6 +67,7 @@ amp_its_species = read.csv("Amplicon_ITS_Species.csv")
 amp_rbc_family = read.csv("Amplicon_rbcL_Family.csv")
 amp_rbc_genus = read.csv("Amplicon_rbcL_Genus.csv")
 amp_rbc_species = read.csv("Amplicon_rbcL_Species.csv")
+amp_all = read.csv("Amplicon_all.csv")
 
 # 'mixes' comes in with some rows duplicated (because in the spreadsheet, each was assessed with both ITS2 and with rbcL); fix this here:
 mixes = unique(mixes)
@@ -398,6 +400,7 @@ agg.simkrak.genus$false_pos = ifelse(is.na(agg.simkrak.genus$false_pos),0, agg.s
 agg.simkrak.species$false_pos = ifelse(is.na(agg.simkrak.species$false_pos),0, agg.simkrak.species$false_pos)
 ```
 
+
 ## combine simulation and Kraken data
 
 1. Create a variable indicating if data is simulated or empirical
@@ -448,7 +451,7 @@ krak_simkrak_agg_species_2GB = (rbind(as.data.frame(agg.krak.species), agg.simkr
 ```
 
 
-## combine WGS and amplicon data
+## combine WGS and amplicon data for false positive analysis
 
 We need to combine the WGS with amplicon data by creating a dataframe showing the number of true positive and the number of false positive reads by source, mix ID, and sample ID.
 
@@ -586,17 +589,51 @@ krakamp_rbc_species = rbind(subset(amp_rbc_species_reshape, mix.ID %in% agg.krak
 
 ```
 
+## combine WGS and Kraken data for qualitative true positive / false negative analysis
+
+Using the kraken data formatted for true positive/false negative analysis ("truepos.krak"), rbind with amplicon data. 
+
+```{r combine WGS and kraken data for true positive/false negative}
+
+#Add "K-" to beginning of sample number of kraken dataset and add variable "source" to indicate that data is from kraken dataset
+truepos.krak.family$sample <- paste("K-", truepos.krak.family$krak.sample, sep="")
+truepos.krak.genus$sample <- paste("K-", truepos.krak.genus$krak.sample, sep="")
+truepos.krak.species$sample <- paste("K-", truepos.krak.species$krak.sample, sep="")
+
+#Add "source" variable to indicate if data is WGS or amplicon
+truepos.krak.family$source = "krak"
+truepos.krak.genus$source = "krak"
+truepos.krak.species$source = "krak"
+amp_all$source = "amp"
+
+#Concatenate WGS and amplicon data using mapply so that mismatching variable names of the amplicon data will be ignored
+
+krakamp_rbc_family_fn <- as.data.frame(mapply(c, truepos.krak.family[,c("mix.ID", "family", "sample", "qual.family", "source")], amp_all[,c("mix.ID","family","sample", "qual.family.rbcL", "source")]))
+
+krakamp_its_family_fn <- as.data.frame(mapply(c, truepos.krak.family[,c("mix.ID", "family", "sample", "qual.family", "source")], amp_all[,c("mix.ID","family","sample", "qual.family.ITS", "source")]))
+
+krakamp_rbc_genus_fn <- as.data.frame(mapply(c, truepos.krak.genus[,c("mix.ID", "genus", "sample", "qual.genus", "source")], amp_all[,c("mix.ID","genus","sample", "qual.genus.rbcL", "source")]))
+
+krakamp_its_genus_fn <- as.data.frame(mapply(c, truepos.krak.genus[,c("mix.ID", "genus", "sample", "qual.genus", "source")], amp_all[,c("mix.ID","genus","sample", "qual.genus.ITS", "source")]))
+
+krakamp_rbc_species_fn <- as.data.frame(mapply(c, truepos.krak.species[,c("mix.ID", "species", "sample", "qual.species", "source")], amp_all[,c("mix.ID","species","sample", "qual.species.rbcL", "source")]))
+
+krakamp_its_species_fn <- as.data.frame(mapply(c, truepos.krak.species[,c("mix.ID", "species", "sample", "qual.species", "source")], amp_all[,c("mix.ID","species","sample", "qual.species.ITS", "source")]))
+
+```
+
 # analysis
 
-* D.1 Empirical Kraken false negative analysis - qualitative
-* D.2 Empirical Kraken false negative analysis - quantitative
-* D.3 Simulation Kraken false negative analysis - qualitative
-* D.4 Simulation Kraken false negative analysis - quantitative
-* D.5 Empirical vs. Simulation Kraken data
-* D.6 Empirical Kraken vs. Amplicon data
-      + D.6.1 AIC comparison of qualitative models
-      + D.6.2 AIC comparison of quantitative models
-      + D.6.3 Binary GLMMs using true positive vs. false positive 
+* 1 Empirical Kraken false negative analysis - qualitative
+* 2 Empirical Kraken false negative analysis - quantitative
+* 3 Simulation Kraken false negative analysis - qualitative
+* 4 Simulation Kraken false negative analysis - quantitative
+* 5 Empirical vs. Simulation Kraken data
+* 6 Empirical Kraken vs. Amplicon data
+      + 6.1 AIC comparison of qualitative models
+      + 6.2 AIC comparison of quantitative models
+      + 6.3 Binary GLMMs using true positive vs. false positive 
+      + 6.4 Binary GLMMs using qualitative true positives vs. false negatives 
     
 ## qualitative analysis of empirical false negatives 
 
@@ -1231,7 +1268,7 @@ kable(rbcL_comp_AIC) %>%
 
 For all taxonomic levels, the AICs for the Kraken data are much smaller than for the amplicon data. This implies that the read proportion of the Kraken data is more quantitatively predictive of true pollen grain proportion.
 
-## Amplicon vs. Shotgun comparison - GLMM
+## Amplicon vs. Shotgun comparison - GLMM of true positives and false positives
 
 This analysis uses binomial mixed models to assess if using amplicon vs. WGS has a significant effect on the ability to qualitatively detect true positives vs. false positives. Datasets were aggregated into counts of true positives vs. false positives by mixID, as was done for the comparison of empirical vs. simulated kraken data. 
 
@@ -1369,4 +1406,90 @@ kable(krakamp.results.table) %>%
 ```
 
 In contrast to the previous analysis (in which results were split out by marker), here---with markers combined---we had better model performance / convergence. For all three taxonomic levels, we see statistically significant differences between the amplicon and the shotgun data. All three of the coefficients are negative (as we move from amplicon to kraken), indicating that the "successes" (true positives) were reduced as we moved in that direction, i.e. that amplicon performance was better than kraken performance.
+
+## Amplicon vs. Shotgun comparison - GLMM of true positives and false positives
+
+This analysis uses binomial mixed models to assess if using amplicon vs. WGS has a significant effect on the ability to qualitatively detect true positives vs. false negatives. This analysis is similar the qualitative mixed models to assess the effect of species richness, pollen grain proportion, etc. on the ability to qualitatively detect the correct taxa, but instead using "source" as the fixed effect. 
+
+### by marker and taxonomic level
+
+```{r amplicon vs. shotgun true positive vs false negative}
+
+taxon = c("species", "genus", "family")
+marker = c("its", "rbc")
+
+
+# first set up a table for the results:
+# I will set this up with 18 entries
+krakamp.fn.results.table = data.frame(taxon  = rep(NA,6), marker  = rep(NA,6), model.name = rep(NA,6), p.val  = rep(1.000001,6), n  = rep(9999,6), warning.msg = rep(NA,6))
+
+# keep track of which row of the table to record in:
+tracker = 1
+
+# # EXAMPLE FORMULA
+# its.family = glmer(qual.family ~ source + (1|mix.ID/sample) + (1|family), family = binomial, data = krakamp_its_family_fn, control = glmerControl(optimizer="bobyqa"))
+
+# response variables relating to each of the three questions (column names in data)
+
+for(q in 1:2) { # 'marker': its or rbc
+    for(k in 1:3){ # 'taxon': species, genus, family
+        # first, name the analysis:
+        namer = paste(marker[q], ".", taxon[k], sep = "")
+        # # 1.5, print name of which model was evaluated
+        # print("**************************************************")
+        # print(paste("*********************     ", namer, "     *********************"))
+        
+        # second, set which taxonomic data to use:
+        data.to.use = paste("krakamp_", marker[q], "_", taxon[k],"_fn", sep = "")
+        
+        # third, set up mixed-effects model: 
+        mixed = paste(namer, " = suppressWarnings(glmer(qual.", taxon[k],
+          " ~ source + (1|mix.ID/sample) + (1|", taxon[k], "), family = binomial, 
+          data = ", data.to.use, ", control = glmerControl(optimizer=\"bobyqa\")))", sep = "")
+        # fourth, evaluate the mixed-effects model
+        eval(parse(text = mixed))
+            #fifth, print summary of model [SKIP FOR NOW]
+            summarizer = paste("print(summary(", namer, "))", sep = "")
+            eval(parse(text = summarizer)) # print summary of the mixed-effects model
+        
+        ## extract p-value
+        # example: coef(summary(its.family))[2,4]
+        pvaller = paste("pval <- coef(summary(", namer, "))[2,4]", sep = "")
+        eval(parse(text = pvaller))
+        
+        # extract convergence failures
+        converger = paste(namer, "@optinfo$conv$lme4$code", sep = "")
+        converg = eval(parse(text = converger))
+        converg.return = ifelse(length(converg)==1, "ERROR!!", "")
+        
+        # record results in table
+        krakamp.fn.results.table[tracker,1] = taxon[k]
+        krakamp.fn.results.table[tracker,2] = marker[q]
+        krakamp.fn.results.table[tracker,3] = namer
+        krakamp.fn.results.table[tracker,4] = pval
+        krakamp.fn.results.table[tracker,5] = nrow(eval(parse(text = data.to.use)))
+        krakamp.fn.results.table[tracker,6] = converg.return
+        
+        # advance tracker
+        tracker = tracker + 1
+      }
+    }
+  
+
+
+# display results table
+# note that the 'kable' function is part of the 'knitr' package and `kable_styling` is from the `kableExtra` package 
+kable(krakamp.fn.results.table) %>% 
+  kable_styling(bootstrap_options = "striped", full_width = F)
+```
+
+When ITS was used as a marker in the amplicon data, the amplicon data did not behave significantly better or worse than the WGS data at the species and family level. However, at the genus level (estimate = -1.15), the negative estimate and low p-value suggests that using ITS sequencing was more accurate for detecting true positives than WGS. 
+
+In contrast, when rbcL was used as a marker in the amplicon data, the amplicon data detected fewer true positives at the species (estimate = 1.19) and genus (estimate = 1.04) levels than the WGS data. However, the amplicon data detected more true positives at the family level (estimate = -26.774) than the WGS data. 
+
+# figures
+
+## figure 1
+
+
 
