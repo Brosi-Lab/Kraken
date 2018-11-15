@@ -1503,11 +1503,11 @@ amp_all$qual.genus = ifelse(amp_all$qual.genus.ITS == 1 | amp_all$qual.genus.rbc
 amp_all$qual.species = ifelse(amp_all$qual.species.ITS == 1 | amp_all$qual.species.rbcL == 1, 1, 0)
 
 #Combine kraken and amplicon data
-krakamp_family_fn <- as.data.frame(mapply(c, truepos.krak.family[,c("mix.ID", "family", "sample", "qual.family", "source")], amp_all[,c("mix.ID","family","sample", "qual.family", "source")]))
+krakamp_family_fn <- rbind(truepos.krak.family[,c("mix.ID", "family", "sample", "qual.family", "source")], amp_all[,c("mix.ID","family","sample", "qual.family", "source")])
 
-krakamp_genus_fn <- as.data.frame(mapply(c, truepos.krak.genus[,c("mix.ID", "genus", "sample", "qual.genus", "source")], amp_all[,c("mix.ID","genus","sample", "qual.genus", "source")]))
+krakamp_genus_fn <- rbind(truepos.krak.genus[,c("mix.ID", "genus", "sample", "qual.genus", "source")], amp_all[,c("mix.ID","genus","sample", "qual.genus", "source")])
 
-krakamp_species_fn <- as.data.frame(mapply(c, truepos.krak.species[,c("mix.ID", "species", "sample", "qual.species", "source")], amp_all[,c("mix.ID","species","sample", "qual.species", "source")]))
+krakamp_species_fn <- rbind(truepos.krak.species[,c("mix.ID", "species", "sample", "qual.species", "source")], amp_all[,c("mix.ID","species","sample", "qual.species", "source")])
 
 
 
@@ -1997,4 +1997,154 @@ ggsave("WGS_fig4c.pdf", fig6c, device="pdf", width=7, height=5, units="in")
 # save panel
 panel.fig4 = grid.arrange(fig4a, fig4b, fig4c,ncol=1) #  heights = rep(50,3)
 ggsave("WGS_fig4_combined.pdf", plot=panel.fig4, device="pdf", height=11, width = 11, units="in")
+```
+
+##figure 5
+
+
+This figure shows the proportion of correct taxonomic matchess by source (amplicon vs. WGS) at the species, genus, and family level. To correctly format the data, the mean and binomial CI of correct taxonomic matches needs to be summarized 3 times: once for sample, once for mix, and once for source. Otherwise samples with multiple species will get over-represented in terms of the overall means. The integers are tracked at each step and summarized with `dplyr`. The data is summarized with `dplyr` twice, once per mix and then once per sample. Then within each level of the factor of interest, the mean and binomial confidence intervals are calculated using binom.confint.
+
+```{r Figure 2}
+
+#Summarize the agg dataset first by source, mix.ID, and sample. Also calculate pool size for each sample ('n()'), as well as sum # of positive identifications
+
+CI.krakamp.family.fn.1 = krakamp_family_fn %>% 
+select(mix.ID, sample, qual.family, source) %>% group_by(source, mix.ID, sample) %>%
+summarize(pool.size = n(),
+  family = sum(as.numeric(qual.family)))
+
+CI.krakamp.genus.fn.1 = krakamp_genus_fn %>% 
+select(mix.ID, sample, qual.genus, source) %>% group_by(source, mix.ID, sample) %>%
+summarize(pool.size = n(),
+  genus = sum(as.numeric(qual.genus)))
+
+CI.krakamp.species.fn.1 = krakamp_species_fn %>% 
+select(mix.ID, sample, qual.species, source) %>% group_by(source, mix.ID, sample) %>%
+summarize(pool.size = n(),
+  species = sum(as.numeric(qual.species)))
+
+# second step: group_by(source, mix.ID, pool.size)
+
+CI.krakamp.family.fn.2 = CI.krakamp.family.fn.1 %>% group_by(source, mix.ID, pool.size) %>% 
+  summarize(pool.num = n(),
+  family = sum(family))
+  # multiply pool size & number to get total number of possibilities of matches
+  CI.krakamp.family.fn.2$n2 = CI.krakamp.family.fn.2$pool.size * CI.krakamp.family.fn.2$pool.num
+  #format source to be factor
+  CI.krakamp.family.fn.2$source=as.factor(CI.krakamp.family.fn.2$source)
+  
+  fig5_family=CI.krakamp.family.fn.2%>%
+    select(source, mix.ID, n2, family)
+  
+CI.krakamp.genus.fn.2 = CI.krakamp.genus.fn.1 %>% group_by(source, mix.ID, pool.size) %>% 
+  summarize(pool.num = n(),
+  genus = sum(genus))
+  # multiply pool size & number to get total number of possibilities of matches
+  CI.krakamp.genus.fn.2$n2 = CI.krakamp.genus.fn.2$pool.size * CI.krakamp.genus.fn.2$pool.num
+  #format source to be factor
+  CI.krakamp.genus.fn.2$source=as.factor(CI.krakamp.genus.fn.2$source)
+  
+  fig5_genus=CI.krakamp.genus.fn.2%>%
+    select(source, mix.ID, n2, genus)
+
+CI.krakamp.species.fn.2 = CI.krakamp.species.fn.1 %>% group_by(source, mix.ID, pool.size) %>% 
+  summarize(pool.num = n(),
+  species = sum(species))
+  # multiply pool size & number to get total number of possibilities of matches
+  CI.krakamp.species.fn.2$n2 = CI.krakamp.species.fn.2$pool.size * CI.krakamp.species.fn.2$pool.num
+  #format source to be factor
+  CI.krakamp.species.fn.2$source=as.factor(CI.krakamp.species.fn.2$source)
+  
+  fig5_species=CI.krakamp.species.fn.2%>%
+    select(source, mix.ID, n2, species)
+  
+  #Convert from wide to long
+  fig5_long_family = melt(fig5_family, id.vars = c("source","mix.ID", "n2"))
+  fig5_long_family = fig5_long_family%>%
+  rename(x=value, n=n2)
+  
+  fig5_long_genus = melt(fig5_genus, id.vars = c("source","mix.ID", "n2"))
+  fig5_long_genus = fig5_long_genus%>%
+  rename(x=value, n=n2)
+  
+  fig5_long_species = melt(fig5_species, id.vars = c("source","mix.ID", "n2"))
+  fig5_long_species = fig5_long_species%>%
+  rename(x=value, n=n2)
+  
+  #group by source
+  fig5_long_family = fig5_long_family %>%
+    group_by(source) %>%
+    summarize(n=mean(n),x=mean(x)) %>%
+    ungroup()
+  
+  fig5_long_genus = fig5_long_genus %>%
+    group_by(source) %>%
+    summarize(n=mean(n),x=mean(x)) %>%
+    ungroup()
+  
+  fig5_long_species = fig5_long_species %>%
+    group_by(source) %>%
+    summarize(n=mean(n),x=mean(x)) %>%
+    ungroup()
+  
+  #Calculate mean and binomial CI
+
+  fig5_bin.family = binom.confint(fig5_long_family$x, fig5_long_family$n,methods="exact") %>%
+    select(-method)
+  
+  fig5_bin.genus = binom.confint(fig5_long_genus$x, fig5_long_genus$n,methods="exact") %>%
+    select(-method)
+  
+  fig5_bin.species = binom.confint(fig5_long_species$x, fig5_long_species$n,methods="exact") %>%
+    select(-method)
+  
+  #merge datasets
+  
+  fig5_family.all = merge(fig5_bin.family, fig5_long_family, by = c("x", "n"))
+  fig5_family.all = unique(fig5_family.all)
+  
+  fig5_genus.all = merge(fig5_bin.genus, fig5_long_genus, by = c("x", "n"))
+  fig5_genus.all = unique(fig5_genus.all)
+  
+  fig5_species.all = merge(fig5_bin.species, fig5_long_species, by = c("x", "n"))
+  fig5_species.all = unique(fig5_species.all)
+  
+#Figure 5A: Family level
+fig5a=fig5_family.all%>%
+  ggplot()+
+  geom_point(aes(source,mean))+
+  geom_errorbar(aes(source,ymin=lower, ymax=upper), width=0.2)+
+  xlab("source")+
+  ylab("proportion of correct matches")+
+  ylim(0,1)+
+  ggtitle("A")+
+   theme_bw()
+
+#Figure 5B: Genus level
+fig5b=fig5_genus.all%>%
+  ggplot()+
+  geom_point(aes(source,mean))+
+  geom_errorbar(aes(source,ymin=lower, ymax=upper), width=0.2)+
+  xlab("source")+
+  ylab("proportion of correct matches")+
+  ylim(0,1)+
+  ggtitle("B")+
+   theme_bw()
+
+#Figure 5C: Species level
+fig5c=fig5_species.all%>%
+  ggplot()+
+  geom_point(aes(source,mean))+
+  geom_errorbar(aes(source,ymin=lower, ymax=upper), width=0.2)+
+  xlab("source")+
+  ylab("proportion of correct matches")+
+  ylim(0,1)+
+  ggtitle("C")+
+   theme_bw()
+
+
+#Create panel for Figure 5
+fig5=grid.arrange(fig5a,fig5b,fig5c, nrow=1)
+ggsave("fig5_combined.pdf", plot=fig5, device="pdf", width=169, units="mm")
+
 ```
