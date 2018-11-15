@@ -27,6 +27,9 @@ suppressPackageStartupMessages(require(stringr))
 suppressPackageStartupMessages(require(tidyr))
 suppressPackageStartupMessages(require(tibble))
 suppressPackageStartupMessages(require(data.table))
+suppressPackageStartupMessages(require(binom))
+suppressPackageStartupMessages(require(ggplot2))
+suppressPackageStartupMessages(require(gridExtra))
 ```
 
 # overview
@@ -1413,7 +1416,7 @@ This analysis uses binomial mixed models to assess if using amplicon vs. WGS has
 
 ### by marker and taxonomic level
 
-```{r amplicon vs. shotgun true positive vs false negative}
+```{r amplicon vs. shotgun true positive vs false negative - separate markers}
 
 taxon = c("species", "genus", "family")
 marker = c("its", "rbc")
@@ -1485,11 +1488,513 @@ kable(krakamp.fn.results.table) %>%
 
 When ITS was used as a marker in the amplicon data, the amplicon data did not behave significantly better or worse than the WGS data at the species and family level. However, at the genus level (estimate = -1.15), the negative estimate and low p-value suggests that using ITS sequencing was more accurate for detecting true positives than WGS. 
 
-In contrast, when rbcL was used as a marker in the amplicon data, the amplicon data detected fewer true positives at the species (estimate = 1.19) and genus (estimate = 1.04) levels than the WGS data. However, the amplicon data detected more true positives at the family level (estimate = -26.774) than the WGS data. 
+In contrast, when rbcL was used as a marker in the amplicon data, the amplicon data detected fewer true positives at the species (estimate = 1.19) and genus (estimate = 1.04) levels than the WGS data. However, the amplicon data detected more true positives at the family level (estimate = -26.774) than the WGS data.
+
+### by taxonomic level, with markers combined
+
+This is a repeat of the analysis above, but with ITS and rbcL combined 
+
+```{r r amplicon vs. shotgun true positive vs false negative - markers combined}
+
+#Create new qualitative variable in amplicon dataset that equals 1 if ITS and/or rbcL equals 1, 0 if else
+
+amp_all$qual.family = ifelse(amp_all$qual.family.ITS == 1 | amp_all$qual.family.rbcL == 1, 1, 0)
+amp_all$qual.genus = ifelse(amp_all$qual.genus.ITS == 1 | amp_all$qual.genus.rbcL == 1, 1, 0)
+amp_all$qual.species = ifelse(amp_all$qual.species.ITS == 1 | amp_all$qual.species.rbcL == 1, 1, 0)
+
+#Combine kraken and amplicon data
+krakamp_family_fn <- as.data.frame(mapply(c, truepos.krak.family[,c("mix.ID", "family", "sample", "qual.family", "source")], amp_all[,c("mix.ID","family","sample", "qual.family", "source")]))
+
+krakamp_genus_fn <- as.data.frame(mapply(c, truepos.krak.genus[,c("mix.ID", "genus", "sample", "qual.genus", "source")], amp_all[,c("mix.ID","genus","sample", "qual.genus", "source")]))
+
+krakamp_species_fn <- as.data.frame(mapply(c, truepos.krak.species[,c("mix.ID", "species", "sample", "qual.species", "source")], amp_all[,c("mix.ID","species","sample", "qual.species", "source")]))
+
+
+
+taxon = c("species", "genus", "family")
+
+# first set up a table for the results:
+# I will set this up with 18 entries
+krakamp.fn.results.combined = data.frame(taxon  = rep(NA,3), model.name = rep(NA,3), p.val  = rep(1.000001,3), n  = rep(9999,3), warning.msg = rep(NA,3))
+
+# keep track of which row of the table to record in:
+tracker = 1
+
+# # EXAMPLE FORMULA
+# its.family = glmer(qual.family ~ source + (1|mix.ID/sample) + (1|family), family = binomial, data = krakamp_family_fn, control = glmerControl(optimizer="bobyqa"))
+
+# response variables relating to each of the three questions (column names in data)
+
+    for(k in 1:3){ # 'taxon': species, genus, family
+        # first, name the analysis:
+        namer = taxon[k]
+        # # 1.5, print name of which model was evaluated
+        # print("**************************************************")
+        # print(paste("*********************     ", namer, "     *********************"))
+        
+        # second, set which taxonomic data to use:
+        data.to.use = paste("krakamp_", taxon[k],"_fn", sep = "")
+        
+        # third, set up mixed-effects model: 
+        mixed = paste(namer, " = suppressWarnings(glmer(qual.", taxon[k],
+          " ~ source + (1|mix.ID/sample) + (1|", taxon[k], "), family = binomial, 
+          data = ", data.to.use, ", control = glmerControl(optimizer=\"bobyqa\")))", sep = "")
+        # fourth, evaluate the mixed-effects model
+        eval(parse(text = mixed))
+            #fifth, print summary of model [SKIP FOR NOW]
+            summarizer = paste("print(summary(", namer, "))", sep = "")
+            eval(parse(text = summarizer)) # print summary of the mixed-effects model
+        
+        ## extract p-value
+        # example: coef(summary(its.family))[2,4]
+        pvaller = paste("pval <- coef(summary(", namer, "))[2,4]", sep = "")
+        eval(parse(text = pvaller))
+        
+        # extract convergence failures
+        converger = paste(namer, "@optinfo$conv$lme4$code", sep = "")
+        converg = eval(parse(text = converger))
+        converg.return = ifelse(length(converg)==1, "ERROR!!", "")
+        
+        # record results in table
+        krakamp.fn.results.combined[tracker,1] = taxon[k]
+        krakamp.fn.results.combined[tracker,2] = namer
+        krakamp.fn.results.combined[tracker,3] = pval
+        krakamp.fn.results.combined[tracker,4] = nrow(eval(parse(text = data.to.use)))
+        krakamp.fn.results.combined[tracker,5] = converg.return
+        
+        # advance tracker
+        tracker = tracker + 1
+      }
+  
+  
+
+
+# display results table
+# note that the 'kable' function is part of the 'knitr' package and `kable_styling` is from the `kableExtra` package 
+kable(krakamp.fn.results.combined) %>% 
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+
+```
+After combining rbcL and ITS2, where taxa were determined as present if they were present in rbcL OR ITS2, amplicon and WGS were not significantly different in limiting false negatives at the species level, amplicon performed better than kraken at the genus level (estimate = -1.46, p=0.001) and the model gave an error at the family level. 
 
 # figures
 
-## figure 1
+##figure 1
+This figure shows the mean proportion and binomial CI of correct taxonomic matches by species and genus. Fig. 1a is by family, Fig. 1b is by genus, and Fig. 1c is by species.
+
+The binomial CI is calculated using the binom.confint function, which requires a vector of the number of success (x) and a vector of the number of independent trials (n). 
+
+```{r Figure 1}
+#Need to detach plyr for code to work
+detach(package:plyr)
 
 
+#Create variable "presence" to get total number of independent tests
+truepos.krak.family$presence = 1
+truepos.krak.genus$presence = 1
+truepos.krak.species$presence = 1
 
+
+#Total the number of taxa correctly identified (x) when grouped by taxa
+family_x = truepos.krak.family %>%
+  group_by(family) %>%
+  summarise(x = sum(qual.family))
+
+genus_x = truepos.krak.genus %>%
+  group_by(genus) %>%
+  summarise(x = sum(qual.genus))
+
+species_x = truepos.krak.species %>%
+  group_by(species) %>%
+  summarise(x = sum(qual.species))
+
+#Get the total number of independent tests (n) when grouped by taxa
+family_n = truepos.krak.family %>% 
+  group_by(family) %>%
+  summarise(n = sum(presence))
+
+genus_n = truepos.krak.genus %>% 
+  group_by(genus) %>%
+  summarise(n = sum(presence))
+
+species_n = truepos.krak.species %>% 
+  group_by(species) %>%
+  summarise(n = sum(presence))
+
+#Calculate binomial confidence interval using x and n
+binomci_family = binom.confint(family_x$x, family_n$n, method="exact")
+binomci_species = binom.confint(species_x$x, species_n$n, method="exact")
+binomci_genus = binom.confint(genus_x$x, genus_n$n, method="exact")
+
+#Add the taxa names, rename column
+binomci_family = cbind(family_x$family, binomci_family)
+binomci_genus = cbind(genus_x$genus, binomci_genus)
+binomci_species = cbind(species_x$species, binomci_species)
+
+colnames(binomci_family)[1] = "family"
+colnames(binomci_genus)[1] = "genus"
+colnames(binomci_species)[1] = "species"
+
+
+#Figure 1A: Family level
+fig1a=binomci_family%>%
+  ggplot(aes(family,mean))+
+  geom_point(position=position_dodge(width=0.3), size=4, alpha=0.6)+
+  geom_errorbar(width=0.6, aes(family,ymin=lower, ymax=upper), alpha=0.6, position=position_dodge(width=0.3))+
+  xlab("family")+
+  ylab("proportion of correct matches")+
+   theme_bw()+
+  ggtitle("A")+
+  theme(axis.text.x=element_text(angle=45,hjust=1))
+
+#Figure 1B: Genus level
+fig1b=binomci_genus%>%
+  ggplot(aes(genus,mean))+
+  geom_point(position=position_dodge(width=0.3), size=4, alpha=0.6)+
+  geom_errorbar(width=0.6, aes(genus,ymin=lower, ymax=upper), alpha=0.6, position=position_dodge(width=0.3))+
+  xlab("genus")+
+  ylab("proportion of correct matches")+
+   theme_bw()+
+  ggtitle("B")+
+  theme(axis.text.x=element_text(angle=45,hjust=1))
+
+#Figure 1C: Species level
+fig1c=binomci_species%>%
+  ggplot(aes(species,mean))+
+  geom_point(position=position_dodge(width=0.3), size=4, alpha=0.6)+
+  geom_errorbar(width=0.6, aes(species,ymin=lower, ymax=upper), alpha=0.6, position=position_dodge(width=0.3))+
+  xlab("species")+
+  ylab("proportion of correct matches")+
+   theme_bw()+
+  ggtitle("C")+
+  theme(axis.text.x=element_text(angle=45,hjust=1))
+
+#Figure 1 panel
+
+ggsave("WGS_fig1a.pdf", plot=fig1a, device="pdf", height=5, width=7, units="in")
+ggsave("WGS_fig1b.pdf", plot=fig1b, device="pdf", height=5, width = 7, units="in")
+ggsave("WGS_fig1c.pdf", plot=fig1c, device="pdf", height=5, width = 7, units="in")
+panel.fig1 = grid.arrange(fig1a, fig1b,fig1c, ncol=1) #  heights = rep(50,3)
+ggsave("fig1_combined.pdf", plot=panel.fig1, device="pdf", height=11, width = 8.5, units="in")
+
+```
+
+##figure 2
+
+
+This figure shows the proportion of correct taxonomic matchess by species richness for rbcL and ITS2 at the species and genus level. To correctly format the data, the mean and binomial CI of correct taxonomic matches needs to be summarized 3 times: once for sample, once for mix, and once for level of species richness. Otherwise samples with multiple species will get over-represented in terms of the overall means. The integers are tracked at each step and summarized with `dplyr`. The data is summarized with `dplyr` twice, once per mix and then once per sample. Then within each level of the factor of interest, the mean and binomial confidence intervals are calculated using binom.confint.
+
+```{r Figure 2}
+
+#Summarize the agg dataset first by species richness, mix.ID, and sample. Also calculate pool size for each sample ('n()'), as well as sum # of positive identifications
+
+CI.family.1 = truepos.krak.family %>% 
+select(mix.ID, sample, spp.rich, qual.family, question.1, question.2, question.3) %>% group_by(spp.rich, mix.ID, sample) %>%
+summarize(pool.size = n(),
+  family = sum(qual.family),
+#add question.1, question.2, question.3 because those equal to 1 are filtered out in Jamie's figure 3 code
+  question.1 = mean(question.1),
+  question.2 = mean(question.2),
+  question.3 = mean(question.3))
+
+CI.genus.1 = truepos.krak.genus %>% 
+select(mix.ID, sample, spp.rich, qual.genus, question.1, question.2, question.3) %>% group_by(spp.rich, mix.ID, sample) %>%
+summarize(pool.size = n(),
+  genus = sum(qual.genus),
+#add question.1, question.2, question.3 because those equal to 1 are filtered out in Jamie's figure 3 code
+  question.1 = mean(question.1),
+  question.2 = mean(question.2),
+  question.3 = mean(question.3))
+
+CI.species.1 = truepos.krak.species %>% 
+select(mix.ID, sample, spp.rich, qual.species, question.1, question.2, question.3) %>% group_by(spp.rich, mix.ID, sample) %>%
+summarize(pool.size = n(),
+  species = sum(qual.species),
+#add question.1, question.2, question.3 because those equal to 1 are filtered out in Jamie's figure 3 code
+  question.1 = mean(question.1),
+  question.2 = mean(question.2),
+  question.3 = mean(question.3))
+
+# second step: group_by(spp.rich, mix.ID, pool.size)
+
+CI.family.2 = CI.family.1 %>% group_by(spp.rich, mix.ID, pool.size) %>% 
+  summarize(pool.num = n(),
+  family = sum(family), 
+  question.1 = mean(question.1),
+  question.2 = mean(question.2),
+  question.3 = mean(question.3)) # %>% 
+  # multiply pool size & number to get total number of possibilities of matches
+  CI.family.2$n2 = CI.family.2$pool.size * CI.family.2$pool.num
+  
+CI.genus.2 = CI.genus.1 %>% group_by(spp.rich, mix.ID, pool.size) %>% 
+  summarize(pool.num = n(),
+  genus = sum(genus), 
+  question.1 = mean(question.1),
+  question.2 = mean(question.2),
+  question.3 = mean(question.3)) # %>% 
+  # multiply pool size & number to get total number of possibilities of matches
+  CI.genus.2$n2 = CI.genus.2$pool.size * CI.genus.2$pool.num
+
+CI.species.2 = CI.species.1 %>% group_by(spp.rich, mix.ID, pool.size) %>% 
+  summarize(pool.num = n(),
+  species = sum(species), 
+  question.1 = mean(question.1),
+  question.2 = mean(question.2),
+  question.3 = mean(question.3)) # %>% 
+  # multiply pool size & number to get total number of possibilities of matches
+  CI.species.2$n2 = CI.species.2$pool.size * CI.species.2$pool.num
+  
+#Format variables to be factors.  Restrict to mixtures where questions are equal to 1. **Not sure why this is done?  
+  
+dat.family <- CI.family.2
+dat.family$question.1=as.factor(dat.family$question.1)
+dat.family$question.2=as.factor(dat.family$question.2)
+dat.family$question.3=as.factor(dat.family$question.3)
+dat.family$spp.rich=as.factor(dat.family$spp.rich)
+dat.family=filter(dat.family,question.1=="1"|question.2=="1"|question.3=="1")
+fig2_family=dat.family%>%
+  select(spp.rich, mix.ID, n2, family)
+
+dat.genus <- CI.genus.2
+dat.genus$question.1=as.factor(dat.genus$question.1)
+dat.genus$question.2=as.factor(dat.genus$question.2)
+dat.genus$question.3=as.factor(dat.genus$question.3)
+dat.genus$spp.rich=as.factor(dat.genus$spp.rich)
+dat.genus=filter(dat.genus,question.1=="1"|question.2=="1"|question.3=="1")
+fig2_genus=dat.genus%>%
+  select(spp.rich, mix.ID, n2, genus)
+
+dat.species <- CI.species.2
+dat.species$question.1=as.factor(dat.species$question.1)
+dat.species$question.2=as.factor(dat.species$question.2)
+dat.species$question.3=as.factor(dat.species$question.3)
+dat.species$spp.rich=as.factor(dat.species$spp.rich)
+dat.species=filter(dat.species,question.1=="1"|question.2=="1"|question.3=="1")
+fig2_species=dat.species%>%
+  select(spp.rich, mix.ID, n2, species)
+
+#Convert from wide to long
+
+fig2_long_family = melt(fig2_family, id.vars = c("spp.rich","mix.ID", "n2"))
+fig2_long_genus = melt(fig2_genus, id.vars = c("spp.rich","mix.ID", "n2"))
+fig2_long_species = melt(fig2_species, id.vars = c("spp.rich","mix.ID", "n2"))
+
+#Subset to species richness
+
+spp.rich_family = fig2_long_family%>%
+  filter(substr(variable,1,7)=="family")%>%
+  rename(x=value, n=n2)
+spp.rich_genus = fig2_long_genus%>%
+  filter(substr(variable,1,7)=="genus")%>%
+  rename(x=value, n=n2)
+spp.rich_species = fig2_long_species%>%
+  filter(substr(variable,1,7)=="species")%>%
+  rename(x=value, n=n2)
+
+#group by species richness and marker so that all mixtures with richness = 2 are grouped together
+
+spp.rich_family = spp.rich_family %>%
+  group_by(spp.rich, variable) %>%
+  summarize(n=mean(n),x=mean(x)) %>%
+  ungroup()
+
+spp.rich_genus = spp.rich_genus %>%
+  group_by(spp.rich, variable) %>%
+  summarize(n=mean(n),x=mean(x)) %>%
+  ungroup()
+
+spp.rich_species = spp.rich_species %>%
+  group_by(spp.rich, variable) %>%
+  summarize(n=mean(n),x=mean(x)) %>%
+  ungroup()
+
+#Calculate mean and binomial CI
+
+bin.family = binom.confint(spp.rich_family$x, spp.rich_family$n,methods="exact") %>%
+  select(-method)
+
+bin.genus = binom.confint(spp.rich_genus$x, spp.rich_genus$n,methods="exact") %>%
+  select(-method)
+
+bin.species = binom.confint(spp.rich_species$x, spp.rich_species$n,methods="exact") %>%
+  select(-method)
+
+#Merge mean and binomial CI with mixture info
+
+family.all = merge(bin.family, spp.rich_family, by = c("x", "n"))
+family.all = unique(family.all)
+
+genus.all = merge(bin.genus, spp.rich_genus, by = c("x", "n"))
+genus.all = unique(genus.all)
+
+species.all = merge(bin.species, spp.rich_species, by = c("x", "n"))
+species.all = unique(species.all)
+
+#Figure 2A: Family level
+fig2a=family.all%>%
+  filter(variable=="family")%>%
+  ggplot()+
+  geom_point(aes(spp.rich,mean))+
+  geom_errorbar(aes(spp.rich,ymin=lower, ymax=upper), width=0.2)+
+  xlab("species richness")+
+  ylab("proportion of correct matches")+
+  ylim(0,1)+
+  ggtitle("A")+
+   theme_bw()
+
+#Figure 2B: Genus level
+fig2b=genus.all%>%
+  filter(variable=="genus")%>%
+  ggplot()+
+  geom_point(aes(spp.rich,mean))+
+  geom_errorbar(aes(spp.rich,ymin=lower, ymax=upper), width=0.2)+
+  xlab("species richness")+
+  ylab("proportion of correct matches")+
+  ylim(0,1)+
+  ggtitle("B")+
+   theme_bw()
+
+#Figure 2A: Species level
+fig2c=species.all%>%
+  filter(variable=="species")%>%
+  ggplot()+
+  geom_point(aes(spp.rich,mean))+
+  geom_errorbar(aes(spp.rich,ymin=lower, ymax=upper), width=0.2)+
+  xlab("species richness")+
+  ylab("proportion of correct matches")+
+  ylim(0,1)+
+  ggtitle("C")+
+   theme_bw()
+
+#Create panel for Figure 2
+fig2=grid.arrange(fig2a,fig2b,fig2c, nrow=1)
+ggsave("fig2_combined.pdf", plot=fig2, device="pdf", width=169, units="mm")
+
+```
+
+#Figure 3  
+
+This figure shows the relationship between the proportion of pollen grains belonging to a particular taxa with the probability of detection (presence/absence) of that taxa in the sequencing reads. Each color belongs to a particular taxa, and each taxa has its own trendline as determined by logistic regression.
+
+
+```{r Figure 3}
+
+fig3_sub_family=truepos.krak.family%>%
+  filter(question.1==2|question.2==2|question.3==2) %>%
+  select(mix.ID, family, spp.rich, pollen.grain.proportion, qual.family)
+
+fig3_sub_family$spp.rich=as.factor(fig3_sub_family$spp.rich)
+
+fig3_sub_genus=truepos.krak.genus%>%
+  filter(question.1==2|question.2==2|question.3==2) %>%
+  select(mix.ID, genus, spp.rich, pollen.grain.proportion, qual.genus)
+
+fig3_sub_genus$spp.rich=as.factor(fig3_sub_genus$spp.rich)
+
+fig3_sub_species=truepos.krak.species%>%
+  filter(question.1==2|question.2==2|question.3==2) %>%
+  select(mix.ID, species, spp.rich, pollen.grain.proportion, qual.species)
+
+fig3_sub_genus$spp.rich=as.factor(fig3_sub_genus$spp.rich)
+
+#Figure 3a: Family level
+fig3a=fig3_sub_family%>%
+  group_by(family)%>%
+  ggplot(aes(pollen.grain.proportion, qual.family, color = family, shape = family))+
+  geom_jitter( size=4, alpha=0.4, height=0.05 )+
+    geom_smooth(method = "glm", method.args = list(family = "binomial"), se = FALSE, alpha=0.2) +
+  ggtitle("A")+
+  xlab("proportion of pollen grains in the sample")+
+  ylab("probability of detection")+
+  theme_bw()+
+  theme(legend.key = element_rect(size = 5),
+        legend.key.size = unit(1.5, 'lines'))
+
+#Figure 3b: Genus level
+fig3b=fig3_sub_genus%>%
+  group_by(genus)%>%
+  ggplot(aes(pollen.grain.proportion, qual.genus, color = genus, shape = genus))+
+  geom_jitter( size=4, alpha=0.4, height=0.05 )+
+    geom_smooth(method = "glm", method.args = list(family = "binomial"), se = FALSE, alpha=0.2) +
+  ggtitle("B")+
+  xlab("proportion of pollen grains in the sample")+
+  ylab("probability of detection")+
+  theme_bw()+
+  theme(legend.key = element_rect(size = 5),
+        legend.key.size = unit(1.5, 'lines'))
+
+#Figure 3c: Species level
+fig3c=fig3_sub_species%>%
+  group_by(species)%>%
+  ggplot(aes(pollen.grain.proportion, qual.species, color = species, shape = species))+
+  geom_jitter( size=4, alpha=0.4, height=0.05 )+
+    geom_smooth(method = "glm", method.args = list(family = "binomial"), se = FALSE, alpha=0.2) +
+  ggtitle("C")+
+  xlab("proportion of pollen grains in the sample")+
+  ylab("probability of detection")+
+  theme_bw()+
+  theme(legend.key = element_rect(size = 5),
+        legend.key.size = unit(1.5, 'lines'))
+
+#Create panel for figure 3
+fig3=grid.arrange(fig3a,fig3b,fig3c, nrow=2)
+ggsave("WGS_fig3a.pdf", plot=fig3a, device="pdf", width=7, height=5, units="in")
+ggsave("WGS_fig3b.pdf", plot=fig3b, device="pdf", width=7, height=5, units="in")
+ggsave("WGS_fig3c.pdf", plot=fig3c, device="pdf", width=7, height=5, units="in")
+panel.fig3 = grid.arrange(fig3a, fig3b, fig3c, ncol=1) #  heights = rep(50,3)
+ggsave("fig3_combined.pdf", plot=panel.fig3, device="pdf", height=8.5, width = 11, units="in")
+```
+
+
+#Figure 4  
+
+This figure shows the quantitative relationship between the proportion of pollen grains and the proportion of reads matching to a particular taxa. There are plots for the species, genus, and family level. 
+
+Fortunately, these figures do not require formatting of the dataset beyond what has already been done. The code is fairly self-explanatory.  
+
+```{r Figure 4}
+
+#Figure 4A: Family level
+fig4a=truepos.krak.family%>%
+  ggplot()+
+  geom_point(aes(pollen.grain.proportion, quant.family, color=family, shape=family), size=4, alpha=0.4, position = "jitter")+
+  xlab("proportion of pollen grains in sample")+
+  ylab("proportion of reads")+
+  geom_abline(size=0.2, alpha=1)+ #line w/ slope 1
+  theme_bw()+
+  ggtitle("A")+
+  scale_shape_manual(values=c(15,16,17,18,0,1,2,5,6))
+
+#Figure 4B: Genus level
+fig4b=truepos.krak.genus%>%
+  ggplot()+
+  geom_point(aes(pollen.grain.proportion, quant.genus, color=genus, shape=genus), size=4, alpha=0.4, position = "jitter")+
+  xlab("proportion of pollen grains in sample")+
+  ylab("proportion of reads")+
+  geom_abline(size=0.2, alpha=1)+ #line w/ slope 1
+  theme_bw()+
+  ggtitle("B")+
+  scale_shape_manual(values=c(15,16,17,18,0,1,2,5,6))
+
+#Figure 4C: Species level
+fig4c=truepos.krak.species%>%
+  ggplot()+
+  geom_point(aes(pollen.grain.proportion, quant.species, color=species, shape=species), size=4, alpha=0.4, position = "jitter")+
+  xlab("proportion of pollen grains in sample")+
+  ylab("proportion of reads")+
+  geom_abline(size=0.2, alpha=1)+ #line w/ slope 1
+  theme_bw()+
+  ggtitle("C")+
+  scale_shape_manual(values=c(15,16,17,18,0,1,2,5,6))
+
+
+#Figure 4 Panel
+ggsave("WGS_fig4a.pdf", fig6a, device="pdf", width=7, height=5, units="in")
+ggsave("WGS_fig4b.pdf", fig6b, device="pdf", width=7, height=5, units="in")
+ggsave("WGS_fig4c.pdf", fig6c, device="pdf", width=7, height=5, units="in")
+
+# save panel
+panel.fig4 = grid.arrange(fig4a, fig4b, fig4c,ncol=1) #  heights = rep(50,3)
+ggsave("WGS_fig4_combined.pdf", plot=panel.fig4, device="pdf", height=11, width = 11, units="in")
+```
