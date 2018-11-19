@@ -1990,9 +1990,9 @@ fig4c=truepos.krak.species%>%
 
 
 #Figure 4 Panel
-ggsave("WGS_fig4a.pdf", fig6a, device="pdf", width=7, height=5, units="in")
-ggsave("WGS_fig4b.pdf", fig6b, device="pdf", width=7, height=5, units="in")
-ggsave("WGS_fig4c.pdf", fig6c, device="pdf", width=7, height=5, units="in")
+ggsave("WGS_fig4a.pdf", fig4a, device="pdf", width=7, height=5, units="in")
+ggsave("WGS_fig4b.pdf", fig4b, device="pdf", width=7, height=5, units="in")
+ggsave("WGS_fig4c.pdf", fig4c, device="pdf", width=7, height=5, units="in")
 
 # save panel
 panel.fig4 = grid.arrange(fig4a, fig4b, fig4c,ncol=1) #  heights = rep(50,3)
