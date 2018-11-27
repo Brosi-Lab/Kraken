@@ -979,51 +979,6 @@ for(k in 1:3) { # 'taxon': species, genus, family
 # in this case, not displaying the table (commented out) since all but one row gave an error.
 # kable(krak_sim.results.table)
 
-#Convert to table format for chisquared test
-chi_family_1GB <- krak_simkrak_agg_family_1GB %>%
-          select(true_pos, false_pos, source) %>%
-          group_by(source) %>%
-          summarize(truepos_tot = sum(true_pos), falsepos_tot = sum(false_pos))
-
-chi_family_2GB <- krak_simkrak_agg_family_2GB %>%
-          select(true_pos, false_pos, source) %>%
-          group_by(source) %>%
-          summarize(truepos_tot = sum(true_pos), falsepos_tot = sum(false_pos))
-
-chi_genus_1GB <- krak_simkrak_agg_genus_1GB %>%
-          select(true_pos, false_pos, source) %>%
-          group_by(source) %>%
-          summarize(truepos_tot = sum(true_pos), falsepos_tot = sum(false_pos))
-
-chi_genus_2GB <- krak_simkrak_agg_genus_2GB %>%
-          select(true_pos, false_pos, source) %>%
-          group_by(source) %>%
-          summarize(truepos_tot = sum(true_pos), falsepos_tot = sum(false_pos))
-
-chi_species_1GB <- krak_simkrak_agg_species_1GB %>%
-          select(true_pos, false_pos, source) %>%
-          group_by(source) %>%
-          summarize(truepos_tot = sum(true_pos), falsepos_tot = sum(false_pos))
-
-chi_species_2GB <- krak_simkrak_agg_species_2GB %>%
-          select(true_pos, false_pos, source) %>%
-          group_by(source) %>%
-          summarize(truepos_tot = sum(true_pos), falsepos_tot = sum(false_pos))
-
-chi_family_1GB[2,1] = "simkrak_1GB"
-chi_family_2GB[2,1] = "simkrak_2GB"
-chi_genus_1GB[2,1] = "simkrak_1GB"
-chi_genus_2GB[2,1] = "simkrak_2GB"
-chi_species_1GB[2,1] = "simkrak_1GB"
-chi_species_2GB[2,1] = "simkrak_2GB"
-
-chitable_family = rbind(chi_family_1GB, chi_family_2GB[2,])
-chitable_genus = rbind(chi_genus_1GB, chi_genus_2GB[2,])
-chitable_species = rbind(chi_species_1GB, chi_species_2GB[2,])
-
-chitable_family = column_to_rownames(data.frame(chitable_family), var="source")
-chitable_genus = column_to_rownames(data.frame(chitable_genus), var="source")
-chitable_species = column_to_rownames(data.frame(chitable_species), var="source")
 ```
 
 The results table for the GLMMs is not displayed, because all but one of the models had errors. This is probably due to the very small sample size for the simulated data.
@@ -1031,154 +986,9 @@ The results table for the GLMMs is not displayed, because all but one of the mod
 The one model that worked was at the family level, with 1GB depth, where the difference between simulated and empirical datasets was highly significant; from the tables below one can see that the simulated data have fewer false-positive matches at the family level relative to the empirical data.
 
 
-### Family-level results, $\chi^2$ tests
-
-```{r chi-squared results family}
-kable(chitable_family, format.args = list(big.mark = ",")) %>% 
-  kable_styling(bootstrap_options = "striped", full_width = F)
-chisq_family = chisq.test(chitable_family)
-chisq_family
-```
-
-### Genus-level results, $\chi^2$ tests
-
-```{r chi-squared results genus}
-kable(chitable_genus, format.args = list(big.mark = ",")) %>% 
-  kable_styling(bootstrap_options = "striped", full_width = F)
-
-chisq_genus = chisq.test(chitable_genus)
-chisq_genus
-```
-
-### Species-level results, $\chi^2$ tests
-
-```{r}
-kable(chitable_species, format.args = list(big.mark = ",")) %>% 
-  kable_styling(bootstrap_options = "striped", full_width = F)
-
-chisq_species = chisq.test(chitable_species)
-chisq_species
-```
-
-
-The $\chi^2$ tests were all highly significant ($p < 2.2 \times 10^{-16}$), but they are perhaps not very meaningful as power in $\chi^2$ tests is driven by the absolute quantity of the counts, and these count quantities are HUGE in next-gen sequencing. Still, looking at the tables there do appear to be meaningful differences.
-
-Interestingly, the direction of results differed by taxonomic level. At the species and genus level, the simulation data had a much higher proportion of false positives than the empirical data (although, at the species level, both datasets had more false positives than true positives). However, at the family level, the empirical data had a much higher proportion of false positives than the simulated data. 
-
-## comparison of amplicon and shotgun results: Qualitative data - AIC comparison
-
-This initial comparison of the amplicon and WGS data assesses which dataset provides a better model fit when looking at the effect of species richness/relatedness/pollen grain proportion on qualitative detection of species. In hindsight, **this probably isn't a useful comparison** because we are interested in whether or not overall detection is more accurate in WGS vs. amplicon, not which data can be better explained by species richness, etc. 
-
-```{r ITS2 AIC qualitative shotgun vs. amplicon}
-
-#Import qualitative results from amplicon analysis
-
-load("qual_amplicon_results.RData")
-
-#Create data frame to hold ITS results: 3 questions x 2 datasets x 2 taxonomic levels x 1 markers = 12 rows
-ITS_comp_AIC= data.frame(question = rep(NA,12), taxon  = rep(NA,12), data.subset  = rep(NA,12), Krak_AIC = rep(NA,12), Amp_AIC  = rep(NA,12))
-rbcL_comp_AIC= data.frame(question = rep(NA,12), taxon  = rep(NA,12), data.subset  = rep(NA,12), Krak_AIC = rep(NA,12), Amp_AIC  = rep(NA,12))
-
-its_tracker = 1
-rbc_tracker = 1
-
-#Loop for ITS table
-for(q in 1:3) { # 'question': response variables for Q1 / Q2 / Q3
-    for(k in 1:2){ # 'taxon': species, genus (Family not included in amplicon analysis)
-      for(l in 1:2) { # 'datasubset': sub or all
-        # first, name the comparison:
-        namer = paste("Q", q, ".", taxon[k], ".", datasubset[l], sep = "")
-        # second, set which taxonomic data to use:
-        krak_data.to.use = paste("Krak.Q", q, ".", taxon[k], ".", datasubset[l], sep = "")
-        amp_data.to.use = paste("Q", q, ".", taxon[k], ".", "ITS.", datasubset[l], sep = "")
-       
-        
-        ## extract Kraken AIC 
-        # example: extractAIC(Krak.Q1.genus.all)
-        Krak_AICer = paste("krakaic <- extractAIC(",krak_data.to.use,")[2]", sep = "")
-         eval(parse(text = Krak_AICer))
-         
-        ## extract Amplicon AIC 
-        # example: extractAIC(Q1.genus.ITS.all)
-        Amp_AICer = paste("ampaic <- extractAIC(",amp_data.to.use,")[2]", sep = "")
-        eval(parse(text = Amp_AICer))
-        
-        # record results in table
-        ITS_comp_AIC[its_tracker,1] = question[q]
-        ITS_comp_AIC[its_tracker,2] = taxon[k]
-        ITS_comp_AIC[its_tracker,3] = datasubset[l]
-        ITS_comp_AIC[its_tracker,4] = krakaic
-        ITS_comp_AIC[its_tracker,5] = ampaic
-        
-        # advance tracker
-        its_tracker = its_tracker + 1
-      }
-    }
-  }
-```
-
-### ITS2 results qualitative AIC: 
-
-(again, not particularly helpful):
-
-```{r ITS AIC qual results}
-kable(ITS_comp_AIC) %>% 
-  kable_styling(bootstrap_options = "striped", full_width = F)
-```
-
-
-```{r rbcL AIC qualitative shotgun vs. amplicon}
-#Repeat for rbcL
-
-for(q in 1:3) { # 'question': response variables for Q1 / Q2 / Q3
-    for(k in 1:2){ # 'taxon': species, genus (Family not included in amplicon analysis)
-      for(l in 1:2) { # 'datasubset': sub or all
-        # first, name the comparison:
-        namer = paste("Q", q, ".", taxon[k], ".", datasubset[l], sep = "")
-        # second, set which taxonomic data to use:
-        krak_data.to.use = paste("Krak.Q", q, ".", taxon[k], ".", datasubset[l], sep = "")
-        amp_data.to.use = paste("Q", q, ".", taxon[k], ".", "rbcL.", datasubset[l], sep = "")
-       
-        
-        ## extract Kraken AIC 
-        # example: extractAIC(Krak.Q1.genus.all)
-        Krak_AICer = paste("krakaic <- extractAIC(",krak_data.to.use,")[2]", sep = "")
-         eval(parse(text = Krak_AICer))
-         
-        ## extract Amplicon AIC 
-        # example: extractAIC(Q1.genus.ITS.all)
-        Amp_AICer = paste("ampaic <- extractAIC(",amp_data.to.use,")[2]", sep = "")
-        eval(parse(text = Amp_AICer))
-        
-        # record results in table
-        rbcL_comp_AIC[rbc_tracker,1] = question[q]
-        rbcL_comp_AIC[rbc_tracker,2] = taxon[k]
-        rbcL_comp_AIC[rbc_tracker,3] = datasubset[l]
-        rbcL_comp_AIC[rbc_tracker,4] = krakaic
-        rbcL_comp_AIC[rbc_tracker,5] = ampaic
-        
-        # advance tracker
-        rbc_tracker = rbc_tracker + 1
-      }
-    }
-  }
-
-```
-
-### rbcL results qualitative AIC:
-
-(again, not particularly informative or helpful)
-
-```{r rbcL qual AIC results}
-kable(rbcL_comp_AIC) %>% 
-  kable_styling(bootstrap_options = "striped", full_width = F)
-```
-
-Overall, there are no obvious trends in terms of one dataset providing a better fit than another. As stated above, this does not actually answer the question of which dataset (amplicon vs. WGS) more accurrately detects presence/absence of species.
-
 ## comparison of amplicon and shotgun results: Quantitative data - AIC comparison
 
-This analysis uses AIC to determine which dataset (amplicon vs. WGS) provides a better fit when modelling pollen grain proportion vs. read proportion. Unlike the qualitative analysis above, the AIC for these models will actually give some idea as to which dataset is more quantiatively accurate. 
+This analysis uses AIC to determine which dataset (amplicon vs. WGS) provides a better fit when modelling pollen grain proportion vs. read proportion. The AIC for these models will give some idea as to which dataset is more quantiatively accurate. 
 
 ```{r ITS AIC quantitative shotgun vs. amplicon}
 
@@ -1452,8 +1262,8 @@ for(q in 1:2) { # 'marker': its or rbc
         # fourth, evaluate the mixed-effects model
         eval(parse(text = mixed))
             #fifth, print summary of model [SKIP FOR NOW]
-            summarizer = paste("print(summary(", namer, "))", sep = "")
-            eval(parse(text = summarizer)) # print summary of the mixed-effects model
+            #summarizer = paste("print(summary(", namer, "))", sep = "")
+            #eval(parse(text = summarizer)) # print summary of the mixed-effects model
         
         ## extract p-value
         # example: coef(summary(its.family))[2,4]
@@ -1510,7 +1320,6 @@ krakamp_genus_fn <- rbind(truepos.krak.genus[,c("mix.ID", "genus", "sample", "qu
 krakamp_species_fn <- rbind(truepos.krak.species[,c("mix.ID", "species", "sample", "qual.species", "source")], amp_all[,c("mix.ID","species","sample", "qual.species", "source")])
 
 
-
 taxon = c("species", "genus", "family")
 
 # first set up a table for the results:
@@ -1542,8 +1351,8 @@ tracker = 1
         # fourth, evaluate the mixed-effects model
         eval(parse(text = mixed))
             #fifth, print summary of model [SKIP FOR NOW]
-            summarizer = paste("print(summary(", namer, "))", sep = "")
-            eval(parse(text = summarizer)) # print summary of the mixed-effects model
+            #summarizer = paste("print(summary(", namer, "))", sep = "")
+            #eval(parse(text = summarizer)) # print summary of the mixed-effects model
         
         ## extract p-value
         # example: coef(summary(its.family))[2,4]
@@ -1576,7 +1385,7 @@ kable(krakamp.fn.results.combined) %>%
 
 
 ```
-After combining rbcL and ITS2, where taxa were determined as present if they were present in rbcL OR ITS2, amplicon and WGS were not significantly different in limiting false negatives at the species level, amplicon performed better than kraken at the genus level (estimate = -1.46, p=0.001) and the model gave an error at the family level. 
+After combining rbcL and ITS2, where taxa were determined as present if they were present in rbcL OR ITS2, amplicon performed better than kraken at the species level (estimate = -0.948, p=0.034), genus level (estimate = -30.28, p<0.00001), and family level (estimate = -68.21, p<0.00001). 
 
 # figures
 
@@ -1585,7 +1394,7 @@ This figure shows the mean proportion and binomial CI of correct taxonomic match
 
 The binomial CI is calculated using the binom.confint function, which requires a vector of the number of success (x) and a vector of the number of independent trials (n). 
 
-```{r Figure 1}
+```{r Figure 1, fig.show='hide'}
 #Need to detach plyr for code to work
 detach(package:plyr)
 
@@ -1675,17 +1484,21 @@ fig1c=binomci_species%>%
 ggsave("WGS_fig1a.pdf", plot=fig1a, device="pdf", height=5, width=7, units="in")
 ggsave("WGS_fig1b.pdf", plot=fig1b, device="pdf", height=5, width = 7, units="in")
 ggsave("WGS_fig1c.pdf", plot=fig1c, device="pdf", height=5, width = 7, units="in")
-panel.fig1 = grid.arrange(fig1a, fig1b,fig1c, ncol=1) #  heights = rep(50,3)
-ggsave("fig1_combined.pdf", plot=panel.fig1, device="pdf", height=11, width = 8.5, units="in")
+panel.fig1 = grid.arrange(fig1a, fig1b,fig1c, ncol=1)
+ggsave("fig1_combined.jpg", plot=panel.fig1, device="jpeg", height=11, width = 8.5, units="in")
 
 ```
+
+
+![Figure 1](fig1_combined.jpg)
+
 
 ##figure 2
 
 
 This figure shows the proportion of correct taxonomic matchess by species richness for rbcL and ITS2 at the species and genus level. To correctly format the data, the mean and binomial CI of correct taxonomic matches needs to be summarized 3 times: once for sample, once for mix, and once for level of species richness. Otherwise samples with multiple species will get over-represented in terms of the overall means. The integers are tracked at each step and summarized with `dplyr`. The data is summarized with `dplyr` twice, once per mix and then once per sample. Then within each level of the factor of interest, the mean and binomial confidence intervals are calculated using binom.confint.
 
-```{r Figure 2}
+```{r Figure 2, fig.show='hide'}
 
 #Summarize the agg dataset first by species richness, mix.ID, and sample. Also calculate pool size for each sample ('n()'), as well as sum # of positive identifications
 
@@ -1752,7 +1565,7 @@ dat.family$question.1=as.factor(dat.family$question.1)
 dat.family$question.2=as.factor(dat.family$question.2)
 dat.family$question.3=as.factor(dat.family$question.3)
 dat.family$spp.rich=as.factor(dat.family$spp.rich)
-dat.family=filter(dat.family,question.1=="1"|question.2=="1"|question.3=="1")
+#dat.family=filter(dat.family,question.1=="1"|question.2=="1"|question.3=="1")
 fig2_family=dat.family%>%
   select(spp.rich, mix.ID, n2, family)
 
@@ -1761,7 +1574,7 @@ dat.genus$question.1=as.factor(dat.genus$question.1)
 dat.genus$question.2=as.factor(dat.genus$question.2)
 dat.genus$question.3=as.factor(dat.genus$question.3)
 dat.genus$spp.rich=as.factor(dat.genus$spp.rich)
-dat.genus=filter(dat.genus,question.1=="1"|question.2=="1"|question.3=="1")
+#dat.genus=filter(dat.genus,question.1=="1"|question.2=="1"|question.3=="1")
 fig2_genus=dat.genus%>%
   select(spp.rich, mix.ID, n2, genus)
 
@@ -1770,7 +1583,7 @@ dat.species$question.1=as.factor(dat.species$question.1)
 dat.species$question.2=as.factor(dat.species$question.2)
 dat.species$question.3=as.factor(dat.species$question.3)
 dat.species$spp.rich=as.factor(dat.species$spp.rich)
-dat.species=filter(dat.species,question.1=="1"|question.2=="1"|question.3=="1")
+#dat.species=filter(dat.species,question.1=="1"|question.2=="1"|question.3=="1")
 fig2_species=dat.species%>%
   select(spp.rich, mix.ID, n2, species)
 
@@ -1869,31 +1682,29 @@ fig2c=species.all%>%
 
 #Create panel for Figure 2
 fig2=grid.arrange(fig2a,fig2b,fig2c, nrow=1)
-ggsave("fig2_combined.pdf", plot=fig2, device="pdf", width=169, units="mm")
-
+ggsave("fig2_combined.jpg", plot=fig2, device="jpeg", width=169, units="mm")
 ```
 
-#Figure 3  
+![Figure 2](fig2_combined.jpg)
+
+##Figure 3  
 
 This figure shows the relationship between the proportion of pollen grains belonging to a particular taxa with the probability of detection (presence/absence) of that taxa in the sequencing reads. Each color belongs to a particular taxa, and each taxa has its own trendline as determined by logistic regression.
 
 
-```{r Figure 3}
+```{r Figure 3, fig.show='hide'}
 
 fig3_sub_family=truepos.krak.family%>%
-  filter(question.1==2|question.2==2|question.3==2) %>%
   select(mix.ID, family, spp.rich, pollen.grain.proportion, qual.family)
 
 fig3_sub_family$spp.rich=as.factor(fig3_sub_family$spp.rich)
 
 fig3_sub_genus=truepos.krak.genus%>%
-  filter(question.1==2|question.2==2|question.3==2) %>%
   select(mix.ID, genus, spp.rich, pollen.grain.proportion, qual.genus)
 
 fig3_sub_genus$spp.rich=as.factor(fig3_sub_genus$spp.rich)
 
 fig3_sub_species=truepos.krak.species%>%
-  filter(question.1==2|question.2==2|question.3==2) %>%
   select(mix.ID, species, spp.rich, pollen.grain.proportion, qual.species)
 
 fig3_sub_genus$spp.rich=as.factor(fig3_sub_genus$spp.rich)
@@ -1938,22 +1749,23 @@ fig3c=fig3_sub_species%>%
         legend.key.size = unit(1.5, 'lines'))
 
 #Create panel for figure 3
-fig3=grid.arrange(fig3a,fig3b,fig3c, nrow=2)
+fig3=grid.arrange(fig3a,fig3b,fig3c, nrow=1)
 ggsave("WGS_fig3a.pdf", plot=fig3a, device="pdf", width=7, height=5, units="in")
 ggsave("WGS_fig3b.pdf", plot=fig3b, device="pdf", width=7, height=5, units="in")
 ggsave("WGS_fig3c.pdf", plot=fig3c, device="pdf", width=7, height=5, units="in")
 panel.fig3 = grid.arrange(fig3a, fig3b, fig3c, ncol=1) #  heights = rep(50,3)
-ggsave("fig3_combined.pdf", plot=panel.fig3, device="pdf", height=8.5, width = 11, units="in")
+ggsave("fig3_combined.jpg", plot=panel.fig3, device="jpeg", height=8.5, width = 11, units="in")
 ```
 
+![Figure 3](fig3_combined.jpg)
 
-#Figure 4  
+##Figure 4  
 
 This figure shows the quantitative relationship between the proportion of pollen grains and the proportion of reads matching to a particular taxa. There are plots for the species, genus, and family level. 
 
 Fortunately, these figures do not require formatting of the dataset beyond what has already been done. The code is fairly self-explanatory.  
 
-```{r Figure 4}
+```{r Figure 4, fig.show='hide'}
 
 #Figure 4A: Family level
 fig4a=truepos.krak.family%>%
@@ -1996,15 +1808,17 @@ ggsave("WGS_fig4c.pdf", fig4c, device="pdf", width=7, height=5, units="in")
 
 # save panel
 panel.fig4 = grid.arrange(fig4a, fig4b, fig4c,ncol=1) #  heights = rep(50,3)
-ggsave("WGS_fig4_combined.pdf", plot=panel.fig4, device="pdf", height=11, width = 11, units="in")
+ggsave("fig4_combined.jpg", plot=panel.fig4, device="jpeg", height=11, width = 11, units="in")
 ```
+
+![Figure 4](fig4_combined.jpg)
 
 ##figure 5
 
 
 This figure shows the proportion of correct taxonomic matchess by source (amplicon vs. WGS) at the species, genus, and family level. To correctly format the data, the mean and binomial CI of correct taxonomic matches needs to be summarized 3 times: once for sample, once for mix, and once for source. Otherwise samples with multiple species will get over-represented in terms of the overall means. The integers are tracked at each step and summarized with `dplyr`. The data is summarized with `dplyr` twice, once per mix and then once per sample. Then within each level of the factor of interest, the mean and binomial confidence intervals are calculated using binom.confint.
 
-```{r Figure 2}
+```{r Figure 5, fig.show='hide'}
 
 #Summarize the agg dataset first by source, mix.ID, and sample. Also calculate pool size for each sample ('n()'), as well as sum # of positive identifications
 
@@ -2145,6 +1959,71 @@ fig5c=fig5_species.all%>%
 
 #Create panel for Figure 5
 fig5=grid.arrange(fig5a,fig5b,fig5c, nrow=1)
-ggsave("fig5_combined.pdf", plot=fig5, device="pdf", width=169, units="mm")
+ggsave("fig5_combined.jpg", plot=fig5, device="jpeg", width=169, units="mm")
+```
+
+![Figure 5](fig5_combined.jpg)
+
+## Figure 6
+
+This figure shows the proportion of hits that were false positives. The "false positive" vs. "false negative" variable created in part 3.5 and 3.7 is converted to a numeric binomial variable. The mean and binomial CI of false positive counts are aggregated once by sample, once by mix, and once by source. Data summary and confidence intervals are calculated as in figure 5. 
+
+```{r figure 6}
+
+#Create variable called "falsepos" that is equivalent to "type"
+
+all.krak.family$falsepos = all.krak.family$type
+all.krak.genus$falsepos = all.krak.genus$type
+all.krak.species$falsepos = all.krak.species$type
+
+#Merge ITS and rbcL data
+amp_family_allmix = merge(amp_its_family_mix, amp_rbc_family_mix, by=c("mix.ID","taxa","sample"), all.x=T, all.y=T)
+amp_genus_allmix = merge(amp_its_genus_mix, amp_rbc_genus_mix, by=c("mix.ID","taxa","sample"), all.x=T, all.y=T)
+amp_species_allmix = merge(amp_its_species_mix, amp_rbc_species_mix, by=c("mix.ID","taxa","sample"), all.x=T, all.y=T)
+
+#Create hits variable that sums the hits for rbcL and ITS
+amp_family_allmix$hits = rowSums(amp_family_allmix[,c("hits.x","hits.y")], na.rm=T)
+amp_genus_allmix$hits = rowSums(amp_genus_allmix[,c("hits.x","hits.y")], na.rm=T)
+amp_species_allmix$hits = rowSums(amp_species_allmix[,c("hits.x","hits.y")], na.rm=T)
+
+#Create false positive variable
+amp_family_allmix$falsepos = ifelse(!is.na(amp_family_allmix$type.x),amp_family_allmix$type.x,amp_family_allmix$type.y)
+amp_genus_allmix$falsepos = ifelse(!is.na(amp_genus_allmix$type.x),amp_genus_allmix$type.x,amp_genus_allmix$type.y)
+amp_species_allmix$falsepos = ifelse(!is.na(amp_species_allmix$type.x),amp_species_allmix$type.x,amp_species_allmix$type.y)
+
+#Rename variable "taxa"
+setnames(amp_family_allmix, "taxa", "family")
+setnames(amp_genus_allmix, "taxa","genus")
+setnames(amp_species_allmix, "taxa", "species")
+
+all.krak.family$source = "K"
+amp_family_allmix$source = "A"
+all.krak.genus$source = "K"
+amp_genus_allmix$source = "A"
+all.krak.species$source = "K"
+amp_species_allmix$source = "A"
+
+#Merge amplicon and kraken data 
+krakamp_family_fp <- rbind(all.krak.family[,c("mix.ID", "family", "sample", "falsepos", "source", "hits")], amp_family_allmix[,c("mix.ID","family","sample", "falsepos", "source", "hits")])
+krakamp_genus_fp <- rbind(all.krak.genus[,c("mix.ID", "genus", "sample", "falsepos", "source", "hits")], amp_genus_allmix[,c("mix.ID","genus","sample", "falsepos", "source", "hits")])
+krakamp_species_fp <- rbind(all.krak.species[,c("mix.ID", "species", "sample", "falsepos", "source", "hits")], amp_species_allmix[,c("mix.ID","species","sample", "falsepos", "source", "hits")])
+
+#Summarize the agg dataset first by source, mix.ID, and sample. Also summarize total hits for each sample, as well as sum # of false positive hits
+
+CI.krakamp.family.fp.1 = krakamp_family_fp %>% 
+select(mix.ID, sample, falsepos, source, hits) %>% group_by(source, mix.ID, sample) %>%
+summarize(total.hits = sum(hits),
+          fp.hits = sum(hits[falsepos=="false_pos"]))
+
+CI.krakamp.genus.fp.1 = krakamp_genus_fp %>% 
+select(mix.ID, sample, falsepos, source, hits) %>% group_by(source, mix.ID, sample) %>%
+summarize(total.hits = sum(hits),
+          fp.hits = sum(hits[falsepos=="false_pos"]))
+
+CI.krakamp.species.fp.1 = krakamp_species_fp %>% 
+select(mix.ID, sample, falsepos, source, hits) %>% group_by(source, mix.ID, sample) %>%
+summarize(total.hits = sum(hits),
+          fp.hits = sum(hits[falsepos=="false_pos"]))
+
 
 ```
