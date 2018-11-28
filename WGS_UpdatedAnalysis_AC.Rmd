@@ -1968,7 +1968,7 @@ ggsave("fig5_combined.jpg", plot=fig5, device="jpeg", width=169, units="mm")
 
 This figure shows the proportion of hits that were false positives. The "false positive" vs. "false negative" variable created in part 3.5 and 3.7 is converted to a numeric binomial variable. The mean and binomial CI of false positive counts are aggregated once by sample, once by mix, and once by source. Data summary and confidence intervals are calculated as in figure 5. 
 
-```{r figure 6}
+```{r figure 6, fig.show='hide'}
 
 #Create variable called "falsepos" that is equivalent to "type"
 
@@ -2008,22 +2008,111 @@ krakamp_family_fp <- rbind(all.krak.family[,c("mix.ID", "family", "sample", "fal
 krakamp_genus_fp <- rbind(all.krak.genus[,c("mix.ID", "genus", "sample", "falsepos", "source", "hits")], amp_genus_allmix[,c("mix.ID","genus","sample", "falsepos", "source", "hits")])
 krakamp_species_fp <- rbind(all.krak.species[,c("mix.ID", "species", "sample", "falsepos", "source", "hits")], amp_species_allmix[,c("mix.ID","species","sample", "falsepos", "source", "hits")])
 
-#Summarize the agg dataset first by source, mix.ID, and sample. Also summarize total hits for each sample, as well as sum # of false positive hits
+#Summarize the agg dataset first by source and mix ID
 
-CI.krakamp.family.fp.1 = krakamp_family_fp %>% 
-select(mix.ID, sample, falsepos, source, hits) %>% group_by(source, mix.ID, sample) %>%
+CI.krakamp.family.fp = krakamp_family_fp %>% 
+select(mix.ID, falsepos, source, hits) %>% group_by(source, mix.ID) %>%
 summarize(total.hits = sum(hits),
           fp.hits = sum(hits[falsepos=="false_pos"]))
 
-CI.krakamp.genus.fp.1 = krakamp_genus_fp %>% 
-select(mix.ID, sample, falsepos, source, hits) %>% group_by(source, mix.ID, sample) %>%
+CI.krakamp.genus.fp = krakamp_genus_fp %>% 
+select(mix.ID, falsepos, source, hits) %>% group_by(source, mix.ID) %>%
 summarize(total.hits = sum(hits),
           fp.hits = sum(hits[falsepos=="false_pos"]))
 
-CI.krakamp.species.fp.1 = krakamp_species_fp %>% 
-select(mix.ID, sample, falsepos, source, hits) %>% group_by(source, mix.ID, sample) %>%
+CI.krakamp.species.fp = krakamp_species_fp %>% 
+select(mix.ID, falsepos, source, hits) %>% group_by(source, mix.ID) %>%
 summarize(total.hits = sum(hits),
           fp.hits = sum(hits[falsepos=="false_pos"]))
 
+#Convert from wide to long
+fig6_long_family = melt(CI.krakamp.family.fp, id.vars = c("source","mix.ID", "total.hits"))
+  fig6_long_family = fig6_long_family%>%
+  rename(x=value, n=total.hits)
+  
+fig6_long_genus = melt(CI.krakamp.genus.fp, id.vars = c("source","mix.ID", "total.hits"))
+  fig6_long_genus = fig6_long_genus%>%
+  rename(x=value, n=total.hits)
+  
+fig6_long_species = melt(CI.krakamp.species.fp, id.vars = c("source","mix.ID", "total.hits"))
+  fig6_long_species = fig6_long_species%>%
+  rename(x=value, n=total.hits)
 
+#group by source
+ fig6_long_family = fig6_long_family %>%
+    group_by(source) %>%
+    summarize(n=mean(n),x=mean(x)) %>%
+    ungroup()
+  
+fig6_long_genus = fig6_long_genus %>%
+    group_by(source) %>%
+    summarize(n=mean(n),x=mean(x)) %>%
+    ungroup()
+  
+fig6_long_species = fig6_long_species %>%
+    group_by(source) %>%
+    summarize(n=mean(n),x=mean(x)) %>%
+    ungroup()
+
+ #Calculate mean and binomial CI
+
+fig6_bin.family = binom.confint(fig6_long_family$x, fig6_long_family$n,methods="exact") %>%
+    select(-method)
+  
+fig6_bin.genus = binom.confint(fig6_long_genus$x, fig6_long_genus$n,methods="exact") %>%
+    select(-method)
+  
+fig6_bin.species = binom.confint(fig6_long_species$x, fig6_long_species$n,methods="exact") %>%
+    select(-method)
+  
+  #merge datasets
+  
+  fig6_family.all = merge(fig6_bin.family, fig6_long_family, by = c("x", "n"))
+  fig6_family.all = unique(fig6_family.all)
+  
+  fig6_genus.all = merge(fig6_bin.genus, fig6_long_genus, by = c("x", "n"))
+  fig6_genus.all = unique(fig6_genus.all)
+  
+  fig6_species.all = merge(fig6_bin.species, fig6_long_species, by = c("x", "n"))
+  fig6_species.all = unique(fig6_species.all)
+  
+#Figure 6A: Family level
+fig6a=fig6_family.all%>%
+  ggplot()+
+  geom_point(aes(source,mean))+
+  geom_errorbar(aes(source,ymin=lower, ymax=upper), width=0.2)+
+  xlab("source")+
+  ylab("proportion of false positives")+
+  ylim(0,1)+
+  ggtitle("A")+
+   theme_bw()
+
+#Figure 6B: Genus level
+fig6b=fig6_genus.all%>%
+  ggplot()+
+  geom_point(aes(source,mean))+
+  geom_errorbar(aes(source,ymin=lower, ymax=upper), width=0.2)+
+  xlab("source")+
+  ylab("proportion of false positives")+
+  ylim(0,1)+
+  ggtitle("B")+
+   theme_bw()
+
+#Figure 6C: Species level
+fig6c=fig6_species.all%>%
+  ggplot()+
+  geom_point(aes(source,mean))+
+  geom_errorbar(aes(source,ymin=lower, ymax=upper), width=0.2)+
+  xlab("source")+
+  ylab("proportion of false positives")+
+  ylim(0,1)+
+  ggtitle("C")+
+   theme_bw()
+
+
+#Create panel for Figure 6
+fig6=grid.arrange(fig6a,fig6b,fig6c, nrow=1)
+ggsave("fig6_combined.jpg", plot=fig6, device="jpeg", width=169, units="mm")
 ```
+
+![Figure 6](fig6_combined.jpg)
