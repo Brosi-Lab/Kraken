@@ -267,6 +267,12 @@ truepos.krak.species =  merge(krak_mixes, filter(krak, tax == "S"), by = c("mix.
 all.krak.family =  merge(krak_mixes, filter(krak, tax == "F"), by = c("mix.ID", "family"), all.x = T, all.y = T)
 all.krak.genus =  merge(krak_mixes, filter(krak, tax == "G"), by = c("mix.ID", "genus"), all.x = T, all.y = T)
 all.krak.species =  merge(krak_mixes, filter(krak, tax == "S"), by = c("mix.ID", "species"), all.x = T, all.y = T)
+```
+
+
+```{r C.3 merge kraken simulated data and metadata, eval = F}
+
+# !!! eval = F here---simulated data, not run !!!
 
 #Repeat for SIMKRAK - Because there are no reps, need to subset mixes to the mixIDs contained in simkrak and merge data
 sim_mixes <- subset(mixes, mixes$mix.ID %in% simkrak$mix.ID)
