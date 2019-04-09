@@ -92,14 +92,15 @@ For both of these approaches, one possibility would be to specify the intercept 
 # Data import
 Three groups of data sets to import: 1) WGS Kraken empirical data; 2) sample metadata; 3) amplicon data. The amplicon data are represented by 6 data files: two markers (ITS2 and *rbcL*) and three levels of taxonomic matching (species, genus, and family). We later format the Kraken data into three datasets representing those taxonomic levels.
 
-For the Kraken data, Jamieson Botsch formatted these (25-Apr-2018) from the raw Kraken output to have the family / genus / species separated out into columns; see `Shotgun_data_prep.Rmd`. Unlike the QIIME Illumina data, we do not need to do any aggregation of read counts as this was done automatically by Kraken (nice touch)
+For the Kraken data, Jamieson Botsch formatted these (25-Apr-2018) from the raw Kraken output to combine the two data sources (we sequenced WGS data both at Emory and at UGA), and to have the family / genus / species separated out into columns; see `Shotgun_data_prep.Rmd`. Unlike the QIIME Illumina data, we do not need to do any aggregation of read counts as this was done automatically by Kraken (nice touch); i.e. all read counts at the species level are also included in genus-level matches and so on.
 
 We do just a couple of steps of very basic / simple formatting with the data import here (removal of superfluous numeric column a the beginning of the data; removal of duplicate rows).
 
 *again, the Kraken simulations have been removed from the analysis because they were not adding any particular value*
 
 ```{r data import}
-krak = read.csv("kraken.csv")
+krak.raw = read.csv("kraken.csv") # create 'krak.raw' that we can refer back to later
+krak = krak.raw # create working copy of kraken data
 mixes = read.csv("pollen-mixes-proportions.csv")
 # simkrak = read.csv("kraken_sim.csv")
 amp_its_family = read.csv("Amplicon_ITS_Family.csv")
@@ -131,8 +132,9 @@ names(krak)[1] = "sample.id"
 # data formatting / setup
 
 1. Kraken data prep
-    + step 1: filter to include only matches at family / genus / species taxonomic resolutions (not anything coarser, and no intermediate clades)
-    + step 2: create new columns for `mix.ID` that matches the column in the sample (`pollen-mixes-proportions.csv`) data
+    + filter to include only matches at family / genus / species taxonomic resolutions (not anything coarser, and no intermediate clades)
+    + create new columns for `mix.ID` that matches the column in the sample (`pollen-mixes-proportions.csv`) data, and also `replicate.ID` for replicates within each mix
+    + a couple of minor tweaks to make sure data are consistent etc.
 1. Combine Kraken and sample metadata
 1. Remove reads below contamination thresshold
 1. Match Kraken and sample data, qualitatively and quantitatively
@@ -143,7 +145,9 @@ names(krak)[1] = "sample.id"
 
 1. filter by `tax.cat` column, including only species / genus / family levels
 1. create new column for `mix.ID` that matches the column in the sample metadata (`pollen-mixes-proportions.csv`)
-    + also create a new `replicate.ID`
+1. also create a new `replicate.ID` column (replicate samples of each `mix.ID`)
+    + both of the above are challenging because the Emory and UGA data are formatted slightly differently from each other, and also those formats are different than the metadata; this involves parsing regular expressions from the single column of sample names
+1. finally, do some relatively minor tweaks for formatting etc.; e.g. capitalization of *"C. illinoisensis"*; formatting of sample numbers etc.
 
 ```{r C.1: Kraken data prep}
 
@@ -168,7 +172,7 @@ krak$mix.ID = substr(krak$sample.id, 1, 6)
 # move the new column to be second in order (not at the end where it's hard to see)
 krak = krak[, c(1, ncol(krak), 3:ncol(krak)-1)]
 
-#Want to remove the 6th character if mix.id does not contain the word "mix" or contains 2 dashes. Only want six characters if the mix number is double digits.
+# Want to remove the 6th character if mix.id does not contain the word "mix" or contains 2 dashes. Only want six characters if the mix number is double digits.
 
 krak$mix.ID = ifelse(!grepl("mix", krak$mix.ID) | str_count(krak$mix.ID, pattern="-")==2, substr(krak$mix.ID, 1, 5), krak$mix.ID)
 
@@ -176,7 +180,7 @@ krak$mix.ID = ifelse(!grepl("mix", krak$mix.ID) | str_count(krak$mix.ID, pattern
 krak$mix.ID = gsub("-", ".", krak$mix.ID)
 krak$mix.ID = gsub("_", ".", krak$mix.ID)
 
-  # 2.1--fix capitalization for pecan ("c.ill"" should be "C.ill")
+  # fix capitalization for pecan ("c.ill"" should be "C.ill")
   krak$mix.ID = gsub("c.i", "C.i", krak$mix.ID)
 
 # third, for the Emory mixes (different label), extract the mix from the text in the 'sample.id' column
@@ -184,14 +188,14 @@ krak$mix.ID = gsub("_", ".", krak$mix.ID)
 # (... took me quite a while to figure this out, dang regular expressions...)
 # then do some cleanup
 
-  # 4.1--extract strings and subset to only the relevant values  
+  # extract strings and subset to only the relevant values  
   new.vals = str_extract(krak$sample.id, "mix_.*/")
   new.vals = new.vals[is.na(new.vals) == F]
   
-  # 4.2--replace old vals with new.vals
+  # replace old vals with new.vals
   krak$mix.ID = replace(krak$mix.ID, krak$mix.ID=="repla", new.vals)
   
-  # 4.3--cleanup
+  # cleanup
   krak$mix.ID = gsub("_", ".", krak$mix.ID)
   krak$mix.ID = gsub("/", "", krak$mix.ID)
 
