@@ -102,7 +102,6 @@ We do just a couple of steps of very basic / simple formatting with the data imp
 krak.raw = read.csv("kraken.csv") # create 'krak.raw' that we can refer back to later
 krak = krak.raw # create working copy of kraken data
 mixes = read.csv("pollen-mixes-proportions.csv")
-# simkrak = read.csv("kraken_sim.csv")
 amp_its_family = read.csv("Amplicon_ITS_Family.csv")
 amp_its_genus = read.csv("Amplicon_ITS_Genus.csv")
 amp_its_species = read.csv("Amplicon_ITS_Species.csv")
@@ -114,18 +113,15 @@ amp_all = read.csv("Amplicon_all.csv")
 # 'mixes' comes in with some rows duplicated (because in the spreadsheet, each was assessed with both ITS2 and with rbcL); fix this here:
 mixes = unique(mixes)
 
-# 'krak' and 'simkrak' come with an extra numeric column at the beginning ('X'); delete
+# 'krak' comes with an extra numeric column at the beginning ('X'); delete
 krak = krak[,-1]
-# simkrak = simkrak[,-1]
 
-# change name of 'krak' & 'simkrak' identifier columns
+# change name of 'krak' identifier columns
 # identifier column is called 'mix.id' but it is very different from the 'mix.ID' column in the 'mixes' data; we will ultimately want to join by 'mix.ID'
 names(krak)[1] = "sample.id"
-# names(simkrak)[1] = "sample.id"
 
 # check them out to make sure we're all good:
 # View(krak)
-## View(simkrak)
 # View(mixes)
 ```
 
@@ -227,32 +223,6 @@ krak_uniqueid <- data.frame(krak$mix.ID, krak$rep.ID, krak$sample)
 krak_uniqueid <- unique.data.frame(krak_uniqueid)
 ```
 
-## Simulated Kraken data prep (NOT RUN; not using simulated data)
-
-```{r simulated kraken data prep, eval = F}
-
-# ===============================================
-# !!! eval = F here---simulated data, not run !!!
-# ===============================================
-
-# NOW FOR SIMKRAK
-  
-## Create a column for mix.id with the characters 6-10 of the sample id
-# simkrak$mix.ID = substr(simkrak$sample.id, 6, 10)
-
-## Remove underscore for mixes with single digit
-# simkrak$mix.ID = gsub("_", "", simkrak$mix.ID)
-
-## Move to second column as done in krak
-# simkrak = simkrak[, c(1, ncol(simkrak), 3:ncol(simkrak)-1)]
-
-## Create a column for sequence depth with the last 3 digits of the sample id
-# simkrak$depth = substr(simkrak$sample.id, (str_length(simkrak$sample.id)-2), str_length(simkrak$sample.id))
-
-## Move to third column
-# simkrak = simkrak[, c(1:2, ncol(simkrak), 4:ncol(simkrak)-1)]
-```
-
 ## combine Kraken & sample / mix data:
 
 new aggregated datasheeet, based on sample metadata, but which matches sample data back to the Kraken data so we can run analyses about probability of matching (both qualitative and quantitative). In particular this is taking account of sample "replicates" (including some that are not true replicates, but rather forward vs. reverse reads); also different Illumina lanes in the Emory Genome Center data.
@@ -264,7 +234,7 @@ new aggregated datasheeet, based on sample metadata, but which matches sample da
 
 use 'mix.ID' as the variable to combine by...
 
-```{r C.3 merge kraken data and metadata}
+```{r merge kraken data and sample metadata}
 
 ## Merge sample and replicate IDs with mixes data
 krak_mixes <- merge(mixes,krak_uniqueid, by.x="mix.ID", by.y="krak.mix.ID")
@@ -278,27 +248,6 @@ all.krak.family =  merge(krak_mixes, filter(krak, tax == "F"), by = c("mix.ID", 
 all.krak.genus =  merge(krak_mixes, filter(krak, tax == "G"), by = c("mix.ID", "genus"), all.x = T, all.y = T)
 all.krak.species =  merge(krak_mixes, filter(krak, tax == "S"), by = c("mix.ID", "species"), all.x = T, all.y = T)
 ```
-
-## merge *simulated* kraken data and metadata (NOT RUN; not using simulated data)
-
-```{r merge kraken simulated data and metadata, eval = F}
-
-# ===============================================
-# !!! eval = F here---simulated data, not run !!!
-# ===============================================
-
-#Repeat for SIMKRAK - Because there are no reps, need to subset mixes to the mixIDs contained in simkrak and merge data
-sim_mixes <- subset(mixes, mixes$mix.ID %in% simkrak$mix.ID)
-
-truepos.simkrak.family = merge(sim_mixes, filter(simkrak, tax == "F"), by = c("mix.ID", "family"), all.x = T)
-truepos.simkrak.genus = merge(sim_mixes, filter(simkrak, tax == "G"), by = c("mix.ID", "genus"), all.x = T)
-truepos.simkrak.species = merge(sim_mixes, filter(simkrak, tax == "S"), by = c("mix.ID", "species"), all.x = T)
-
-all.simkrak.family = merge(sim_mixes, filter(simkrak, tax == "F"), by = c("mix.ID", "family"), all.x = T, all.y = T)
-all.simkrak.genus = merge(sim_mixes, filter(simkrak, tax == "G"), by = c("mix.ID", "genus"), all.x = T, all.y=T)
-all.simkrak.species = merge(sim_mixes, filter(simkrak, tax == "S"), by = c("mix.ID", "species"), all.x = T, all.y=T)
-```
-
 
 ## remove reads below the isolation/PCR negative control
 
@@ -327,23 +276,26 @@ all.indexy_family = which(all.krak.family$hits <= maxy)
 all.indexy_genus = which(all.krak.genus$hits <= maxy)
 all.indexy_species = which(all.krak.species$hits <= maxy)
 
-#Remove these rows
+# Remove these rows
 all.krak.family = all.krak.family[-all.indexy_family,]
 all.krak.genus = all.krak.genus[-all.indexy_genus,]
 all.krak.species = all.krak.species[-all.indexy_species,]
 
-#Remove negative control rows
+# Remove negative control rows
 all.krak.family = filter(all.krak.family, mix.ID!="negat")
 all.krak.genus = filter(all.krak.genus, mix.ID!="negat")
 all.krak.species = filter(all.krak.species, mix.ID!="negat")
+
+# Clean up
+rm(maxy, all.indexy_family, all.indexy_genus, all.indexy_species)
+
 ```
 
-## match Kraken data to sample data, quantitatively and qualitatively 
+## match Kraken data to sample data; false negative and quantitative analyses
 
 1. Create a qualitative variable that equals 1 if the proportion is greater than 0, and 0 if else. 
 1. Convert the "percentage hits" to a proportion - which will be the response variable in the quantitative models. 
-
-
+    + going to do this in the reverse order as it simplifies things; deal with NAs in the first step
 
 ```{r match kraken to sample data}
 #Create quantitative variable by simply dividing the percentage hits (perc.hit) by 100
@@ -362,28 +314,6 @@ truepos.krak.genus$qual.genus = ifelse(truepos.krak.genus$quant.genus > 0, 1, 0)
 truepos.krak.species$qual.species = ifelse(truepos.krak.species$quant.species > 0, 1, 0)
 ```
 
-## match *simulated* Kraken data to sample data
-
-```{r match simulated kraken to sample data, eval = F}
-
-# ===============================================
-# !!! eval = F here---simulated data, not run !!!
-# ===============================================
-
-##Repeat for SIMKRAK
-truepos.simkrak.family$quant.family = truepos.simkrak.family$perc.hit/100
-truepos.simkrak.genus$quant.genus = truepos.simkrak.genus$perc.hit/100
-truepos.simkrak.species$quant.species = truepos.simkrak.species$perc.hit/100
-
-truepos.simkrak.family$quant.family = ifelse(is.na(truepos.simkrak.family$quant.family), 0, truepos.simkrak.family$quant.family)
-truepos.simkrak.genus$quant.genus = ifelse(is.na(truepos.simkrak.genus$quant.genus), 0, truepos.simkrak.genus$quant.genus)
-truepos.simkrak.species$quant.species = ifelse(is.na(truepos.simkrak.species$quant.species), 0, truepos.simkrak.species$quant.species)
-
-truepos.simkrak.family$qual.family = ifelse(truepos.simkrak.family$quant.family > 0, 1, 0)
-truepos.simkrak.genus$qual.genus = ifelse(truepos.simkrak.genus$quant.genus > 0, 1, 0)
-truepos.simkrak.species$qual.species = ifelse(truepos.simkrak.species$quant.species > 0, 1, 0)
-```
-
 ## format kraken data for false positive analysis
 
 To compare kraken data with the amplicon data, need to have aggregated counts of the "true positive" and "false positive" reads by sample. These will be our "success" and "failure" numbers in a binomial mixed model. 
@@ -393,7 +323,7 @@ To compare kraken data with the amplicon data, need to have aggregated counts of
 3. Add "K" to the sample names to distinguish from the samples in the amplicon data (formatted in C.7)
 4. Aggregate the counts per sample ID by "true positive" and "false positive"
 
-```{r C.5 Format kraken data for false positive analysis}
+```{r Format kraken data for false positive analysis}
 
 #For false positive analysis, create variable indicating if taxa if "false positive" or "true positive"
 all.krak.family$type <- ifelse(is.na(all.krak.family$question.1), "false_pos", "true_pos")
@@ -437,88 +367,6 @@ agg.krak.family$false_pos = ifelse(is.na(agg.krak.family$false_pos),0, agg.krak.
 agg.krak.genus$false_pos = ifelse(is.na(agg.krak.genus$false_pos),0, agg.krak.genus$false_pos)
 agg.krak.species$false_pos = ifelse(is.na(agg.krak.species$false_pos),0, agg.krak.species$false_pos)
 
-#Repeat for simkrak
-all.simkrak.family$type <- ifelse(is.na(all.simkrak.family$question.1), "false_pos", "true_pos")
-all.simkrak.genus$type <- ifelse(is.na(all.simkrak.genus$question.1), "false_pos", "true_pos")
-all.simkrak.species$type <- ifelse(is.na(all.simkrak.species$question.1), "false_pos", "true_pos")
-
-all.simkrak.family$hits <- ifelse(is.na(all.simkrak.family$hits),0,all.simkrak.family$hits)
-all.simkrak.genus$hits <- ifelse(is.na(all.simkrak.genus$hits),0,all.simkrak.genus$hits)
-all.simkrak.species$hits <- ifelse(is.na(all.simkrak.species$hits),0,all.simkrak.species$hits)
-
-agg.simkrak.family <- all.simkrak.family %>%
-          select(mix.ID, depth, family, type, hits) %>%
-          group_by(mix.ID, depth, type) %>%
-          summarize(total_hits = sum(hits))
-agg.simkrak.genus <- all.simkrak.genus %>%
-          select(mix.ID, depth, genus, type, hits) %>%
-          group_by(mix.ID, depth, type) %>%
-          summarize(total_hits = sum(hits))
-agg.simkrak.species <- all.simkrak.species %>%
-          select(mix.ID, depth, species, type, hits) %>%
-          group_by(mix.ID, depth, type) %>%
-          summarize(total_hits = sum(hits))
-
-agg.simkrak.family <- spread(agg.simkrak.family, key=type, value=total_hits)
-agg.simkrak.genus <- spread(agg.simkrak.genus, key=type, value=total_hits)
-agg.simkrak.species <- spread(agg.simkrak.species, key=type, value=total_hits)
-
-agg.simkrak.family$true_pos = ifelse(is.na(agg.simkrak.family$true_pos),0, agg.simkrak.family$true_pos)
-agg.simkrak.genus$true_pos = ifelse(is.na(agg.simkrak.genus$true_pos),0, agg.simkrak.genus$true_pos)
-agg.simkrak.species$true_pos = ifelse(is.na(agg.simkrak.species$true_pos),0, agg.simkrak.species$true_pos)
-agg.simkrak.family$false_pos = ifelse(is.na(agg.simkrak.family$false_pos),0, agg.simkrak.family$false_pos)
-agg.simkrak.genus$false_pos = ifelse(is.na(agg.simkrak.genus$false_pos),0, agg.simkrak.genus$false_pos)
-agg.simkrak.species$false_pos = ifelse(is.na(agg.simkrak.species$false_pos),0, agg.simkrak.species$false_pos)
-```
-
-
-## combine simulation and Kraken data
-
-1. Create a variable indicating if data is simulated or empirical
-2. rbind mix.ID, true_pos, and false_pos
-3. Also create subsetted datasets that only including sampling depth of 1GB or 2GB to test separately
-
-```{r C.6 combine simulation and kraken data}
-
-#Create "source" variable
-agg.krak.family$source = "krak"
-agg.krak.genus$source = "krak"
-agg.krak.species$source = "krak"
-
-agg.simkrak.family$source = "sim"
-agg.simkrak.genus$source = "sim"
-agg.simkrak.species$source = "sim"
-
-#Create a sample and rep.ID variable for simkrak data, set all to 1
-
-agg.simkrak.family$sample = 1
-agg.simkrak.genus$sample = 1
-agg.simkrak.species$sample = 1
-
-agg.simkrak.family$rep.ID = 1
-agg.simkrak.genus$rep.ID = 1
-agg.simkrak.species$rep.ID = 1
-
-#Identify which rows are 1GB depth and which rows are 2GB depth
-simkrak_family_1GB = which(agg.simkrak.family$depth == "1GB")
-simkrak_family_2GB = which(agg.simkrak.family$depth == "2GB")
-simkrak_genus_1GB = which(agg.simkrak.genus$depth == "1GB")
-simkrak_genus_2GB = which(agg.simkrak.genus$depth == "2GB")
-simkrak_species_1GB = which(agg.simkrak.species$depth == "1GB")
-simkrak_species_2GB = which(agg.simkrak.species$depth == "2GB")
-
-
-krak_simkrak_agg_family_all = (rbind(as.data.frame(agg.krak.family), agg.simkrak.family[,c(1,3:7)]))
-krak_simkrak_agg_genus_all = (rbind(as.data.frame(agg.krak.genus), agg.simkrak.genus[,c(1,3:7)]))
-krak_simkrak_agg_species_all = (rbind(as.data.frame(agg.krak.species), agg.simkrak.species[,c(1,3:7)]))
-
-krak_simkrak_agg_family_1GB = (rbind(as.data.frame(agg.krak.family), agg.simkrak.family[simkrak_family_1GB,c(1,3:7)]))
-krak_simkrak_agg_genus_1GB = (rbind(as.data.frame(agg.krak.genus), agg.simkrak.genus[simkrak_genus_1GB,c(1,3:7)]))
-krak_simkrak_agg_species_1GB = (rbind(as.data.frame(agg.krak.species), agg.simkrak.species[simkrak_species_1GB,c(1,3:7)]))
-
-krak_simkrak_agg_family_2GB = (rbind(as.data.frame(agg.krak.family), agg.simkrak.family[simkrak_family_2GB,c(1,3:7)]))
-krak_simkrak_agg_genus_2GB = (rbind(as.data.frame(agg.krak.genus), agg.simkrak.genus[simkrak_genus_2GB,c(1,3:7)]))
-krak_simkrak_agg_species_2GB = (rbind(as.data.frame(agg.krak.species), agg.simkrak.species[simkrak_species_2GB,c(1,3:7)]))
 ```
 
 
@@ -526,7 +374,7 @@ krak_simkrak_agg_species_2GB = (rbind(as.data.frame(agg.krak.species), agg.simkr
 
 We need to combine the WGS with amplicon data by creating a dataframe showing the number of true positive and the number of false positive reads by source, mix ID, and sample ID.
 
-```{r C.5 WGS and amplicon aggregation}
+```{r WGS and amplicon aggregation}
 
 
 #Create list of amplicon data frames
@@ -693,65 +541,77 @@ krakamp_its_species_fn <- as.data.frame(mapply(c, truepos.krak.species[,c("mix.I
 
 ```
 
-# analysis
+# Analysis
 
-* 1 Empirical Kraken false negative analysis - qualitative
-* 2 Empirical Kraken false negative analysis - quantitative
-* 3 Simulation Kraken false negative analysis - qualitative
-* 4 Simulation Kraken false negative analysis - quantitative
-* 5 Empirical vs. Simulation Kraken data
-* 6 Empirical Kraken vs. Amplicon data
-      + 6.1 AIC comparison of qualitative models
-      + 6.2 AIC comparison of quantitative models
-      + 6.3 Binary GLMMs using true positive vs. false positive 
-      + 6.4 Binary GLMMs using qualitative true positives vs. false negatives 
-    
-## qualitative analysis of empirical false negatives 
+1. false negatives
+    + WGS data alone, as a function of sample complexity
+    + WGS data compared to amplicon data
+1. false positives
+    + WGS data alone, as a function of sample complexity
+    + WGS data compared to amplicon data
+1. quantitative matching
+    + WGS data alone (sample input compared to sample output)
+    + WGS data compared to amplicon data
+
+## false negatives 
 
 To assess if species richness, relatedness, and pollen grain proportion have a significant effect on the ability of the empirical WGS to qualitatively detect the presence/absence of a species, use a binomial mixed effects model with species as a random effect and rep.ID nested in sample nested in mix.ID as a random effect. 
 
-For consistency, take out Zea and format data tables to have the same name as those in the mixed amplicon analysis. 
+For consistency, take out *Zea mays* and format data tables to have the same name as those in the mixed amplicon analysis. 
 
-```{r D.1 analysis setup}
+### false negative rates as a function of sample complexity
+
+* the basic analysis approach here is a binomial-errors mixed-effects model. 
+* the **fixed effects** are sample complexity; we are assessing one facet of sample complexity per model
+    + 1. Question 1: **species richness** (1-9 species)
+    + Question 2: **rarity** (actual proportion of grains this taxon has in a sample; from roughly half & half to < 1% of the rarer type)
+    + Question 3: **taxonomic relatedness** (within genus to across broad clades in the seed plants)
+* we separately assessed models that considered different **subsets of the data**:
+    + just the mixes specifically set up for each of the questions above (smaller subset of the data)
+    + all of the mixes (thus more data)
+* we also ran separate models for each of the **taxonomic levels:**
+    + family, genus, and species
+* the **random effects** are nested, with the highest level as `mix.ID` (i.e. the identity of the pollen mixture); then `sample` replicate within each mix and finally `rep.ID` (forward / reverse read within a sample, or Illumina lane for samples split across lanes)
+    + we modeled these as random intercepts
+    + the random effects were fixed and equivalent for all models
+* there were 3 facets of sample complexity $\times$ 2 data subsets $\times$ 3 taxonomic levels = **18 total models**
+    + set this up with a nested `for` loop; almost certainly cleaner and more elegant ways to do this
+
+
+```{r false negative analysis setup}
 
 #Take out Zea
 truepos.krak.family = filter(truepos.krak.family, genus.x!= "Zea") 
 truepos.krak.genus = filter(truepos.krak.genus, genus!="Zea")
 truepos.krak.species = filter(truepos.krak.species, genus.x!="Zea")
 
+# set up the three factors by which we are running the models
 taxon = c("species", "genus", "family")
+datasubset = c("sub", "all") # whether we are using the designated subset of data designed for the question, or all data
+question = c("spp.rich", "relatedness", "pollen.grain.proportion")
 
+# calculate total number of models
+total = levels(taxon)*levels(datasubset)*levels(question)
 
-# first set up a table for the results:
-# I will set this up with 18 entries
-results.table = data.frame(question = rep(NA,18), taxon  = rep(NA,18), data.subset  = rep(NA,18), model.name = rep(NA,18), p.val  = rep(1.000001,18), n  = rep(9999,18), warning.msg = rep(NA,18))
+# first set up a table for the results with a number of entries equal to the 'total' variable above (18):
+results.table = data.frame(question = rep(NA,total), taxon  = rep(NA,total), data.subset  = rep(NA,total), model.name = rep(NA,total), p.val  = rep(1.000001,total), n  = rep(9999,total), warning.msg = rep(NA,total))
 
 # keep track of which row of the table to record in:
 tracker = 1
 
-# # EXAMPLE FORMULA
+# EXAMPLE FORMULA:
 # Krak.Q1.species.all = glmer(qual.species.rbcL ~ spp.rich + (1|mix.ID/sample/rep.ID) + (1|species), family = binomial, data = truepos.krak.species, control = glmerControl(optimizer="bobyqa"))
 
-# basis of subsetting:
-# sub = filter(data, question.1 ==1 | question.2 ==1 | question.3==1)
-datasubset = c("sub", "all") # whether we are using the designated subset of data designed for the question, or all data
-
-# response variables relating to each of the three questions (column names in data)
-question = c("spp.rich", "relatedness", "pollen.grain.proportion")
+# 'for' loop:
 
 for(q in 1:3) { # 'question': response variables for Q1 / Q2 / Q3
     for(k in 1:3){ # 'taxon': species, genus, family
       for(l in 1:2) { # 'datasubset': sub or all
         # first, name the analysis:
         namer = paste("Krak.Q", q, ".", taxon[k], ".", datasubset[l], sep = "")
-        # # 1.5, print name of which model was evaluated
-        # print("**************************************************")
-        # print(paste("*********************     ", namer, "     *********************"))
-        # print(paste("question q = ", q, "; taxon k = ", k, "; datasubset l = ", l))
-        # print("**************************************************")
         # second, set which taxonomic data to use:
         data.to.use = paste("truepos.krak.", taxon[k], sep = "")
-        # third, set up the data subset (may or may not use)
+        # third, set up the data subset
         subster = paste("data.sub = filter(", data.to.use, ", question.1 == ", q, " | question.2 == ", q, " | question.3 == ",q, ")", sep = "")
         eval(parse(text = subster)) # probably not the most efficient thing ever... 
         # fourth, set whether or not data subset is used (vs. all data)
@@ -767,6 +627,7 @@ for(q in 1:3) { # 'question': response variables for Q1 / Q2 / Q3
             # eval(parse(text = summarizer)) # print summary of the mixed-effects model
         
         ## extract p-value
+        # (this would probably be easier using the 'broom.mixed' package?)
         # example: coef(summary(Q3.genus.ITS.all))[2,4]
         pvaller = paste("pval <- coef(summary(", namer, "))[2,4]", sep = "")
         eval(parse(text = pvaller))
@@ -804,7 +665,8 @@ Species relatedness has a significant effect on qualitative detection with the f
 
 Pollen grain proportion has a significant effect on qualitative detection at the species level with the full dataset and at the family level with the full dataset. The other tests gave errors. 
 
-## quantitative results of empirical false negatives 
+
+## quantitative matching 
 
 To assess if pollen grain proportion is correlated to read proportion in the empirical WGS data, use a linear mixed model with mix.ID and species as a random effect. 
 
@@ -819,7 +681,6 @@ quant.genus = lmer(quant.genus ~ pollen.grain.proportion + (1|mix.ID) + (1|genus
 
 #family
 quant.family = lmer(quant.family ~ pollen.grain.proportion + (1|mix.ID) + (1|family), data = truepos.krak.family)
-
 
 #=========================================
 # r-squared calculation at the family level
