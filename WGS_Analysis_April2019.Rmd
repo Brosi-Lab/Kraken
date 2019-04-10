@@ -147,7 +147,7 @@ names(krak)[1] = "sample.id"
 1. create new column for `mix.ID` that matches the column in the sample metadata (`pollen-mixes-proportions.csv`)
 1. also create a new `replicate.ID` column (replicate samples of each `mix.ID`)
     + both of the above are challenging because the Emory and UGA data are formatted slightly differently from each other, and also those formats are different than the metadata; this involves parsing regular expressions from the single column of sample names
-1. finally, do some relatively minor tweaks for formatting etc.; e.g. capitalization of *"C. illinoisensis"*; formatting of sample numbers etc.
+1. finally, do some relatively minor tweaks for formatting etc.; e.g. capitalization of *"C. illinoisensis"*; formatting of sample numbers, etc.
 
 ```{r C.1: Kraken data prep}
 
@@ -225,6 +225,15 @@ krak$sample <- ifelse(startsWith(sample_sep$L,"S"), sample_sep$L, ifelse(startsW
 ##Create list of unique combinations of mix ID, sample number, and rep ID to properly merge kraken with mixes data at later point
 krak_uniqueid <- data.frame(krak$mix.ID, krak$rep.ID, krak$sample)
 krak_uniqueid <- unique.data.frame(krak_uniqueid)
+```
+
+## Simulated Kraken data prep (NOT RUN; not using simulated data)
+
+```{r simulated kraken data prep, eval = F}
+
+# ===============================================
+# !!! eval = F here---simulated data, not run !!!
+# ===============================================
 
 # NOW FOR SIMKRAK
   
@@ -246,11 +255,12 @@ krak_uniqueid <- unique.data.frame(krak_uniqueid)
 
 ## combine Kraken & sample / mix data:
 
-new aggregated datasheeet, based on sample metadata, but which matches sample data back to the Kraken data so we can run analyses about probability of matching (both qualitative and quantitative). In particular this is taking account of sample "replicates" (not true replicates at all, but forward vs. reverse reads); also different Illumina lanes in the Emory Genome Center data.
+new aggregated datasheeet, based on sample metadata, but which matches sample data back to the Kraken data so we can run analyses about probability of matching (both qualitative and quantitative). In particular this is taking account of sample "replicates" (including some that are not true replicates, but rather forward vs. reverse reads); also different Illumina lanes in the Emory Genome Center data.
 
 1. Merge the unique krak IDs with mixes to subset the sample data to only the samples in the kraken dataset 
-2. Create a dataset for analysis of false negatives by only including taxa that are present in sample data
-3. Create a dataset for analysis of false positives by including all taxa in kraken data
+1. Create a dataset for analysis of false negatives by only including taxa that are present in sample data
+    + for this one, do it separately at each taxonomic level that we are assessing, i.e. species, genus, family
+1. Create a dataset for analysis of false positives by including all taxa in kraken data
 
 use 'mix.ID' as the variable to combine by...
 
@@ -269,10 +279,13 @@ all.krak.genus =  merge(krak_mixes, filter(krak, tax == "G"), by = c("mix.ID", "
 all.krak.species =  merge(krak_mixes, filter(krak, tax == "S"), by = c("mix.ID", "species"), all.x = T, all.y = T)
 ```
 
+## merge *simulated* kraken data and metadata (NOT RUN; not using simulated data)
 
-```{r C.3 merge kraken simulated data and metadata, eval = F}
+```{r merge kraken simulated data and metadata, eval = F}
 
+# ===============================================
 # !!! eval = F here---simulated data, not run !!!
+# ===============================================
 
 #Repeat for SIMKRAK - Because there are no reps, need to subset mixes to the mixIDs contained in simkrak and merge data
 sim_mixes <- subset(mixes, mixes$mix.ID %in% simkrak$mix.ID)
@@ -291,25 +304,25 @@ all.simkrak.species = merge(sim_mixes, filter(simkrak, tax == "S"), by = c("mix.
 
 1. remove reads below the isolation / PCR negative control thresholds
       a) this step is only for the empirical data (unnecessary for the simulated data)
-      b) ideally, would base these on negative controls **for a given Illumina run** (two separate runs here, at UGA and Emory Genome center; we will need to keep those separate); but **unfortunately** there do not appear to be negative controls for the Emory Genome Center data; I will use the UGA thresholds for all the data
-      c) this entails removing rows with k-mer counts below the threshold
-      d) in the Illumina QIIME amplicon data, we did this separately for (entire) taxa below the threshold level, and for reads, because of the way that the data were formatted in a taxon-by-sample matrix; the Kraken output is already formatted in a way that is closer to `tidy` so we only need to do this step once here.
-2. remove negative control rows (once the above is completed)
+      a) ideally, would base these on negative controls **for a given Illumina run** (two separate runs here, at UGA and Emory Genome center; we will need to keep those separate); but **unfortunately** there are not negative controls for the Emory Genome Center data; use the UGA thresholds for all the data
+      a) this entails removing rows with $k$-mer counts below the threshold
+      a) in the Illumina QIIME amplicon data, we did this separately for (entire) taxa below the threshold level, and for reads, because of the way that the data were formatted in a taxon-by-sample matrix; the Kraken output is already formatted in a way that is closer to `tidy` so we only need to do this step once here.
+1. remove negative control rows (once the above is completed)
 
 
-```{r remove reads below contamination thresshold}
+```{r remove reads below contamination threshold}
 
-#Establish thresshold for maximum number of reads in the negative controls
+# Establish threshold for maximum number of reads in the negative controls
 maxy = max(krak$hits[krak$mix.ID=="negat"])
 
-#Identify rows that fall below this thresshold for false negative analysis
+# Identify rows that fall below this threshold for false negative analysis
 truepos.indexy_family = which(truepos.krak.family$hits <= maxy)
 truepos.indexy_genus = which(truepos.krak.genus$hits <= maxy)
 truepos.indexy_species = which(truepos.krak.species$hits <= maxy)
 
-#No rows for false negative analysis with read level below thresshold - can continue with analysis 
+# No rows for false negative analysis with read level below threshold - can continue with analysis 
 
-#Identify rows that fall below thresshold for false positive analysis
+# Identify rows that fall below thresshold for false positive analysis
 all.indexy_family = which(all.krak.family$hits <= maxy)
 all.indexy_genus = which(all.krak.genus$hits <= maxy)
 all.indexy_species = which(all.krak.species$hits <= maxy)
@@ -326,8 +339,10 @@ all.krak.species = filter(all.krak.species, mix.ID!="negat")
 ```
 
 ## match Kraken data to sample data, quantitatively and qualitatively 
+
+1. Create a qualitative variable that equals 1 if the proportion is greater than 0, and 0 if else. 
 1. Convert the "percentage hits" to a proportion - which will be the response variable in the quantitative models. 
-2. Create a qualitative variable that equals 1 if the proportion is greater than 0, and 0 if else. 
+
 
 
 ```{r match kraken to sample data}
@@ -345,6 +360,15 @@ truepos.krak.species$quant.species = ifelse(is.na(truepos.krak.species$quant.spe
 truepos.krak.family$qual.family = ifelse(truepos.krak.family$quant.family > 0, 1, 0)
 truepos.krak.genus$qual.genus = ifelse(truepos.krak.genus$quant.genus > 0, 1, 0)
 truepos.krak.species$qual.species = ifelse(truepos.krak.species$quant.species > 0, 1, 0)
+```
+
+## match *simulated* Kraken data to sample data
+
+```{r match simulated kraken to sample data, eval = F}
+
+# ===============================================
+# !!! eval = F here---simulated data, not run !!!
+# ===============================================
 
 ##Repeat for SIMKRAK
 truepos.simkrak.family$quant.family = truepos.simkrak.family$perc.hit/100
