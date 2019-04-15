@@ -370,7 +370,7 @@ agg.krak.species$false_pos = ifelse(is.na(agg.krak.species$false_pos),0, agg.kra
 ```
 
 
-## combine WGS and amplicon data for false positive analysis
+## false positives: combine WGS and amplicon data
 
 We need to combine the WGS with amplicon data by creating a dataframe showing the number of true positive and the number of false positive reads by source, mix ID, and sample ID.
 
@@ -561,7 +561,7 @@ For consistency, take out *Zea mays* and format data tables to have the same nam
 
 ### false negative rates as a function of sample complexity
 
-* the basic analysis approach here is a binomial-errors mixed-effects model. 
+* the analysis approach here is based on binomial-errors mixed-effects models
 * the **fixed effects** are sample complexity; we are assessing one facet of sample complexity per model
     + 1. Question 1: **species richness** (1-9 species)
     + Question 2: **rarity** (actual proportion of grains this taxon has in a sample; from roughly half & half to < 1% of the rarer type)
@@ -575,7 +575,7 @@ For consistency, take out *Zea mays* and format data tables to have the same nam
     + we modeled these as random intercepts
     + the random effects were fixed and equivalent for all models
 * there were 3 facets of sample complexity $\times$ 2 data subsets $\times$ 3 taxonomic levels = **18 total models**
-    + set this up with a nested `for` loop; almost certainly cleaner and more elegant ways to do this
+    + set this up with a nested `for` loop; there are almost certainly cleaner and more elegant ways to do this
 
 
 ```{r false negative analysis setup}
@@ -661,106 +661,56 @@ kable(results.table) %>%
 
 For the empirical data, species richness has a significant effect on qualitative detection at the species level (in both the subsetted data and full data set) and at the genus level in the subsetted data, but the model gives errors at the genus level using the full dataset and at the family level. 
 
-Species relatedness has a significant effect on qualitative detection with the full dataset (highly significant - all p-values <0.0001), but not with the subsetted dataset (p=0.97 for species and genus level, p = 0.06 for family level). Not sure if this makes sense...
+Species relatedness has a significant effect on qualitative detection with the full dataset (highly significant - all p-values <0.0001), but not with the subsetted dataset ($p$ = 0.97 for species and genus level, $p$ = 0.06 for family level). Not sure if this makes sense...
 
 Pollen grain proportion has a significant effect on qualitative detection at the species level with the full dataset and at the family level with the full dataset. The other tests gave errors. 
 
+## false positives: Amplicon vs. Shotgun comparison
 
-## quantitative matching 
+This analysis uses binomial mixed models to assess if using amplicon vs. WGS has a significant effect on the ability to qualitatively detect true positives vs. false negatives. This analysis is similar the qualitative mixed models to assess the effect of species richness, pollen grain proportion, etc. on the ability to qualitatively detect the correct taxa, but instead using "source" as the fixed effect. 
 
-To assess if pollen grain proportion is correlated to read proportion in the empirical WGS data, use a linear mixed model with mix.ID and species as a random effect. 
+### false positives: by marker (*rbcL* vs ITS2)
 
-```{R quantitative matching}
-
-# ultimately want 3 analyses: {species, genus, and family}
-# species
-quant.species = lmer(quant.species ~ pollen.grain.proportion + (1|mix.ID) + (1|species), data = truepos.krak.species)
-
-# genus
-quant.genus = lmer(quant.genus ~ pollen.grain.proportion + (1|mix.ID) + (1|genus), data = truepos.krak.genus)
-
-#family
-quant.family = lmer(quant.family ~ pollen.grain.proportion + (1|mix.ID) + (1|family), data = truepos.krak.family)
-
-#=========================================
-# r-squared calculation at the family level
-r2.family = r2beta(quant.family)
-
-# r-squared calculation at the genus level
-r2.genus = r2beta(quant.genus)
-
-# r-squared calculation at the species level
-r2.species = r2beta(quant.species)
-
-#Merge the slope ("Estimate"), p-value ("Pr...t..") from the mixed models with the r-squared value for each test
-
-coefs_quant.family <- cbind((data.frame(coef(summary(quant.family)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.family[2,6]) 
-
-coefs_quant.genus <- cbind((data.frame(coef(summary(quant.genus)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.genus[2,6]) 
-
-coefs_quant.species <- cbind((data.frame(coef(summary(quant.species)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.species[2,6]) 
-
-#Rename row names and column names 
-row.names(coefs_quant.family) = "Family"
-row.names(coefs_quant.genus) = "Genus"
-row.names(coefs_quant.species) = "Species"
-
-colnames(coefs_quant.family) = c("Slope", "p-value", "R2")
-colnames(coefs_quant.genus) = c("Slope", "p-value", "R2")
-colnames(coefs_quant.species) = c("Slope", "p-value", "R2")
-
-#Merge summary of coefficients into one dataset
-coefs_summ <- rbind(coefs_quant.family, coefs_quant.genus, coefs_quant.species)
-
-#Display table of summarized coefficients
-kable(coefs_summ) %>% 
-  kable_styling(bootstrap_options = "striped", full_width = F)
-
-```
-
-Pollen grain proportion was significantly related to read proportion at the family (R2=0.81, p<0.000001), genus (R2=0.58, p<0.000001), and species level (R2=0.77, p<0.000001)
-
-## qualitative analysis of simulation false negatives
-
-Repeat D1 analysis, but with simulation data. 
-
-```{r D.3 analysis setup}
-
+```{r amplicon vs. shotgun true positive vs false negative - separate markers}
 
 taxon = c("species", "genus", "family")
+marker = c("its", "rbc")
 
 
 # first set up a table for the results:
 # I will set this up with 18 entries
-simkrak.results.table = data.frame(question = rep(NA,9), taxon  = rep(NA,9), model.name = rep(NA,9), p.val  = rep(1.000001,9), n  = rep(9999,9), warning.msg = rep(NA,9))
+krakamp.fn.results.table = data.frame(taxon  = rep(NA,6), marker  = rep(NA,6), model.name = rep(NA,6), p.val  = rep(1.000001,6), n  = rep(9999,6), warning.msg = rep(NA,6))
 
 # keep track of which row of the table to record in:
 tracker = 1
 
 # # EXAMPLE FORMULA
-# Krak.Q1.species.all = glmer(qual.species ~ spp.rich + (1|mix.ID) + (1|species), family = binomial, data = truepos.krak.species, control = glmerControl(optimizer="bobyqa"))
+# its.family = glmer(qual.family ~ source + (1|mix.ID/sample) + (1|family), family = binomial, data = krakamp_its_family_fn, control = glmerControl(optimizer="bobyqa"))
 
 # response variables relating to each of the three questions (column names in data)
-question = c("spp.rich", "relatedness", "pollen.grain.proportion")
 
-for(q in 1:3) { # 'question': response variables for Q1 / Q2 / Q3
+for(q in 1:2) { # 'marker': its or rbc
     for(k in 1:3){ # 'taxon': species, genus, family
-        # name the analysis:
-        namer = paste("Simkrak.Q", q, ".", taxon[k], sep = "")
-        # set which taxonomic data to use:
-        data.to.use = paste("truepos.simkrak.", taxon[k], sep = "")
-        #set up mixed effects model
-        mixed = paste(namer, " = suppressWarnings(glmer(qual.", taxon[k],
-          " ~ ",  question[q], " + (1|mix.ID) + (1|", taxon[k], "), family = binomial, 
-          data = ", data.to.use, ", control = glmerControl(optimizer=\"bobyqa\")))", sep = "")
-        # sixth, evaluate the mixed-effects model
-        eval(parse(text = mixed))
-            # # eighth, print summary of model [SKIP FOR NOW]
-            # summarizer = paste("print(summary(", namer, "))", sep = "")
-            # eval(parse(text = summarizer)) # print summary of the mixed-effects model
+        # first, name the analysis (i.e. name the result object):
+        namer = paste(marker[q], ".", taxon[k], sep = "")
         
+        # second, set which taxonomic data to use:
+        data.to.use = paste("krakamp_", marker[q], "_", taxon[k],"_fn", sep = "")
+        
+        # third, set up mixed-effects model: 
+        mixed = paste(namer, " = suppressWarnings(glmer(qual.", taxon[k],
+          " ~ source + (1|mix.ID/sample) + (1|", taxon[k], "), family = binomial, 
+          data = ", data.to.use, ", control = glmerControl(optimizer=\"bobyqa\")))", sep = "")
+        
+        # fourth, evaluate the mixed-effects model
+        eval(parse(text = mixed))
+            #fifth, print summary of model [SKIP FOR NOW]
+            #summarizer = paste("print(summary(", namer, "))", sep = "")
+            #eval(parse(text = summarizer)) # print summary of the mixed-effects model
+        
+        # fifth, extract the results
         ## extract p-value
-        # example: coef(summary(Q3.genus.ITS.all))[2,4]
+        # example: coef(summary(its.family))[2,4]
         pvaller = paste("pval <- coef(summary(", namer, "))[2,4]", sep = "")
         eval(parse(text = pvaller))
         
@@ -770,12 +720,12 @@ for(q in 1:3) { # 'question': response variables for Q1 / Q2 / Q3
         converg.return = ifelse(length(converg)==1, "ERROR!!", "")
         
         # record results in table
-        simkrak.results.table[tracker,1] = question[q]
-        simkrak.results.table[tracker,2] = taxon[k]
-        simkrak.results.table[tracker,3] = namer
-        simkrak.results.table[tracker,4] = pval
-        simkrak.results.table[tracker,5] = nrow(eval(parse(text = data.to.use)))
-        simkrak.results.table[tracker,6] = converg.return
+        krakamp.fn.results.table[tracker,1] = taxon[k]
+        krakamp.fn.results.table[tracker,2] = marker[q]
+        krakamp.fn.results.table[tracker,3] = namer
+        krakamp.fn.results.table[tracker,4] = pval
+        krakamp.fn.results.table[tracker,5] = nrow(eval(parse(text = data.to.use)))
+        krakamp.fn.results.table[tracker,6] = converg.return
         
         # advance tracker
         tracker = tracker + 1
@@ -783,105 +733,67 @@ for(q in 1:3) { # 'question': response variables for Q1 / Q2 / Q3
     }
   
 
-
 # display results table
-# note that the 'kable' function is part of the 'knitr' package
-
-# NOT DISPLAYED because of errors:
-# kable(simkrak.results.table)
-```
-
-Yields an error message that the fixed effects model matrix is rank deficient. The observation number for the simulation data is very small---likely the reason the model won't run?
-
-## quantitative analysis of simulation false negatives
-
-Repeat D2, but with simulation data. 
-
-```{r D4 - Quant analysis of simulation data}
-# ultimately want 3 analyses: {species, genus, and family}
-# species
-sim.quant.species = lmer(quant.species ~ pollen.grain.proportion + (1|mix.ID) + (1|species), data = truepos.simkrak.species)
-
-# genus
-sim.quant.genus = lmer(quant.genus ~ pollen.grain.proportion + (1|mix.ID) + (1|genus), data = truepos.simkrak.genus)
-
-#family
-sim.quant.family = lmer(quant.family ~ pollen.grain.proportion + (1|mix.ID) + (1|family), data = truepos.simkrak.family)
-
-
-#=========================================
-# r-squared calculation at the family level
-sim.r2.family = r2beta(sim.quant.family)
-
-# r-squared calculation at the genus level
-sim.r2.genus = r2beta(sim.quant.genus)
-
-# r-squared calculation at the species level
-sim.r2.species = r2beta(sim.quant.species)
-
-#Merge the slope ("Estimate"), p-value ("Pr...t..") from the mixed models with the r-squared value for each test
-
-sim.coefs_quant.family <- cbind((data.frame(coef(summary(sim.quant.family)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), sim.r2.family[2,6]) 
-
-sim.coefs_quant.genus <- cbind((data.frame(coef(summary(sim.quant.genus)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), sim.r2.genus[2,6]) 
-
-sim.coefs_quant.species <- cbind((data.frame(coef(summary(sim.quant.species)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), sim.r2.species[2,6]) 
-
-#Rename row names and column names 
-row.names(sim.coefs_quant.family) = "Family"
-row.names(sim.coefs_quant.genus) = "Genus"
-row.names(sim.coefs_quant.species) = "Species"
-
-colnames(sim.coefs_quant.family) = c("Slope", "p-value", "R2")
-colnames(sim.coefs_quant.genus) = c("Slope", "p-value", "R2")
-colnames(sim.coefs_quant.species) = c("Slope", "p-value", "R2")
-
-#Merge summary of coefficients into one dataset
-sim.coefs_summ <- rbind(sim.coefs_quant.family, sim.coefs_quant.genus, sim.coefs_quant.species)
-
-#Display table of summarized coefficients
-kable(sim.coefs_summ) %>% 
+# note that the 'kable' function is part of the 'knitr' package and `kable_styling` is from the `kableExtra` package 
+kable(krakamp.fn.results.table) %>% 
   kable_styling(bootstrap_options = "striped", full_width = F)
-
 ```
 
-Pollen grain proportion is significantly correlated with read proportion at the family (R2=0.99, p<0.000001), genus (R2=0.75, p=0.000002), and species level (R2=0.75, p=0.000002). However, these data are so sparse that this may not be meaningful. 
+When ITS was used as a marker in the amplicon data, the amplicon data did not behave significantly better or worse than the WGS data at the species and family level. However, at the genus level (estimate = -1.15), the negative estimate and low p-value suggests that using ITS sequencing was more accurate for detecting true positives than WGS. 
 
-## comparison of empirical and simulation kraken data
+In contrast, when *rbcL* was used as a marker in the amplicon data, the amplicon data detected fewer true positives at the species (estimate = 1.19) and genus (estimate = 1.04) levels than the WGS data. However, the amplicon data detected more true positives at the family level (estimate = -26.774) than the WGS data.
 
-To compare the empirical and simulation kraken data, use a binomial mixed effects model to look at the counts of false positives vs. true positives, with repID nested in sample nested in mix.ID as a random effect. 
+### false positives: markers combined
 
-```{r comparison empirical and simulation}
+This is a repeat of the analysis above, but with ITS and rbcL combined 
+
+```{r r amplicon vs. shotgun true positive vs false negative - markers combined}
+
+#Create new qualitative variable in amplicon dataset that equals 1 if ITS and/or rbcL equals 1, 0 if else
+
+amp_all$qual.family = ifelse(amp_all$qual.family.ITS == 1 | amp_all$qual.family.rbcL == 1, 1, 0)
+amp_all$qual.genus = ifelse(amp_all$qual.genus.ITS == 1 | amp_all$qual.genus.rbcL == 1, 1, 0)
+amp_all$qual.species = ifelse(amp_all$qual.species.ITS == 1 | amp_all$qual.species.rbcL == 1, 1, 0)
+
+#Combine kraken and amplicon data
+krakamp_family_fn <- rbind(truepos.krak.family[,c("mix.ID", "family", "sample", "qual.family", "source")], amp_all[,c("mix.ID","family","sample", "qual.family", "source")])
+
+krakamp_genus_fn <- rbind(truepos.krak.genus[,c("mix.ID", "genus", "sample", "qual.genus", "source")], amp_all[,c("mix.ID","genus","sample", "qual.genus", "source")])
+
+krakamp_species_fn <- rbind(truepos.krak.species[,c("mix.ID", "species", "sample", "qual.species", "source")], amp_all[,c("mix.ID","species","sample", "qual.species", "source")])
+
 
 taxon = c("species", "genus", "family")
-depth = c("1GB", "2GB", "all")
 
 # first set up a table for the results:
-# I will set this up with 0 entries
-krak_sim.results.table = data.frame(taxon  = rep(NA,9), depth  = rep(NA,9), p.val  = rep(1.000001,9), n  = rep(9999,9), warning.msg = rep(NA,9))
+# I will set this up with 18 entries
+krakamp.fn.results.combined = data.frame(taxon  = rep(NA,3), model.name = rep(NA,3), p.val  = rep(1.000001,3), n  = rep(9999,3), warning.msg = rep(NA,3))
 
 # keep track of which row of the table to record in:
 tracker = 1
 
 # # EXAMPLE FORMULA
-# glmer(cbind(true_pos,false_pos) ~ source + (1|mix.ID/sample/rep.ID), family = binomial, data = krakamp_its_species, control = glmerControl(optimizer="bobyqa"))
+# its.family = glmer(qual.family ~ source + (1|mix.ID/sample) + (1|family), family = binomial, data = krakamp_family_fn, control = glmerControl(optimizer="bobyqa"))
 
+# response variables relating to each of the three questions (column names in data)
 
-for(k in 1:3) { # 'taxon': species, genus, family
-    for(l in 1:3){ # 'depth': 1GB, 2GB, or all 
+    for(k in 1:3){ # 'taxon': species, genus, family
         # first, name the analysis:
-        namer = paste(taxon[k], ".", depth[l], sep = "")
+        namer = taxon[k]
         
         # second, set which taxonomic data to use:
-        data.to.use = paste("krak_simkrak_agg_", taxon[k], "_", depth[l], sep = "")
+        data.to.use = paste("krakamp_", taxon[k],"_fn", sep = "")
         
         # third, set up mixed-effects model: 
-        mixed = paste(namer, " = suppressWarnings(glmer(cbind(true_pos,false_pos) ~ source + (1|mix.ID/sample/rep.ID), family = binomial, data =", data.to.use, ", control = glmerControl(optimizer=\"bobyqa\")))", sep = "")
-        
+        mixed = paste(namer, " = suppressWarnings(glmer(qual.", taxon[k],
+          " ~ source + (1|mix.ID/sample) + (1|", taxon[k], "), family = binomial, 
+          data = ", data.to.use, ", control = glmerControl(optimizer=\"bobyqa\")))", sep = "")
         # fourth, evaluate the mixed-effects model
         eval(parse(text = mixed))
-        
+
+        # fifth, extract model information
         ## extract p-value
+        # example: coef(summary(its.family))[2,4]
         pvaller = paste("pval <- coef(summary(", namer, "))[2,4]", sep = "")
         eval(parse(text = pvaller))
         
@@ -891,130 +803,32 @@ for(k in 1:3) { # 'taxon': species, genus, family
         converg.return = ifelse(length(converg)==1, "ERROR!!", "")
         
         # record results in table
-        krak_sim.results.table[tracker,1] = taxon[k]
-        krak_sim.results.table[tracker,2] = depth[l]
-        krak_sim.results.table[tracker,3] = pval
-        krak_sim.results.table[tracker,4] = nrow(eval(parse(text = data.to.use)))
-        krak_sim.results.table[tracker,5] = converg.return
+        krakamp.fn.results.combined[tracker,1] = taxon[k]
+        krakamp.fn.results.combined[tracker,2] = namer
+        krakamp.fn.results.combined[tracker,3] = pval
+        krakamp.fn.results.combined[tracker,4] = nrow(eval(parse(text = data.to.use)))
+        krakamp.fn.results.combined[tracker,5] = converg.return
         
         # advance tracker
         tracker = tracker + 1
       }
-    }
 
 # display results table
-# note that the 'kable' function is part of the 'knitr' package, which I required at the very top of this document. 
-
-# in this case, not displaying the table (commented out) since all but one row gave an error.
-# kable(krak_sim.results.table)
-
-```
-
-The results table for the GLMMs is not displayed, because all but one of the models had errors. This is probably due to the very small sample size for the simulated data.
-
-The one model that worked was at the family level, with 1GB depth, where the difference between simulated and empirical datasets was highly significant; from the tables below one can see that the simulated data have fewer false-positive matches at the family level relative to the empirical data.
-
-
-## comparison of amplicon and shotgun results: Quantitative data - AIC comparison
-
-This analysis uses AIC to determine which dataset (amplicon vs. WGS) provides a better fit when modelling pollen grain proportion vs. read proportion. The AIC for these models will give some idea as to which dataset is more quantiatively accurate. 
-
-```{r ITS AIC quantitative shotgun vs. amplicon}
-
-#Import quantitative results from amplicon analysis
-
-load("quant_amplicon_results.RData")
-
-#Create data frame to hold ITS results: 3 taxon levels x 1 marker = 3 rows
-ITS_comp_AIC= data.frame(taxon  = rep(NA,3), Krak_AIC = rep(NA,3), Amp_AIC  = rep(NA,3))
-rbcL_comp_AIC= data.frame(taxon  = rep(NA,3), Krak_AIC = rep(NA,3), Amp_AIC  = rep(NA,3))
-
-its_tracker = 1
-rbc_tracker = 1
-
-#Loop for ITS table
-for(k in 1:3) { # 'taxon': species, genus, family
-        # first, name the comparison:
-        namer = taxon[k]
-        # second, set which taxonomic data to use:
-        krak_data.to.use = paste("quant.", taxon[k], sep = "")
-        amp_data.to.use = paste("quant.ITS.", taxon[k], sep = "")
-       
-        
-        ## extract Kraken AIC 
-        # example: extractAIC(Krak.Q1.genus.all)
-        Krak_AICer = paste("krakaic <- extractAIC(",krak_data.to.use,")[2]", sep = "")
-         eval(parse(text = Krak_AICer))
-         
-        ## extract Amplicon AIC 
-        # example: extractAIC(Q1.genus.ITS.all)
-        Amp_AICer = paste("ampaic <- extractAIC(",amp_data.to.use,")[2]", sep = "")
-        eval(parse(text = Amp_AICer))
-        
-        # record results in table
-        ITS_comp_AIC[its_tracker,1] = taxon[k]
-        ITS_comp_AIC[its_tracker,2] = krakaic
-        ITS_comp_AIC[its_tracker,3] = ampaic
-        
-        # advance tracker
-        its_tracker = its_tracker + 1
-      }
-```
-
-### ITS2 results quantitative AIC: 
-
-```{r results ITS2 AIC quant}
-kable(ITS_comp_AIC) %>% 
+# note that the 'kable' function is part of the 'knitr' package and `kable_styling` is from the `kableExtra` package 
+kable(krakamp.fn.results.combined) %>% 
   kable_styling(bootstrap_options = "striped", full_width = F)
+
+
 ```
 
+After combining $rbcL$ and ITS2, where taxa were determined as present if they were present in $rbcL$ OR ITS2, amplicon performed better than kraken at the species level (estimate = -0.948, $p$ = 0.034), genus level (estimate = -30.28, $p$ < 0.00001), and family level (estimate = -68.21, $p$ < 0.00001). 
 
-```{r rbcL AIC quantitative shotgun vs. amplicon}
-#Repeat for rbcL
 
-for(k in 1:3) { # 'taxon': species, genus, family
-        # first, name the comparison:
-        namer = taxon[k]
-        # second, set which taxonomic data to use:
-        krak_data.to.use = paste("quant.", taxon[k], sep = "")
-        amp_data.to.use = paste("quant.rbcL.", taxon[k], sep = "")
-       
-        
-        ## extract Kraken AIC 
-        # example: extractAIC(Krak.Q1.genus.all)
-        Krak_AICer = paste("krakaic <- extractAIC(",krak_data.to.use,")[2]", sep = "")
-         eval(parse(text = Krak_AICer))
-         
-        ## extract Amplicon AIC 
-        # example: extractAIC(Q1.genus.ITS.all)
-        Amp_AICer = paste("ampaic <- extractAIC(",amp_data.to.use,")[2]", sep = "")
-        eval(parse(text = Amp_AICer))
-        
-        # record results in table
-        rbcL_comp_AIC[rbc_tracker,1] = taxon[k]
-        rbcL_comp_AIC[rbc_tracker,2] = krakaic
-        rbcL_comp_AIC[rbc_tracker,3] = ampaic
-        
-        
-        # advance tracker
-        rbc_tracker = rbc_tracker + 1
-      }
-```
-
-### rbcL results quantitative AIC: 
-
-```{r results rbcL AIC quant}
-kable(rbcL_comp_AIC) %>% 
-  kable_styling(bootstrap_options = "striped", full_width = F)
-```
-
-For all taxonomic levels, the AICs for the Kraken data are much smaller than for the amplicon data. This implies that the read proportion of the Kraken data is more quantitatively predictive of true pollen grain proportion.
-
-## Amplicon vs. Shotgun comparison - GLMM of true positives and false positives
+### Amplicon vs. Shotgun comparison - GLMM of true positives and false positives
 
 This analysis uses binomial mixed models to assess if using amplicon vs. WGS has a significant effect on the ability to qualitatively detect true positives vs. false positives. Datasets were aggregated into counts of true positives vs. false positives by mixID, as was done for the comparison of empirical vs. simulated kraken data. 
 
-### by marker and by taxonomic level (Amplicon vs Shotgun GLMM)
+#### by marker and by taxonomic level (Amplicon vs Shotgun GLMM)
 
 First we will split out the analysis by amplicon marker (rbcL vs. ITS2) and by taxonomic level of identification (family / genus / species); next we will combine both amplicons but continue to assess at all three taxonomic levels.
 
@@ -1078,7 +892,7 @@ kable(krakamp.results.table) %>%
 
 Most of the models gave errors, but $p$-values were highly significant for ITS2 at both the species and family levels (the only two results for which there were not errors). For each comparison, the amplicon data had a significantly lower rate of false positives/higher rate of true positives compared to the WGS data, corroborating the AIC analysis above.
 
-### markers combined (Amplicon vs Shotgun GLMM)
+#### markers combined (Amplicon vs Shotgun GLMM)
 
 for this analysis we need to format the data a little differently; the formatted amplicon data are in different data frames based on the marker (ITS2 vs. *rbcL*). Need to combine those two to generate a single amplicon data frame; this has to happen at each taxonomic level. While seemingly easy with `rbind`, we have to take the additional step of aggregating for each mix.id and sample.id the two amplicon markers (add the false positives and false negatives together). Still, this is very straightforward with `dplyr`.
 
@@ -1147,178 +961,66 @@ kable(krakamp.results.table) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 
-In contrast to the previous analysis (in which results were split out by marker), here---with markers combined---we had better model performance / convergence. For all three taxonomic levels, we see statistically significant differences between the amplicon and the shotgun data. All three of the coefficients are negative (as we move from amplicon to kraken), indicating that the "successes" (true positives) were reduced as we moved in that direction, i.e. that amplicon performance was better than kraken performance.
+In contrast to the previous analysis (in which results were split out by marker), here---with markers combined---we had better model performance / convergence. For all three taxonomic levels, we see statistically significant differences between the amplicon and the shotgun data. All three of the coefficients are negative (as we move from amplicon to kraken), indicating that the "successes" (true positives) were reduced as we moved in that direction, i.e. that amplicon performance was better than kraken performance in terms of signal-to-noise ratio. In other words, WGS kraken results had a higher proportion of false positives. 
 
-## Amplicon vs. Shotgun comparison - GLMM of true positives and false positives
+## quantitative matching 
 
-This analysis uses binomial mixed models to assess if using amplicon vs. WGS has a significant effect on the ability to qualitatively detect true positives vs. false negatives. This analysis is similar the qualitative mixed models to assess the effect of species richness, pollen grain proportion, etc. on the ability to qualitatively detect the correct taxa, but instead using "source" as the fixed effect. 
+To assess if pollen grain proportion is correlated to read proportion in the empirical WGS data, use a linear mixed model with mix.ID and species as a random effect. 
 
-### by marker and taxonomic level
+```{R quantitative matching}
 
-```{r amplicon vs. shotgun true positive vs false negative - separate markers}
+# ultimately want 3 analyses: {species, genus, and family}
+# species
+quant.species = lmer(quant.species ~ pollen.grain.proportion + (1|mix.ID) + (1|species), data = truepos.krak.species)
 
-taxon = c("species", "genus", "family")
-marker = c("its", "rbc")
+# genus
+quant.genus = lmer(quant.genus ~ pollen.grain.proportion + (1|mix.ID) + (1|genus), data = truepos.krak.genus)
 
+#family
+quant.family = lmer(quant.family ~ pollen.grain.proportion + (1|mix.ID) + (1|family), data = truepos.krak.family)
 
-# first set up a table for the results:
-# I will set this up with 18 entries
-krakamp.fn.results.table = data.frame(taxon  = rep(NA,6), marker  = rep(NA,6), model.name = rep(NA,6), p.val  = rep(1.000001,6), n  = rep(9999,6), warning.msg = rep(NA,6))
+#=========================================
+# r-squared calculation at the family level
+r2.family = r2beta(quant.family)
 
-# keep track of which row of the table to record in:
-tracker = 1
+# r-squared calculation at the genus level
+r2.genus = r2beta(quant.genus)
 
-# # EXAMPLE FORMULA
-# its.family = glmer(qual.family ~ source + (1|mix.ID/sample) + (1|family), family = binomial, data = krakamp_its_family_fn, control = glmerControl(optimizer="bobyqa"))
+# r-squared calculation at the species level
+r2.species = r2beta(quant.species)
 
-# response variables relating to each of the three questions (column names in data)
+#Merge the slope ("Estimate"), p-value ("Pr...t..") from the mixed models with the r-squared value for each test
 
-for(q in 1:2) { # 'marker': its or rbc
-    for(k in 1:3){ # 'taxon': species, genus, family
-        # first, name the analysis:
-        namer = paste(marker[q], ".", taxon[k], sep = "")
-        # # 1.5, print name of which model was evaluated
-        # print("**************************************************")
-        # print(paste("*********************     ", namer, "     *********************"))
-        
-        # second, set which taxonomic data to use:
-        data.to.use = paste("krakamp_", marker[q], "_", taxon[k],"_fn", sep = "")
-        
-        # third, set up mixed-effects model: 
-        mixed = paste(namer, " = suppressWarnings(glmer(qual.", taxon[k],
-          " ~ source + (1|mix.ID/sample) + (1|", taxon[k], "), family = binomial, 
-          data = ", data.to.use, ", control = glmerControl(optimizer=\"bobyqa\")))", sep = "")
-        # fourth, evaluate the mixed-effects model
-        eval(parse(text = mixed))
-            #fifth, print summary of model [SKIP FOR NOW]
-            #summarizer = paste("print(summary(", namer, "))", sep = "")
-            #eval(parse(text = summarizer)) # print summary of the mixed-effects model
-        
-        ## extract p-value
-        # example: coef(summary(its.family))[2,4]
-        pvaller = paste("pval <- coef(summary(", namer, "))[2,4]", sep = "")
-        eval(parse(text = pvaller))
-        
-        # extract convergence failures
-        converger = paste(namer, "@optinfo$conv$lme4$code", sep = "")
-        converg = eval(parse(text = converger))
-        converg.return = ifelse(length(converg)==1, "ERROR!!", "")
-        
-        # record results in table
-        krakamp.fn.results.table[tracker,1] = taxon[k]
-        krakamp.fn.results.table[tracker,2] = marker[q]
-        krakamp.fn.results.table[tracker,3] = namer
-        krakamp.fn.results.table[tracker,4] = pval
-        krakamp.fn.results.table[tracker,5] = nrow(eval(parse(text = data.to.use)))
-        krakamp.fn.results.table[tracker,6] = converg.return
-        
-        # advance tracker
-        tracker = tracker + 1
-      }
-    }
-  
+coefs_quant.family <- cbind((data.frame(coef(summary(quant.family)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.family[2,6]) 
 
+coefs_quant.genus <- cbind((data.frame(coef(summary(quant.genus)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.genus[2,6]) 
 
-# display results table
-# note that the 'kable' function is part of the 'knitr' package and `kable_styling` is from the `kableExtra` package 
-kable(krakamp.fn.results.table) %>% 
-  kable_styling(bootstrap_options = "striped", full_width = F)
-```
+coefs_quant.species <- cbind((data.frame(coef(summary(quant.species)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.species[2,6]) 
 
-When ITS was used as a marker in the amplicon data, the amplicon data did not behave significantly better or worse than the WGS data at the species and family level. However, at the genus level (estimate = -1.15), the negative estimate and low p-value suggests that using ITS sequencing was more accurate for detecting true positives than WGS. 
+#Rename row names and column names 
+row.names(coefs_quant.family) = "Family"
+row.names(coefs_quant.genus) = "Genus"
+row.names(coefs_quant.species) = "Species"
 
-In contrast, when rbcL was used as a marker in the amplicon data, the amplicon data detected fewer true positives at the species (estimate = 1.19) and genus (estimate = 1.04) levels than the WGS data. However, the amplicon data detected more true positives at the family level (estimate = -26.774) than the WGS data.
+colnames(coefs_quant.family) = c("Slope", "p-value", "R2")
+colnames(coefs_quant.genus) = c("Slope", "p-value", "R2")
+colnames(coefs_quant.species) = c("Slope", "p-value", "R2")
 
-### by taxonomic level, with markers combined
+#Merge summary of coefficients into one dataset
+coefs_summ <- rbind(coefs_quant.family, coefs_quant.genus, coefs_quant.species)
 
-This is a repeat of the analysis above, but with ITS and rbcL combined 
-
-```{r r amplicon vs. shotgun true positive vs false negative - markers combined}
-
-#Create new qualitative variable in amplicon dataset that equals 1 if ITS and/or rbcL equals 1, 0 if else
-
-amp_all$qual.family = ifelse(amp_all$qual.family.ITS == 1 | amp_all$qual.family.rbcL == 1, 1, 0)
-amp_all$qual.genus = ifelse(amp_all$qual.genus.ITS == 1 | amp_all$qual.genus.rbcL == 1, 1, 0)
-amp_all$qual.species = ifelse(amp_all$qual.species.ITS == 1 | amp_all$qual.species.rbcL == 1, 1, 0)
-
-#Combine kraken and amplicon data
-krakamp_family_fn <- rbind(truepos.krak.family[,c("mix.ID", "family", "sample", "qual.family", "source")], amp_all[,c("mix.ID","family","sample", "qual.family", "source")])
-
-krakamp_genus_fn <- rbind(truepos.krak.genus[,c("mix.ID", "genus", "sample", "qual.genus", "source")], amp_all[,c("mix.ID","genus","sample", "qual.genus", "source")])
-
-krakamp_species_fn <- rbind(truepos.krak.species[,c("mix.ID", "species", "sample", "qual.species", "source")], amp_all[,c("mix.ID","species","sample", "qual.species", "source")])
-
-
-taxon = c("species", "genus", "family")
-
-# first set up a table for the results:
-# I will set this up with 18 entries
-krakamp.fn.results.combined = data.frame(taxon  = rep(NA,3), model.name = rep(NA,3), p.val  = rep(1.000001,3), n  = rep(9999,3), warning.msg = rep(NA,3))
-
-# keep track of which row of the table to record in:
-tracker = 1
-
-# # EXAMPLE FORMULA
-# its.family = glmer(qual.family ~ source + (1|mix.ID/sample) + (1|family), family = binomial, data = krakamp_family_fn, control = glmerControl(optimizer="bobyqa"))
-
-# response variables relating to each of the three questions (column names in data)
-
-    for(k in 1:3){ # 'taxon': species, genus, family
-        # first, name the analysis:
-        namer = taxon[k]
-        # # 1.5, print name of which model was evaluated
-        # print("**************************************************")
-        # print(paste("*********************     ", namer, "     *********************"))
-        
-        # second, set which taxonomic data to use:
-        data.to.use = paste("krakamp_", taxon[k],"_fn", sep = "")
-        
-        # third, set up mixed-effects model: 
-        mixed = paste(namer, " = suppressWarnings(glmer(qual.", taxon[k],
-          " ~ source + (1|mix.ID/sample) + (1|", taxon[k], "), family = binomial, 
-          data = ", data.to.use, ", control = glmerControl(optimizer=\"bobyqa\")))", sep = "")
-        # fourth, evaluate the mixed-effects model
-        eval(parse(text = mixed))
-            #fifth, print summary of model [SKIP FOR NOW]
-            #summarizer = paste("print(summary(", namer, "))", sep = "")
-            #eval(parse(text = summarizer)) # print summary of the mixed-effects model
-        
-        ## extract p-value
-        # example: coef(summary(its.family))[2,4]
-        pvaller = paste("pval <- coef(summary(", namer, "))[2,4]", sep = "")
-        eval(parse(text = pvaller))
-        
-        # extract convergence failures
-        converger = paste(namer, "@optinfo$conv$lme4$code", sep = "")
-        converg = eval(parse(text = converger))
-        converg.return = ifelse(length(converg)==1, "ERROR!!", "")
-        
-        # record results in table
-        krakamp.fn.results.combined[tracker,1] = taxon[k]
-        krakamp.fn.results.combined[tracker,2] = namer
-        krakamp.fn.results.combined[tracker,3] = pval
-        krakamp.fn.results.combined[tracker,4] = nrow(eval(parse(text = data.to.use)))
-        krakamp.fn.results.combined[tracker,5] = converg.return
-        
-        # advance tracker
-        tracker = tracker + 1
-      }
-  
-  
-
-
-# display results table
-# note that the 'kable' function is part of the 'knitr' package and `kable_styling` is from the `kableExtra` package 
-kable(krakamp.fn.results.combined) %>% 
+#Display table of summarized coefficients
+kable(coefs_summ) %>% 
   kable_styling(bootstrap_options = "striped", full_width = F)
 
-
 ```
-After combining rbcL and ITS2, where taxa were determined as present if they were present in rbcL OR ITS2, amplicon performed better than kraken at the species level (estimate = -0.948, p=0.034), genus level (estimate = -30.28, p<0.00001), and family level (estimate = -68.21, p<0.00001). 
 
-# figures
+Pollen grain proportion was significantly related to read proportion at the family ($R^2$ = 0.81, $p$ < 0.000001), genus ($R^2$ = 0.58, $p$ < 0.000001), and species level ($R^2$ = 0.77, $p$ <0.000001)
 
-##figure 1
+
+# Figures
+
+## Figure 1
 This figure shows the mean proportion and binomial CI of correct taxonomic matches by species and genus. Fig. 1a is by family, Fig. 1b is by genus, and Fig. 1c is by species.
 
 The binomial CI is calculated using the binom.confint function, which requires a vector of the number of success (x) and a vector of the number of independent trials (n). 
