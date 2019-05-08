@@ -90,13 +90,22 @@ There are two potential ways to structure an analysis:
 For both of these approaches, one possibility would be to specify the intercept (0) and slope (1) and see how well the input data do at fitting that line. This could potentially work particularly well when comparing the amplicon and the WGS data.
 
 # Data import
-Three groups of data sets to import: 1) WGS Kraken empirical data; 2) sample metadata; 3) amplicon data. The amplicon data are represented by 6 data files: two markers (ITS2 and *rbcL*) and three levels of taxonomic matching (species, genus, and family). We later format the Kraken data into three datasets representing those taxonomic levels.
+
+Three groups of data sets to import: 
+
+1. sample metadata 
+1. WGS Kraken empirical data 
+1. amplicon data 
+
+The metadata are the same for the WGS and amplicon data, as both were run from the exact same DNA extractions.
+
+The amplicon data are represented by 6 data files: two markers (ITS2 and *rbcL*) and three levels of taxonomic matching (species, genus, and family). We later format the Kraken data into three datasets representing those taxonomic levels. 
+
+Ideally it would be best to just have it be one file with six different response columns (one for each marker and each taxonomic level), but the issue is that for different samples, matching the taxonomy at different levels leads to different numbers of rows. For example, we have two *Populus* species in someo of the samples. For matching at the species level, that is two different rows. But for genus and family, it is just one row. There are some other samples that have two different genera in the same family (e.g., *Poa* and *Zea*, both in the Poaceae). Thus, these have to be completely separate datafiles.
 
 For the Kraken data, Jamieson Botsch formatted these (25-Apr-2018) from the raw Kraken output to combine the two data sources (we sequenced WGS data both at Emory and at UGA), and to have the family / genus / species separated out into columns; see `Shotgun_data_prep.Rmd`. Unlike the QIIME Illumina data, we do not need to do any aggregation of read counts as this was done automatically by Kraken (nice touch); i.e. all read counts at the species level are also included in genus-level matches and so on.
 
 We do just a couple of steps of very basic / simple formatting with the data import here (removal of superfluous numeric column a the beginning of the data; removal of duplicate rows).
-
-*again, the Kraken simulations have been removed from the analysis because they were not adding any particular value*
 
 ```{r data import}
 krak.raw = read.csv("kraken.csv") # create 'krak.raw' that we can refer back to later
@@ -146,7 +155,7 @@ names(krak)[1] = "sample.id"
     + both of the above are challenging because the Emory and UGA data are formatted slightly differently from each other, and also those formats are different than the metadata; this involves parsing regular expressions from the single column of sample names
 1. finally, do some relatively minor tweaks for formatting etc.; e.g. capitalization of *"C. illinoisensis"*; formatting of sample numbers, etc.
 
-```{r C.1: Kraken data prep}
+```{r Kraken data prep}
 
 # 1. filter out the reads to only include those at the family / genus / species levels
 krak = filter(krak, tax == "F" | tax == "G" | tax == "S")
@@ -155,7 +164,7 @@ krak = filter(krak, tax == "F" | tax == "G" | tax == "S")
 # this is a bit more involved... a primary issue is that Emory and UGA used different naming conventions for the samples
 
 ## MIX.ID
-## FIRST ONLY FOR 'KRAK' ('SIMKRAK' comes later)
+## FIRST ONLY FOR 'KRAK'
 
 # first, create the column; fill in temporarily the first 6 characters in the 'sample.id' column
 krak$mix.ID = substr(krak$sample.id, 1, 6)
@@ -176,7 +185,7 @@ krak$mix.ID = gsub("_", ".", krak$mix.ID)
 
 # third, for the Emory mixes (different label), extract the mix from the text in the 'sample.id' column
 # use 'str_extract' from the 'stringr' library (thank you tidyverse!) plus 'replace'
-# (... took me quite a while to figure this out, dang regular expressions...)
+# (... took a while to figure this out, dang regular expressions...)
 # then do some cleanup
 
   # extract strings and subset to only the relevant values  
@@ -199,7 +208,6 @@ krak$mix.ID = gsub("mix.", "mix", krak$mix.ID)
 # noticed a weird quirk of the data: in the "B.pap" samples, the "1" at the end of the 'sample.id' is cut off. It may not really matter, but by making it consistent it will help make there be fewer levels / potential complications when appending onto the 'mixes' data
 krak$sample.id = as.character(krak$sample.id)
 indexy = str_sub(krak$sample.id, -1, -1)==0 # identifies which are missing the '1' at the end
-# indexy = which(krak$mix.ID=="B.pap" & krak$rep.ID=="01.R")
 krak$sample.id = replace(krak$sample.id, indexy, paste(krak$sample.id[indexy],"1", sep = ""))
 
 # first, create the column; fill in the relevant characters from the 'sample.id' column
@@ -248,11 +256,10 @@ all.krak.species =  merge(krak_mixes, filter(krak, tax == "S"), by = c("mix.ID",
 ## remove reads below the isolation/PCR negative control
 
 1. remove reads below the isolation / PCR negative control thresholds
-      a) this step is only for the empirical data (unnecessary for the simulated data)
-      a) ideally, would base these on negative controls **for a given Illumina run** (two separate runs here, at UGA and Emory Genome center; we will need to keep those separate); but **unfortunately** there are not negative controls for the Emory Genome Center data; use the UGA thresholds for all the data
+      a) ideally, would base these on negative controls **for a given Illumina run** (two separate runs here, at UGA and Emory Genome center; we will need to keep those separate); but **unfortunately** there are not negative controls for the Emory Genome Center data; use the UGA thresholds for all the data (definitely not ideal)
       a) this entails removing rows with $k$-mer counts below the threshold
       a) in the Illumina QIIME amplicon data, we did this separately for (entire) taxa below the threshold level, and for reads, because of the way that the data were formatted in a taxon-by-sample matrix; the Kraken output is already formatted in a way that is closer to `tidy` so we only need to do this step once here.
-1. remove negative control rows (once the above is completed)
+1. remove negative control rows (once the above is completed) so they don't interfere with the analysis
 
 
 ```{r remove reads below contamination threshold}
@@ -315,14 +322,16 @@ truepos.krak.species$qual.species = ifelse(truepos.krak.species$quant.species > 
 To analyze false positives in kraken data, need to have aggregated counts of the "true positive" and "false positive" reads by sample. These will be our "success" and "failure" numbers in a binomial mixed model. 
 
 1. If the merged sample data is N/A, this indicates the taxa is a false positive. Based on N/A values, create a variable indicating if taxa is true or false positive.
-1. ???? Remove taxa that are in sample data but not kraken data (false negatives) - not considered for this analysis
-    + **WAIT---WHY ARE WE DOING THIS??? RECONSIDER???**
+1. Remove taxa that are in sample data but not kraken data (false negatives) - not considered for this analysis
+    + while perhaps counterintuitive, need to do this because in this analysis we are using counts of "true positive" reads vs. "false positive" reads, i.e. only using reads that exist, not reads that should have existed but do not. Those are dealt with in our false negative analysis.
 1. Add "K" to the sample names to distinguish from the samples in the amplicon data (formatted in C.7)
 1. Aggregate the counts per sample ID by "true positive" and "false positive"
 
 In addition (new as of 18-April-2019):
 1. removed *Zea mays* and mix5 samples (don't match with metadata)
 1. matched false positive data with metadata so that sample complexity analyses can be run down the line
+1. one consideration is that since we are aggregating all of the reads for a particular sample into one row, we have to figure out how to deal with rarity / commonness of taxa within a sample.
+    + here we use the minimum % of any taxon within the sample as a measure of rarity
 
 ```{r Format kraken data for false positive analysis}
 
@@ -406,12 +415,14 @@ rm(mixy)
 
 We need to combine the WGS with amplicon data by creating a dataframe showing the number of true positive and the number of false positive reads by source, mix ID, and sample ID.
 
+One issue is that the kraken data and the 
+
 ```{r WGS and amplicon aggregation}
 
 #Create list of amplicon data frames
 amp_data <- list(amp_its_family, amp_its_genus, amp_its_species, amp_rbc_family, amp_rbc_genus, amp_rbc_species)
 
-#Apply function to list
+# create function for later applying to the list
 amp_convert <- lapply(amp_data, function(x){
   #convert first column name to "taxa"
   names(x)[1] <- "taxa"
@@ -508,7 +519,7 @@ amp_rbc_genus_reshape$rep.ID = 1
 amp_rbc_species_reshape$rep.ID = 1
 
 # Move to third column to match Kraken data
-# (better done with dplyr in the future)
+# (better done with `dplyr` in the future)
 amp_its_family_reshape = amp_its_family_reshape[,c(1:2,5,3:4)]
 amp_its_genus_reshape = amp_its_genus_reshape[,c(1:2,5,3:4)]
 amp_its_species_reshape = amp_its_species_reshape[,c(1:2,5,3:4)]
