@@ -1,0 +1,15 @@
+---
+title: "WGS analysis to-dos 9 May 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## to dos
+
+* `truepos.krak.family` (`.genus`, `.species`): something is off about the aggregation of these files. Specifically, the `species` file should have the most rows, as it has the most unique cases. Instead, it is the opposite: `family` has the most rows, then `genus`, then `species`. This needs to be fixed so that it is the other way around.
+    + may be relatively straightforward to fix using the `unique` function?
+    + this is in the `merge kraken data and sample metadata` code chunk, around line 241
+* 

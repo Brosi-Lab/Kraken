@@ -99,9 +99,12 @@ Three groups of data sets to import:
 
 The metadata are the same for the WGS and amplicon data, as both were run from the exact same DNA extractions.
 
-The amplicon data are represented by 6 data files: two markers (ITS2 and *rbcL*) and three levels of taxonomic matching (species, genus, and family). We later format the Kraken data into three datasets representing those taxonomic levels. 
+The amplicon data are represented by 7 data files: The first (`amp_all`) is already merged with the sample metadata and already formatted for false-negative analyses (with a separate row for each species within each sample). There are separate columns for the presence or absence of that taxon at three different taxonomic levels (species, genus, and family) and for each marker (ITS2 and *rbcL*).
 
-Ideally it would be best to just have it be one file with six different response columns (one for each marker and each taxonomic level), but the issue is that for different samples, matching the taxonomy at different levels leads to different numbers of rows. For example, we have two *Populus* species in someo of the samples. For matching at the species level, that is two different rows. But for genus and family, it is just one row. There are some other samples that have two different genera in the same family (e.g., *Poa* and *Zea*, both in the Poaceae). Thus, these have to be completely separate datafiles.
+This `amp_all` dataset, however, does not include data on false positives. Thus, the remaining six datafiles are there to provide data on how many of the hits were to true positives (known to be present in the sample) vs. false positives (not included in the sample). In contrast to `amp_all`, these are formatted as six separate files, one each for 
+the two markers (ITS2 and *rbcL*) and three levels of taxonomic matching (species, genus, and family). The format of these files matches basically what comes from QIIME: taxa are the rows, and samples are the columns. We re-format these to the tidy format of having samples as rows later. 
+
+Across both the amplicon and the kraken data, one issue is that for different samples, matching the taxonomy at different levels leads to different numbers of rows. For example, we have two *Populus* species in some of the samples. For matching at the species level, that is two different rows. But for genus and family, it is just one row. There are some other samples that have two different genera in the same family (e.g., *Poa* and *Zea*, both in the Poaceae). Thus, these have to be either 1) stored as completely separate datafiles; or 2) stored in a single datafile (as in `amp_all`) but properly subset to not include duplicate rows for the same genus or family within samples. In this analysis we have split these out into separate files, which is probably not the best way to go; for the future, try to keep data together in a single data file and then subset that file for analyses.
 
 For the Kraken data, Jamieson Botsch formatted these (25-Apr-2018) from the raw Kraken output to combine the two data sources (we sequenced WGS data both at Emory and at UGA), and to have the family / genus / species separated out into columns; see `Shotgun_data_prep.Rmd`. Unlike the QIIME Illumina data, we do not need to do any aggregation of read counts as this was done automatically by Kraken (nice touch); i.e. all read counts at the species level are also included in genus-level matches and so on.
 
@@ -225,6 +228,10 @@ krak$sample <- ifelse(startsWith(sample_sep$L,"S"), sample_sep$L, ifelse(startsW
 ##Create list of unique combinations of mix ID, sample number, and rep ID to properly merge kraken with mixes data at later point
 krak_uniqueid <- data.frame(krak$mix.ID, krak$rep.ID, krak$sample)
 krak_uniqueid <- unique.data.frame(krak_uniqueid)
+
+# clean up
+rm(sample_sep, new.vals, indexy)
+
 ```
 
 ## combine Kraken & sample / mix data:
@@ -243,14 +250,20 @@ use 'mix.ID' as the variable to combine by...
 ## Merge sample and replicate IDs with mixes data
 krak_mixes <- merge(mixes,krak_uniqueid, by.x="mix.ID", by.y="krak.mix.ID")
 
-#Create separate datasets for family, genus, and species level, both including and excluding false positives
+# create separate datasets for family, genus, and species level, both including and excluding false positives
+# excluding false positives (focus on true positives / false negatives):
 truepos.krak.family =  merge(krak_mixes, filter(krak, tax == "F"), by = c("mix.ID", "family"), all.x=T)
 truepos.krak.genus =  merge(krak_mixes, filter(krak, tax == "G"), by = c("mix.ID", "genus"), all.x=T)
 truepos.krak.species =  merge(krak_mixes, filter(krak, tax == "S"), by = c("mix.ID", "species"), all.x=T)
 
+# including false positives:
 all.krak.family =  merge(krak_mixes, filter(krak, tax == "F"), by = c("mix.ID", "family"), all.x = T, all.y = T)
 all.krak.genus =  merge(krak_mixes, filter(krak, tax == "G"), by = c("mix.ID", "genus"), all.x = T, all.y = T)
 all.krak.species =  merge(krak_mixes, filter(krak, tax == "S"), by = c("mix.ID", "species"), all.x = T, all.y = T)
+
+# clean up:
+rm(krak_uniqueid)
+
 ```
 
 ## remove reads below the isolation/PCR negative control
@@ -290,23 +303,26 @@ all.krak.genus = filter(all.krak.genus, mix.ID!="negat")
 all.krak.species = filter(all.krak.species, mix.ID!="negat")
 
 # Clean up
-rm(maxy, all.indexy_family, all.indexy_genus, all.indexy_species)
+rm(maxy, all.indexy_family, all.indexy_genus, all.indexy_species, truepos.indexy_family, truepos.indexy_genus, truepos.indexy_species)
 
 ```
 
-## match Kraken data to sample metadata; false negative and quantitative analyses
+## Kraken data: format for false negative and quantitative analyses
 
-1. Create a qualitative variable that equals 1 if the proportion is greater than 0, and 0 if else. 
-1. Convert the "percentage hits" to a proportion - which will be the response variable in the quantitative models. 
-    + going to do this in the reverse order as it simplifies things; deal with NAs in the first step
+(will do false positives in next step; the data formatting at this step is relatively straightforward)
+
+1. Convert NAs in true positives / false negatives to 0s
+1. Convert the "percentage hits" to a proportion - which will be the response variable in the quantitative models
+1. Create a qualitative variable that equals 1 if that taxon was detected in the analysis (i.e. if proportion is greater than 0), and 0 if not detected (i.e. if proportion = 0). 
 
 ```{r match kraken to sample data}
-#Create quantitative variable by simply dividing the percentage hits (perc.hit) by 100
+
+# create quantitative variable by simply dividing the percentage hits (perc.hit) by 100
 truepos.krak.family$quant.family = truepos.krak.family$perc.hit/100
 truepos.krak.genus$quant.genus = truepos.krak.genus$perc.hit/100
 truepos.krak.species$quant.species = truepos.krak.species$perc.hit/100
 
-#For taxa that were not detected, NAs are currently present. Need to change this to 0 for quantitative variable before running analysis.
+# for taxa that were not detected, NAs are currently present. Need to change this to 0 for quantitative variable before running analysis.
 truepos.krak.family$quant.family = ifelse(is.na(truepos.krak.family$quant.family), 0, truepos.krak.family$quant.family)
 truepos.krak.genus$quant.genus = ifelse(is.na(truepos.krak.genus$quant.genus), 0, truepos.krak.genus$quant.genus)
 truepos.krak.species$quant.species = ifelse(is.na(truepos.krak.species$quant.species), 0, truepos.krak.species$quant.species)
@@ -317,6 +333,40 @@ truepos.krak.genus$qual.genus = ifelse(truepos.krak.genus$quant.genus > 0, 1, 0)
 truepos.krak.species$qual.species = ifelse(truepos.krak.species$quant.species > 0, 1, 0)
 ```
 
+## combine amplicon and Kraken data for false negative analysis
+
+Using the kraken data formatted for true positive/false negative analysis ("truepos.krak"), rbind with amplicon data. 
+
+```{r combine amplicon and kraken data for true positive/false negative}
+
+#Add "K-" to beginning of sample number of kraken dataset and add variable "source" to indicate that data is from kraken dataset
+truepos.krak.family$sample <- paste("K-", truepos.krak.family$krak.sample, sep="")
+truepos.krak.genus$sample <- paste("K-", truepos.krak.genus$krak.sample, sep="")
+truepos.krak.species$sample <- paste("K-", truepos.krak.species$krak.sample, sep="")
+
+#Add "source" variable to indicate if data is WGS or amplicon
+truepos.krak.family$source = "krak"
+truepos.krak.genus$source = "krak"
+truepos.krak.species$source = "krak"
+amp_all$source = "amp"
+
+#Concatenate WGS and amplicon data using mapply so that mismatching variable names of the amplicon data will be ignored
+
+krakamp_rbc_family_fn <- as.data.frame(mapply(c, truepos.krak.family[,c("mix.ID", "family", "sample", "qual.family", "source")], amp_all[,c("mix.ID","family","sample", "qual.family.rbcL", "source")]))
+
+krakamp_its_family_fn <- as.data.frame(mapply(c, truepos.krak.family[,c("mix.ID", "family", "sample", "qual.family", "source")], amp_all[,c("mix.ID","family","sample", "qual.family.ITS", "source")]))
+
+krakamp_rbc_genus_fn <- as.data.frame(mapply(c, truepos.krak.genus[,c("mix.ID", "genus", "sample", "qual.genus", "source")], amp_all[,c("mix.ID","genus","sample", "qual.genus.rbcL", "source")]))
+
+krakamp_its_genus_fn <- as.data.frame(mapply(c, truepos.krak.genus[,c("mix.ID", "genus", "sample", "qual.genus", "source")], amp_all[,c("mix.ID","genus","sample", "qual.genus.ITS", "source")]))
+
+krakamp_rbc_species_fn <- as.data.frame(mapply(c, truepos.krak.species[,c("mix.ID", "species", "sample", "qual.species", "source")], amp_all[,c("mix.ID","species","sample", "qual.species.rbcL", "source")]))
+
+krakamp_its_species_fn <- as.data.frame(mapply(c, truepos.krak.species[,c("mix.ID", "species", "sample", "qual.species", "source")], amp_all[,c("mix.ID","species","sample", "qual.species.ITS", "source")]))
+
+```
+
+
 ## format kraken data for false positive analysis
 
 To analyze false positives in kraken data, need to have aggregated counts of the "true positive" and "false positive" reads by sample. These will be our "success" and "failure" numbers in a binomial mixed model. 
@@ -324,33 +374,34 @@ To analyze false positives in kraken data, need to have aggregated counts of the
 1. If the merged sample data is N/A, this indicates the taxa is a false positive. Based on N/A values, create a variable indicating if taxa is true or false positive.
 1. Remove taxa that are in sample data but not kraken data (false negatives) - not considered for this analysis
     + while perhaps counterintuitive, need to do this because in this analysis we are using counts of "true positive" reads vs. "false positive" reads, i.e. only using reads that exist, not reads that should have existed but do not. Those are dealt with in our false negative analysis.
-1. Add "K" to the sample names to distinguish from the samples in the amplicon data (formatted in C.7)
+1. Add "K" to the sample names to distinguish from the samples in the amplicon data
 1. Aggregate the counts per sample ID by "true positive" and "false positive"
 
 In addition (new as of 18-April-2019):
 1. removed *Zea mays* and mix5 samples (don't match with metadata)
 1. matched false positive data with metadata so that sample complexity analyses can be run down the line
 1. one consideration is that since we are aggregating all of the reads for a particular sample into one row, we have to figure out how to deal with rarity / commonness of taxa within a sample.
-    + here we use the minimum % of any taxon within the sample as a measure of rarity
+    + to do that, we use the minimum % of any taxon within the sample as a measure of rarity
 
 ```{r Format kraken data for false positive analysis}
 
-#For false positive analysis, create variable indicating if taxa if "false positive" or "true positive"
+# For false positive analysis, create variable indicating if taxa if "false positive" or "true positive"
 all.krak.family$type <- ifelse(is.na(all.krak.family$question.1), "false_pos", "true_pos")
 all.krak.genus$type <- ifelse(is.na(all.krak.genus$question.1), "false_pos", "true_pos")
 all.krak.species$type <- ifelse(is.na(all.krak.species$question.1), "false_pos", "true_pos")
 
-#If hits = N/A, indicates a false negative (in sample data but not in Kraken data). Remove because we are not considering for this analysis. 
+# If hits = N/A, indicates a false negative (in sample data but not in Kraken data). Remove because we are not considering for this analysis
+# (for the future, probably easier with `filter` in `dplyr` package)
 all.krak.family <- all.krak.family[-which(is.na(all.krak.family$sample.id)),]
 all.krak.genus <- all.krak.genus[-which(is.na(all.krak.genus$sample.id)),]
 all.krak.species <- all.krak.species[-which(is.na(all.krak.species$sample.id)),]
 
-#Add "K_" to sample name
+# Add "K_" to sample name
 all.krak.family$sample <- paste("K_",all.krak.family$sample, sep="")
 all.krak.genus$sample <- paste("K_",all.krak.genus$sample, sep="")
 all.krak.species$sample <- paste("K_",all.krak.species$sample, sep="")
 
-#Aggregate counts by mix.ID, sample.ID, and type
+# Aggregate counts by mix.ID, sample.ID, and type
 agg.krak.family <- all.krak.family %>%
           select(mix.ID, family, rep.ID, sample, type, hits) %>%
           group_by(mix.ID, sample, rep.ID, type) %>%
@@ -364,12 +415,12 @@ agg.krak.species <- all.krak.species %>%
           group_by(mix.ID, sample, rep.ID, type) %>%
           summarize(total_hits = sum(hits))
 
-#Convert to wide format with one column for true positive hits and one column for false positive hits
+# Convert to wide format with one column for true positive hits and one column for false positive hits
 agg.krak.family <- spread(agg.krak.family, key=type, value=total_hits)
 agg.krak.genus <- spread(agg.krak.genus, key=type, value=total_hits)
 agg.krak.species <- spread(agg.krak.species, key=type, value=total_hits)
 
-#If positives are N/A, set to equal 0
+# If positives are N/A, set to equal 0
 agg.krak.family$true_pos = ifelse(is.na(agg.krak.family$true_pos),0, agg.krak.family$true_pos)
 agg.krak.genus$true_pos = ifelse(is.na(agg.krak.genus$true_pos),0, agg.krak.genus$true_pos)
 agg.krak.species$true_pos = ifelse(is.na(agg.krak.species$true_pos),0, agg.krak.species$true_pos)
@@ -411,18 +462,28 @@ rm(mixy)
 ```
 
 
-## false positives: combine WGS and amplicon data
+## false positives: format amplicon data
 
-We need to combine the WGS with amplicon data by creating a dataframe showing the number of true positive and the number of false positive reads by source, mix ID, and sample ID.
+This part is one of the more challenging components of the formatting. It is based on the six amplicon data files (one for each marker and taxonomic level), formatted as QIIME matrices such that taxa comprise the rows and samples comprise the columns.
 
-One issue is that the kraken data and the 
+we need to:
 
-```{r WGS and amplicon aggregation}
+* `melt` each matrix into a single row for each taxon / mix / sample combination, reporting the number of reads for each
+    + remove combos for which there were zero reads (not strictly necessary since we will later just add up all the true and false positives, but makes everything more compact)
+    + also a good time to remove mix #5 and also *Zea* samples from the amplicon data for consistencey
+* merge each melted dataframe with with the sample metadata
+* classify reads ("hits") into false positives and false negatives, on a row-by-row basis
+* aggregate (sum) false positive and false negative reads for each sample and replicate
+
+* NEED TO MAKE SURE TO KEEP ALL OF THE SAMPLE METADATA FOR THE AMPLICON DATA--IT IS IN THERE AFTER THE MERGING BUT SOMEHOW GETS LOST. BASICALLY GOT TO LINE 529.
+
+```{r format amplicon false positive}
 
 #Create list of amplicon data frames
 amp_data <- list(amp_its_family, amp_its_genus, amp_its_species, amp_rbc_family, amp_rbc_genus, amp_rbc_species)
 
-# create function for later applying to the list
+# create a function for *melting* the amplicon QIIME matrices, with a row for each...
+# ...taxon / mix / sample combination, reporting the number of reads for each
 amp_convert <- lapply(amp_data, function(x){
   #convert first column name to "taxa"
   names(x)[1] <- "taxa"
@@ -432,9 +493,16 @@ amp_convert <- lapply(amp_data, function(x){
   x[,4:5] <- colsplit(x$variable, "_", c("mix.ID", "sample"))
   #remove variable "id"
   x <- x[,-2]
+  # remove any rows for which the "hits" count == 0
+  # there were no reads, so we don't need to include them
+  # also a good point to remove Zea mays single-species samples
+  # and also mix #5 which includes Zea
+  x <- filter(x, hits!=0 & mix.ID != "Z.mays" & mix.ID != "mix5")
 })
 
-#Extract data frames from list
+# apply the melting function to each of the 6 datasets
+# convert them into data frames at the same time
+# (in the future, better to do this with `lapply` or similar)
 amp_its_family <- as.data.frame(amp_convert[1])
 amp_its_genus <- as.data.frame(amp_convert[2])
 amp_its_species <- as.data.frame(amp_convert[3])
@@ -442,7 +510,7 @@ amp_rbc_family <- as.data.frame(amp_convert[4])
 amp_rbc_genus <- as.data.frame(amp_convert[5])
 amp_rbc_species <- as.data.frame(amp_convert[6])
 
-#Merge with mixes data by mixID and sampleID
+# merge with sample metadata (`mixes`) by mixID and sampleID
 amp_its_family_mix <- merge(amp_its_family, mixes, by.x=c("mix.ID", "taxa"), by.y=c("mix.ID", "family"), all.x=T)
 amp_its_genus_mix <- merge(amp_its_genus, mixes, by.x=c("mix.ID", "taxa"), by.y=c("mix.ID", "genus"), all.x=T)
 amp_its_species_mix <- merge(amp_its_species, mixes, by.x=c("mix.ID", "taxa"), by.y=c("mix.ID", "species"), all.x=T)
@@ -526,6 +594,14 @@ amp_its_species_reshape = amp_its_species_reshape[,c(1:2,5,3:4)]
 amp_rbc_family_reshape = amp_rbc_family_reshape[,c(1:2,5,3:4)]
 amp_rbc_genus_reshape = amp_rbc_genus_reshape[,c(1:2,5,3:4)]
 amp_rbc_species_reshape = amp_rbc_species_reshape[,c(1:2,5,3:4)]
+```
+
+## combine amplicon and Kraken data for false positive analysis
+
+We need to combine the WGS with amplicon data by creating a dataframe showing the number of true positive and the number of false positive reads by source, mix ID, and sample ID.
+
+
+``` {r combine amplicon and kraken data for false positive analysis}
 
 # Add column "source" to amplicon and kraken data
 amp_its_family_reshape$source = "amp"
@@ -549,38 +625,6 @@ krakamp_rbc_species = rbind(subset(amp_rbc_species_reshape, mix.ID %in% agg.krak
 
 ```
 
-## combine WGS and Kraken data for qualitative true positive / false negative analysis
-
-Using the kraken data formatted for true positive/false negative analysis ("truepos.krak"), rbind with amplicon data. 
-
-```{r combine WGS and kraken data for true positive/false negative}
-
-#Add "K-" to beginning of sample number of kraken dataset and add variable "source" to indicate that data is from kraken dataset
-truepos.krak.family$sample <- paste("K-", truepos.krak.family$krak.sample, sep="")
-truepos.krak.genus$sample <- paste("K-", truepos.krak.genus$krak.sample, sep="")
-truepos.krak.species$sample <- paste("K-", truepos.krak.species$krak.sample, sep="")
-
-#Add "source" variable to indicate if data is WGS or amplicon
-truepos.krak.family$source = "krak"
-truepos.krak.genus$source = "krak"
-truepos.krak.species$source = "krak"
-amp_all$source = "amp"
-
-#Concatenate WGS and amplicon data using mapply so that mismatching variable names of the amplicon data will be ignored
-
-krakamp_rbc_family_fn <- as.data.frame(mapply(c, truepos.krak.family[,c("mix.ID", "family", "sample", "qual.family", "source")], amp_all[,c("mix.ID","family","sample", "qual.family.rbcL", "source")]))
-
-krakamp_its_family_fn <- as.data.frame(mapply(c, truepos.krak.family[,c("mix.ID", "family", "sample", "qual.family", "source")], amp_all[,c("mix.ID","family","sample", "qual.family.ITS", "source")]))
-
-krakamp_rbc_genus_fn <- as.data.frame(mapply(c, truepos.krak.genus[,c("mix.ID", "genus", "sample", "qual.genus", "source")], amp_all[,c("mix.ID","genus","sample", "qual.genus.rbcL", "source")]))
-
-krakamp_its_genus_fn <- as.data.frame(mapply(c, truepos.krak.genus[,c("mix.ID", "genus", "sample", "qual.genus", "source")], amp_all[,c("mix.ID","genus","sample", "qual.genus.ITS", "source")]))
-
-krakamp_rbc_species_fn <- as.data.frame(mapply(c, truepos.krak.species[,c("mix.ID", "species", "sample", "qual.species", "source")], amp_all[,c("mix.ID","species","sample", "qual.species.rbcL", "source")]))
-
-krakamp_its_species_fn <- as.data.frame(mapply(c, truepos.krak.species[,c("mix.ID", "species", "sample", "qual.species", "source")], amp_all[,c("mix.ID","species","sample", "qual.species.ITS", "source")]))
-
-```
 
 # Analysis
 
@@ -705,6 +749,7 @@ For the empirical data, species richness has a significant effect on qualitative
 Species relatedness has a significant effect on qualitative detection with the full dataset (highly significant - all p-values <0.0001), but not with the subsetted dataset ($p$ = 0.97 for species and genus level, $p$ = 0.06 for family level). Not sure if this makes sense...
 
 Pollen grain proportion has a significant effect on qualitative detection at the species level with the full dataset and at the family level with the full dataset. The other tests gave errors. 
+
 
 ## false positives: sample complexity
 
