@@ -266,7 +266,7 @@ rm(krak_uniqueid)
 
 ```
 
-## remove reads below the isolation/PCR negative control
+## remove Kraken reads below the isolation/PCR negative control
 
 1. remove reads below the isolation / PCR negative control thresholds
       a) ideally, would base these on negative controls **for a given Illumina run** (two separate runs here, at UGA and Emory Genome center; we will need to keep those separate); but **unfortunately** there are not negative controls for the Emory Genome Center data; use the UGA thresholds for all the data (definitely not ideal)
@@ -275,7 +275,7 @@ rm(krak_uniqueid)
 1. remove negative control rows (once the above is completed) so they don't interfere with the analysis
 
 
-```{r remove reads below contamination threshold}
+```{r remove kraken reads below contamination threshold}
 
 # Establish threshold for maximum number of reads in the negative controls
 maxy = max(krak$hits[krak$mix.ID=="negat"])
@@ -456,8 +456,9 @@ agg.krak.family = merge(agg.krak.family, mixy, by = "mix.ID")
 agg.krak.genus = merge(agg.krak.genus, mixy, by = "mix.ID")
 agg.krak.species = merge(agg.krak.species, mixy, by = "mix.ID")
 
-# clean up
-rm(mixy)
+# clean up... or don't
+# don't remove 'mixy' just yet as we'll employ it again below for the false-positive amplicon data
+
 
 ```
 
@@ -579,6 +580,7 @@ amp_rbc_genus_reshape$false_pos = ifelse(is.na(amp_rbc_genus_reshape$false_pos),
 amp_rbc_species_reshape$false_pos = ifelse(is.na(amp_rbc_species_reshape$false_pos),0, amp_rbc_species_reshape$false_pos)
 
 # Add rep.ID = 1 for amplicon data to match kraken data
+# (probably could have done this in the first function above)
 amp_its_family_reshape$rep.ID = 1
 amp_its_genus_reshape$rep.ID = 1
 amp_its_species_reshape$rep.ID = 1
@@ -594,6 +596,20 @@ amp_its_species_reshape = amp_its_species_reshape[,c(1:2,5,3:4)]
 amp_rbc_family_reshape = amp_rbc_family_reshape[,c(1:2,5,3:4)]
 amp_rbc_genus_reshape = amp_rbc_genus_reshape[,c(1:2,5,3:4)]
 amp_rbc_species_reshape = amp_rbc_species_reshape[,c(1:2,5,3:4)]
+
+# merge these data with the sample metadata
+# use 'mixy' from above which is the sample metadata summarized by sample
+# (not by taxon within sample, as for 'mixes')
+amp_its_family_reshape = merge(amp_its_family_reshape, mixy, by = "mix.ID")
+amp_its_genus_reshape = merge(amp_its_genus_reshape, mixy, by = "mix.ID")
+amp_its_species_reshape = merge(amp_its_species_reshape, mixy, by = "mix.ID")
+amp_rbc_family_reshape = merge(amp_rbc_family_reshape, mixy, by = "mix.ID")
+amp_rbc_genus_reshape = merge(amp_rbc_genus_reshape, mixy, by = "mix.ID")
+amp_rbc_species_reshape = merge(amp_rbc_species_reshape, mixy, by = "mix.ID")
+
+# clean up
+rm(mixy)
+
 ```
 
 ## combine amplicon and Kraken data for false positive analysis
@@ -615,7 +631,7 @@ agg.krak.family$source = "krak"
 agg.krak.genus$source = "krak"
 agg.krak.species$source = "krak"
 
-#Merge kraken and amplicon data
+# Merge kraken and amplicon data
 krakamp_its_family = rbind(subset(amp_its_family_reshape, mix.ID %in% agg.krak.family$mix.ID), as.data.frame(agg.krak.family))
 krakamp_its_genus = rbind(subset(amp_its_genus_reshape, mix.ID %in% agg.krak.genus$mix.ID), as.data.frame(agg.krak.genus))
 krakamp_its_species = rbind(subset(amp_its_species_reshape, mix.ID %in% agg.krak.species$mix.ID), as.data.frame(agg.krak.species))
@@ -676,7 +692,7 @@ datasubset = c("sub", "all") # whether we are using the designated subset of dat
 question = c("spp.rich", "relatedness", "pollen.grain.proportion")
 
 # calculate total number of models
-total = levels(taxon)*levels(datasubset)*levels(question)
+total = length(taxon)*length(datasubset)*length(question)
 
 # first set up a table for the results with a number of entries equal to the 'total' variable above (18):
 results.table = data.frame(question = rep(NA,total), taxon  = rep(NA,total), data.subset  = rep(NA,total), model.name = rep(NA,total), p.val  = rep(1.000001,total), n  = rep(9999,total), warning.msg = rep(NA,total))
