@@ -2,10 +2,7 @@
 
 # ===============================
 # basically just copied this code from the false negative analysis
-# only thing that is really changed is that I altered the name of the data files going in
-# from 'truepos.krak...' to 'agg.krak...'
-# otherwise basically nothing has changed, we will need to do this
-
+#
 # one note: for the 'pollen.grain.proportion' analysis the data are aggregated by mix
 # see the section 'format kraken data for false positive analysis'
 # I used the *minimum* pollen grain proportion for any taxon in a mix as the value here
@@ -19,10 +16,10 @@ datasubset = c("sub", "all") # whether we are using the designated subset of dat
 question = c("spp.rich", "relatedness", "pollen.grain.proportion")
 
 # calculate total number of models
-total = levels(taxon)*levels(datasubset)*levels(question)
+total = length(taxon)*length(datasubset)*length(question)
 
 # first set up a table for the results with a number of entries equal to the 'total' variable above (18):
-results.table = data.frame(question = rep(NA,total), taxon  = rep(NA,total), data.subset  = rep(NA,total), model.name = rep(NA,total), p.val  = rep(1.000001,total), n  = rep(9999,total), warning.msg = rep(NA,total))
+results.table.falsepos = data.frame(question = rep(NA,total), taxon  = rep(NA,total), data.subset  = rep(NA,total), model.name = rep(NA,total), p.val  = rep(1.000001,total), n  = rep(9999,total), warning.msg = rep(NA,total))
 
 # keep track of which row of the table to record in:
 tracker = 1
@@ -36,7 +33,7 @@ for(q in 1:3) { # 'question': response variables for Q1 / Q2 / Q3
   for(k in 1:3){ # 'taxon': species, genus, family
     for(l in 1:2) { # 'datasubset': sub or all
       # first, name the analysis:
-      namer = paste("Krak.Q", q, ".", taxon[k], ".", datasubset[l], sep = "")
+      namer = paste("Krak.falsepos.Q", q, ".", taxon[k], ".", datasubset[l], sep = "")
       # second, set which taxonomic data to use:
       data.to.use = paste("agg.krak.", taxon[k], sep = "")
       # third, set up the data subset
@@ -66,13 +63,13 @@ for(q in 1:3) { # 'question': response variables for Q1 / Q2 / Q3
       converg.return = ifelse(length(converg)==1, "ERROR!!", "")
       
       # record results in table
-      results.table[tracker,1] = question[q]
-      results.table[tracker,2] = taxon[k]
-      results.table[tracker,3] = datasubset[l]
-      results.table[tracker,4] = namer
-      results.table[tracker,5] = pval
-      results.table[tracker,6] = nrow(eval(parse(text = data.to.use)))
-      results.table[tracker,7] = converg.return
+      results.table.falsepos[tracker,1] = question[q]
+      results.table.falsepos[tracker,2] = taxon[k]
+      results.table.falsepos[tracker,3] = datasubset[l]
+      results.table.falsepos[tracker,4] = namer
+      results.table.falsepos[tracker,5] = pval
+      results.table.falsepos[tracker,6] = nrow(eval(parse(text = data.to.use)))
+      results.table.falsepos[tracker,7] = converg.return
       
       # advance tracker
       tracker = tracker + 1
@@ -82,6 +79,6 @@ for(q in 1:3) { # 'question': response variables for Q1 / Q2 / Q3
 
 # display results table
 # note that the 'kable' function is part of the 'knitr' package and `kable_styling` is from the `kableExtra` package 
-kable(results.table) %>% 
+kable(results.table.falsepos) %>% 
   kable_styling(bootstrap_options = "striped", full_width = F)
 
