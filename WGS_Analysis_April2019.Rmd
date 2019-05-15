@@ -459,7 +459,6 @@ agg.krak.species = merge(agg.krak.species, mixy, by = "mix.ID")
 # clean up... or don't
 # don't remove 'mixy' just yet as we'll employ it again below for the false-positive amplicon data
 
-
 ```
 
 
@@ -473,10 +472,10 @@ we need to:
     + remove combos for which there were zero reads (not strictly necessary since we will later just add up all the true and false positives, but makes everything more compact)
     + also a good time to remove mix #5 and also *Zea* samples from the amplicon data for consistencey
 * merge each melted dataframe with with the sample metadata
-* classify reads ("hits") into false positives and false negatives, on a row-by-row basis
+* classify reads ("hits") into false positives and false negatives, on a replicate-by-replicate basis
 * aggregate (sum) false positive and false negative reads for each sample and replicate
+* merge sample metadata in with the amplicon data
 
-* NEED TO MAKE SURE TO KEEP ALL OF THE SAMPLE METADATA FOR THE AMPLICON DATA--IT IS IN THERE AFTER THE MERGING BUT SOMEHOW GETS LOST. BASICALLY GOT TO LINE 529.
 
 ```{r format amplicon false positive}
 
@@ -617,7 +616,7 @@ rm(mixy)
 We need to combine the WGS with amplicon data by creating a dataframe showing the number of true positive and the number of false positive reads by source, mix ID, and sample ID.
 
 
-``` {r combine amplicon and kraken data for false positive analysis}
+``` {r combine amplicon and kraken data for false positives}
 
 # Add column "source" to amplicon and kraken data
 amp_its_family_reshape$source = "amp"
@@ -769,24 +768,17 @@ Pollen grain proportion has a significant effect on qualitative detection at the
 
 ## false positives: sample complexity
 
-this analysis has the same structure as for the false negatives analysis of sample complexity, again examining 3 taxonomic levels (family / genus / species) for three dimensions of sample complexity (species richness / taxonomic relatedness / rarity), each with two datasets (the subsample specifically designed for the sample complexity component of interest and the entire dataset). The code for this component was basically just ported over from the false negatives analysis.
+this analysis has the same structure as for the false negatives analysis of sample complexity, again examining 3 taxonomic levels (family / genus / species) for three dimensions of sample complexity (species richness / taxonomic relatedness / rarity), each with two datasets (the subsample specifically designed for the sample complexity component of interest and the entire dataset). 
+
+Some difference from the false negatives analysis:
+
+* the response variable needs to change
+    + formerly (for false positives) it was a 0/1 column which had info on whether or not each taxon within a mixture was present or not
+    + in this analysis, the response variable is two columns, the count of true positive reads and the count of false positive reads, which are bound together with `cbind`
+* the random effect for taxon is removed, since data are not aggregated taxonomically (instead they are aggregated by sample, i.e. replicate within each mix)
+* since the data are aggregated, for pollen grain proportion the *minimum* proportion (i.e. the proportion of the smallest quantity of pollen in any given mix) was used as the explanatory variable
 
 ```{r false positives kraken analysis}
-# ===============================
-# basically just copied this code from the false negative analysis
-#
-# a key difference is that the response variable needs to change;
-# cbind 'false_pos' and 'true_pos'
-# 
-# in addition have to remove the random effect for taxon since data are not aggregated
-# taxonomically; instead they are aggregated by sample
-#
-# one note: for the 'pollen.grain.proportion' analysis the data are aggregated by mix
-# see the section 'format kraken data for false positive analysis'
-# I used the *minimum* pollen grain proportion for any taxon in a mix as the value here
-# ... so the interpretation will be slightly different than for the false negative analysis
-
-# ===============================
 
 # set up the three factors by which we are running the models
 taxon = c("species", "genus", "family")
@@ -861,6 +853,11 @@ kable(results.table.falsepos) %>%
 
 ```
 
+Unfortunately, most (8/12) of the false positive analyses had errors. Three of the four that did not have errors showed a statistically significant relationship between sample complexity and the proportion of false positive reads (i.e. compared to true positives). These were for relatedness (one result) and pollen grain proportion (three results). We did not see an effect for species richness. Specifically:
+
+* for species richness, at the family level, and considering all samples, there was no statistically significant effect of richness on the proportion of false positive reads
+* for relatedness, again at the family level, but this time considering only the subset we set up to compare relatedness, relatedness *was* significantly related to the proportion of false positive reads. We will have to go into the plots to see the directionality of this effect
+* for pollen grain proportion, at the species, genus, and family levels---but only for the subset of samples we set up to examine relatedness in each of those cases---pollen grain proportion *was* significantly related to the proportion of false positive reads. Again, we will have to go into the plots to see the directionality of this effect
 
 
 ## false positives: Amplicon vs. Shotgun comparison
@@ -1019,12 +1016,12 @@ kable(krakamp.fn.results.combined) %>%
 
 ```
 
-After combining $rbcL$ and ITS2, where taxa were determined as present if they were present in $rbcL$ OR ITS2, amplicon performed better than kraken at the species level (estimate = -0.948, $p$ = 0.034), genus level (estimate = -30.28, $p$ < 0.00001), and family level (estimate = -68.21, $p$ < 0.00001). 
+After combining $rbcL$ and ITS2, where taxa were determined as present if they were present in $rbcL$ OR ITS2, an amplicon-based approach performed better than kraken at the species level (estimate = -0.948, $p$ = 0.034), genus level (estimate = -30.28, $p$ < 0.00001), and family level (estimate = -68.21, $p$ < 0.00001). 
 
 
 ### Amplicon vs. Shotgun comparison - GLMM of true positives and false positives
 
-This analysis uses binomial mixed models to assess if using amplicon vs. WGS has a significant effect on the ability to qualitatively detect true positives vs. false positives. Datasets were aggregated into counts of true positives vs. false positives by mixID, as was done for the comparison of empirical vs. simulated kraken data. 
+This analysis uses binomial mixed models to assess if using amplicon vs. WGS approaches return different proportinos of false positive results (relative to true positives).  
 
 #### by marker and by taxonomic level (Amplicon vs Shotgun GLMM)
 
@@ -1088,7 +1085,8 @@ kable(krakamp.results.table) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 
-Most of the models gave errors, but $p$-values were highly significant for ITS2 at both the species and family levels (the only two results for which there were not errors). For each comparison, the amplicon data had a significantly lower rate of false positives/higher rate of true positives compared to the WGS data, corroborating the AIC analysis above.
+In each case, the amplicon-based approach produced significantly fewer false positive reads compared to the shotgun / kraken approach, irrespective of the marker used and the taxonomic level. Previously, most of the models gave errors, but something in re-doing the data formatting (perhaps removal of *Zea*?) set these analyses up better. 
+
 
 #### markers combined (Amplicon vs Shotgun GLMM)
 
@@ -1105,9 +1103,9 @@ ampkrak.genus = rbind(amp_its_genus_reshape, amp_rbc_genus_reshape) %>% group_by
 ampkrak.species = rbind(amp_its_species_reshape, amp_rbc_species_reshape) %>% group_by(mix.ID, sample, rep.ID, source) %>% summarize(false_pos = sum(false_pos), true_pos = sum(true_pos))
 
 # then combine amplicon data with kraken data
-ampkrak.family = rbind(data.frame(ampkrak.family), data.frame(agg.krak.family))
-ampkrak.genus = rbind(data.frame(ampkrak.genus), data.frame(agg.krak.genus))
-ampkrak.species = rbind(data.frame(ampkrak.species), data.frame(agg.krak.species))
+ampkrak.family = rbind(data.frame(ampkrak.family), data.frame(select(agg.krak.family, mix.ID, sample, rep.ID, source, false_pos, true_pos)))
+ampkrak.genus = rbind(data.frame(ampkrak.genus), data.frame(select(agg.krak.genus, mix.ID, sample, rep.ID, source, false_pos, true_pos)))
+ampkrak.species = rbind(data.frame(ampkrak.species), data.frame(select(agg.krak.species, mix.ID, sample, rep.ID, source, false_pos, true_pos)))
 
 # set up a data frame for the results with 3 rows (by taxonomic level)
 krakamp.results.table = data.frame(taxon  = rep(NA,3), p.val  = rep(1.000001,3), n  = rep(9999,3), warning.msg = rep(NA,3))
@@ -1159,7 +1157,9 @@ kable(krakamp.results.table) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 
-In contrast to the previous analysis (in which results were split out by marker), here---with markers combined---we had better model performance / convergence. For all three taxonomic levels, we see statistically significant differences between the amplicon and the shotgun data. All three of the coefficients are negative (as we move from amplicon to kraken), indicating that the "successes" (true positives) were reduced as we moved in that direction, i.e. that amplicon performance was better than kraken performance in terms of signal-to-noise ratio. In other words, WGS kraken results had a higher proportion of false positives. 
+Consistently with the previous analysis (in which results were split out by marker), the amplicon-based approach performs better than the shotgun / kraken based approach.
+
+Here---with markers combined---we also found that all three taxonomic levels, we see statistically significant differences between the amplicon and the shotgun data. All three of the coefficients are negative (as we move from amplicon to kraken), indicating that the "successes" (true positives) were reduced as we moved in that direction, i.e. that amplicon performance was better than kraken performance in terms of signal-to-noise ratio. In other words, WGS kraken results had a higher proportion of false positives. 
 
 ## quantitative matching 
 
