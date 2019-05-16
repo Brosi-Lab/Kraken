@@ -1233,7 +1233,7 @@ One idea is to just directly compare the WGS and amplicon results in terms of $R
 
 Alternatively, and more quantitative, is to analyze the *residuals* of the input vs. output quantitative model, and see if there are differences in the *mean absolute values of the residuals* between WGS and amplicon approaches. Here, directionality has a meaning: smaller absolute residual values are better. We could do this with two different approaches: first is just to fit a linear model to the data (as we have done above); second is to fit a linear model with intercept = 0 and slope = 1, and use the residuals from that model.
 
-The latter approach here seems better---ultimately we want the output proportion of sequence reads to match as close to possible the input proportion of pollen grains (i.e. a linear relationship with intercept = 0 and slope = 1). To find the residuals of this relationship, we don't need to run a model at all; because the expected value of the output proportion is the input proportion, we can just calculate the absolute value of (`input - output`) in a new column. Then we can use that residual value as the response variable in a new linear mixed-effects model, with the sole fixed effect being the data `source` (i.e. amplicon vs. WGS), but allowing us to use the random intercepts we specified in previous models (mix identity and taxonomic identity).
+The latter approach here seems better---ultimately we want the output proportion of sequence reads to match as closely to possible the input proportion of pollen grains (i.e. a linear relationship with intercept = 0 and slope = 1). To find the residuals of this relationship, we don't need to run a model at all; because the expected value of the output proportion is the input proportion, we can just calculate the absolute value of (`input - output`) in a new column. Then we can use that residual value as the response variable in a new linear mixed-effects model, with the sole fixed effect being the data `source` (i.e. amplicon vs. WGS), but allowing us to use the random intercepts we specified in previous models (mix identity and taxonomic identity).
 
 While that is very straightforward, the one thing we need to do is to get the amplicon data formatted in a similar way to the WGS data for this analysis (with a percentage of hits for each taxon truly present in a sample, as well as the proportion of pollen grains of that taxon in that sample). For this, we will combine our original `amp_all` data with e.g. `truepos.krak.species` (and the corresponding files for genus and species)
 
@@ -1245,10 +1245,26 @@ While that is very straightforward, the one thing we need to do is to get the am
 # so that there is a parallel with the kraken data
 amp_all$rep.ID = 1
 
-# pull out only the relevant variables from the kraken data:
-quant.krak.fam = select(truepos.krak.family, mix.ID, sample, rep.ID, family, pollen.grain.proportion, quant.family)
+# pull out only the relevant variables from the kraken data, for easier merging down the line:
+quant.krak.family = select(truepos.krak.family, mix.ID, sample, rep.ID, family, pollen.grain.proportion, quant.family, source)
+quant.krak.genus = select(truepos.krak.genus, mix.ID, sample, rep.ID, genus, pollen.grain.proportion, quant.genus, source)
+quant.krak.species = select(truepos.krak.species, mix.ID, sample, rep.ID, species, pollen.grain.proportion, quant.species, source)
 
-quant.krakamp.family = merge(
+# issue: for some of the rows, the `rep.ID` = NA and these rows appear to be repeated, even though the response variable (the quantiative proportion of that taxon in the sample) is *exactly* the same among the two rows. fix:
+quant.krak.family = unique(quant.krak.family)
+quant.krak.genus = unique(quant.krak.genus)
+quant.krak.species = unique(quant.krak.species)
+
+# amplicon: pull out relevant variables, for easier merging down the line:
+quant.amp.family.its = select(amp_all, mix.ID, sample, rep.ID, family, pollen.grain.proportion, quant.family = quant.family.ITS, source)
+quant.amp.family.rbcl = select(amp_all, mix.ID, sample, rep.ID, family, pollen.grain.proportion, quant.family = quant.family.rbcL, source)
+quant.amp.genus.its = select(amp_all, mix.ID, sample, rep.ID, genus, pollen.grain.proportion, quant.genus = quant.genus.ITS, source)
+quant.amp.genus.rbcl = select(amp_all, mix.ID, sample, rep.ID, genus, pollen.grain.proportion, quant.genus = quant.genus.rbcL, source)
+quant.amp.species.its = select(amp_all, mix.ID, sample, rep.ID, species, pollen.grain.proportion, quant.species = quant.species.ITS, source)
+quant.amp.species.rbcl = select(amp_all, mix.ID, sample, rep.ID, species, pollen.grain.proportion, quant.species = quant.species.rbcL, source)
+
+# rbind 'em together: 
+quant.krakamp.family.its = rbind(quant.amp.family.its, quant.krak.family)
 
 ```
 
@@ -1523,7 +1539,7 @@ fig2a=family.all%>%
   xlab("species richness")+
   ylab("proportion of correct matches")+
   ylim(0,1)+
-  ggtitle("A")+
+  ggtitle("A: Family")+
    theme_bw()
 
 #Figure 2B: Genus level
@@ -1535,7 +1551,7 @@ fig2b=genus.all%>%
   xlab("species richness")+
   ylab("proportion of correct matches")+
   ylim(0,1)+
-  ggtitle("B")+
+  ggtitle("B: Genus")+
    theme_bw()
 
 #Figure 2A: Species level
@@ -1547,7 +1563,7 @@ fig2c=species.all%>%
   xlab("species richness")+
   ylab("proportion of correct matches")+
   ylim(0,1)+
-  ggtitle("C")+
+  ggtitle("C: Species")+
    theme_bw()
 
 #Create panel for Figure 2
