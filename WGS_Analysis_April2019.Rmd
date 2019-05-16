@@ -80,14 +80,11 @@ For our second outcome of false positives, we wished to assess the proportion of
 
 To assess the quantitative accuracy of WGS sequencing for our constructed mixtures, we tested the correlation between the known proportion of pollen grains in a sample (explanatory variable) and the proportion of WGS sequencing reads (response variable).
 
-Ideally, we would like for there to be a perfect 1:1 fit between pollen grains going in and sequence reads coming out. This means a linear response between the two, with an intercept of 0 and a slope of 1.
+Ideally, we would like for there to be a perfect 1:1 fit between pollen grains going in and sequence reads coming out. This means a linear response between the two, with an intercept of 0 and a slope of 1. One could make an argument that instead of using a linear model, a binomial-errors model would be more appropriate given that the response variable is indeed proportional counts (of sequence reads). Moreover, even with a binomial-errors model, it is possible to get the equivalent of a line with slope = 1 and intercept = 0. 
 
-There are two potential ways to structure an analysis:
+We considered this issue in detail and decided that a linear model is better in this context. In particular, a binomial model could for example predict that for a given taxon, it will have a very very low detection probability until it reaches say ~80% of the pollen grains in the sample at which point the logistic curve could swing up sharply and after ~80% the detection probability could be very close to 1. If the data matched such a model, it would return both a very low $p$-value and a very high $R^2$, even though it would not be giving us what we want. Therefore, we decided to stick with a linear model.  
 
-* one is to use a *linear* mixed-effects model, since we have proportions going in and proportions going out and in theory their relationship should be linear. This was the first approach we used, and may still be the right way to go. 
-* alternatively, we could use a *binomial* errors model, since the response variable is indeed proportional counts (of sequence reads). Even with a binomial-errors model, it is possible to get the equivalent of a line with slope = 1 and intercept = 0.
-
-For both of these approaches, one possibility would be to specify the intercept (0) and slope (1) and see how well the input data do at fitting that line. This could potentially work particularly well when comparing the amplicon and the WGS data.
+One alternative possibility (that we did not pursue) would be to specify the intercept (0) and slope (1) and see how well the data do at fitting that line. This could potentially work particularly well when comparing the amplicon and the WGS data.
 
 # Data import
 
@@ -97,18 +94,16 @@ Three groups of data sets to import:
 1. WGS Kraken empirical data 
 1. amplicon data 
 
-The metadata are the same for the WGS and amplicon data, as both were run from the exact same DNA extractions.
+The **metadata** are the same for the WGS and amplicon data, as both were run from the exact same DNA extractions.
 
-The amplicon data are represented by 7 data files: The first (`amp_all`) is already merged with the sample metadata and already formatted for false-negative analyses (with a separate row for each species within each sample). There are separate columns for the presence or absence of that taxon at three different taxonomic levels (species, genus, and family) and for each marker (ITS2 and *rbcL*).
+For the **WGS Kraken data**, Jamieson Botsch formatted these (25-Apr-2018) from the raw Kraken output to combine the two data sources (we sequenced WGS data both at Emory and at UGA), and to have the family / genus / species separated out into columns; see `Shotgun_data_prep.Rmd`. Unlike the QIIME Illumina data, we do not need to do any aggregation of read counts as this was done automatically by Kraken (nice touch); i.e. all read counts at the species level are also included in genus-level matches and so on. We do just a couple of steps of very basic / simple formatting with the data import here (removal of superfluous numeric column a the beginning of the data; removal of duplicate rows).
 
-This `amp_all` dataset, however, does not include data on false positives. Thus, the remaining six datafiles are there to provide data on how many of the hits were to true positives (known to be present in the sample) vs. false positives (not included in the sample). In contrast to `amp_all`, these are formatted as six separate files, one each for 
-the two markers (ITS2 and *rbcL*) and three levels of taxonomic matching (species, genus, and family). The format of these files matches basically what comes from QIIME: taxa are the rows, and samples are the columns. We re-format these to the tidy format of having samples as rows later. 
+The **amplicon data** are represented by 7 data files: The first (`amp_all`) is already merged with the sample metadata and already formatted for false-negative analyses (with a separate row for each species within each sample). There are separate columns for the presence or absence of that taxon at three different taxonomic levels (species, genus, and family) and for each marker (ITS2 and *rbcL*).
+
+This `amp_all` dataset, however, does not include data on false positives. Thus, the remaining six datafiles are there to provide data on how many of the hits were to true positives (known to be present in the sample) vs. false positives (not included in the sample). In contrast to `amp_all`, these are formatted as six separate files, one each for the two markers (ITS2 and *rbcL*) and three levels of taxonomic matching (species, genus, and family). The format of these files matches basically what comes from QIIME: taxa are the rows, and samples are the columns. We re-format these to the tidy format of having samples as rows later. 
 
 Across both the amplicon and the kraken data, one issue is that for different samples, matching the taxonomy at different levels leads to different numbers of rows. For example, we have two *Populus* species in some of the samples. For matching at the species level, that is two different rows. But for genus and family, it is just one row. There are some other samples that have two different genera in the same family (e.g., *Poa* and *Zea*, both in the Poaceae). Thus, these have to be either 1) stored as completely separate datafiles; or 2) stored in a single datafile (as in `amp_all`) but properly subset to not include duplicate rows for the same genus or family within samples. In this analysis we have split these out into separate files, which is probably not the best way to go; for the future, try to keep data together in a single data file and then subset that file for analyses.
 
-For the Kraken data, Jamieson Botsch formatted these (25-Apr-2018) from the raw Kraken output to combine the two data sources (we sequenced WGS data both at Emory and at UGA), and to have the family / genus / species separated out into columns; see `Shotgun_data_prep.Rmd`. Unlike the QIIME Illumina data, we do not need to do any aggregation of read counts as this was done automatically by Kraken (nice touch); i.e. all read counts at the species level are also included in genus-level matches and so on.
-
-We do just a couple of steps of very basic / simple formatting with the data import here (removal of superfluous numeric column a the beginning of the data; removal of duplicate rows).
 
 ```{r data import}
 krak.raw = read.csv("kraken.csv") # create 'krak.raw' that we can refer back to later
@@ -351,6 +346,7 @@ truepos.krak.species$source = "krak"
 amp_all$source = "amp"
 
 #Concatenate WGS and amplicon data using mapply so that mismatching variable names of the amplicon data will be ignored
+# 'fn' appended at the end of the variable names signifies "false negatives"
 
 krakamp_rbc_family_fn <- as.data.frame(mapply(c, truepos.krak.family[,c("mix.ID", "family", "sample", "qual.family", "source")], amp_all[,c("mix.ID","family","sample", "qual.family.rbcL", "source")]))
 
@@ -365,7 +361,6 @@ krakamp_rbc_species_fn <- as.data.frame(mapply(c, truepos.krak.species[,c("mix.I
 krakamp_its_species_fn <- as.data.frame(mapply(c, truepos.krak.species[,c("mix.ID", "species", "sample", "qual.species", "source")], amp_all[,c("mix.ID","species","sample", "qual.species.ITS", "source")]))
 
 ```
-
 
 ## format kraken data for false positive analysis
 
@@ -767,8 +762,7 @@ Pollen grain proportion has a significant effect on qualitative detection at the
 
 ### Amplicon vs. Shotgun comparison: false negatives
 
-This analysis uses binomial mixed models to assess if using amplicon vs. WGS has a significant effect on the ability to qualitatively detect true positives vs. false negatives. This analysis is similar the qualitative mixed models to assess the effect of species richness, pollen grain proportion, etc. on the ability to qualitatively detect the correct taxa, but instead using "source" as the fixed effect. 
-
+This analysis uses binomial mixed models to assess if using amplicon vs. WGS has an effect on the ability to qualitatively detect true positives vs. false negatives. This analysis is similar the qualitative mixed models to assess the effect of species richness, pollen grain proportion, etc. on the ability to qualitatively detect the correct taxa, but instead using "source" as the (sole) fixed effect. 
 #### by marker (*rbcL* vs ITS2)---Amplicon vs. Shotgun false negatives
 
 ```{r amplicon vs. shotgun false positive - separate markers}
@@ -778,8 +772,9 @@ marker = c("its", "rbc")
 
 
 # first set up a table for the results:
-# I will set this up with 18 entries
-krakamp.fn.results.table = data.frame(taxon  = rep(NA,6), marker  = rep(NA,6), model.name = rep(NA,6), p.val  = rep(1.000001,6), n  = rep(9999,6), warning.msg = rep(NA,6))
+rowz = length(taxon)*length(marker)
+
+krakamp.fn.results.table = data.frame(taxon  = rep(NA,rowz), marker  = rep(NA,rowz), model.name = rep(NA,rowz), p.val  = rep(1.000001,rowz), n  = rep(9999,rowz), warning.msg = rep(NA,rowz))
 
 # keep track of which row of the table to record in:
 tracker = 1
@@ -921,7 +916,7 @@ kable(krakamp.fn.results.combined) %>%
 
 ```
 
-After combining $rbcL$ and ITS2, where taxa were determined as present if they were present in $rbcL$ OR ITS2, an amplicon-based approach performed better than kraken at the species level (estimate = -0.948, $p$ = 0.034), genus level (estimate = -30.28, $p$ < 0.00001), and family level (estimate = -68.21, $p$ < 0.00001).
+After combining *rbcL* and ITS2, where taxa were determined as present if they were present in *rbcL* OR ITS2, an amplicon-based approach performed better than kraken at the species level (estimate = -0.948, $p$ = 0.034), genus level (estimate = -30.28, $p$ < 0.00001), and family level (estimate = -68.21, $p$ < 0.00001).
 
 ## false positives
 
@@ -1172,27 +1167,23 @@ There are two analyses:
 
 ### WGS data only: quantitative matching
 
-Here the question is: do we see a statistical relationship between the proportion of pollen grains input into a sample and the proportion of read counts that are output?
+Here the question is: do we see a statistical relationship between the proportion of pollen grains input into a sample and the proportion of read counts that are output? As described in the **Overview** section at the beginning, we do this with a linear mixed-effects model as we are looking for a linear relationship between the input pollen grain proportions, and the proportions of output sample reads. A logistic relationship, as would likely be predicted with a binomial-errors model, is not helpful to an end-user here even though the data are ultimately binomial in nature.
 
-two different ways to do this:
+<!-- If we wanted to do the binomial analysis, we would need to re-format the dataset. For this analysis we need to have the data formatted with a separate row for each taxon present in each sample, as we do for the false negatives analysis. The issue is that to do a binomial model here, we need to have two columns, one for number of reads of that taxon and one for number of reads in that sample to other taxa. These can then be combined with `cbind` to create our response variable. While we do have data formatted in that manner, for the false positive analyses, the disconnect is that those data are formatted with all of the taxa pooled into a single row per replicate (i.e. not split out by taxon). -->
 
-1. first do this with a linear mixed-effects model. In an ideal world, we would want the proportion of pollen grains input into a sample to map *linearly* onto the proportion of read counts that are output.
-1. second, while the above is true, the data are not linear; instead they are proportional. Instead of 
-
-
-```{R quantitative matching}
+```{R quantitative matching linear model}
 
 # linear mixed-effects model
 
 # ultimately want 3 analyses: {species, genus, and family}
 # species
-quant.species = lmer(quant.species ~ pollen.grain.proportion + (1|mix.ID) + (1|species), data = truepos.krak.species)
+quant.species.lmer = lmer(quant.species ~ pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|species), data = truepos.krak.species)
 
 # genus
-quant.genus = lmer(quant.genus ~ pollen.grain.proportion + (1|mix.ID) + (1|genus), data = truepos.krak.genus)
+quant.genus.lmer = lmer(quant.genus ~ pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|genus), data = truepos.krak.genus)
 
 #family
-quant.family = lmer(quant.family ~ pollen.grain.proportion + (1|mix.ID) + (1|family), data = truepos.krak.family)
+quant.family.lmer = lmer(quant.family ~ pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|family), data = truepos.krak.family)
 
 #=========================================
 # r-squared calculation at the family level
@@ -1206,11 +1197,11 @@ r2.species = r2beta(quant.species)
 
 #Merge the slope ("Estimate"), p-value ("Pr...t..") from the mixed models with the r-squared value for each test
 
-coefs_quant.family <- cbind((data.frame(coef(summary(quant.family)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.family[2,6]) 
+coefs_quant.family <- cbind((data.frame(coef(summary(quant.family.lmer)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.family[2,6]) 
 
-coefs_quant.genus <- cbind((data.frame(coef(summary(quant.genus)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.genus[2,6]) 
+coefs_quant.genus <- cbind((data.frame(coef(summary(quant.genus.lmer)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.genus[2,6]) 
 
-coefs_quant.species <- cbind((data.frame(coef(summary(quant.species)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.species[2,6]) 
+coefs_quant.species <- cbind((data.frame(coef(summary(quant.species.lmer)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.species[2,6]) 
 
 #Rename row names and column names 
 row.names(coefs_quant.family) = "Family"
@@ -1230,7 +1221,44 @@ kable(coefs_summ) %>%
 
 ```
 
-Pollen grain proportion was significantly related to read proportion at the family ($R^2$ = 0.81, $p$ < 0.000001), genus ($R^2$ = 0.58, $p$ < 0.000001), and species level ($R^2$ = 0.77, $p$ <0.000001)
+NEED TO REVISIT THE INTERPRETATION BELOW--I ADDED IN A NESTED RANDOM EFFECT FOR `rep.ID` AND IT CHANGED THE RESULTS...
+
+> Pollen grain proportion was significantly related to read proportion at the family ($R^2$ = 0.81, $p$ < 0.000001), genus ($R^2$ = 0.58, $p$ < 0.000001), and species level ($R^2$ = 0.77, $p$ <0.000001)
+
+### Amplicon vs. WGS: quantitative matching
+
+The basic idea here is to assess if WGS vs. amplicon data has better quantitative matching. This is at first glance more challenging than for the qualitative metrics, in which the directionality of the data tells the story completely: more true positives = good, and more false positives = bad. But for the quantitative analyses, having a higher proportion of matches than there are input proportion of pollen grains is bad, and having a lower proportion of matches than the input proportion of pollen grains is also bad.
+
+One idea is to just directly compare the WGS and amplicon results in terms of $R^2$ values for the linear models. Higher $R^2$ values are better. This is a somewhat qualitative, however: e.g. while $R^2 = 0.77$ is better than $R^2 = 0.70$, are those two values meaningfullly different? For example, it would be easy for a couple of values that were strongly off from the prediction to greatly alter the $R^2$ values.
+
+Alternatively, and more quantitative, is to analyze the *residuals* of the input vs. output quantitative model, and see if there are differences in the *mean absolute values of the residuals* between WGS and amplicon approaches. Here, directionality has a meaning: smaller absolute residual values are better. We could do this with two different approaches: first is just to fit a linear model to the data (as we have done above); second is to fit a linear model with intercept = 0 and slope = 1, and use the residuals from that model.
+
+The latter approach here seems better---ultimately we want the output proportion of sequence reads to match as close to possible the input proportion of pollen grains (i.e. a linear relationship with intercept = 0 and slope = 1). To find the residuals of this relationship, we don't need to run a model at all; because the expected value of the output proportion is the input proportion, we can just calculate the absolute value of (`input - output`) in a new column. Then we can use that residual value as the response variable in a new linear mixed-effects model, with the sole fixed effect being the data `source` (i.e. amplicon vs. WGS), but allowing us to use the random intercepts we specified in previous models (mix identity and taxonomic identity).
+
+While that is very straightforward, the one thing we need to do is to get the amplicon data formatted in a similar way to the WGS data for this analysis (with a percentage of hits for each taxon truly present in a sample, as well as the proportion of pollen grains of that taxon in that sample). For this, we will combine our original `amp_all` data with e.g. `truepos.krak.species` (and the corresponding files for genus and species)
+
+#### data prep for quant matching amplicon vs. WGS
+
+```{r data prep for quant matching amplicon vs. WGS}
+
+# first get a `rep.ID` variable into the `amp_all` dataset
+# so that there is a parallel with the kraken data
+amp_all$rep.ID = 1
+
+# pull out only the relevant variables from the kraken data:
+quant.krak.fam = select(truepos.krak.family, mix.ID, sample, rep.ID, family, pollen.grain.proportion, quant.family)
+
+quant.krakamp.family = merge(
+
+```
+
+#### analysis for quant matching amplicon vs. WGS
+
+```{r quant matching amplicon vs. WGS}
+
+
+
+```
 
 
 # Figures
