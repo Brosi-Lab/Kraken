@@ -30,6 +30,7 @@ suppressPackageStartupMessages(require(data.table))
 suppressPackageStartupMessages(require(binom))
 suppressPackageStartupMessages(require(ggplot2))
 suppressPackageStartupMessages(require(gridExtra))
+suppressPackageStartupMessages(require(broom.mixed))
 ```
 
 # Overview
@@ -1177,13 +1178,13 @@ Here the question is: do we see a statistical relationship between the proportio
 
 # ultimately want 3 analyses: {species, genus, and family}
 # species
-quant.species.lmer = lmer(quant.species ~ pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|species), data = truepos.krak.species)
+quant.species = lmer(quant.species ~ pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|species), data = truepos.krak.species)
 
 # genus
-quant.genus.lmer = lmer(quant.genus ~ pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|genus), data = truepos.krak.genus)
+quant.genus = lmer(quant.genus ~ pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|genus), data = truepos.krak.genus)
 
 #family
-quant.family.lmer = lmer(quant.family ~ pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|family), data = truepos.krak.family)
+quant.family = lmer(quant.family ~ pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|family), data = truepos.krak.family)
 
 #=========================================
 # r-squared calculation at the family level
@@ -1197,11 +1198,11 @@ r2.species = r2beta(quant.species)
 
 #Merge the slope ("Estimate"), p-value ("Pr...t..") from the mixed models with the r-squared value for each test
 
-coefs_quant.family <- cbind((data.frame(coef(summary(quant.family.lmer)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.family[2,6]) 
+coefs_quant.family <- cbind((data.frame(coef(summary(quant.family)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.family[2,6]) 
 
-coefs_quant.genus <- cbind((data.frame(coef(summary(quant.genus.lmer)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.genus[2,6]) 
+coefs_quant.genus <- cbind((data.frame(coef(summary(quant.genus)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.genus[2,6]) 
 
-coefs_quant.species <- cbind((data.frame(coef(summary(quant.species.lmer)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.species[2,6]) 
+coefs_quant.species <- cbind((data.frame(coef(summary(quant.species)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.species[2,6]) 
 
 #Rename row names and column names 
 row.names(coefs_quant.family) = "Family"
@@ -1251,11 +1252,20 @@ quant.krak.genus = select(truepos.krak.genus, mix.ID, sample, rep.ID, genus, pol
 quant.krak.species = select(truepos.krak.species, mix.ID, sample, rep.ID, species, pollen.grain.proportion, quant.species, source)
 
 # issue: for some of the rows, the `rep.ID` = NA and these rows appear to be repeated, even though the response variable (the quantiative proportion of that taxon in the sample) is *exactly* the same among the two rows. fix:
+# first use `unique` to remove redundant rows:
 quant.krak.family = unique(quant.krak.family)
 quant.krak.genus = unique(quant.krak.genus)
 quant.krak.species = unique(quant.krak.species)
 
-# amplicon: pull out relevant variables, for easier merging down the line:
+# then change NA values to 1 so that they are used in the analysis:
+indexy = which(is.na(quant.krak.family$rep.ID))
+  quant.krak.family$rep.ID[indexy] = 1
+indexy = which(is.na(quant.krak.genus$rep.ID))
+  quant.krak.genus$rep.ID[indexy] = 1
+indexy = which(is.na(quant.krak.species$rep.ID))
+  quant.krak.species$rep.ID[indexy] = 1
+
+# amplicon: pull out relevant variables, for easier `rbind` down the line:
 quant.amp.family.its = select(amp_all, mix.ID, sample, rep.ID, family, pollen.grain.proportion, quant.family = quant.family.ITS, source)
 quant.amp.family.rbcl = select(amp_all, mix.ID, sample, rep.ID, family, pollen.grain.proportion, quant.family = quant.family.rbcL, source)
 quant.amp.genus.its = select(amp_all, mix.ID, sample, rep.ID, genus, pollen.grain.proportion, quant.genus = quant.genus.ITS, source)
@@ -1265,12 +1275,37 @@ quant.amp.species.rbcl = select(amp_all, mix.ID, sample, rep.ID, species, pollen
 
 # rbind 'em together: 
 quant.krakamp.family.its = rbind(quant.amp.family.its, quant.krak.family)
+quant.krakamp.family.rbcl = rbind(quant.amp.family.rbcl, quant.krak.family)
+quant.krakamp.genus.its = rbind(quant.amp.genus.its, quant.krak.genus)
+quant.krakamp.genus.rbcl = rbind(quant.amp.genus.rbcl, quant.krak.genus)
+quant.krakamp.species.its = rbind(quant.amp.species.its, quant.krak.species)
+quant.krakamp.species.rbcl = rbind(quant.amp.species.rbcl, quant.krak.species)
+
 
 ```
 
 #### analysis for quant matching amplicon vs. WGS
 
+* calculate residuals (absolute value of difference between input pollen grain proportion and output proportion of sequence reads), as a new column
+* then run a linear mixed-effects model, with `source` as the sole fixed effect 
+
 ```{r quant matching amplicon vs. WGS}
+
+# calculate residuals
+quant.krakamp.family.its = quant.krakamp.family.its %>% mutate(resid = abs(pollen.grain.proportion - quant.family))
+quant.krakamp.family.rbcl = quant.krakamp.family.rbcl %>% mutate(resid = abs(pollen.grain.proportion - quant.family))
+quant.krakamp.genus.its = quant.krakamp.genus.its %>% mutate(resid = abs(pollen.grain.proportion - quant.genus))
+quant.krakamp.genus.rbcl = quant.krakamp.genus.rbcl %>% mutate(resid = abs(pollen.grain.proportion - quant.genus))
+quant.krakamp.species.its = quant.krakamp.species.its %>% mutate(resid = abs(pollen.grain.proportion - quant.species))
+quant.krakamp.species.rbcl = quant.krakamp.species.rbcl %>% mutate(resid = abs(pollen.grain.proportion - quant.species))
+
+# run models:
+quant.krakamp.family.its.lmer = lmer(resid ~ source + (1|mix.ID), data = quant.krakamp.family.its)
+quant.krakamp.family.rbcl.lmer = lmer(resid ~ source + (1|mix.ID), data = quant.krakamp.family.rbcl)
+quant.krakamp.genus.its.lmer = lmer(resid ~ source + (1|mix.ID), data = quant.krakamp.genus.its)
+quant.krakamp.genus.rbcl.lmer = lmer(resid ~ source + (1|mix.ID), data = quant.krakamp.genus.rbcl)
+quant.krakamp.species.its.lmer = lmer(resid ~ source + (1|mix.ID), data = quant.krakamp.species.its)
+quant.krakamp.species.rbcl.lmer = lmer(resid ~ source + (1|mix.ID), data = quant.krakamp.species.rbcl)
 
 
 
