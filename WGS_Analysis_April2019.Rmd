@@ -1172,13 +1172,11 @@ Here the question is: do we see a statistical relationship between the proportio
 
 <!-- If we wanted to do the binomial analysis, we would need to re-format the dataset. For this analysis we need to have the data formatted with a separate row for each taxon present in each sample, as we do for the false negatives analysis. The issue is that to do a binomial model here, we need to have two columns, one for number of reads of that taxon and one for number of reads in that sample to other taxa. These can then be combined with `cbind` to create our response variable. While we do have data formatted in that manner, for the false positive analyses, the disconnect is that those data are formatted with all of the taxa pooled into a single row per replicate (i.e. not split out by taxon). -->
 
-
-
-I tried specifying these models with intercept = 0. Unfortunately, we can't estimate an $R^2$ with a specification of zero intercept, at least with the R2beta function
+I tried specifying these models with intercept = 0. Unfortunately, we can't estimate an $R^2$ with a specification of zero intercept, at least with the `r2beta` function (not sure why). Either way, didn't do this.
 
 <!-- those models generated *singular* fits (`boundary (singular) fit: see ?isSingular`), with near-zero estimates of variance in the nested random effect of replicate ID within mix (though ideally we would like for this estimate to be quite small!). -->
 
-Still, we also want to compare these models to the amplicon models (below); but even without the zero-intercept specification, the amplicon models also had singular fits, also due to the near-zero estimate of variance in the nested `mix.ID/sample` random effect (and again, we want this to be a very small source of variance!). For those models, if we take out `sample` (but maintain `mix.ID` as well as a crossed random taxonomic effect), we can get non-singular fits, even *with* a zero estimate. These are replicated below in the models ending in `nonest` (for "zero intercept").
+<!-- Still, we also want to compare these models to the amplicon models (below); but even without the zero-intercept specification, the amplicon models also had singular fits, also due to the near-zero estimate of variance in the nested `mix.ID/sample` random effect (and again, we want this to be a very small source of variance!). For those models, if we take out `sample` (but maintain `mix.ID` as well as a crossed random taxonomic effect), we can get non-singular fits, even *with* a zero estimate. To These are replicated below in the models ending in `nonest` (for "zero intercept"). -->
 
 
 ```{R quantitative matching linear model}
@@ -1190,60 +1188,73 @@ Still, we also want to compare these models to the amplicon models (below); but 
 
 # species
 quant.species = lmer(quant.species ~ pollen.grain.proportion + (1|mix.ID/krak.rep.ID) + (1|species), data = truepos.krak.species)
-
-quant.species.nonest = lmer(quant.species ~ pollen.grain.proportion + (1|mix.ID) + (1|species), data = truepos.krak.species)
+#quant.species.nonest = lmer(quant.species ~ pollen.grain.proportion + (1|mix.ID) + (1|species), data = truepos.krak.species)
 
 # genus
 quant.genus = lmer(quant.genus ~ pollen.grain.proportion + (1|mix.ID/krak.rep.ID) + (1|genus), data = truepos.krak.genus)
-
-quant.genus.nonest = lmer(quant.genus ~ pollen.grain.proportion + (1|mix.ID) + (1|genus), data = truepos.krak.genus)
+#quant.genus.nonest = lmer(quant.genus ~ pollen.grain.proportion + (1|mix.ID) + (1|genus), data = truepos.krak.genus)
 
 #family
 quant.family = lmer(quant.family ~ pollen.grain.proportion + (1|mix.ID/krak.rep.ID) + (1|family), data = truepos.krak.family)
-
-quant.family.nonest = lmer(quant.family ~ pollen.grain.proportion + (1|mix.ID) + (1|family), data = truepos.krak.family)
+#quant.family.nonest = lmer(quant.family ~ pollen.grain.proportion + (1|mix.ID) + (1|family), data = truepos.krak.family)
 
 #=========================================
 # r-squared calculation at the family level
 r2.family = r2beta(quant.family)
-r2.family.nonest = r2beta(quant.family.nonest)
+#r2.family.nonest = r2beta(quant.family.nonest)
 
 # r-squared calculation at the genus level
 r2.genus = r2beta(quant.genus)
-r2.genus.nonest = r2beta(quant.genus.nonest)
+#r2.genus.nonest = r2beta(quant.genus.nonest)
 
 # r-squared calculation at the species level
 r2.species = r2beta(quant.species)
-r2.species.nonest = r2beta(quant.species.nonest)
+#r2.species.nonest = r2beta(quant.species.nonest)
 
 #Merge the slope ("Estimate"), p-value ("Pr...t..") from the mixed models with the r-squared value for each test
-
-coefs_quant.family <- cbind((data.frame(coef(summary(quant.family)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.family[2,6]) 
+coefs_quant.family <- cbind((data.frame(coef(summary(quant.family)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.family[2,6])
+#coefs_quant.family.nonest <- cbind((data.frame(coef(summary(quant.family.nonest)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.family.nonest[2,6])
 
 coefs_quant.genus <- cbind((data.frame(coef(summary(quant.genus)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.genus[2,6]) 
+#coefs_quant.genus.nonest <- cbind((data.frame(coef(summary(quant.genus.nonest)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.genus.nonest[2,6]) 
 
 coefs_quant.species <- cbind((data.frame(coef(summary(quant.species)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.species[2,6]) 
+#coefs_quant.species.nonest <- cbind((data.frame(coef(summary(quant.species.nonest)))["pollen.grain.proportion",c("Estimate","Pr...t..")]), r2.species.nonest[2,6])
 
-#Rename row names and column names 
+#Rename row names 
 row.names(coefs_quant.family) = "Family"
 row.names(coefs_quant.genus) = "Genus"
 row.names(coefs_quant.species) = "Species"
 
+# row.names(coefs_quant.family.nonest) = "Family"
+# row.names(coefs_quant.genus.nonest) = "Genus"
+# row.names(coefs_quant.species.nonest) = "Species"
+
+# rename column names 
 colnames(coefs_quant.family) = c("Slope", "p-value", "R2")
 colnames(coefs_quant.genus) = c("Slope", "p-value", "R2")
 colnames(coefs_quant.species) = c("Slope", "p-value", "R2")
 
+# colnames(coefs_quant.family.nonest) = c("Slope", "p-value", "R2")
+# colnames(coefs_quant.genus.nonest) = c("Slope", "p-value", "R2")
+# colnames(coefs_quant.species.nonest) = c("Slope", "p-value", "R2")
+
 #Merge summary of coefficients into one dataset
 coefs_summ <- rbind(coefs_quant.family, coefs_quant.genus, coefs_quant.species)
+# coefs_summ.nonest <- rbind(coefs_quant.family.nonest, coefs_quant.genus.nonest, coefs_quant.species.nonest)
 
 #Display table of summarized coefficients
 kable(coefs_summ) %>% 
   kable_styling(bootstrap_options = "striped", full_width = F)
 
+# kable(coefs_summ.nonest) %>% 
+#   kable_styling(bootstrap_options = "striped", full_width = F)
+
 ```
 
 Pollen grain proportion was highly significantly related to read proportion across all taxonomic levels, with relatively strong $R^2$ values (except maybe for genus).
 
+Nice to see that the two approaches (with and without the sample-replicate random effect nested within the mix) gave us essentially the exact same answers.
 
 ### Amplicon vs. WGS: quantitative matching
 
@@ -1270,20 +1281,6 @@ quant.krak.family = select(truepos.krak.family, mix.ID, rep.ID = krak.rep.ID, fa
 quant.krak.genus = select(truepos.krak.genus, mix.ID, rep.ID = krak.rep.ID, genus, pollen.grain.proportion, quant.genus, source)
 quant.krak.species = select(truepos.krak.species, mix.ID, rep.ID = krak.rep.ID, species, pollen.grain.proportion, quant.species, source)
 
-# # issue: for some of the rows, the `rep.ID` = NA and these rows appear to be repeated, even though the response variable (the quantiative proportion of that taxon in the sample) is *exactly* the same among the two rows. fix:
-# # first use `unique` to remove redundant rows:
-# quant.krak.family = unique(quant.krak.family)
-# quant.krak.genus = unique(quant.krak.genus)
-# quant.krak.species = unique(quant.krak.species)
-# 
-# # then change NA values to 1 so that they are used in the analysis:
-# indexy = which(is.na(quant.krak.family$rep.ID))
-#   quant.krak.family$rep.ID[indexy] = 1
-# indexy = which(is.na(quant.krak.genus$rep.ID))
-#   quant.krak.genus$rep.ID[indexy] = 1
-# indexy = which(is.na(quant.krak.species$rep.ID))
-#   quant.krak.species$rep.ID[indexy] = 1
-
 # amplicon: pull out relevant variables, for easier `rbind` down the line
 # rename `sample` to `rep.ID` since both represent sub-samples within a `mix.ID`
 # ...but `sample` only meaningful for amplicon and `rep.ID` only meaningful for WGS
@@ -1301,7 +1298,6 @@ quant.krakamp.genus.its = rbind(quant.amp.genus.its, quant.krak.genus)
 quant.krakamp.genus.rbcl = rbind(quant.amp.genus.rbcl, quant.krak.genus)
 quant.krakamp.species.its = rbind(quant.amp.species.its, quant.krak.species)
 quant.krakamp.species.rbcl = rbind(quant.amp.species.rbcl, quant.krak.species)
-
 
 ```
 
@@ -1348,25 +1344,53 @@ This is interesting because from the WGS-only linear model above, the $R^2$ valu
 
 would be good to confirm with figures.
 
-### linear-model based analysis for quant matching amplicon vs. WGS
+#### linear-model based analysis for quant matching amplicon vs. WGS
 
 <!-- a couple of different approaches are possible here. First, we could run a linear model with proportion of sequence reads (e.g. `quant.family`) as the response variable, and as fixed effects the input `pollen.grain.proportion` and the `source` (i.e., WGS vs. amplicon) *and their interaction*. If the interaction term is significant,  -->
 
-Run two separate linear mixed-effects models, one for WGS and one for amplicon. We already did the WGS ones above, so just have to do the ones for amplicon. Then we can ask two different things: 1) which has a better $R^2$, i.e. even if the slope is not 1 and the intercept is not zero, which one would give us a better relative estimate of pollen grain proportions; and 2) which one has a slope closer to one. While it would be sensible to constrain the intercept to be zero in both cases, again for the WGS I tried this and was not able to get non-boundary model fits, so had to relax this assumption.
+Run two separate linear mixed-effects models, one for WGS and one for amplicon. We already did the WGS ones above, so just have to do the ones for amplicon. Then we can ask two different things: 1) which has a better $R^2$, i.e. even if the slope is not 1 and the intercept is not zero, which one would give us a better relative estimate of pollen grain proportions; and 2) which one has a slope closer to one (which is really ultimately an analogue of the residuals analysis). While it would be sensible to constrain the intercept to be zero in both cases, again for the WGS I tried this and was not able to get $R^2$ estimates.
 
 ```{r linear-model based analysis for quant matching amplicon vs. WGS}
 
 # run models:
 quant.amp.family.its.lmer = lmer(quant.family ~ pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|family), data = quant.amp.family.its)
-quant.amp.family.rbcl.lmer = lmer(quant.family ~ 0 + pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|family), data = quant.amp.family.rbcl)
-quant.amp.genus.rbcl.lmer = lmer(quant.genus ~ 0 + pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|genus), data = quant.amp.genus.rbcl)
-quant.amp.genus.its.lmer = lmer(quant.genus ~ 0 + pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|genus), data = quant.amp.genus.its)
-quant.amp.species.rbcl.lmer = lmer(quant.species ~ 0 + pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|species), data = quant.amp.species.rbcl)
-quant.amp.species.its.lmer = lmer(quant.species ~ 0 + pollen.grain.proportion + (1|mix.ID) + (1|species), data = quant.amp.species.its)
+quant.amp.family.rbcl.lmer = lmer(quant.family ~ pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|family), data = quant.amp.family.rbcl)
+quant.amp.genus.rbcl.lmer = lmer(quant.genus ~ pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|genus), data = quant.amp.genus.rbcl)
+quant.amp.genus.its.lmer = lmer(quant.genus ~ pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|genus), data = quant.amp.genus.its)
+quant.amp.species.rbcl.lmer = lmer(quant.species ~ pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|species), data = quant.amp.species.rbcl)
+quant.amp.species.its.lmer = lmer(quant.species ~ pollen.grain.proportion + (1|mix.ID) + (1|species), data = quant.amp.species.its)
 
-r2beta(quant.amp.family.its.lmer)
+# r-squared calculations
+r2.family.its.amp = r2beta(quant.amp.family.its.lmer)
+r2.genus.its.amp = r2beta(quant.amp.genus.its.lmer)
+r2.species.its.amp = r2beta(quant.amp.species.its.lmer)
+r2.family.rbcl.amp = r2beta(quant.amp.family.rbcl.lmer)
+r2.genus.rbcl.amp = r2beta(quant.amp.genus.rbcl.lmer)
+r2.species.rbcl.amp = r2beta(quant.amp.species.rbcl.lmer)
+
+# build a table of results, using `broom.mixed`
+quant.amp.table = tidy(quant.amp.family.its.lmer)[2,c(3,4,8)]
+quant.amp.table = rbind(quant.amp.table, tidy(quant.amp.family.rbcl.lmer)[2,c(3,4,8)])
+quant.amp.table = rbind(quant.amp.table, tidy(quant.amp.genus.its.lmer)[2,c(3,4,8)])
+quant.amp.table = rbind(quant.amp.table, tidy(quant.amp.genus.rbcl.lmer)[2,c(3,4,8)])
+quant.amp.table = rbind(quant.amp.table, tidy(quant.amp.species.its.lmer)[2,c(3,4,8)])
+quant.amp.table = rbind(quant.amp.table, tidy(quant.amp.species.rbcl.lmer)[2,c(3,4,8)])
+
+# add in source column
+quant.amp.table$source = c("family.its", "family.rbcl", "genus.its", "genus.rbcl", "species.its", "species.rbcl")
+quant.amp.table$rsquared = c(r2.family.its.amp[2,6], r2.family.rbcl.amp[2,6], r2.genus.its.amp[2,6], r2.genus.rbcl.amp[2,6], r2.species.its.amp[2,6], r2.species.rbcl.amp[2,6])
+
+# show off the table!
+kable(quant.amp.table) %>% kable_styling(bootstrap_options = "striped", full_width = F)
 
 ```
+
+comparing this table to the table from the WGS only quantitative matching, we can see that the $R^2$ values are are substantially higher for WGS / kraken as compared to the amplicon data. Consistently with the residual-based analysis, the slopes of the relationships for the amplicon data are much large / much closer to one than for the WGS data. 
+
+This is consistent with:
+
+1. WGS being more quantitative (higher $R^2$---better explanatory power in a linear relationship)
+1. WGS having lower slopes, and thus higher residuals from a relationship where intercept = 0 and slope = 1, which could be driven in large part by the high rate of false positives in the WGS data (which greatly limit quantitative matching)
 
 # Figures
 
