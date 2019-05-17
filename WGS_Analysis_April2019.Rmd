@@ -1307,10 +1307,25 @@ quant.krakamp.genus.rbcl.lmer = lmer(resid ~ source + (1|mix.ID), data = quant.k
 quant.krakamp.species.its.lmer = lmer(resid ~ source + (1|mix.ID), data = quant.krakamp.species.its)
 quant.krakamp.species.rbcl.lmer = lmer(resid ~ source + (1|mix.ID), data = quant.krakamp.species.rbcl)
 
+# build a table of results, using `broom.mixed`
+quant.krakamp.table = tidy(quant.krakamp.family.its.lmer)[2,c(3,4,8)]
+quant.krakamp.table = rbind(quant.krakamp.table, tidy(quant.krakamp.family.rbcl.lmer)[2,c(3,4,8)])
+quant.krakamp.table = rbind(quant.krakamp.table, tidy(quant.krakamp.genus.its.lmer)[2,c(3,4,8)])
+quant.krakamp.table = rbind(quant.krakamp.table, tidy(quant.krakamp.genus.rbcl.lmer)[2,c(3,4,8)])
+quant.krakamp.table = rbind(quant.krakamp.table, tidy(quant.krakamp.species.its.lmer)[2,c(3,4,8)])
+quant.krakamp.table = rbind(quant.krakamp.table, tidy(quant.krakamp.species.rbcl.lmer)[2,c(3,4,8)])
 
+quant.krakamp.table$source = c("family.its", "family.rbcl", "genus.its", "genus.rbcl", "species.its", "species.rbcl")
+
+kable(quant.krakamp.table) %>% kable_styling(bootstrap_options = "striped", full_width = F)
 
 ```
 
+Interesting... all models (except for family, using ITS2) show statistically significant differences between amplicon and WGS in the mean value of the residuals. But as far as I can tell from this, it looks like the amplicon data comes out ahead, i.e. the WGS / kraken data have *larger* mean residuals (worse; we want smaller). 
+
+This is interesting because from the WGS-only linear model above, the $R^2$ values are much higher than for the amplicon data. Then again, these are estimating a slope and an intercept different for each of these that are not slope = 1 and intercept = 0. Potentially because we know that the false positive rates are higher, the false positives could be throwing this off.
+
+would be good to confirm with figures.
 
 # Figures
 
