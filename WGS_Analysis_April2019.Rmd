@@ -1172,29 +1172,49 @@ Here the question is: do we see a statistical relationship between the proportio
 
 <!-- If we wanted to do the binomial analysis, we would need to re-format the dataset. For this analysis we need to have the data formatted with a separate row for each taxon present in each sample, as we do for the false negatives analysis. The issue is that to do a binomial model here, we need to have two columns, one for number of reads of that taxon and one for number of reads in that sample to other taxa. These can then be combined with `cbind` to create our response variable. While we do have data formatted in that manner, for the false positive analyses, the disconnect is that those data are formatted with all of the taxa pooled into a single row per replicate (i.e. not split out by taxon). -->
 
+
+
+I tried specifying these models with intercept = 0. Unfortunately, we can't estimate an $R^2$ with a specification of zero intercept, at least with the R2beta function
+
+<!-- those models generated *singular* fits (`boundary (singular) fit: see ?isSingular`), with near-zero estimates of variance in the nested random effect of replicate ID within mix (though ideally we would like for this estimate to be quite small!). -->
+
+Still, we also want to compare these models to the amplicon models (below); but even without the zero-intercept specification, the amplicon models also had singular fits, also due to the near-zero estimate of variance in the nested `mix.ID/sample` random effect (and again, we want this to be a very small source of variance!). For those models, if we take out `sample` (but maintain `mix.ID` as well as a crossed random taxonomic effect), we can get non-singular fits, even *with* a zero estimate. These are replicated below in the models ending in `nonest` (for "zero intercept").
+
+
 ```{R quantitative matching linear model}
 
 # linear mixed-effects model
 
 # ultimately want 3 analyses: {species, genus, and family}
+# within each, we will do a separate analysis without the nested random effect of the 'replicate ID', and with a zero intercept. We will do these to make them more directly comparable to the amplicon analyses below. 
+
 # species
-quant.species = lmer(quant.species ~ pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|species), data = truepos.krak.species)
+quant.species = lmer(quant.species ~ pollen.grain.proportion + (1|mix.ID/krak.rep.ID) + (1|species), data = truepos.krak.species)
+
+quant.species.nonest = lmer(quant.species ~ pollen.grain.proportion + (1|mix.ID) + (1|species), data = truepos.krak.species)
 
 # genus
-quant.genus = lmer(quant.genus ~ pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|genus), data = truepos.krak.genus)
+quant.genus = lmer(quant.genus ~ pollen.grain.proportion + (1|mix.ID/krak.rep.ID) + (1|genus), data = truepos.krak.genus)
+
+quant.genus.nonest = lmer(quant.genus ~ pollen.grain.proportion + (1|mix.ID) + (1|genus), data = truepos.krak.genus)
 
 #family
-quant.family = lmer(quant.family ~ pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|family), data = truepos.krak.family)
+quant.family = lmer(quant.family ~ pollen.grain.proportion + (1|mix.ID/krak.rep.ID) + (1|family), data = truepos.krak.family)
+
+quant.family.nonest = lmer(quant.family ~ pollen.grain.proportion + (1|mix.ID) + (1|family), data = truepos.krak.family)
 
 #=========================================
 # r-squared calculation at the family level
 r2.family = r2beta(quant.family)
+r2.family.nonest = r2beta(quant.family.nonest)
 
 # r-squared calculation at the genus level
 r2.genus = r2beta(quant.genus)
+r2.genus.nonest = r2beta(quant.genus.nonest)
 
 # r-squared calculation at the species level
 r2.species = r2beta(quant.species)
+r2.species.nonest = r2beta(quant.species.nonest)
 
 #Merge the slope ("Estimate"), p-value ("Pr...t..") from the mixed models with the r-squared value for each test
 
@@ -1222,9 +1242,8 @@ kable(coefs_summ) %>%
 
 ```
 
-NEED TO REVISIT THE INTERPRETATION BELOW--I ADDED IN A NESTED RANDOM EFFECT FOR `rep.ID` AND IT CHANGED THE RESULTS...
+Pollen grain proportion was highly significantly related to read proportion across all taxonomic levels, with relatively strong $R^2$ values (except maybe for genus).
 
-> Pollen grain proportion was significantly related to read proportion at the family ($R^2$ = 0.81, $p$ < 0.000001), genus ($R^2$ = 0.58, $p$ < 0.000001), and species level ($R^2$ = 0.77, $p$ <0.000001)
 
 ### Amplicon vs. WGS: quantitative matching
 
@@ -1242,36 +1261,38 @@ While that is very straightforward, the one thing we need to do is to get the am
 
 ```{r data prep for quant matching amplicon vs. WGS}
 
-# first get a `rep.ID` variable into the `amp_all` dataset
-# so that there is a parallel with the kraken data
-amp_all$rep.ID = 1
+# # first get a `rep.ID` variable into the `amp_all` dataset
+# # so that there is a parallel with the kraken data
+# amp_all$rep.ID = 1
 
 # pull out only the relevant variables from the kraken data, for easier merging down the line:
-quant.krak.family = select(truepos.krak.family, mix.ID, sample, rep.ID, family, pollen.grain.proportion, quant.family, source)
-quant.krak.genus = select(truepos.krak.genus, mix.ID, sample, rep.ID, genus, pollen.grain.proportion, quant.genus, source)
-quant.krak.species = select(truepos.krak.species, mix.ID, sample, rep.ID, species, pollen.grain.proportion, quant.species, source)
+quant.krak.family = select(truepos.krak.family, mix.ID, rep.ID = krak.rep.ID, family, pollen.grain.proportion, quant.family, source)
+quant.krak.genus = select(truepos.krak.genus, mix.ID, rep.ID = krak.rep.ID, genus, pollen.grain.proportion, quant.genus, source)
+quant.krak.species = select(truepos.krak.species, mix.ID, rep.ID = krak.rep.ID, species, pollen.grain.proportion, quant.species, source)
 
-# issue: for some of the rows, the `rep.ID` = NA and these rows appear to be repeated, even though the response variable (the quantiative proportion of that taxon in the sample) is *exactly* the same among the two rows. fix:
-# first use `unique` to remove redundant rows:
-quant.krak.family = unique(quant.krak.family)
-quant.krak.genus = unique(quant.krak.genus)
-quant.krak.species = unique(quant.krak.species)
+# # issue: for some of the rows, the `rep.ID` = NA and these rows appear to be repeated, even though the response variable (the quantiative proportion of that taxon in the sample) is *exactly* the same among the two rows. fix:
+# # first use `unique` to remove redundant rows:
+# quant.krak.family = unique(quant.krak.family)
+# quant.krak.genus = unique(quant.krak.genus)
+# quant.krak.species = unique(quant.krak.species)
+# 
+# # then change NA values to 1 so that they are used in the analysis:
+# indexy = which(is.na(quant.krak.family$rep.ID))
+#   quant.krak.family$rep.ID[indexy] = 1
+# indexy = which(is.na(quant.krak.genus$rep.ID))
+#   quant.krak.genus$rep.ID[indexy] = 1
+# indexy = which(is.na(quant.krak.species$rep.ID))
+#   quant.krak.species$rep.ID[indexy] = 1
 
-# then change NA values to 1 so that they are used in the analysis:
-indexy = which(is.na(quant.krak.family$rep.ID))
-  quant.krak.family$rep.ID[indexy] = 1
-indexy = which(is.na(quant.krak.genus$rep.ID))
-  quant.krak.genus$rep.ID[indexy] = 1
-indexy = which(is.na(quant.krak.species$rep.ID))
-  quant.krak.species$rep.ID[indexy] = 1
-
-# amplicon: pull out relevant variables, for easier `rbind` down the line:
-quant.amp.family.its = select(amp_all, mix.ID, sample, rep.ID, family, pollen.grain.proportion, quant.family = quant.family.ITS, source)
-quant.amp.family.rbcl = select(amp_all, mix.ID, sample, rep.ID, family, pollen.grain.proportion, quant.family = quant.family.rbcL, source)
-quant.amp.genus.its = select(amp_all, mix.ID, sample, rep.ID, genus, pollen.grain.proportion, quant.genus = quant.genus.ITS, source)
-quant.amp.genus.rbcl = select(amp_all, mix.ID, sample, rep.ID, genus, pollen.grain.proportion, quant.genus = quant.genus.rbcL, source)
-quant.amp.species.its = select(amp_all, mix.ID, sample, rep.ID, species, pollen.grain.proportion, quant.species = quant.species.ITS, source)
-quant.amp.species.rbcl = select(amp_all, mix.ID, sample, rep.ID, species, pollen.grain.proportion, quant.species = quant.species.rbcL, source)
+# amplicon: pull out relevant variables, for easier `rbind` down the line
+# rename `sample` to `rep.ID` since both represent sub-samples within a `mix.ID`
+# ...but `sample` only meaningful for amplicon and `rep.ID` only meaningful for WGS
+quant.amp.family.its = select(amp_all, mix.ID, rep.ID = sample, family, pollen.grain.proportion, quant.family = quant.family.ITS, source)
+quant.amp.family.rbcl = select(amp_all, mix.ID, rep.ID = sample, family, pollen.grain.proportion, quant.family = quant.family.rbcL, source)
+quant.amp.genus.its = select(amp_all, mix.ID, rep.ID = sample, genus, pollen.grain.proportion, quant.genus = quant.genus.ITS, source)
+quant.amp.genus.rbcl = select(amp_all, mix.ID, rep.ID = sample, genus, pollen.grain.proportion, quant.genus = quant.genus.rbcL, source)
+quant.amp.species.its = select(amp_all, mix.ID, rep.ID = sample, species, pollen.grain.proportion, quant.species = quant.species.ITS, source)
+quant.amp.species.rbcl = select(amp_all, mix.ID, rep.ID = sample, species, pollen.grain.proportion, quant.species = quant.species.rbcL, source)
 
 # rbind 'em together: 
 quant.krakamp.family.its = rbind(quant.amp.family.its, quant.krak.family)
@@ -1284,7 +1305,7 @@ quant.krakamp.species.rbcl = rbind(quant.amp.species.rbcl, quant.krak.species)
 
 ```
 
-#### analysis for quant matching amplicon vs. WGS
+#### residual-based analysis for quant matching amplicon vs. WGS
 
 * calculate residuals (absolute value of difference between input pollen grain proportion and output proportion of sequence reads), as a new column
 * then run a linear mixed-effects model, with `source` as the sole fixed effect 
@@ -1300,12 +1321,12 @@ quant.krakamp.species.its = quant.krakamp.species.its %>% mutate(resid = abs(pol
 quant.krakamp.species.rbcl = quant.krakamp.species.rbcl %>% mutate(resid = abs(pollen.grain.proportion - quant.species))
 
 # run models:
-quant.krakamp.family.its.lmer = lmer(resid ~ source + (1|mix.ID), data = quant.krakamp.family.its)
-quant.krakamp.family.rbcl.lmer = lmer(resid ~ source + (1|mix.ID), data = quant.krakamp.family.rbcl)
-quant.krakamp.genus.its.lmer = lmer(resid ~ source + (1|mix.ID), data = quant.krakamp.genus.its)
-quant.krakamp.genus.rbcl.lmer = lmer(resid ~ source + (1|mix.ID), data = quant.krakamp.genus.rbcl)
-quant.krakamp.species.its.lmer = lmer(resid ~ source + (1|mix.ID), data = quant.krakamp.species.its)
-quant.krakamp.species.rbcl.lmer = lmer(resid ~ source + (1|mix.ID), data = quant.krakamp.species.rbcl)
+quant.krakamp.family.its.lmer = lmer(resid ~ source + (1|mix.ID/rep.ID) + (1|family), data = quant.krakamp.family.its)
+quant.krakamp.family.rbcl.lmer = lmer(resid ~ source + (1|mix.ID/rep.ID) + (1|family), data = quant.krakamp.family.rbcl)
+quant.krakamp.genus.its.lmer = lmer(resid ~ source + (1|mix.ID/rep.ID) + (1|genus), data = quant.krakamp.genus.its)
+quant.krakamp.genus.rbcl.lmer = lmer(resid ~ source + (1|mix.ID/rep.ID) + (1|genus), data = quant.krakamp.genus.rbcl)
+quant.krakamp.species.its.lmer = lmer(resid ~ source + (1|mix.ID/rep.ID) + (1|species), data = quant.krakamp.species.its)
+quant.krakamp.species.rbcl.lmer = lmer(resid ~ source + (1|mix.ID/rep.ID) + (1|species), data = quant.krakamp.species.rbcl)
 
 # build a table of results, using `broom.mixed`
 quant.krakamp.table = tidy(quant.krakamp.family.its.lmer)[2,c(3,4,8)]
@@ -1321,11 +1342,31 @@ kable(quant.krakamp.table) %>% kable_styling(bootstrap_options = "striped", full
 
 ```
 
-Interesting... all models (except for family, using ITS2) show statistically significant differences between amplicon and WGS in the mean value of the residuals. But as far as I can tell from this, it looks like the amplicon data comes out ahead, i.e. the WGS / kraken data have *larger* mean residuals (worse; we want smaller). 
+Interesting... all models show statistically significant differences between amplicon and WGS in the mean value of the residuals. But as far as I can tell from this, it looks like the amplicon data comes out ahead, i.e. the WGS / kraken data have *larger* mean residuals (worse; we want smaller). 
 
 This is interesting because from the WGS-only linear model above, the $R^2$ values are much higher than for the amplicon data. Then again, these are estimating a slope and an intercept different for each of these that are not slope = 1 and intercept = 0. Potentially because we know that the false positive rates are higher, the false positives could be throwing this off.
 
 would be good to confirm with figures.
+
+### linear-model based analysis for quant matching amplicon vs. WGS
+
+<!-- a couple of different approaches are possible here. First, we could run a linear model with proportion of sequence reads (e.g. `quant.family`) as the response variable, and as fixed effects the input `pollen.grain.proportion` and the `source` (i.e., WGS vs. amplicon) *and their interaction*. If the interaction term is significant,  -->
+
+Run two separate linear mixed-effects models, one for WGS and one for amplicon. We already did the WGS ones above, so just have to do the ones for amplicon. Then we can ask two different things: 1) which has a better $R^2$, i.e. even if the slope is not 1 and the intercept is not zero, which one would give us a better relative estimate of pollen grain proportions; and 2) which one has a slope closer to one. While it would be sensible to constrain the intercept to be zero in both cases, again for the WGS I tried this and was not able to get non-boundary model fits, so had to relax this assumption.
+
+```{r linear-model based analysis for quant matching amplicon vs. WGS}
+
+# run models:
+quant.amp.family.its.lmer = lmer(quant.family ~ pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|family), data = quant.amp.family.its)
+quant.amp.family.rbcl.lmer = lmer(quant.family ~ 0 + pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|family), data = quant.amp.family.rbcl)
+quant.amp.genus.rbcl.lmer = lmer(quant.genus ~ 0 + pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|genus), data = quant.amp.genus.rbcl)
+quant.amp.genus.its.lmer = lmer(quant.genus ~ 0 + pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|genus), data = quant.amp.genus.its)
+quant.amp.species.rbcl.lmer = lmer(quant.species ~ 0 + pollen.grain.proportion + (1|mix.ID/rep.ID) + (1|species), data = quant.amp.species.rbcl)
+quant.amp.species.its.lmer = lmer(quant.species ~ 0 + pollen.grain.proportion + (1|mix.ID) + (1|species), data = quant.amp.species.its)
+
+r2beta(quant.amp.family.its.lmer)
+
+```
 
 # Figures
 
