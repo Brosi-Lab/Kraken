@@ -928,7 +928,7 @@ this analysis has the same structure as for the false negatives analysis of samp
 Some difference from the false negatives analysis:
 
 * the response variable needs to change
-    + formerly (for false positives) it was a 0/1 column which had info on whether or not each taxon within a mixture was present or not
+    + formerly (for false negatives) it was a 0/1 column which had info on whether or not each taxon within a mixture was present or not
     + in this analysis, the response variable is two columns, the count of true positive reads and the count of false positive reads, which are bound together with `cbind`
 * the random effect for taxon is removed, since data are not aggregated taxonomically (instead they are aggregated by sample, i.e. replicate within each mix)
 * since the data are aggregated, for pollen grain proportion the *minimum* proportion (i.e. the proportion of the smallest quantity of pollen in any given mix) was used as the explanatory variable
@@ -1394,8 +1394,8 @@ This is consistent with:
 
 # Figures
 
-## Figure 1
-This figure shows the mean proportion and binomial CI of correct taxonomic matches by species and genus. Fig. 1a is by family, Fig. 1b is by genus, and Fig. 1c is by species.
+## Figure 1: true positives by taxon
+This figure shows the mean proportion and binomial CI of correct (true positive) taxonomic matches by species and genus. Fig. 1a is by family, Fig. 1b is by genus, and Fig. 1c is by species.
 
 The binomial CI is calculated using the binom.confint function, which requires a vector of the number of success ($x$) and a vector of the number of independent trials ($n$). 
 
@@ -1483,11 +1483,11 @@ fig1c=binomci_species%>%
 
 #Figure 1 panel
 
-ggsave("WGS_fig1a.pdf", plot=fig1a, device="pdf", height=5, width=7, units="in")
-ggsave("WGS_fig1b.pdf", plot=fig1b, device="pdf", height=5, width = 7, units="in")
-ggsave("WGS_fig1c.pdf", plot=fig1c, device="pdf", height=5, width = 7, units="in")
+suppressMessages(ggsave("WGS_fig1a.pdf", plot=fig1a, device="pdf", height=5, width=7, units="in"))
+suppressMessages(ggsave("WGS_fig1b.pdf", plot=fig1b, device="pdf", height=5, width = 7, units="in"))
+suppressMessages(ggsave("WGS_fig1c.pdf", plot=fig1c, device="pdf", height=5, width = 7, units="in"))
 panel.fig1 = grid.arrange(fig1a, fig1b,fig1c, ncol=1)
-ggsave("fig1_combined.jpg", plot=panel.fig1, device="jpeg", height=11, width = 8.5, units="in")
+suppressMessages(ggsave("fig1_combined.jpg", plot=panel.fig1, device="jpeg", height=11, width = 8.5, units="in"))
 
 ```
 
@@ -1495,7 +1495,7 @@ ggsave("fig1_combined.jpg", plot=panel.fig1, device="jpeg", height=11, width = 8
 ![Figure 1](fig1_combined.jpg)
 
 
-## Figure 2: 
+## Figure 2: true positives vs. species richness
 
 This figure shows the proportion of correct taxonomic matchess by species richness for *rbcL* and ITS2 at the species and genus level. To correctly format the data, the mean and binomial CI of correct taxonomic matches needs to be summarized 3 times: once for sample, once for mix, and once for level of species richness. Otherwise samples with multiple species will get over-represented in terms of the overall means. The integers are tracked at each step and summarized with `dplyr`. The data is summarized with `dplyr` twice, once per mix and then once per sample. Then within each level of the factor of interest, the mean and binomial confidence intervals are calculated using binom.confint.
 
@@ -1654,7 +1654,7 @@ fig2a=family.all%>%
   xlab("species richness")+
   ylab("proportion of correct matches")+
   ylim(0,1)+
-  ggtitle("A: Family")+
+  labs(title = NULL, subtitle = "A: Family matches")+
    theme_bw()
 
 #Figure 2B: Genus level
@@ -1666,7 +1666,7 @@ fig2b=genus.all%>%
   xlab("species richness")+
   ylab("proportion of correct matches")+
   ylim(0,1)+
-  ggtitle("B: Genus")+
+  labs(title = NULL, subtitle = "B: Genus matches")+
    theme_bw()
 
 #Figure 2A: Species level
@@ -1678,17 +1678,429 @@ fig2c=species.all%>%
   xlab("species richness")+
   ylab("proportion of correct matches")+
   ylim(0,1)+
-  ggtitle("C: Species")+
+  labs(title = NULL, subtitle = "C: Species matches")+
    theme_bw()
 
 #Create panel for Figure 2
 fig2=grid.arrange(fig2a,fig2b,fig2c, nrow=1)
-ggsave("fig2_combined.jpg", plot=fig2, device="jpeg", width=169, units="mm")
+suppressMessages(ggsave("fig2_combined.jpg", plot=fig2, device="jpeg", width=169, units="mm"))
 ```
 
 ![Figure 2](fig2_combined.jpg)
 
-##Figure 3: quantitative matching by taxon
+## Figure X: true positives vs. relatedness
+
+```{r Figure X, fig.show='hide'}
+
+#Summarize the agg dataset first by relatedness, mix.ID, and sample. Also calculate pool size for each sample ('n()'), as well as sum # of positive identifications
+
+CI.family.1 = truepos.krak.family %>% 
+  select(mix.ID, sample, relatedness, qual.family, question.1, question.2, question.3) %>% group_by(relatedness, mix.ID, sample) %>%
+  summarize(pool.size = n(),
+            family = sum(qual.family),
+            # add question.1, question.2, question.3 because those equal to 1 are filtered out in Jamie's figure 3 code
+            question.1 = mean(question.1),
+            question.2 = mean(question.2),
+            question.3 = mean(question.3))
+
+CI.genus.1 = truepos.krak.genus %>% 
+  select(mix.ID, sample, relatedness, qual.genus, question.1, question.2, question.3) %>% group_by(relatedness, mix.ID, sample) %>%
+  summarize(pool.size = n(),
+            genus = sum(qual.genus),
+            # add question.1, question.2, question.3 because those equal to 1 are filtered out in Jamie's figure 3 code
+            question.1 = mean(question.1),
+            question.2 = mean(question.2),
+            question.3 = mean(question.3))
+
+CI.species.1 = truepos.krak.species %>% 
+  select(mix.ID, sample, relatedness, qual.species, question.1, question.2, question.3) %>% group_by(relatedness, mix.ID, sample) %>%
+  summarize(pool.size = n(),
+            species = sum(qual.species),
+            # add question.1, question.2, question.3 because those equal to 1 are filtered out in Jamie's figure 3 code
+            question.1 = mean(question.1),
+            question.2 = mean(question.2),
+            question.3 = mean(question.3))
+
+# second step: group_by(relatedness, mix.ID, pool.size)
+
+CI.family.2 = CI.family.1 %>% group_by(relatedness, mix.ID, pool.size) %>% 
+  summarize(pool.num = n(),
+            family = sum(family), 
+            question.1 = mean(question.1),
+            question.2 = mean(question.2),
+            question.3 = mean(question.3)) # %>% 
+
+# multiply pool size & number to get total number of possibilities of matches
+CI.family.2$n2 = CI.family.2$pool.size * CI.family.2$pool.num
+
+CI.genus.2 = CI.genus.1 %>% group_by(relatedness, mix.ID, pool.size) %>% 
+  summarize(pool.num = n(),
+            genus = sum(genus), 
+            question.1 = mean(question.1),
+            question.2 = mean(question.2),
+            question.3 = mean(question.3)) # %>% 
+
+# multiply pool size & number to get total number of possibilities of matches
+CI.genus.2$n2 = CI.genus.2$pool.size * CI.genus.2$pool.num
+
+CI.species.2 = CI.species.1 %>% group_by(relatedness, mix.ID, pool.size) %>% 
+  summarize(pool.num = n(),
+            species = sum(species), 
+            question.1 = mean(question.1),
+            question.2 = mean(question.2),
+            question.3 = mean(question.3)) # %>% 
+
+# multiply pool size & number to get total number of possibilities of matches
+CI.species.2$n2 = CI.species.2$pool.size * CI.species.2$pool.num
+
+#Format variables to be factors.  Restrict to mixtures where questions are equal to 1. **Not sure why this is done?  
+
+dat.family <- CI.family.2
+dat.family$question.1=as.factor(dat.family$question.1)
+dat.family$question.2=as.factor(dat.family$question.2)
+dat.family$question.3=as.factor(dat.family$question.3)
+dat.family$relatedness=as.factor(dat.family$relatedness)
+#dat.family=filter(dat.family,question.1=="1"|question.2=="1"|question.3=="1")
+figX_family=dat.family%>%
+  select(relatedness, mix.ID, n2, family)
+
+dat.genus <- CI.genus.2
+dat.genus$question.1=as.factor(dat.genus$question.1)
+dat.genus$question.2=as.factor(dat.genus$question.2)
+dat.genus$question.3=as.factor(dat.genus$question.3)
+dat.genus$relatedness=as.factor(dat.genus$relatedness)
+#dat.genus=filter(dat.genus,question.1=="1"|question.2=="1"|question.3=="1")
+figX_genus=dat.genus%>%
+  select(relatedness, mix.ID, n2, genus)
+
+dat.species <- CI.species.2
+dat.species$question.1=as.factor(dat.species$question.1)
+dat.species$question.2=as.factor(dat.species$question.2)
+dat.species$question.3=as.factor(dat.species$question.3)
+dat.species$relatedness=as.factor(dat.species$relatedness)
+#dat.species=filter(dat.species,question.1=="1"|question.2=="1"|question.3=="1")
+figX_species=dat.species%>%
+  select(relatedness, mix.ID, n2, species)
+
+#Convert from wide to long
+
+figX_long_family = melt(figX_family, id.vars = c("relatedness","mix.ID", "n2"))
+figX_long_genus = melt(figX_genus, id.vars = c("relatedness","mix.ID", "n2"))
+figX_long_species = melt(figX_species, id.vars = c("relatedness","mix.ID", "n2"))
+
+#Subset to relatedness
+
+relatedness_family = figX_long_family%>%
+  filter(substr(variable,1,7)=="family")%>%
+  rename(x=value, n=n2)
+relatedness_genus = figX_long_genus%>%
+  filter(substr(variable,1,7)=="genus")%>%
+  rename(x=value, n=n2)
+relatedness_species = figX_long_species%>%
+  filter(substr(variable,1,7)=="species")%>%
+  rename(x=value, n=n2)
+
+#group by relatedness and marker
+
+relatedness_family = relatedness_family %>%
+  group_by(relatedness, variable) %>%
+  summarize(n=mean(n),x=mean(x)) %>%
+  ungroup()
+
+relatedness_genus = relatedness_genus %>%
+  group_by(relatedness, variable) %>%
+  summarize(n=mean(n),x=mean(x)) %>%
+  ungroup()
+
+relatedness_species = relatedness_species %>%
+  group_by(relatedness, variable) %>%
+  summarize(n=mean(n),x=mean(x)) %>%
+  ungroup()
+
+#Calculate mean and binomial CI
+
+bin.family = binom.confint(relatedness_family$x, relatedness_family$n,methods="exact") %>%
+  select(-method)
+
+bin.genus = binom.confint(relatedness_genus$x, relatedness_genus$n,methods="exact") %>%
+  select(-method)
+
+bin.species = binom.confint(relatedness_species$x, relatedness_species$n,methods="exact") %>%
+  select(-method)
+
+#Merge mean and binomial CI with mixture info
+
+family.all = merge(bin.family, relatedness_family, by = c("x", "n"))
+family.all = unique(family.all)
+
+genus.all = merge(bin.genus, relatedness_genus, by = c("x", "n"))
+genus.all = unique(genus.all)
+
+species.all = merge(bin.species, relatedness_species, by = c("x", "n"))
+species.all = unique(species.all)
+
+#Figure XA: Family level
+figXa=family.all%>%
+  filter(variable=="family")%>%
+  ggplot()+
+  geom_point(aes(relatedness,mean))+
+  geom_errorbar(aes(relatedness,ymin=lower, ymax=upper), width=0.2)+
+  xlab("relatedness")+
+  ylab("proportion of correct matches")+
+  ylim(0,1)+
+  labs(title = NULL, subtitle = "A: Family matches") +
+  scale_x_discrete(labels=c("same genus", "same family", "same order", "dif. orders")) +
+  theme_bw()
+figXa = figXa + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#Figure XB: Genus level
+figXb=genus.all%>%
+  filter(variable=="genus")%>%
+  ggplot()+
+  geom_point(aes(relatedness,mean))+
+  geom_errorbar(aes(relatedness,ymin=lower, ymax=upper), width=0.2)+
+  xlab("relatedness")+
+  ylab("proportion of correct matches")+
+  ylim(0,1)+
+  labs(title = NULL, subtitle = "B: Genus matches")+
+  scale_x_discrete(labels=c("same genus", "same family", "same order", "dif. orders")) +
+  theme_bw()
+figXb = figXb + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#Figure XA: Species level
+figXc=species.all%>%
+  filter(variable=="species")%>%
+  ggplot()+
+  geom_point(aes(relatedness,mean))+
+  geom_errorbar(aes(relatedness,ymin=lower, ymax=upper), width=0.2)+
+  xlab("relatedness")+
+  ylab("proportion of correct matches")+
+  ylim(0,1)+
+  labs(title = NULL, subtitle = "C: Species matches") +
+  scale_x_discrete(labels=c("same genus", "same family", "same order", "dif. orders")) +
+  theme_bw()
+figXc = figXc + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#Create panel for Figure X
+figX=grid.arrange(figXa,figXb,figXc, nrow=1)
+suppressMessages(ggsave("figX_combined.jpg", plot=figX, device="jpeg", width=169, units="mm"))
+```
+
+![Figure X](figX_combined.jpg)
+
+## Figure Y: true positives vs. rarity (binned)
+
+The first step here is to create a categorical `rarity` variable based on binning `pollen.grain.proportion` into four equal bins (1-25%; 26-50%; 51-75%; 76-100%). By creating a categorical variable, we can produce a figure that is highly parallel to those for the other two facets of sample complexity (species richness and relatedness)
+
+```{r Figure Y, fig.show='hide'}
+
+# this figure mirrors the other two questions (species richness and rarity) but
+# rarity (input pollen grain proportion). Since rarity is continuous and the others are
+# categorical we will 'bin' the rarity metrics into 4 bins:
+# 1-25%; 26-50%; 51-75%; 76-100%
+
+# use the `cut` function to create the `rarity` variable by binning `pollen.grain.proportion`:
+truepos.krak.family$rarity = cut(truepos.krak.family$pollen.grain.proportion, breaks = c(0, 0.25, 0.5, 0.75, 1), 
+      labels = c("<25%", "25-50%", "50-75%", ">75%"))
+truepos.krak.genus$rarity = cut(truepos.krak.genus$pollen.grain.proportion, breaks = c(0, 0.25, 0.5, 0.75, 1), 
+      labels = c("<25%", "25-50%", "50-75%", ">75%"))
+truepos.krak.species$rarity = cut(truepos.krak.species$pollen.grain.proportion, breaks = c(0, 0.25, 0.5, 0.75, 1), 
+      labels = c("<25%", "25-50%", "50-75%", ">75%"))
+
+#Summarize the agg dataset first by rarity, mix.ID, and sample. Also calculate pool size for each sample ('n()'), as well as sum # of positive identifications
+
+CI.family.1 = truepos.krak.family %>% 
+  select(mix.ID, sample, rarity, qual.family, question.1, question.2, question.3) %>% group_by(rarity, mix.ID, sample) %>%
+  summarize(pool.size = n(),
+            family = sum(qual.family),
+            # add question.1, question.2, question.3 because those equal to 1 are filtered out in Jamie's figure 3 code
+            question.1 = mean(question.1),
+            question.2 = mean(question.2),
+            question.3 = mean(question.3))
+
+CI.genus.1 = truepos.krak.genus %>% 
+  select(mix.ID, sample, rarity, qual.genus, question.1, question.2, question.3) %>% group_by(rarity, mix.ID, sample) %>%
+  summarize(pool.size = n(),
+            genus = sum(qual.genus),
+            # add question.1, question.2, question.3 because those equal to 1 are filtered out in Jamie's figure 3 code
+            question.1 = mean(question.1),
+            question.2 = mean(question.2),
+            question.3 = mean(question.3))
+
+CI.species.1 = truepos.krak.species %>% 
+  select(mix.ID, sample, rarity, qual.species, question.1, question.2, question.3) %>% group_by(rarity, mix.ID, sample) %>%
+  summarize(pool.size = n(),
+            species = sum(qual.species),
+            # add question.1, question.2, question.3 because those equal to 1 are filtered out in Jamie's figure 3 code
+            question.1 = mean(question.1),
+            question.2 = mean(question.2),
+            question.3 = mean(question.3))
+
+# second step: group_by(rarity, mix.ID, pool.size)
+
+CI.family.2 = CI.family.1 %>% group_by(rarity, mix.ID, pool.size) %>% 
+  summarize(pool.num = n(),
+            family = sum(family), 
+            question.1 = mean(question.1),
+            question.2 = mean(question.2),
+            question.3 = mean(question.3)) # %>% 
+
+# multiply pool size & number to get total number of possibilities of matches
+CI.family.2$n2 = CI.family.2$pool.size * CI.family.2$pool.num
+
+CI.genus.2 = CI.genus.1 %>% group_by(rarity, mix.ID, pool.size) %>% 
+  summarize(pool.num = n(),
+            genus = sum(genus), 
+            question.1 = mean(question.1),
+            question.2 = mean(question.2),
+            question.3 = mean(question.3)) # %>% 
+
+# multiply pool size & number to get total number of possibilities of matches
+CI.genus.2$n2 = CI.genus.2$pool.size * CI.genus.2$pool.num
+
+CI.species.2 = CI.species.1 %>% group_by(rarity, mix.ID, pool.size) %>% 
+  summarize(pool.num = n(),
+            species = sum(species), 
+            question.1 = mean(question.1),
+            question.2 = mean(question.2),
+            question.3 = mean(question.3)) # %>% 
+
+# multiply pool size & number to get total number of possibilities of matches
+CI.species.2$n2 = CI.species.2$pool.size * CI.species.2$pool.num
+
+#Format variables to be factors.  Restrict to mixtures where questions are equal to 1. **Not sure why this is done?  
+
+dat.family <- CI.family.2
+dat.family$question.1=as.factor(dat.family$question.1)
+dat.family$question.2=as.factor(dat.family$question.2)
+dat.family$question.3=as.factor(dat.family$question.3)
+dat.family$rarity=as.factor(dat.family$rarity)
+#dat.family=filter(dat.family,question.1=="1"|question.2=="1"|question.3=="1")
+figY_family=dat.family%>%
+  select(rarity, mix.ID, n2, family)
+
+dat.genus <- CI.genus.2
+dat.genus$question.1=as.factor(dat.genus$question.1)
+dat.genus$question.2=as.factor(dat.genus$question.2)
+dat.genus$question.3=as.factor(dat.genus$question.3)
+dat.genus$rarity=as.factor(dat.genus$rarity)
+#dat.genus=filter(dat.genus,question.1=="1"|question.2=="1"|question.3=="1")
+figY_genus=dat.genus%>%
+  select(rarity, mix.ID, n2, genus)
+
+dat.species <- CI.species.2
+dat.species$question.1=as.factor(dat.species$question.1)
+dat.species$question.2=as.factor(dat.species$question.2)
+dat.species$question.3=as.factor(dat.species$question.3)
+dat.species$rarity=as.factor(dat.species$rarity)
+#dat.species=filter(dat.species,question.1=="1"|question.2=="1"|question.3=="1")
+figY_species=dat.species%>%
+  select(rarity, mix.ID, n2, species)
+
+#Convert from wide to long
+
+figY_long_family = melt(figY_family, id.vars = c("rarity","mix.ID", "n2"))
+figY_long_genus = melt(figY_genus, id.vars = c("rarity","mix.ID", "n2"))
+figY_long_species = melt(figY_species, id.vars = c("rarity","mix.ID", "n2"))
+
+#Subset to rarity
+
+rarity_family = figY_long_family%>%
+  filter(substr(variable,1,7)=="family")%>%
+  rename(x=value, n=n2)
+rarity_genus = figY_long_genus%>%
+  filter(substr(variable,1,7)=="genus")%>%
+  rename(x=value, n=n2)
+rarity_species = figY_long_species%>%
+  filter(substr(variable,1,7)=="species")%>%
+  rename(x=value, n=n2)
+
+#group by rarity and marker so that all mixtures with richness = 2 are grouped together
+
+rarity_family = rarity_family %>%
+  group_by(rarity, variable) %>%
+  summarize(n=mean(n),x=mean(x)) %>%
+  ungroup()
+
+rarity_genus = rarity_genus %>%
+  group_by(rarity, variable) %>%
+  summarize(n=mean(n),x=mean(x)) %>%
+  ungroup()
+
+rarity_species = rarity_species %>%
+  group_by(rarity, variable) %>%
+  summarize(n=mean(n),x=mean(x)) %>%
+  ungroup()
+
+#Calculate mean and binomial CI
+
+bin.family = binom.confint(rarity_family$x, rarity_family$n,methods="exact") %>%
+  select(-method)
+
+bin.genus = binom.confint(rarity_genus$x, rarity_genus$n,methods="exact") %>%
+  select(-method)
+
+bin.species = binom.confint(rarity_species$x, rarity_species$n,methods="exact") %>%
+  select(-method)
+
+#Merge mean and binomial CI with mixture info
+
+family.all = merge(bin.family, rarity_family, by = c("x", "n"))
+family.all = unique(family.all)
+
+genus.all = merge(bin.genus, rarity_genus, by = c("x", "n"))
+genus.all = unique(genus.all)
+
+species.all = merge(bin.species, rarity_species, by = c("x", "n"))
+species.all = unique(species.all)
+
+#Figure YA: Family level
+figYa=family.all%>%
+  filter(variable=="family")%>%
+  ggplot()+
+  geom_point(aes(rarity,mean))+
+  geom_errorbar(aes(rarity,ymin=lower, ymax=upper), width=0.2) +
+  xlab("rarity") +
+  ylab("proportion of correct matches") +
+  ylim(0,1) +
+  labs(title = NULL, subtitle = "A: Family matches") +
+  theme_bw()
+figYa = figYa + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#Figure YB: Genus level
+figYb=genus.all%>%
+  filter(variable=="genus")%>%
+  ggplot()+
+  geom_point(aes(rarity,mean))+
+  geom_errorbar(aes(rarity,ymin=lower, ymax=upper), width=0.2)+
+  xlab("rarity")+
+  ylab("proportion of correct matches")+
+  ylim(0,1)+
+  labs(title = NULL, subtitle = "B: Genus matches")+
+  theme_bw()
+figYb = figYb + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#Figure YC: Species level
+figYc=species.all%>%
+  filter(variable=="species")%>%
+  ggplot()+
+  geom_point(aes(rarity,mean))+
+  geom_errorbar(aes(rarity,ymin=lower, ymax=upper), width=0.2)+
+  xlab("rarity")+
+  ylab("proportion of correct matches")+
+  ylim(0,1)+
+  labs(title = NULL, subtitle = "C: Species matches")+
+  theme_bw()
+figYc = figYc + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#Create panel for Figure Y
+figY=grid.arrange(figYa,figYb,figYc, nrow=1)
+suppressMessages(ggsave("figY_combined.jpg", plot=figY, device="jpeg", width=169, units="mm"))
+```
+
+![Figure Y](figY_combined.jpg)
+
+##Figure 3: true positives vs. rarity by taxon
 
 This figure shows the relationship between the proportion of pollen grains belonging to a particular taxon with the probability of detection (presence/absence) of that taxon in the sequencing reads. Each color belongs to a particular taxon, and each taxon has its own trendline as determined by logistic regression.
 
@@ -1751,16 +2163,16 @@ fig3c=fig3_sub_species%>%
 
 #Create panel for figure 3
 fig3=grid.arrange(fig3a,fig3b,fig3c, nrow=1)
-ggsave("WGS_fig3a.pdf", plot=fig3a, device="pdf", width=7, height=5, units="in")
-ggsave("WGS_fig3b.pdf", plot=fig3b, device="pdf", width=7, height=5, units="in")
-ggsave("WGS_fig3c.pdf", plot=fig3c, device="pdf", width=7, height=5, units="in")
+suppressMessages(ggsave("WGS_fig3a.pdf", plot=fig3a, device="pdf", width=7, height=5, units="in"))
+suppressMessages(ggsave("WGS_fig3b.pdf", plot=fig3b, device="pdf", width=7, height=5, units="in"))
+suppressMessages(ggsave("WGS_fig3c.pdf", plot=fig3c, device="pdf", width=7, height=5, units="in"))
 panel.fig3 = grid.arrange(fig3a, fig3b, fig3c, ncol=1) #  heights = rep(50,3)
-ggsave("fig3_combined.jpg", plot=panel.fig3, device="jpeg", height=8.5, width = 11, units="in")
+suppressMessages(ggsave("fig3_combined.jpg", plot=panel.fig3, device="jpeg", height=8.5, width = 11, units="in"))
 ```
 
 ![Figure 3](fig3_combined.jpg)
 
-##Figure 4  
+##Figure 4: quantitative matching by taxon
 
 This figure shows the quantitative relationship between the proportion of pollen grains and the proportion of reads matching to a particular taxa. There are plots for the species, genus, and family level. 
 
@@ -1809,13 +2221,13 @@ ggsave("WGS_fig4c.pdf", fig4c, device="pdf", width=7, height=5, units="in")
 
 # save panel
 panel.fig4 = grid.arrange(fig4a, fig4b, fig4c,ncol=1) #  heights = rep(50,3)
-ggsave("fig4_combined.jpg", plot=panel.fig4, device="jpeg", height=11, width = 11, units="in")
+suppressMessages(ggsave("fig4_combined.jpg", plot=panel.fig4, device="jpeg", height=11, width = 11, units="in"))
 ```
 
 ![Figure 4](fig4_combined.jpg)
 
-##figure 5
 
+##figure 5: true positives by source
 
 This figure shows the proportion of correct taxonomic matchess by source (amplicon vs. WGS) at the species, genus, and family level. To correctly format the data, the mean and binomial CI of correct taxonomic matches needs to be summarized 3 times: once for sample, once for mix, and once for source. Otherwise samples with multiple species will get over-represented in terms of the overall means. The integers are tracked at each step and summarized with `dplyr`. The data is summarized with `dplyr` twice, once per mix and then once per sample. Then within each level of the factor of interest, the mean and binomial confidence intervals are calculated using binom.confint.
 
@@ -1960,12 +2372,12 @@ fig5c=fig5_species.all%>%
 
 #Create panel for Figure 5
 fig5=grid.arrange(fig5a,fig5b,fig5c, nrow=1)
-ggsave("fig5_combined.jpg", plot=fig5, device="jpeg", width=169, units="mm")
+suppressMessages(ggsave("fig5_combined.jpg", plot=fig5, device="jpeg", width=169, units="mm"))
 ```
 
 ![Figure 5](fig5_combined.jpg)
 
-## Figure 6
+## Figure 6: false negatives by source
 
 This figure shows the proportion of hits that were false positives. The "false positive" vs. "false negative" variable created in part 3.5 and 3.7 is converted to a numeric binomial variable. The mean and binomial CI of false positive counts are aggregated once by sample, once by mix, and once by source. Data summary and confidence intervals are calculated as in figure 5. 
 
@@ -2113,7 +2525,253 @@ fig6c=fig6_species.all%>%
 
 #Create panel for Figure 6
 fig6=grid.arrange(fig6a,fig6b,fig6c, nrow=1)
-ggsave("fig6_combined.jpg", plot=fig6, device="jpeg", width=169, units="mm")
+suppressMessages(ggsave("fig6_combined.jpg", plot=fig6, device="jpeg", width=169, units="mm"))
 ```
 
 ![Figure 6](fig6_combined.jpg)
+
+
+## data prep for false positives by sample complexity
+
+approach:
+
+* use the data Anya put together for fig 6 (`CI.krakamp.family.fp`)
+* subset to include only the kraken data (i.e. not the amplicon data)
+* merge these data with the `mixes` metadata
+* for rarity, create new `rarity` column based on binning `pollen.grain.proportion`
+
+then follow Anya's basic approach for e.g. Fig 2
+* will need to alter how the `x` and `n` are calculated relative to the true positive / false negative analysis
+* here we have basically already calculated them, but need to **add** up hits of false positives and false negatives to summarize within each level (e.g. for a given level of species richness)---there are already steps to do the summarizing, just need to make sure it happens via addition
+* then (as Anya did) run `binom.confint` (from the `binomial` package) to get a mean and CI for each level
+* then it's just all about graphing!
+
+```{r False pos complexity data prep, fig.show='hide'}
+
+# data prep
+# family
+falsepos.plot.fam = CI.krakamp.family.fp %>% filter(source == "K")
+falsepos.plot.fam = merge(falsepos.plot.fam, mixes, by = "mix.ID", all.y = F)
+falsepos.plot.fam$rarity = cut(falsepos.plot.fam$pollen.grain.proportion, breaks = c(0, 0.25, 0.5, 0.75, 1), labels = c("<25%", "25-50%", "50-75%", ">75%"))
+
+# genus
+falsepos.plot.gen = CI.krakamp.genus.fp %>% filter(source == "K")
+falsepos.plot.gen = merge(falsepos.plot.gen, mixes, by = "mix.ID", all.y = F)
+falsepos.plot.gen$rarity = cut(falsepos.plot.gen$pollen.grain.proportion, breaks = c(0, 0.25, 0.5, 0.75, 1), labels = c("<25%", "25-50%", "50-75%", ">75%"))
+
+# species
+falsepos.plot.spp = CI.krakamp.species.fp %>% filter(source == "K")
+falsepos.plot.spp = merge(falsepos.plot.spp, mixes, by = "mix.ID", all.y = F)
+falsepos.plot.spp$rarity = cut(falsepos.plot.spp$pollen.grain.proportion, breaks = c(0, 0.25, 0.5, 0.75, 1), labels = c("<25%", "25-50%", "50-75%", ">75%"))
+```
+
+
+## Figure I: false positives vs. species richness 
+
+```{r fig I, fig.show='hide'}
+# summarize for each level of species richness:
+# family:
+falsepos.rich.plot.fam = falsepos.plot.fam %>% group_by(spp.rich) %>% summarize(total.hits = sum(total.hits), fp.hits = sum(fp.hits))
+# genus
+falsepos.rich.plot.gen = falsepos.plot.gen %>% group_by(spp.rich) %>% summarize(total.hits = sum(total.hits), fp.hits = sum(fp.hits))
+# species
+falsepos.rich.plot.spp = falsepos.plot.spp %>% group_by(spp.rich) %>% summarize(total.hits = sum(total.hits), fp.hits = sum(fp.hits))
+
+# convert species richness to factor for better plotting:
+falsepos.rich.plot.fam$spp.rich = factor(falsepos.rich.plot.fam$spp.rich)
+falsepos.rich.plot.gen$spp.rich = factor(falsepos.rich.plot.gen$spp.rich)
+falsepos.rich.plot.spp$spp.rich = factor(falsepos.rich.plot.spp$spp.rich)
+
+# binomial confidence intervals (and mean)
+# family:
+falsepos.rich.plot.fam = data.frame(falsepos.rich.plot.fam, binom.confint(falsepos.rich.plot.fam$fp.hits, falsepos.rich.plot.fam$total.hits, methods = "exact"))
+# genus:
+falsepos.rich.plot.gen = data.frame(falsepos.rich.plot.gen, binom.confint(falsepos.rich.plot.gen$fp.hits, falsepos.rich.plot.gen$total.hits, methods = "exact"))
+# species:
+falsepos.rich.plot.spp = data.frame(falsepos.rich.plot.spp, binom.confint(falsepos.rich.plot.spp$fp.hits, falsepos.rich.plot.spp$total.hits, methods = "exact"))
+
+#Figure IA: Family level
+figIa = falsepos.rich.plot.fam %>%
+  ggplot()+
+  geom_point(aes(spp.rich,mean))+
+  geom_errorbar(aes(spp.rich,ymin=lower, ymax=upper), width=0.2)+
+  xlab("species richness") +
+  ylab("proportion of false positives") +
+  ylim(0,1)+
+  labs(title = NULL, subtitle = "A: Family matches") +
+  theme_bw()
+
+#Figure IB: Genus level
+figIb = falsepos.rich.plot.gen %>%
+  ggplot()+
+  geom_point(aes(spp.rich,mean))+
+  geom_errorbar(aes(spp.rich,ymin=lower, ymax=upper), width=0.2)+
+  xlab("species richness") +
+  ylab("proportion of false positives") +
+  ylim(0,1)+
+  labs(title = NULL, subtitle = "B: Genus matches")+
+  theme_bw()
+
+#Figure Ic: Species level
+figIc = falsepos.rich.plot.spp %>%
+  ggplot()+
+  geom_point(aes(spp.rich,mean))+
+  geom_errorbar(aes(spp.rich,ymin=lower, ymax=upper), width=0.2)+
+  xlab("species richness") +
+  ylab("proportion of false positives") +
+  ylim(0,1)+
+  labs(title = NULL, subtitle = "C: Species matches") +
+  theme_bw()
+
+#Create panel for Figure I
+figI = grid.arrange(figIa,figIb,figIc, nrow=1)
+suppressMessages(ggsave("figI_combined.jpg", plot=figI, device="jpeg", width=169, units="mm"))
+
+```
+
+![Figure I](figI_combined.jpg)
+
+## Figure J: false positives vs. relatedness
+
+```{r fig J, fig.show='hide'}
+# summarize for each level of relatedness:
+# family:
+falsepos.relat.plot.fam = falsepos.plot.fam %>% group_by(relatedness) %>% summarize(total.hits = sum(total.hits), fp.hits = sum(fp.hits))
+# genus
+falsepos.relat.plot.gen = falsepos.plot.gen %>% group_by(relatedness) %>% summarize(total.hits = sum(total.hits), fp.hits = sum(fp.hits))
+# species
+falsepos.relat.plot.spp = falsepos.plot.spp %>% group_by(relatedness) %>% summarize(total.hits = sum(total.hits), fp.hits = sum(fp.hits))
+
+# convert relatedness to factor for better plotting:
+falsepos.relat.plot.fam$relatedness = factor(falsepos.relat.plot.fam$relatedness)
+falsepos.relat.plot.gen$relatedness = factor(falsepos.relat.plot.gen$relatedness)
+falsepos.relat.plot.spp$relatedness = factor(falsepos.relat.plot.spp$relatedness)
+
+# binomial confidence intervals (and mean)
+# family:
+falsepos.relat.plot.fam = data.frame(falsepos.relat.plot.fam, binom.confint(falsepos.relat.plot.fam$fp.hits, falsepos.relat.plot.fam$total.hits, methods = "exact"))
+# genus:
+falsepos.relat.plot.gen = data.frame(falsepos.relat.plot.gen, binom.confint(falsepos.relat.plot.gen$fp.hits, falsepos.relat.plot.gen$total.hits, methods = "exact"))
+# species:
+falsepos.relat.plot.spp = data.frame(falsepos.relat.plot.spp, binom.confint(falsepos.relat.plot.spp$fp.hits, falsepos.relat.plot.spp$total.hits, methods = "exact"))
+
+
+#Figure JA: Family level
+figJa = falsepos.relat.plot.fam %>%
+  ggplot()+
+  geom_point(aes(relatedness,mean))+
+  geom_errorbar(aes(relatedness,ymin=lower, ymax=upper), width=0.2)+
+  xlab("relatedness") +
+  ylab("proportion of false positives") +
+  ylim(0,1)+
+  # scale_x_discrete(labels=paste(unique(falsepos.relat.plot.fam$relatedness))) +
+  labs(title = NULL, subtitle = "A: Family matches")+
+  scale_x_discrete(labels=c("same genus", "same family", "same order", "dif. orders")) +
+  theme_bw()
+figJa = figJa + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#Figure JB: Genus level
+figJb = falsepos.relat.plot.gen %>%
+  ggplot()+
+  geom_point(aes(relatedness,mean))+
+  geom_errorbar(aes(relatedness,ymin=lower, ymax=upper), width=0.2)+
+  xlab("relatedness") +
+  ylab("proportion of false positives") +
+  ylim(0,1)+
+  labs(title = NULL, subtitle = "B: Genus matches") +
+  scale_x_discrete(labels=c("same genus", "same family", "same order", "dif. orders")) +
+  theme_bw()
+figJb = figJb + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+#Figure Jc: Species level
+figJc = falsepos.relat.plot.spp %>%
+  ggplot()+
+  geom_point(aes(relatedness,mean))+
+  geom_errorbar(aes(relatedness,ymin=lower, ymax=upper), width=0.2)+
+  xlab("relatedness") +
+  ylab("proportion of false positives") +
+  ylim(0,1)+
+  labs(title = NULL, subtitle = "C: Species matches")+
+  scale_x_discrete(labels=c("same genus", "same family", "same order", "dif. orders")) +
+  theme_bw()
+figJc = figJc + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#Create panel for Figure J
+figJ = grid.arrange(figJa,figJb,figJc, nrow=1)
+suppressMessages(ggsave("figJ_combined.jpg", plot=figJ, device="jpeg", width=169, units="mm"))
+
+```
+
+![Figure J](figJ_combined.jpg)
+
+## Figure K: false positives vs. rarity (binned)
+
+```{r fig K, fig.show='hide'}
+# summarize for each level of rarity:
+# family:
+falsepos.rarity.plot.fam = falsepos.plot.fam %>% group_by(rarity) %>% summarize(total.hits = sum(total.hits), fp.hits = sum(fp.hits))
+# genus
+falsepos.rarity.plot.gen = falsepos.plot.gen %>% group_by(rarity) %>% summarize(total.hits = sum(total.hits), fp.hits = sum(fp.hits))
+# species
+falsepos.rarity.plot.spp = falsepos.plot.spp %>% group_by(rarity) %>% summarize(total.hits = sum(total.hits), fp.hits = sum(fp.hits))
+
+# convert rarity to factor for better plotting:
+falsepos.rarity.plot.fam$rarity = factor(falsepos.rarity.plot.fam$rarity)
+falsepos.rarity.plot.gen$rarity = factor(falsepos.rarity.plot.gen$rarity)
+falsepos.rarity.plot.spp$rarity = factor(falsepos.rarity.plot.spp$rarity)
+
+# binomial confidence intervals (and mean)
+# family:
+falsepos.rarity.plot.fam = data.frame(falsepos.rarity.plot.fam, binom.confint(falsepos.rarity.plot.fam$fp.hits, falsepos.rarity.plot.fam$total.hits, methods = "exact"))
+# genus:
+falsepos.rarity.plot.gen = data.frame(falsepos.rarity.plot.gen, binom.confint(falsepos.rarity.plot.gen$fp.hits, falsepos.rarity.plot.gen$total.hits, methods = "exact"))
+# species:
+falsepos.rarity.plot.spp = data.frame(falsepos.rarity.plot.spp, binom.confint(falsepos.rarity.plot.spp$fp.hits, falsepos.rarity.plot.spp$total.hits, methods = "exact"))
+
+
+#Figure KA: Family level
+figKa = falsepos.rarity.plot.fam %>%
+  ggplot()+
+  geom_point(aes(rarity,mean))+
+  geom_errorbar(aes(rarity,ymin=lower, ymax=upper), width=0.2)+
+  xlab("minimum rarity") +
+  ylab("proportion of false positives") +
+  ylim(0,1)+
+  labs(title = NULL, subtitle = "A: Family matches")+
+  theme_bw()
+figKa = figKa + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#Figure KB: Genus level
+figKb = falsepos.rarity.plot.gen %>%
+  ggplot()+
+  geom_point(aes(rarity,mean))+
+  geom_errorbar(aes(rarity,ymin=lower, ymax=upper), width=0.2)+
+  xlab("minimum rarity") +
+  ylab("proportion of false positives") +
+  ylim(0,1)+
+  labs(title = NULL, subtitle = "B: Genus matches")+
+  theme_bw()
+figKb = figKb + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#Figure Kc: Species level
+figKc = falsepos.rarity.plot.spp %>%
+  ggplot()+
+  geom_point(aes(rarity,mean))+
+  geom_errorbar(aes(rarity,ymin=lower, ymax=upper), width=0.2)+
+  xlab("minimum rarity") +
+  ylab("proportion of false positives") +
+  ylim(0,1)+
+  labs(title = NULL, subtitle = "C: Species matches")+
+  theme_bw()
+figKc = figKc + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#Create panel for Figure K
+figK = grid.arrange(figKa,figKb,figKc, nrow=1)
+suppressMessages(ggsave("figK_combined.jpg", plot=figK, device="jpeg", width=169, units="mm"))
+
+```
+
+![Figure K](figK_combined.jpg)
+
+
