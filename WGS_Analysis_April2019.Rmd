@@ -2100,7 +2100,46 @@ suppressMessages(ggsave("figY_combined.jpg", plot=figY, device="jpeg", width=169
 
 ![Figure Y](figY_combined.jpg)
 
-##Figure 3: true positives vs. rarity by taxon
+## Figure S1: true positives combined
+
+Here we are putting together a figure comprised of panels we have already built in the sections for Figs 2, X, and Y. Should be very straightforward.
+
+```{r Figure S1: true positives combined, fig.show = 'hide'}
+
+#Create panel for Figure S1
+figS1 = grid.arrange(fig2a, fig2b, fig2c, figXa, figXb, figXc, figYa, figYb, figYc, nrow=3)
+suppressMessages(ggsave("figS1_combined.jpg", plot=figS1, device="jpeg", width=169, height = 250, units="mm"))
+```
+
+![Figure S1](figS1_combined.jpg)
+
+## Figure Z: true positives by all 3 complexity variables; species level
+
+Here we are putting together a figure comprised of panels we have already built in the sections for Figs 2, X, and Y. One relatively minor tweak is altering the figure header for each panel. Currently they all say "species" because they were pooled into figures with varying levels of taxonomic matching. We need to instead change the headers to reflect the explanatory variable (element of sample complexity) that each panel is focused on.
+
+This code chunk comes *after* the Supplemental Figure so that we change those headers only after the previous headers are used as they are supposed to be (in the figure where each panel needs to be identified by its level of taxonomic matching).
+
+A second minor change is that because the x-axis labels are different for each panel, with some of them being longer, the panels themselves end up being different heights. To get around this, setting the orientation of this plot as vertical rather than horizontal. This may also work better in a journal format with the figure being easier to compare to the text to the left of it.
+
+```{r Figure Z: true positives, species, by all 3 complexity vars, fig.show = 'hide'}
+
+# change panel headers
+# fig2c = fig2c + labs(title = "A: Species Richness", subtitle = NULL)
+fig2c = fig2c + labs(title = NULL, subtitle = "A: Species Richness")
+figXc = figXc + labs(title = NULL, subtitle = "B: Relatedness")
+figYc = figYc + labs(title = NULL, subtitle = "C: Rarity")
+
+#Create panel for Figure Z
+figZ = grid.arrange(fig2c,figXc,figYc, nrow=3)
+suppressMessages(ggsave("figZ_combined.jpg", plot=figZ, device="jpeg", width=(169/3), height = 250, units="mm"))
+```
+
+![Figure Z](figZ_combined.jpg)
+
+
+## Figure 3: true positives vs. rarity by taxon
+
+**don't use this figure---instead use fig Y**
 
 This figure shows the relationship between the proportion of pollen grains belonging to a particular taxon with the probability of detection (presence/absence) of that taxon in the sequencing reads. Each color belongs to a particular taxon, and each taxon has its own trendline as determined by logistic regression.
 
@@ -2773,5 +2812,16 @@ suppressMessages(ggsave("figK_combined.jpg", plot=figK, device="jpeg", width=169
 ```
 
 ![Figure K](figK_combined.jpg)
+## Figure S2: false positives combined
 
+Here we are putting together a figure comprised of panels we have already built in the sections for Figs I, J, and K. Should be very straightforward.
+
+```{r Figure S2: true positives combined, fig.show = 'hide'}
+
+#Create panel for Figure S2
+figS2 = grid.arrange(figIa, figIb, figIc, figJa, figJb, figJc, figKa, figKb, figKc, nrow=3)
+suppressMessages(ggsave("figS2_combined.jpg", plot=figS2, device="jpeg", width=169, height = 250, units="mm"))
+```
+
+![Figure S2](figS2_combined.jpg)
 
