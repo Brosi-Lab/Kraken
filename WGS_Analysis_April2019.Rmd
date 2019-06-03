@@ -51,20 +51,10 @@ The sequenced pollen samples were constructed to vary in complexity in three dim
 2. Question 2: **rarity** (actual proportion of grains this taxon has in a sample; from roughly half & half to < 1% of the rarer type)
 3. Question 3: **taxonomic relatedness** (within genus to across broad clades in the seed plants)
 
-## version notes
-
-This analysis file was modified from the previous file version to:
-
-* remove the Kraken simulations, as they were not providing any major insights in the manuscript
-* describe better and provide more context for the analysis, in tighter parallel to the manuscript
-* streamline the analyses and remove several unused analyses from the file
-* ensure that the false negative and false positive analyses were directly parallel to one another
-* update the approach used for quantitative matching (no longer using AIC as it was not statistically correct)
-
 # Analysis approach
 
 ## non-independence of data
-Because all analyses included non-independent data (multiple replicates of the same pollen mixtures; pollen from the same plant species occurring in multiple mixtures), all of our analyses were conducted with mixed-effects modeling, using mixture identity and species identity as crossed random effects (modeled as random intercepts). 
+Because all analyses included non-independent data (multiple replicates of the same pollen mixtures; pollen from the same plant species occurring in multiple mixtures), all of our analyses were conducted with mixed-effects modeling, using mixture identity and species identity as crossed random effects (modeled as random intercepts). For the analyses related to false positive matching, all species truly present in a mix were pooled together for the "true positives", so we did not use species identity (up to 9 different species) as a random effect in those analyses.
 
 ## comparing WGS to amplicon data
 Across our outcomes, in comparing WGS and amplicon performance, we pooled WGS and amplicon results together into a single data table and conducted analyses with method (WGS vs. amplicon) as a fixed effect.
@@ -85,7 +75,7 @@ Ideally, we would like for there to be a perfect 1:1 fit between pollen grains g
 
 We considered this issue in detail and decided that a linear model is better in this context. In particular, a binomial model could for example predict that for a given taxon, it will have a very very low detection probability until it reaches say ~80% of the pollen grains in the sample at which point the logistic curve could swing up sharply and after ~80% the detection probability could be very close to 1. If the data matched such a model, it would return both a very low $p$-value and a very high $R^2$, even though it would not be giving us what we want. Therefore, we decided to stick with a linear model.  
 
-One alternative possibility (that we did not pursue) would be to specify the intercept (0) and slope (1) and see how well the data do at fitting that line. This could potentially work particularly well when comparing the amplicon and the WGS data.
+An alternative possibility is to specify the intercept (0) and slope (1) and see how well the data do at fitting that line. We also pursued this approach, by examining the *residuals* of WGS vs. amplicon data to that regression line. Smaller residuals are better. One thing to note about this approach is that it is probably dominated by the proportion of false positive reads---more false positives will mean that the proportion of true matches will be further from the 1:1 ratio. We thus used both of the approaches above to assess quantitative matching.
 
 # Data import
 
@@ -103,7 +93,7 @@ The **amplicon data** are represented by 7 data files: The first (`amp_all`) is 
 
 This `amp_all` dataset, however, does not include data on false positives. Thus, the remaining six datafiles are there to provide data on how many of the hits were to true positives (known to be present in the sample) vs. false positives (not included in the sample). In contrast to `amp_all`, these are formatted as six separate files, one each for the two markers (ITS2 and *rbcL*) and three levels of taxonomic matching (species, genus, and family). The format of these files matches basically what comes from QIIME: taxa are the rows, and samples are the columns. We re-format these to the tidy format of having samples as rows later. 
 
-Across both the amplicon and the kraken data, one issue is that for different samples, matching the taxonomy at different levels leads to different numbers of rows. For example, we have two *Populus* species in some of the samples. For matching at the species level, that is two different rows. But for genus and family, it is just one row. There are some other samples that have two different genera in the same family (e.g., *Poa* and *Zea*, both in the Poaceae). Thus, these have to be either 1) stored as completely separate datafiles; or 2) stored in a single datafile (as in `amp_all`) but properly subset to not include duplicate rows for the same genus or family within samples. In this analysis we have split these out into separate files, which is probably not the best way to go; for the future, try to keep data together in a single data file and then subset that file for analyses.
+Across both the amplicon and the kraken data, one issue is that for different samples, matching the taxonomy at different levels leads to different numbers of rows. For example, we have two *Populus* species in some of the samples. For matching at the species level, that is two different rows. But for genus and family, it is just one row. There are some other samples that have two different genera in the same family (e.g., *Poa* and *Zea*, both in the Poaceae). Thus, these have to be either 1) stored as completely separate datafiles; or 2) stored in a single datafile (as in `amp_all`) but properly subset to not include duplicate rows for the same genus or family within samples. In this analysis we have split these out into separate files, which may not have been the best way to go (certainly not for memory management / speed; and also it makes the global environment rather messy). But given the aggregation that we had to do, it was probably the most straightforward way to go.
 
 
 ```{r data import}
@@ -135,18 +125,21 @@ names(krak)[1] = "sample.id"
 
 # data formatting / setup
 
-1. Kraken data prep
+**Overview**
+
+1. Basic Kraken data prep
     + filter to include only matches at family / genus / species taxonomic resolutions (not anything coarser, and no intermediate clades)
     + create new columns for `mix.ID` that matches the column in the sample (`pollen-mixes-proportions.csv`) data, and also `replicate.ID` for replicates within each mix
     + a couple of minor tweaks to make sure data are consistent etc.
 1. Combine Kraken and sample metadata
-1. Remove reads below contamination thresshold
-1. Match Kraken and sample data, qualitatively and quantitatively
+1. Remove reads below contamination threshold
+1. Format Kraken data for false negative and quantitative matching analyses
+    + both of these analyses are about true positives (=false negatives) and straightforward to do the data formatting in the same step
+1. Combine amplicon and empirical Kraken data: false negatives
 1. Format Kraken data for false positive analysis
 1. Combine amplicon and empirical Kraken data: false positives
-1. Combine amplicon and empirical Kraken data: false negatives
 
-## Kraken data prep
+## Basic Kraken data prep
 
 1. filter by `tax.cat` column, including only species / genus / family levels
 1. create new column for `mix.ID` that matches the column in the sample metadata (`pollen-mixes-proportions.csv`)
@@ -154,7 +147,7 @@ names(krak)[1] = "sample.id"
     + both of the above are challenging because the Emory and UGA data are formatted slightly differently from each other, and also those formats are different than the metadata; this involves parsing regular expressions from the single column of sample names
 1. finally, do some relatively minor tweaks for formatting etc.; e.g. capitalization of *"C. illinoisensis"*; formatting of sample numbers, etc.
 
-```{r Kraken data prep}
+```{r Basic Kraken data prep}
 
 # 1. filter out the reads to only include those at the family / genus / species levels
 krak = filter(krak, tax == "F" | tax == "G" | tax == "S")
@@ -232,7 +225,7 @@ rm(sample_sep, new.vals, indexy)
 
 ## combine Kraken & sample metadata
 
-new aggregated datasheeet, based on sample metadata, but which matches sample data back to the Kraken data so we can run analyses about probability of matching (both qualitative and quantitative). In particular this is taking account of sample "replicates" (including some that are not true replicates, but rather forward vs. reverse reads); also different Illumina lanes in the Emory Genome Center data.
+Create a new aggregated datasheeet, based on sample metadata, but which matches sample data back to the Kraken data so we can run analyses about probability of matching (both qualitative and quantitative). In particular this is taking account of sample "replicates" (including some that are not true replicates, but rather forward vs. reverse reads); also different Illumina lanes in the Emory Genome Center data.
 
 1. Merge the unique krak IDs with mixes to subset the sample data to only the samples in the kraken dataset 
 1. Create a dataset for analysis of false negatives by only including taxa that are present in sample data
@@ -265,7 +258,7 @@ rm(krak_uniqueid)
 ## remove Kraken reads below the contamination threshold
 
 1. remove reads below the isolation / PCR negative control thresholds
-      a) ideally, would base these on negative controls **for a given Illumina run** (two separate runs here, at UGA and Emory Genome center; we will need to keep those separate); but **unfortunately** there are not negative controls for the Emory Genome Center data; use the UGA thresholds for all the data (definitely not ideal)
+      a) ideally, would base these on negative controls *for a given Illumina run* (two separate runs here, at UGA and Emory Genome center; we will need to keep those separate); but unfortunately there are not negative controls for the Emory Genome Center data; use the UGA thresholds for all the data (definitely not ideal, but working with what we have)
       a) this entails removing rows with $k$-mer counts below the threshold
       a) in the Illumina QIIME amplicon data, we did this separately for (entire) taxa below the threshold level, and for reads, because of the way that the data were formatted in a taxon-by-sample matrix; the Kraken output is already formatted in a way that is closer to `tidy` so we only need to do this step once here.
 1. remove negative control rows (once the above is completed) so they don't interfere with the analysis
@@ -305,7 +298,7 @@ rm(maxy, all.indexy_family, all.indexy_genus, all.indexy_species, truepos.indexy
 
 ## Kraken data: format for false negative and quantitative analyses
 
-(will do false positives in next step; the data formatting at this step is relatively straightforward)
+(will do false positives in next step; the data formatting at this step is relatively straightforward; again both of these are focused on true positives so easy to do them in the same code chunk)
 
 1. Convert NAs in true positives / false negatives to 0s
 1. Convert the "percentage hits" to a proportion - which will be the response variable in the quantitative models
@@ -373,11 +366,12 @@ To analyze false positives in kraken data, need to have aggregated counts of the
 1. Add "K" to the sample names to distinguish from the samples in the amplicon data
 1. Aggregate the counts per sample ID by "true positive" and "false positive"
 
-In addition (new as of 18-April-2019):
-1. removed *Zea mays* and mix5 samples (don't match with metadata)
+In addition :
+
+1. removed *Zea mays* and mix5 samples (don't match with metadata; mix5 has *Zea* in it)
 1. matched false positive data with metadata so that sample complexity analyses can be run down the line
 1. one consideration is that since we are aggregating all of the reads for a particular sample into one row, we have to figure out how to deal with rarity / commonness of taxa within a sample.
-    + to do that, we use the minimum % of any taxon within the sample as a measure of rarity
+    + to do that, we use the *minimum* % of any taxon within the sample as a measure of rarity
 
 ```{r Format kraken data for false positive analysis}
 
@@ -609,7 +603,7 @@ rm(mixy)
 
 ## combine amplicon and Kraken data for false positive analysis
 
-We need to combine the WGS with amplicon data by creating a dataframe showing the number of true positive and the number of false positive reads by source, mix ID, and sample ID.
+Combine the WGS with amplicon data by creating a dataframe showing the number of true positive and the number of false positive reads by source, mix ID, and sample ID. Straightforward.
 
 
 ``` {r combine amplicon and kraken data for false positives}
@@ -665,18 +659,18 @@ For consistency, take out *Zea mays* and format data tables to have the same nam
 * we separately assessed models that considered different **subsets of the data**:
     + just the mixes specifically set up for each of the questions above (smaller subset of the data)
     + all of the mixes (thus more data)
-* we also ran separate models for each of the **taxonomic levels:**
+* we also ran separate models for matching at each of the **taxonomic levels:**
     + family, genus, and species
 * the **random effects** are nested, with the highest level as `mix.ID` (i.e. the identity of the pollen mixture); then `sample` replicate within each mix and finally `rep.ID` (forward / reverse read within a sample, or Illumina lane for samples split across lanes)
     + we modeled these as random intercepts
-    + the random effects were fixed and equivalent for all models
-* there are 3 facets of sample complexity $\times$ 2 data subsets $\times$ 3 taxonomic levels = **18 total models**
-    + set this up with a nested `for` loop; there are almost certainly cleaner and more elegant ways to do this
+    + the random effects were consistent and equivalent for all models
+* there are 3 facets of sample complexity times 2 data subsets times 3 taxonomic levels = **18 total models**
+    + set this up with a nested `for` loop; there are almost certainly cleaner and more elegant ways to do this (e.g. probably better to use `formula` objects and to vectorize)
 
 
 ```{r false negative analysis setup}
 
-#Take out Zea
+# Take out Zea
 truepos.krak.family = filter(truepos.krak.family, genus.x!= "Zea") 
 truepos.krak.genus = filter(truepos.krak.genus, genus!="Zea")
 truepos.krak.species = filter(truepos.krak.species, genus.x!="Zea")
@@ -755,6 +749,8 @@ kable(results.table) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 
+We got back `boundary` (singular) fits for many of these models. Most of those were because the fine-scale random effects showed almost no variance. That is probably a good thing, we do not want to have any variability among (say) forward vs. reverse reads of the same sample or across sample replicates.
+
 For the empirical data, species richness has a significant effect on qualitative detection at the species level (in both the subsetted data and full data set) and at the genus level in the subsetted data, but the model gives errors at the genus level using the full dataset and at the family level. 
 
 Species relatedness has a significant effect on qualitative detection with the full dataset (highly significant - all p-values <0.0001), but not with the subsetted dataset ($p$ = 0.97 for species and genus level, $p$ = 0.06 for family level). Not sure if this makes sense...
@@ -763,7 +759,8 @@ Pollen grain proportion has a significant effect on qualitative detection at the
 
 ### Amplicon vs. Shotgun comparison: false negatives
 
-This analysis uses binomial mixed models to assess if using amplicon vs. WGS has an effect on the ability to qualitatively detect true positives vs. false negatives. This analysis is similar the qualitative mixed models to assess the effect of species richness, pollen grain proportion, etc. on the ability to qualitatively detect the correct taxa, but instead using "source" as the (sole) fixed effect. 
+This analysis uses binomial mixed models to assess if using amplicon vs. WGS has an effect on the ability to qualitatively detect true positives vs. false negatives. This analysis is similar the qualitative mixed models to assess the effect of species richness, pollen grain proportion, etc. on the ability to qualitatively detect the correct taxa, but instead using "source" as the (sole) fixed effect.
+
 #### by marker (*rbcL* vs ITS2)---Amplicon vs. Shotgun false negatives
 
 ```{r amplicon vs. shotgun false positive - separate markers}
@@ -835,13 +832,15 @@ kable(krakamp.fn.results.table) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 
-When ITS was used as a marker in the amplicon data, the amplicon data did not behave significantly better or worse than the WGS data at the species and family level. However, at the genus level (estimate = -1.15), the negative estimate and low p-value suggests that using ITS sequencing was more accurate for detecting true positives than WGS. 
+Again, we got back `boundary` (singular) fits for many of these models. Most of those were because the fine-scale random effects showed almost no variance. That is probably a good thing, we do not want to have any variability among (say) forward vs. reverse reads of the same sample or across sample replicates.
+
+When ITS2 was used as a marker in the amplicon data, the amplicon data did not behave significantly better or worse than the WGS data at the species and family level. However, at the genus level (estimate = -1.15), the negative estimate and low $p$-value suggests that using ITS2 sequencing was more accurate for detecting true positives than WGS.
 
 In contrast, when *rbcL* was used as a marker in the amplicon data, the amplicon data detected fewer true positives at the species (estimate = 1.19) and genus (estimate = 1.04) levels than the WGS data. However, the amplicon data detected more true positives at the family level (estimate = -26.774) than the WGS data.
 
 #### markers combined---Amplicon vs. Shotgun false negatives
 
-This is a repeat of the analysis above, but with ITS and rbcL combined 
+This is a repeat of the analysis above, but with ITS2 and *rbcL* combined 
 
 ```{r r amplicon vs. shotgun true positive vs false negative - markers combined}
 
@@ -1008,7 +1007,9 @@ kable(results.table.falsepos) %>%
 
 ```
 
-Unfortunately, most (8/12) of the false positive analyses had errors. Three of the four that did not have errors showed a statistically significant relationship between sample complexity and the proportion of false positive reads (i.e. compared to true positives). These were for relatedness (one result) and pollen grain proportion (three results). We did not see an effect for species richness. Specifically:
+Yet again, we got back `boundary` (singular) fits for many of these models. These were because the fine-scale random effects showed almost no variance. That is probably a good thing, we do not want to have any variability among (say) forward vs. reverse reads of the same sample or across sample replicates.
+
+**Unfortunately**, most (8/12) of the false positive analyses had errors. Three of the four that did not have errors showed a statistically significant relationship between sample complexity and the proportion of false positive reads (i.e. compared to true positives). These were for relatedness (one result) and pollen grain proportion (three results). We did not see an effect for species richness. Specifically:
 
 * for species richness, at the family level, and considering all samples, there was no statistically significant effect of richness on the proportion of false positive reads
 * for relatedness, again at the family level, but this time considering only the subset we set up to compare relatedness, relatedness *was* significantly related to the proportion of false positive reads. We will have to go into the plots to see the directionality of this effect
@@ -1020,7 +1021,7 @@ This analysis uses binomial mixed models to assess if using amplicon vs. WGS app
 
 #### Amplicon markers considered separately (*rbcL* and ITS2)
 
-First we will split out the analysis by amplicon marker (rbcL vs. ITS2) and by taxonomic level of identification (family / genus / species); next we will combine both amplicons but continue to assess at all three taxonomic levels.
+First we will split out the analysis by amplicon marker (*rbcL* vs. ITS2) and by taxonomic level of identification (family / genus / species); next we will combine both amplicons but continue to assess matches at all three taxonomic levels.
 
 
 ```{r amplicon vs. WGS - GLMM by marker}
@@ -1081,8 +1082,7 @@ kable(krakamp.results.table) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 
-In each case, the amplicon-based approach produced significantly fewer false positive reads compared to the shotgun / kraken approach, irrespective of the marker used and the taxonomic level. Previously, most of the models gave errors, but something in re-doing the data formatting (perhaps removal of *Zea*?) set these analyses up better. 
-
+In each case, the amplicon-based approach produced significantly fewer false positive reads compared to the shotgun / kraken approach, irrespective of the marker used and the taxonomic level.
 
 #### amplicon markers combined
 
@@ -1170,13 +1170,7 @@ There are two analyses:
 
 Here the question is: do we see a statistical relationship between the proportion of pollen grains input into a sample and the proportion of read counts that are output? As described in the **Overview** section at the beginning, we do this with a linear mixed-effects model as we are looking for a linear relationship between the input pollen grain proportions, and the proportions of output sample reads. A logistic relationship, as would likely be predicted with a binomial-errors model, is not helpful to an end-user here even though the data are ultimately binomial in nature.
 
-<!-- If we wanted to do the binomial analysis, we would need to re-format the dataset. For this analysis we need to have the data formatted with a separate row for each taxon present in each sample, as we do for the false negatives analysis. The issue is that to do a binomial model here, we need to have two columns, one for number of reads of that taxon and one for number of reads in that sample to other taxa. These can then be combined with `cbind` to create our response variable. While we do have data formatted in that manner, for the false positive analyses, the disconnect is that those data are formatted with all of the taxa pooled into a single row per replicate (i.e. not split out by taxon). -->
-
-I tried specifying these models with intercept = 0. Unfortunately, we can't estimate an $R^2$ with a specification of zero intercept, at least with the `r2beta` function (not sure why). Either way, didn't do this.
-
-<!-- those models generated *singular* fits (`boundary (singular) fit: see ?isSingular`), with near-zero estimates of variance in the nested random effect of replicate ID within mix (though ideally we would like for this estimate to be quite small!). -->
-
-<!-- Still, we also want to compare these models to the amplicon models (below); but even without the zero-intercept specification, the amplicon models also had singular fits, also due to the near-zero estimate of variance in the nested `mix.ID/sample` random effect (and again, we want this to be a very small source of variance!). For those models, if we take out `sample` (but maintain `mix.ID` as well as a crossed random taxonomic effect), we can get non-singular fits, even *with* a zero estimate. To These are replicated below in the models ending in `nonest` (for "zero intercept"). -->
+We tried specifying these models with intercept = 0. Unfortunately, we can't estimate an $R^2$ with a specification of zero intercept, at least with the `r2beta` function (not sure why). Either way, we ultimately didn't do this even though we could get the models to work.
 
 
 ```{R quantitative matching linear model}
@@ -1252,23 +1246,28 @@ kable(coefs_summ) %>%
 
 ```
 
-Pollen grain proportion was highly significantly related to read proportion across all taxonomic levels, with relatively strong $R^2$ values (except maybe for genus).
-
-Nice to see that the two approaches (with and without the sample-replicate random effect nested within the mix) gave us essentially the exact same answers.
+Pollen grain proportion was highly significantly related to read proportion across all taxonomic levels, with relatively strong $R^2$ values (except perhaps for genus).
 
 ### Amplicon vs. WGS: quantitative matching
 
 The basic idea here is to assess if WGS vs. amplicon data has better quantitative matching. This is at first glance more challenging than for the qualitative metrics, in which the directionality of the data tells the story completely: more true positives = good, and more false positives = bad. But for the quantitative analyses, having a higher proportion of matches than there are input proportion of pollen grains is bad, and having a lower proportion of matches than the input proportion of pollen grains is also bad.
 
-One idea is to just directly compare the WGS and amplicon results in terms of $R^2$ values for the linear models. Higher $R^2$ values are better. This is a somewhat qualitative, however: e.g. while $R^2 = 0.77$ is better than $R^2 = 0.70$, are those two values meaningfullly different? For example, it would be easy for a couple of values that were strongly off from the prediction to greatly alter the $R^2$ values.
+We used two complementary approaches. The first compares the residuals of WGS vs. amplicon to the "true" model (slope = 1, intercept = 0). The second compares the $R^2$ values of unconstrained linear models between WGS and amplicon approaches.
 
-Alternatively, and more quantitative, is to analyze the *residuals* of the input vs. output quantitative model, and see if there are differences in the *mean absolute values of the residuals* between WGS and amplicon approaches. Here, directionality has a meaning: smaller absolute residual values are better. We could do this with two different approaches: first is just to fit a linear model to the data (as we have done above); second is to fit a linear model with intercept = 0 and slope = 1, and use the residuals from that model.
+**FIRST**
+A quantitative approach to this is to analyze the *residuals* of the input vs. output quantitative model, and see if there are differences in the *mean absolute values of the residuals* between WGS and amplicon approaches. Here, directionality has a meaning: smaller absolute residual values are better. There are at least two different approaches one could take: first is just to fit a linear model to the data (as we have done above); second is to fit a linear model with intercept = 0 and slope = 1, and use the residuals from that model.
 
 The latter approach here seems better---ultimately we want the output proportion of sequence reads to match as closely to possible the input proportion of pollen grains (i.e. a linear relationship with intercept = 0 and slope = 1). To find the residuals of this relationship, we don't need to run a model at all; because the expected value of the output proportion is the input proportion, we can just calculate the absolute value of (`input - output`) in a new column. Then we can use that residual value as the response variable in a new linear mixed-effects model, with the sole fixed effect being the data `source` (i.e. amplicon vs. WGS), but allowing us to use the random intercepts we specified in previous models (mix identity and taxonomic identity).
 
-While that is very straightforward, the one thing we need to do is to get the amplicon data formatted in a similar way to the WGS data for this analysis (with a percentage of hits for each taxon truly present in a sample, as well as the proportion of pollen grains of that taxon in that sample). For this, we will combine our original `amp_all` data with e.g. `truepos.krak.species` (and the corresponding files for genus and species)
+One thing to note about this approach is that we already know that the WGS data have more false positives, and that is likely to pull them further away from the "true" line with slope = 1 and intercept = 0.
+
+**SECOND**
+Alternatively, another approach is to just directly compare the WGS and amplicon results in terms of $R^2$ values for the linear models. Higher $R^2$ values are better. This is somewhat qualitative, however: e.g. while $R^2 = 0.77$ is better than $R^2 = 0.70$, are those two values meaningfullly different? For example, it would be easy for a couple of values that were strongly off from the prediction to greatly alter the $R^2$ values. But if the results are strongly different between WGS and amplicon approaches, that will tell us something.
+
 
 #### data prep for quant matching amplicon vs. WGS
+
+We need to do is to get the amplicon data formatted in a similar way to the WGS data for this analysis (with a percentage of hits for each taxon truly present in a sample, as well as the proportion of pollen grains of that taxon in that sample). For this, we will combine our original `amp_all` data with e.g. `truepos.krak.species` (and the corresponding files for genus and species)
 
 ```{r data prep for quant matching amplicon vs. WGS}
 
@@ -1338,17 +1337,13 @@ kable(quant.krakamp.table) %>% kable_styling(bootstrap_options = "striped", full
 
 ```
 
-Interesting... all models show statistically significant differences between amplicon and WGS in the mean value of the residuals. But as far as I can tell from this, it looks like the amplicon data comes out ahead, i.e. the WGS / kraken data have *larger* mean residuals (worse; we want smaller). 
+All models show statistically significant differences between amplicon and WGS in the mean value of the residuals, with the amplicon data coming out ahead, i.e. the WGS / kraken data have *larger* mean residuals (worse; we want smaller). 
 
 This is interesting because from the WGS-only linear model above, the $R^2$ values are much higher than for the amplicon data. Then again, these are estimating a slope and an intercept different for each of these that are not slope = 1 and intercept = 0. Potentially because we know that the false positive rates are higher, the false positives could be throwing this off.
 
-would be good to confirm with figures.
-
 #### linear-model based analysis for quant matching amplicon vs. WGS
 
-<!-- a couple of different approaches are possible here. First, we could run a linear model with proportion of sequence reads (e.g. `quant.family`) as the response variable, and as fixed effects the input `pollen.grain.proportion` and the `source` (i.e., WGS vs. amplicon) *and their interaction*. If the interaction term is significant,  -->
-
-Run two separate linear mixed-effects models, one for WGS and one for amplicon. We already did the WGS ones above, so just have to do the ones for amplicon. Then we can ask two different things: 1) which has a better $R^2$, i.e. even if the slope is not 1 and the intercept is not zero, which one would give us a better relative estimate of pollen grain proportions; and 2) which one has a slope closer to one (which is really ultimately an analogue of the residuals analysis). While it would be sensible to constrain the intercept to be zero in both cases, again for the WGS I tried this and was not able to get $R^2$ estimates.
+Run two separate linear mixed-effects models, one for WGS and one for amplicon. We already did the WGS ones above, so here we just have to do the ones for amplicon. Then we can ask two different things: 1) which has a better $R^2$, i.e. even if the slope is not 1 and the intercept is not zero, which one would give us a better relative estimate of pollen grain proportions; and 2) which one has a slope closer to one (which is really ultimately an analogue of the residuals analysis). While it would be sensible to constrain the intercept to be zero in both cases, again for the WGS I tried this and was not able to get $R^2$ estimates.
 
 ```{r linear-model based analysis for quant matching amplicon vs. WGS}
 
@@ -1385,7 +1380,7 @@ kable(quant.amp.table) %>% kable_styling(bootstrap_options = "striped", full_wid
 
 ```
 
-comparing this table to the table from the WGS only quantitative matching, we can see that the $R^2$ values are are substantially higher for WGS / kraken as compared to the amplicon data. Consistently with the residual-based analysis, the slopes of the relationships for the amplicon data are much large / much closer to one than for the WGS data. 
+Comparing this table to the table from the WGS only quantitative matching, we can see that the $R^2$ values are are substantially higher for WGS / kraken as compared to the amplicon data. Consistently with the residual-based analysis, the slopes of the relationships for the amplicon data are much large / much closer to one than for the WGS data. 
 
 This is consistent with:
 
@@ -1393,6 +1388,8 @@ This is consistent with:
 1. WGS having lower slopes, and thus higher residuals from a relationship where intercept = 0 and slope = 1, which could be driven in large part by the high rate of false positives in the WGS data (which greatly limit quantitative matching)
 
 # Figures
+
+The numbering of figures in this section is not ultimately parallel to their numbering in the manuscript; we left it in the order they were developed because the naming in the code would have to change, which would be a substantial amount of work for relatively cosmetic purposes. Figures added later in the process are denoted with alphabetic rather than numeric names; e.g., X, Y, and Z for false negatives and I, J, and K for false positives.
 
 ## Figure 1: true positives by taxon
 This figure shows the mean proportion and binomial CI of correct (true positive) taxonomic matches by species and genus. Fig. 1a is by family, Fig. 1b is by genus, and Fig. 1c is by species.
@@ -1455,9 +1452,9 @@ fig1a=binomci_family%>%
   geom_errorbar(width=0.6, aes(family,ymin=lower, ymax=upper), alpha=0.6, position=position_dodge(width=0.3))+
   xlab("family")+
   ylab("proportion of correct matches")+
-   theme_bw()+
-  ggtitle("A")+
-  theme(axis.text.x=element_text(angle=45,hjust=1))
+  labs(title = NULL, subtitle = "A: Family matches") +
+  theme_bw()
+fig1a = fig1a + theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 #Figure 1B: Genus level
 fig1b=binomci_genus%>%
@@ -1466,9 +1463,9 @@ fig1b=binomci_genus%>%
   geom_errorbar(width=0.6, aes(genus,ymin=lower, ymax=upper), alpha=0.6, position=position_dodge(width=0.3))+
   xlab("genus")+
   ylab("proportion of correct matches")+
-   theme_bw()+
-  ggtitle("B")+
-  theme(axis.text.x=element_text(angle=45,hjust=1))
+  labs(title = NULL, subtitle = "B: Genus matches") +
+  theme_bw()
+fig1b = fig1b + theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 #Figure 1C: Species level
 fig1c=binomci_species%>%
@@ -1477,11 +1474,11 @@ fig1c=binomci_species%>%
   geom_errorbar(width=0.6, aes(species,ymin=lower, ymax=upper), alpha=0.6, position=position_dodge(width=0.3))+
   xlab("species")+
   ylab("proportion of correct matches")+
-   theme_bw()+
-  ggtitle("C")+
-  theme(axis.text.x=element_text(angle=45,hjust=1))
+  labs(title = NULL, subtitle = "C: Species matches") +
+  theme_bw()
+fig1c = fig1c + theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-#Figure 1 panel
+  #Figure 1 panel
 
 suppressMessages(ggsave("WGS_fig1a.pdf", plot=fig1a, device="pdf", height=5, width=7, units="in"))
 suppressMessages(ggsave("WGS_fig1b.pdf", plot=fig1b, device="pdf", height=5, width = 7, units="in"))
@@ -1497,7 +1494,7 @@ suppressMessages(ggsave("fig1_combined.jpg", plot=panel.fig1, device="jpeg", hei
 
 ## Figure 2: true positives vs. species richness
 
-This figure shows the proportion of correct taxonomic matchess by species richness for *rbcL* and ITS2 at the species and genus level. To correctly format the data, the mean and binomial CI of correct taxonomic matches needs to be summarized 3 times: once for sample, once for mix, and once for level of species richness. Otherwise samples with multiple species will get over-represented in terms of the overall means. The integers are tracked at each step and summarized with `dplyr`. The data is summarized with `dplyr` twice, once per mix and then once per sample. Then within each level of the factor of interest, the mean and binomial confidence intervals are calculated using binom.confint.
+This figure shows the proportion of correct taxonomic matches by species richness for *rbcL* and ITS2 at the species, genus, and family levels of matching. To correctly format the data, the mean and binomial CI of correct taxonomic matches needs to be summarized 3 times: once for sample, once for mix, and once for level of species richness. Otherwise samples with multiple species will get over-represented in terms of the overall means. The integers are tracked at each step and summarized with `dplyr`. The data are summarized with `dplyr` twice, once per mix and then once per sample. Then within each level of the factor of interest, the mean and binomial confidence intervals are calculated using `binom.confint` from the `binom` package.
 
 ```{r Figure 2, fig.show='hide'}
 
@@ -1783,13 +1780,11 @@ figX_species=dat.species%>%
   select(relatedness, mix.ID, n2, species)
 
 #Convert from wide to long
-
 figX_long_family = melt(figX_family, id.vars = c("relatedness","mix.ID", "n2"))
 figX_long_genus = melt(figX_genus, id.vars = c("relatedness","mix.ID", "n2"))
 figX_long_species = melt(figX_species, id.vars = c("relatedness","mix.ID", "n2"))
 
 #Subset to relatedness
-
 relatedness_family = figX_long_family%>%
   filter(substr(variable,1,7)=="family")%>%
   rename(x=value, n=n2)
@@ -1801,7 +1796,6 @@ relatedness_species = figX_long_species%>%
   rename(x=value, n=n2)
 
 #group by relatedness and marker
-
 relatedness_family = relatedness_family %>%
   group_by(relatedness, variable) %>%
   summarize(n=mean(n),x=mean(x)) %>%
@@ -1818,7 +1812,6 @@ relatedness_species = relatedness_species %>%
   ungroup()
 
 #Calculate mean and binomial CI
-
 bin.family = binom.confint(relatedness_family$x, relatedness_family$n,methods="exact") %>%
   select(-method)
 
@@ -1829,7 +1822,6 @@ bin.species = binom.confint(relatedness_species$x, relatedness_species$n,methods
   select(-method)
 
 #Merge mean and binomial CI with mixture info
-
 family.all = merge(bin.family, relatedness_family, by = c("x", "n"))
 family.all = unique(family.all)
 
@@ -1890,7 +1882,7 @@ suppressMessages(ggsave("figX_combined.jpg", plot=figX, device="jpeg", width=169
 
 ## Figure Y: true positives vs. rarity (binned)
 
-The first step here is to create a categorical `rarity` variable based on binning `pollen.grain.proportion` into four equal bins (1-25%; 26-50%; 51-75%; 76-100%). By creating a categorical variable, we can produce a figure that is highly parallel to those for the other two facets of sample complexity (species richness and relatedness)
+The first step here is to create a categorical `rarity` variable based on binning `pollen.grain.proportion` into four equal bins (1-25%; 26-50%; 51-75%; 76-100%). We do that using the `cut` function. By creating a categorical variable, we can produce a figure that is highly parallel to those for the other two facets of sample complexity (species richness and relatedness)
 
 ```{r Figure Y, fig.show='hide'}
 
@@ -2087,7 +2079,7 @@ figYc=species.all%>%
   geom_point(aes(rarity,mean))+
   geom_errorbar(aes(rarity,ymin=lower, ymax=upper), width=0.2)+
   xlab("rarity")+
-  ylab("proportion of correct matches")+
+  ylab("proportion of correct matches") +
   ylim(0,1)+
   labs(title = NULL, subtitle = "C: Species matches")+
   theme_bw()
@@ -2102,7 +2094,7 @@ suppressMessages(ggsave("figY_combined.jpg", plot=figY, device="jpeg", width=169
 
 ## Figure S1: true positives combined
 
-Here we are putting together a figure comprised of panels we have already built in the sections for Figs 2, X, and Y. Should be very straightforward.
+Here we are putting together a figure comprised of panels we have already built in the sections for Figs 2, X, and Y. This figure has 9 panels, with a row for each of the 3 facets of sample complexity and a column for each of the 3 levels of taxonomic matching. Very straightforward.
 
 ```{r Figure S1: true positives combined, fig.show = 'hide'}
 
@@ -2113,13 +2105,13 @@ suppressMessages(ggsave("figS1_combined.jpg", plot=figS1, device="jpeg", width=1
 
 ![Figure S1](figS1_combined.jpg)
 
-## Figure Z: true positives by all 3 complexity variables; species level
+## Figure Z: true positives by all 3 complexity variables; species level only
 
 Here we are putting together a figure comprised of panels we have already built in the sections for Figs 2, X, and Y. One relatively minor tweak is altering the figure header for each panel. Currently they all say "species" because they were pooled into figures with varying levels of taxonomic matching. We need to instead change the headers to reflect the explanatory variable (element of sample complexity) that each panel is focused on.
 
 This code chunk comes *after* the Supplemental Figure so that we change those headers only after the previous headers are used as they are supposed to be (in the figure where each panel needs to be identified by its level of taxonomic matching).
 
-A second minor change is that because the x-axis labels are different for each panel, with some of them being longer, the panels themselves end up being different heights. To get around this, setting the orientation of this plot as vertical rather than horizontal. This may also work better in a journal format with the figure being easier to compare to the text to the left of it.
+A second minor change is that because the $x$-axis labels are different for each panel, with some of them being longer, the panels themselves end up being different heights. To get around this, setting the orientation of this plot as vertical rather than horizontal. This may also work better in a journal format with the figure being easier to compare to the text to the left of it.
 
 ```{r Figure Z: true positives, species, by all 3 complexity vars, fig.show = 'hide'}
 
@@ -2168,9 +2160,10 @@ fig3a=fig3_sub_family%>%
   geom_jitter( size=4, alpha=0.4, height=0.05 )+
     geom_smooth(method = "glm", method.args = list(family = "binomial"), se = FALSE, alpha=0.2) +
   ggtitle("A")+
-  xlab("proportion of pollen grains in the sample")+
-  ylab("probability of detection")+
-  theme_bw()+
+  xlab("proportion of pollen grains in the sample") +
+  ylab("probability of detection") +
+  labs(title = NULL, subtitle = "A: Family matches") +
+  theme_bw() +
   theme(legend.key = element_rect(size = 5),
         legend.key.size = unit(1.5, 'lines'))
 
@@ -2181,9 +2174,10 @@ fig3b=fig3_sub_genus%>%
   geom_jitter( size=4, alpha=0.4, height=0.05 )+
     geom_smooth(method = "glm", method.args = list(family = "binomial"), se = FALSE, alpha=0.2) +
   ggtitle("B")+
-  xlab("proportion of pollen grains in the sample")+
-  ylab("probability of detection")+
-  theme_bw()+
+  xlab("proportion of pollen grains in the sample") +
+  ylab("probability of detection") +
+  labs(title = NULL, subtitle = "B: Genus matches") +
+  theme_bw() +
   theme(legend.key = element_rect(size = 5),
         legend.key.size = unit(1.5, 'lines'))
 
@@ -2194,9 +2188,10 @@ fig3c=fig3_sub_species%>%
   geom_jitter( size=4, alpha=0.4, height=0.05 )+
     geom_smooth(method = "glm", method.args = list(family = "binomial"), se = FALSE, alpha=0.2) +
   ggtitle("C")+
-  xlab("proportion of pollen grains in the sample")+
-  ylab("probability of detection")+
-  theme_bw()+
+  xlab("proportion of pollen grains  in the sample") +
+  ylab("probability of detection") +
+  labs(title = NULL, subtitle = "C: Species matches")+
+  theme_bw() +
   theme(legend.key = element_rect(size = 5),
         legend.key.size = unit(1.5, 'lines'))
 
@@ -2211,11 +2206,15 @@ suppressMessages(ggsave("fig3_combined.jpg", plot=panel.fig3, device="jpeg", hei
 
 ![Figure 3](fig3_combined.jpg)
 
-##Figure 4: quantitative matching by taxon
+**AGAIN, DO NOT USE THIS FIGURE**
+
+## Figure 4: quantitative matching by taxon
 
 This figure shows the quantitative relationship between the proportion of pollen grains and the proportion of reads matching to a particular taxa. There are plots for the species, genus, and family level. 
 
-Fortunately, these figures do not require formatting of the dataset beyond what has already been done. The code is fairly self-explanatory.  
+Fortunately, these figures do not require formatting of the dataset beyond what has already been done. The code is fairly self-explanatory.
+
+While it may seem non-sensical that all or nearly all of the points are falling out below the "true" line with slope = 1 and intercept = 0, that is because there are many false positive reads.
 
 ```{r Figure 4, fig.show='hide'}
 
@@ -2225,33 +2224,32 @@ fig4a=truepos.krak.family%>%
   geom_point(aes(pollen.grain.proportion, quant.family, color=family, shape=family), size=4, alpha=0.4, position = "jitter")+
   xlab("proportion of pollen grains in sample")+
   ylab("proportion of reads")+
-  geom_abline(size=0.2, alpha=1)+ #line w/ slope 1
-  theme_bw()+
-  ggtitle("A")+
-  scale_shape_manual(values=c(15,16,17,18,0,1,2,5,6))
+  geom_abline(size=0.2, alpha=1) + #line w/ slope 1
+  labs(title = NULL, subtitle = "A: Family matches") +
+  scale_shape_manual(values=c(15,16,17,18,0,1,2,5,6)) + 
+  theme_bw()
 
 #Figure 4B: Genus level
 fig4b=truepos.krak.genus%>%
   ggplot()+
-  geom_point(aes(pollen.grain.proportion, quant.genus, color=genus, shape=genus), size=4, alpha=0.4, position = "jitter")+
-  xlab("proportion of pollen grains in sample")+
-  ylab("proportion of reads")+
-  geom_abline(size=0.2, alpha=1)+ #line w/ slope 1
-  theme_bw()+
-  ggtitle("B")+
-  scale_shape_manual(values=c(15,16,17,18,0,1,2,5,6))
+  geom_point(aes(pollen.grain.proportion, quant.genus, color=genus, shape=genus), size=4, alpha=0.4, position = "jitter") +
+  xlab("proportion of pollen grains in sample") +
+  ylab("proportion of reads") +
+  geom_abline(size=0.2, alpha=1) + #line w/ slope 1
+  labs(title = NULL, subtitle = "B: Genus matches") +
+  scale_shape_manual(values=c(15,16,17,18,0,1,2,5,6)) +
+  theme_bw()
 
 #Figure 4C: Species level
 fig4c=truepos.krak.species%>%
-  ggplot()+
-  geom_point(aes(pollen.grain.proportion, quant.species, color=species, shape=species), size=4, alpha=0.4, position = "jitter")+
+  ggplot() +
+  geom_point(aes(pollen.grain.proportion, quant.species, color=species, shape=species), size=4, alpha=0.4, position = "jitter") +
   xlab("proportion of pollen grains in sample")+
-  ylab("proportion of reads")+
-  geom_abline(size=0.2, alpha=1)+ #line w/ slope 1
-  theme_bw()+
-  ggtitle("C")+
-  scale_shape_manual(values=c(15,16,17,18,0,1,2,5,6))
-
+  ylab("proportion of reads") +
+  geom_abline(size=0.2, alpha=1) + #line w/ slope 1
+  labs(title = NULL, subtitle = "C: Species matches") +
+  scale_shape_manual(values=c(15,16,17,18,0,1,2,5,6)) +
+  theme_bw()
 
 #Figure 4 Panel
 ggsave("WGS_fig4a.pdf", fig4a, device="pdf", width=7, height=5, units="in")
@@ -2268,7 +2266,7 @@ suppressMessages(ggsave("fig4_combined.jpg", plot=panel.fig4, device="jpeg", hei
 
 ##figure 5: true positives by source
 
-This figure shows the proportion of correct taxonomic matchess by source (amplicon vs. WGS) at the species, genus, and family level. To correctly format the data, the mean and binomial CI of correct taxonomic matches needs to be summarized 3 times: once for sample, once for mix, and once for source. Otherwise samples with multiple species will get over-represented in terms of the overall means. The integers are tracked at each step and summarized with `dplyr`. The data is summarized with `dplyr` twice, once per mix and then once per sample. Then within each level of the factor of interest, the mean and binomial confidence intervals are calculated using binom.confint.
+This figure shows the proportion of correct taxonomic matchess by source (amplicon vs. WGS) at the species, genus, and family level. To correctly format the data, the mean and binomial CI of correct taxonomic matches needs to be summarized 3 times: once for sample, once for mix, and once for source. Otherwise samples with multiple species will get over-represented in terms of the overall means. The integers are tracked at each step and summarized with `dplyr`. The data is summarized with `dplyr` twice, once per mix and then once per sample. Then within each level of the factor of interest, the mean and binomial confidence intervals are calculated using `binom.confint`.
 
 ```{r Figure 5, fig.show='hide'}
 
@@ -2383,8 +2381,8 @@ fig5a=fig5_family.all%>%
   xlab("source")+
   ylab("proportion of correct matches")+
   ylim(0,1)+
-  ggtitle("A")+
-   theme_bw()
+  labs(title = NULL, subtitle = "A: Family matches") +
+  theme_bw()
 
 #Figure 5B: Genus level
 fig5b=fig5_genus.all%>%
@@ -2394,8 +2392,8 @@ fig5b=fig5_genus.all%>%
   xlab("source")+
   ylab("proportion of correct matches")+
   ylim(0,1)+
-  ggtitle("B")+
-   theme_bw()
+  labs(title = NULL, subtitle = "B: Genus matches") +
+  theme_bw()
 
 #Figure 5C: Species level
 fig5c=fig5_species.all%>%
@@ -2405,8 +2403,8 @@ fig5c=fig5_species.all%>%
   xlab("source")+
   ylab("proportion of correct matches")+
   ylim(0,1)+
-  ggtitle("C")+
-   theme_bw()
+  labs(title = NULL, subtitle = "C: Species matches") +
+  theme_bw()
 
 
 #Create panel for Figure 5
@@ -2418,7 +2416,7 @@ suppressMessages(ggsave("fig5_combined.jpg", plot=fig5, device="jpeg", width=169
 
 ## Figure 6: false negatives by source
 
-This figure shows the proportion of hits that were false positives. The "false positive" vs. "false negative" variable created in part 3.5 and 3.7 is converted to a numeric binomial variable. The mean and binomial CI of false positive counts are aggregated once by sample, once by mix, and once by source. Data summary and confidence intervals are calculated as in figure 5. 
+This figure shows the proportion of hits that were false positives. The "false positive" vs. "false negative" variables created previously are converted to proportion of correct matches. The mean and binomial CI of false positive counts are aggregated once by sample, once by mix, and once by source. Data summary and confidence intervals are calculated as in figure 5. 
 
 ```{r figure 6, fig.show='hide'}
 
@@ -2536,8 +2534,8 @@ fig6a=fig6_family.all%>%
   xlab("source")+
   ylab("proportion of false positives")+
   ylim(0,1)+
-  ggtitle("A")+
-   theme_bw()
+  labs(title = NULL, subtitle = "A: Family matches") +
+  theme_bw()
 
 #Figure 6B: Genus level
 fig6b=fig6_genus.all%>%
@@ -2547,8 +2545,8 @@ fig6b=fig6_genus.all%>%
   xlab("source")+
   ylab("proportion of false positives")+
   ylim(0,1)+
-  ggtitle("B")+
-   theme_bw()
+  labs(title = NULL, subtitle = "B: Genus matches") +
+  theme_bw()
 
 #Figure 6C: Species level
 fig6c=fig6_species.all%>%
@@ -2558,8 +2556,8 @@ fig6c=fig6_species.all%>%
   xlab("source")+
   ylab("proportion of false positives")+
   ylim(0,1)+
-  ggtitle("C")+
-   theme_bw()
+  labs(title = NULL, subtitle = "C: Species matches") +
+  theme_bw()
 
 
 #Create panel for Figure 6
@@ -2568,22 +2566,23 @@ suppressMessages(ggsave("fig6_combined.jpg", plot=fig6, device="jpeg", width=169
 ```
 
 ![Figure 6](fig6_combined.jpg)
-
+Note that the confidence intervals here are tiny, relative to the false negatives. That is because of the large counts of true and false positive reads in these data, as compared with a single count (1) per sample if a taxon was found that was truly present in that sample, in the false negatives analysis. In binomial data, it is very intuitive that as counts increase confidence intervals go down.
 
 ## data prep for false positives by sample complexity
 
 approach:
 
-* use the data Anya put together for fig 6 (`CI.krakamp.family.fp`)
+* use the data we put together for fig 6 (`CI.krakamp.family.fp`)
 * subset to include only the kraken data (i.e. not the amplicon data)
 * merge these data with the `mixes` metadata
 * for rarity, create new `rarity` column based on binning `pollen.grain.proportion`
 
-then follow Anya's basic approach for e.g. Fig 2
+then follow the basic approach for e.g. Fig 2:
+
 * will need to alter how the `x` and `n` are calculated relative to the true positive / false negative analysis
 * here we have basically already calculated them, but need to **add** up hits of false positives and false negatives to summarize within each level (e.g. for a given level of species richness)---there are already steps to do the summarizing, just need to make sure it happens via addition
-* then (as Anya did) run `binom.confint` (from the `binomial` package) to get a mean and CI for each level
-* then it's just all about graphing!
+* then run `binom.confint` (from the `binomial` package) to get a mean and CI for each level
+* then plot
 
 ```{r False pos complexity data prep, fig.show='hide'}
 
@@ -2744,6 +2743,8 @@ suppressMessages(ggsave("figJ_combined.jpg", plot=figJ, device="jpeg", width=169
 
 ![Figure J](figJ_combined.jpg)
 
+Again, the confidence intervals are tiny as explained in the previous figure. We do not remark upon these more in subsequent figures.
+
 ## Figure K: false positives vs. rarity (binned)
 
 ```{r fig K, fig.show='hide'}
@@ -2812,9 +2813,10 @@ suppressMessages(ggsave("figK_combined.jpg", plot=figK, device="jpeg", width=169
 ```
 
 ![Figure K](figK_combined.jpg)
+
 ## Figure S2: false positives combined
 
-Here we are putting together a figure comprised of panels we have already built in the sections for Figs I, J, and K. Should be very straightforward.
+Here we are putting together a figure comprised of panels we have already built in the sections for Figs I, J, and K. This figure has 9 panels, with a row for each of the 3 facets of sample complexity and a column for each of the 3 levels of taxonomic matching. Very straightforward.
 
 ```{r Figure S2: true positives combined, fig.show = 'hide'}
 
