@@ -225,7 +225,7 @@ rm(sample_sep, new.vals, indexy)
 
 ## combine Kraken & sample metadata
 
-Create a new aggregated datasheeet, based on sample metadata, but which matches sample data back to the Kraken data so we can run analyses about probability of matching (both qualitative and quantitative). In particular this is taking account of sample "replicates" (including some that are not true replicates, but rather forward vs. reverse reads); also different Illumina lanes in the Emory Genome Center data.
+Create a new aggregated datasheet, based on sample metadata, but which matches sample data back to the Kraken data so we can run analyses about probability of matching (both qualitative and quantitative). In particular this is taking account of sample "replicates" (including some that are not true replicates, but rather forward vs. reverse reads); also different Illumina lanes in the Emory Genome Center data.
 
 1. Merge the unique krak IDs with mixes to subset the sample data to only the samples in the kraken dataset 
 1. Create a dataset for analysis of false negatives by only including taxa that are present in sample data
@@ -653,7 +653,7 @@ For consistency, take out *Zea mays* and format data tables to have the same nam
 
 * the analysis approach here is based on binomial-errors mixed-effects models
 * the **fixed effects** are sample complexity; we are assessing one facet of sample complexity per model
-    + 1. Question 1: **species richness** (1-9 species)
+    + Question 1: **species richness** (1-9 species)
     + Question 2: **rarity** (actual proportion of grains this taxon has in a sample; from roughly half & half to < 1% of the rarer type)
     + Question 3: **taxonomic relatedness** (within genus to across broad clades in the seed plants)
 * we separately assessed models that considered different **subsets of the data**:
@@ -759,7 +759,7 @@ Pollen grain proportion has a significant effect on qualitative detection at the
 
 ### Amplicon vs. Shotgun comparison: false negatives
 
-This analysis uses binomial mixed models to assess if using amplicon vs. WGS has an effect on the ability to qualitatively detect true positives vs. false negatives. This analysis is similar the qualitative mixed models to assess the effect of species richness, pollen grain proportion, etc. on the ability to qualitatively detect the correct taxa, but instead using "source" as the (sole) fixed effect.
+This analysis uses binomial mixed models to assess if using amplicon vs. WGS has an effect on the ability to qualitatively detect true positives vs. false negatives. This analysis is similar to the qualitative mixed models to assess the effect of species richness, pollen grain proportion, etc. on the ability to qualitatively detect the correct taxa, but instead using "source" as the (sole) fixed effect.
 
 #### by marker (*rbcL* vs ITS2)---Amplicon vs. Shotgun false negatives
 
