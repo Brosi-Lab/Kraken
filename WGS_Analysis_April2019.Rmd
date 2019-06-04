@@ -2098,6 +2098,14 @@ Here we are putting together a figure comprised of panels we have already built 
 
 ```{r Figure S1: true positives combined, fig.show = 'hide'}
 
+# re-label panels: 
+figXa = figXa + labs(title = NULL, subtitle = "D: Family matches")
+figXb = figXb + labs(title = NULL, subtitle = "E: Genus matches")
+figXc = figXc + labs(title = NULL, subtitle = "F: Species matches")
+figYa = figYa + labs(title = NULL, subtitle = "H: Family matches")
+figYb = figYb + labs(title = NULL, subtitle = "I: Genus matches")
+figYc = figYc + labs(title = NULL, subtitle = "J: Species matches")
+
 #Create panel for Figure S1
 figS1 = grid.arrange(fig2a, fig2b, fig2c, figXa, figXb, figXc, figYa, figYb, figYc, nrow=3)
 suppressMessages(ggsave("figS1_combined.jpg", plot=figS1, device="jpeg", width=169, height = 250, units="mm"))
@@ -2116,7 +2124,6 @@ A second minor change is that because the $x$-axis labels are different for each
 ```{r Figure Z: true positives, species, by all 3 complexity vars, fig.show = 'hide'}
 
 # change panel headers
-# fig2c = fig2c + labs(title = "A: Species Richness", subtitle = NULL)
 fig2c = fig2c + labs(title = NULL, subtitle = "A: Species Richness")
 figXc = figXc + labs(title = NULL, subtitle = "B: Relatedness")
 figYc = figYc + labs(title = NULL, subtitle = "C: Rarity")
@@ -2819,6 +2826,14 @@ suppressMessages(ggsave("figK_combined.jpg", plot=figK, device="jpeg", width=169
 Here we are putting together a figure comprised of panels we have already built in the sections for Figs I, J, and K. This figure has 9 panels, with a row for each of the 3 facets of sample complexity and a column for each of the 3 levels of taxonomic matching. Very straightforward.
 
 ```{r Figure S2: true positives combined, fig.show = 'hide'}
+
+# re-label panels: 
+figJa = figJa + labs(title = NULL, subtitle = "D: Family matches")
+figJb = figJb + labs(title = NULL, subtitle = "E: Genus matches")
+figJc = figJc + labs(title = NULL, subtitle = "F: Species matches")
+figKa = figKa + labs(title = NULL, subtitle = "H: Family matches")
+figKb = figKb + labs(title = NULL, subtitle = "I: Genus matches")
+figKc = figKc + labs(title = NULL, subtitle = "J: Species matches")
 
 #Create panel for Figure S2
 figS2 = grid.arrange(figIa, figIb, figIc, figJa, figJb, figJc, figKa, figKb, figKc, nrow=3)
