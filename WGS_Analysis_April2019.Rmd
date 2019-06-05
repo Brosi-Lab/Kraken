@@ -2842,3 +2842,10 @@ suppressMessages(ggsave("figS2_combined.jpg", plot=figS2, device="jpeg", width=1
 
 ![Figure S2](figS2_combined.jpg)
 
+# Session Information
+
+```{r}
+sessionInfo()
+```
+
+
