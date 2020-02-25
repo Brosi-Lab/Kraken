@@ -2848,4 +2848,61 @@ suppressMessages(ggsave("figS2_combined.jpg", plot=figS2, device="jpeg", width=1
 sessionInfo()
 ```
 
+#Re-analysis with kraken2 results
+
+##Data import and formatting 
+
+```{r reanalysis}
+
+#Create list of kraken2 report files
+reports = list.files(path="./kraken2_results", full.names=T)
+
+#Read in files as table
+kraken2=lapply(reports, read.table, header=FALSE, sep="\t")
+
+#Create column with file name to get sampleID and bind it to other columns
+for (i in 1:length(kraken2)){kraken2[[i]]<-cbind(reports[i],kraken2[[i]])}
+kraken2_rbind <- do.call("rbind", kraken2) 
+
+#Rename column names
+colnames(kraken2_rbind)[c(1,2,3,4,5,6,7)]<-c("sample.id", "perc.hit", "hits","misses","tax","tax.id","id")
+
+#Create mixID column
+kraken2_rbind$mix.ID = substr(kraken2_rbind$sample.id, 19, 24)
+
+#replace dashes in 'mix.ID' with periods so that they match the 'mixes' data and remove underscores
+kraken2_rbind$mix.ID = gsub("-", ".", kraken2_rbind$mix.ID)
+
+#delete underscores either followed by nothing or an "S" (if mix number was single digit) 
+kraken2_rbind$mix.ID = gsub("_S*", "", kraken2_rbind$mix.ID)
+
+# move the new column to be second in order (not at the end where it's hard to see)
+kraken2_rbind = kraken2_rbind[, c(1, ncol(kraken2_rbind), 3:ncol(kraken2_rbind)-1)]
+
+#Create sample number column
+kraken2_rbind$samp = substr(kraken2_rbind$sample.id, nchar(as.character(kraken2_rbind$sample.id))-17,nchar(as.character(kraken2_rbind$sample.id))-16)
+
+#Remove S from sample number
+kraken2_rbind$samp = gsub("S","", kraken2_rbind$samp)
+
+#Create replicate number within mixID
+kraken2_rbind = kraken2_rbind %>%
+  group_by(mix.ID) %>%
+  mutate(rep.ID= dense_rank((as.numeric(samp))))
+
+#Move rep.ID to third row
+kraken2_rbind = kraken2_rbind[, c(1,2, ncol(kraken2_rbind), 4:ncol(kraken2_rbind)-1)]
+
+#Remove isolation negatives, undetermined, PCR negatives
+kraken2_sub = kraken2_rbind[!(kraken2_rbind$mix.ID == "isol.n" | kraken2_rbind$mix.ID == "PCR.ne" | kraken2_rbind$mix.ID == "Undete"),]
+
+#Remove any rows that are identified to anything other than family, genus, or species (not higher tax or subgroups)
+kraken2_sub = kraken2_sub[(kraken2_sub$tax == "F" | kraken2_sub$tax == "G" | kraken2_sub$tax == "S"),]
+
+#Remove leading white space in tax names
+kraken2_sub$id = trimws(kraken2_sub$id, "left")
+
+#Rename dataframe so it can run through script
+krak = kraken2_sub
+```
 
