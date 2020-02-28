@@ -8,6 +8,8 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 suppressPackageStartupMessages(require(knitr))
+suppressPackageStartupMessages(require(data.table))
+suppressPackageStartupMessages(require(dplyr))
 ```
 
 ## Table of Contents
@@ -861,10 +863,4 @@ data.rarity.plot = data.species %>% select(c(10, 13:24)) %>% group_by(pollen.gra
 # now need to 
 
 ```
-
-
-
-
-
-
 
