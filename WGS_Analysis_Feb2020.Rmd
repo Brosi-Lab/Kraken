@@ -152,48 +152,25 @@ colnames(kraken2_rbind)[c(1,2,3,4,5,6,7)]<-c("sample.id", "perc.hit", "hits","mi
 #Create mixID column
 kraken2_rbind$mix.ID = substr(kraken2_rbind$sample.id, 19, 24)
 
+# Want to remove the 6th character if mix.id does not contain the word "mix" or contains 2 dashes. Only want six characters if the mix number is double digits.
+kraken2_rbind$mix.ID = ifelse(!grepl("mix", kraken2_rbind$mix.ID) | str_count(kraken2_rbind$mix.ID, pattern="-")==2, substr(kraken2_rbind$mix.ID, 1, 5), kraken2_rbind$mix.ID)
+
 #replace dashes in 'mix.ID' with periods so that they match the 'mixes' data and remove underscores
 kraken2_rbind$mix.ID = gsub("-", ".", kraken2_rbind$mix.ID)
-
-#delete underscores either followed by nothing or an "S" (if mix number was single digit) 
-kraken2_rbind$mix.ID = gsub("_S*", "", kraken2_rbind$mix.ID)
 
 # move the new column to be second in order (not at the end where it's hard to see)
 kraken2_rbind = kraken2_rbind[, c(1, ncol(kraken2_rbind), 3:ncol(kraken2_rbind)-1)]
 
-#Create sample number column
-kraken2_rbind$samp = substr(kraken2_rbind$sample.id, nchar(as.character(kraken2_rbind$sample.id))-17,nchar(as.character(kraken2_rbind$sample.id))-16)
-
-#Remove S from sample number
-kraken2_rbind$samp = gsub("S","", kraken2_rbind$samp)
-
-#Create replicate number within mixID
-kraken2_rbind = kraken2_rbind %>%
-  group_by(mix.ID) %>%
-  mutate(rep.ID= dense_rank((as.numeric(samp))))
-
-#Move rep.ID to third row
-kraken2_rbind = kraken2_rbind[, c(1,2, ncol(kraken2_rbind), 4:ncol(kraken2_rbind)-1)]
-
-#Remove "undetermined"
-kraken2_sub = kraken2_rbind[!(kraken2_rbind$mix.ID == "Undete"),]
-
-#Replace isol.n and PCR.ne with "negat"
-kraken2_sub$mix.ID = gsub("isol.n", "negat", kraken2_sub$mix.ID)
-kraken2_sub$mix.ID = gsub("PCR.ne", "negat", kraken2_sub$mix.ID)
-
 #Remove any rows that are identified to anything other than family, genus, or species (not higher tax or subgroups)
-kraken2_sub = kraken2_sub[(kraken2_sub$tax == "F" | kraken2_sub$tax == "G" | kraken2_sub$tax == "S"),]
+kraken2_rbind = kraken2_rbind[(kraken2_rbind$tax == "F" | kraken2_rbind$tax == "G" | kraken2_rbind$tax == "S"),]
 
 #Remove leading white space in tax names
-kraken2_sub$id = trimws(kraken2_sub$id, "left")
+kraken2_rbind$id = trimws(kraken2_rbind$id, "left")
 
 #Rename dataframe so it can run through script
-krak = kraken2_sub
+krak = kraken2_rbind
 
-#Create list of unique kraken IDs
-krak_uniqueid = data.frame(krak$mix.ID, krak$rep.ID)
-krak_uniqueid = unique.data.frame(krak_uniqueid)
+
 ```
 ## combine Kraken & sample metadata
 
@@ -208,22 +185,17 @@ use 'mix.ID' as the variable to combine by...
 
 ```{r merge kraken data and sample metadata}
 
-## Merge sample and replicate IDs with mixes data
-krak_mixes <- merge(mixes,krak_uniqueid, by="mix.ID", by.y="krak.mix.ID")
 
 # create separate datasets for family, genus, and species level, both including and excluding false positives
 # excluding false positives (focus on true positives / false negatives):
-truepos.krak.family =  merge(krak_mixes, filter(krak, tax == "F"), by.x = c("mix.ID", "family"), by.y = c("mix.ID", "id"), all.x=T)
-truepos.krak.genus =  merge(krak_mixes, filter(krak, tax == "G"), by.x = c("mix.ID", "genus"), by.y = c("mix.ID", "id"), all.x=T)
-truepos.krak.species =  merge(krak_mixes, filter(krak, tax == "S"), by.x = c("mix.ID", "species"), by.y = c("mix.ID", "id"), all.x=T)
+truepos.krak.family =  merge(mixes, filter(krak, tax == "F"), by.x = c("mix.ID", "family"), by.y = c("mix.ID", "id"), all.x=T)
+truepos.krak.genus =  merge(mixes, filter(krak, tax == "G"), by.x = c("mix.ID", "genus"), by.y = c("mix.ID", "id"), all.x=T)
+truepos.krak.species =  merge(mixes, filter(krak, tax == "S"), by.x = c("mix.ID", "species"), by.y = c("mix.ID", "id"), all.x=T)
 
 # including false positives:
 all.krak.family =  merge(krak_mixes, filter(krak, tax == "F"), by.x = c("mix.ID", "family"), by.y = c("mix.ID", "id"), all.x = T, all.y = T)
 all.krak.genus =  merge(krak_mixes, filter(krak, tax == "G"), by.x = c("mix.ID", "genus"), by.y = c("mix.ID", "id"), all.x = T, all.y = T)
 all.krak.species =  merge(krak_mixes, filter(krak, tax == "S"), by.x = c("mix.ID", "species"), by.y = c("mix.ID", "id"), all.x = T, all.y = T)
-
-# clean up:
-rm(krak_uniqueid)
 
 ```
 
