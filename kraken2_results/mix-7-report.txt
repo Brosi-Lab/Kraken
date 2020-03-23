@@ -1,0 +1,336 @@
+ 34.57	307198	307198	U	0	unclassified
+ 65.43	581375	0	R	1	root
+ 65.43	581375	0	R1	131567	  cellular organisms
+ 65.43	581375	3	D	2759	    Eukaryota
+ 65.43	581370	6	K	33090	      Viridiplantae
+ 65.43	581357	0	P	35493	        Streptophyta
+ 65.43	581357	0	P1	131221	          Streptophytina
+ 65.43	581357	94	P2	3193	            Embryophyta
+ 65.36	580806	0	P3	58023	              Tracheophyta
+ 65.36	580806	0	P4	78536	                Euphyllophyta
+ 65.36	580806	0	P5	58024	                  Spermatophyta
+ 65.36	580806	183	C	3398	                    Magnoliopsida
+ 65.30	580267	3062	C1	1437183	                      Mesangiospermae
+ 63.86	567432	0	C2	71240	                        eudicotyledons
+ 63.86	567432	0	C3	91827	                          Gunneridae
+ 63.86	567432	7796	C4	1437201	                            Pentapetalae
+ 50.22	446242	1397	C5	71274	                              asterids
+ 48.56	431487	181	C6	91882	                                campanulids
+ 48.43	430378	0	O	4209	                                  Asterales
+ 48.43	430378	1093	O1	4210	                                    Asteraceae
+ 47.62	423166	754	O2	102804	                                      Asteroideae
+ 45.40	403448	0	O3	102810	                                        Anthemideae
+ 45.40	403448	0	O4	886714	                                          Artemisiinae
+ 45.40	403448	0	G	4219	                                            Artemisia
+ 45.40	403448	403448	S	55611	                                              Artemisia tridentata
+  2.13	18964	0	O3	911341	                                        Heliantheae alliance
+  2.13	18964	152	O4	102814	                                          Heliantheae
+  2.05	18192	0	G	4231	                                            Helianthus
+  2.05	18192	18192	S	4232	                                              Helianthus annuus
+  0.07	620	0	G	4211	                                            Ambrosia
+  0.07	620	620	S	4212	                                              Ambrosia artemisiifolia
+  0.69	6119	0	O2	219103	                                      Carduoideae
+  0.69	6119	0	O3	102818	                                        Cardueae
+  0.69	6119	0	O4	742010	                                          Carduinae
+  0.69	6119	0	G	4264	                                            Cynara
+  0.69	6119	0	S	4265	                                              Cynara cardunculus
+  0.69	6119	0	S1	309979	                                                Cynara cardunculus subsp. cardunculus
+  0.69	6119	6119	S2	59895	                                                  Cynara cardunculus var. scolymus
+  0.10	928	0	O	4036	                                  Apiales
+  0.10	928	0	O1	364270	                                    Apiineae
+  0.10	928	0	O2	4037	                                      Apiaceae
+  0.10	928	0	O3	241778	                                        Apioideae
+  0.10	928	0	O4	241789	                                          Scandiceae
+  0.10	928	0	O5	241799	                                            Daucinae
+  0.10	928	0	G	4038	                                              Daucus
+  0.10	928	0	G1	1873447	                                                Daucus sect. Daucus
+  0.10	928	0	S	4039	                                                  Daucus carota
+  0.10	928	928	S1	79200	                                                    Daucus carota subsp. sativus
+  1.50	13358	129	C6	91888	                                lamiids
+  1.16	10268	33	O	4069	                                  Solanales
+  1.07	9519	171	O1	4070	                                    Solanaceae
+  0.77	6857	89	O2	424551	                                      Solanoideae
+  0.49	4332	0	O3	424564	                                        Capsiceae
+  0.49	4332	0	G	4071	                                          Capsicum
+  0.49	4332	4332	S	4072	                                            Capsicum annuum
+  0.27	2436	0	O3	424574	                                        Solaneae
+  0.27	2436	0	G	4107	                                          Solanum
+  0.27	2436	448	G1	49274	                                            Lycopersicon
+  0.12	1054	1054	S	28526	                                              Solanum pennellii
+  0.11	934	934	S	4081	                                              Solanum lycopersicum
+  0.28	2491	0	O2	424554	                                      Nicotianoideae
+  0.28	2491	0	O3	424562	                                        Nicotianeae
+  0.28	2491	0	G	4085	                                          Nicotiana
+  0.28	2491	2491	S	49451	                                            Nicotiana attenuata
+  0.08	716	0	O1	4118	                                    Convolvulaceae
+  0.08	716	0	O2	267213	                                      Ipomoeeae
+  0.08	716	0	G	4119	                                        Ipomoea
+  0.08	716	716	S	35885	                                          Ipomoea triloba
+  0.21	1884	0	O	4143	                                  Lamiales
+  0.17	1469	0	O1	4144	                                    Oleaceae
+  0.17	1469	0	O2	426106	                                      Oleeae
+  0.17	1469	0	G	4145	                                        Olea
+  0.17	1469	0	S	4146	                                          Olea europaea
+  0.17	1469	0	S1	158383	                                            Olea europaea subsp. europaea
+  0.17	1469	1469	S2	158386	                                              Olea europaea var. sylvestris
+  0.05	415	0	O1	4180	                                    Pedaliaceae
+  0.05	415	0	G	4181	                                      Sesamum
+  0.05	415	415	S	4182	                                        Sesamum indicum
+  0.12	1077	0	O	4055	                                  Gentianales
+  0.12	1077	0	O1	24966	                                    Rubiaceae
+  0.12	1077	0	O2	169618	                                      Ixoroideae
+  0.12	1077	0	O3	1968429	                                        Gardenieae complex
+  0.12	1077	0	O4	1968428	                                          Bertiereae - Coffeeae clade
+  0.12	1077	0	O5	169640	                                            Coffeeae
+  0.12	1077	489	G	13442	                                              Coffea
+  0.05	425	425	S	13443	                                                Coffea arabica
+  0.02	163	163	S	49369	                                                Coffea eugenioides
+ 12.44	110501	1200	C5	71275	                              rosids
+ 11.26	100053	3299	C6	91835	                                fabids
+  6.23	55314	141	O	3744	                                  Rosales
+  5.79	51492	0	O1	3487	                                    Moraceae
+  5.79	51492	0	G	66379	                                      Broussonetia
+  5.79	51492	51492	S	172644	                                        Broussonetia papyrifera
+  0.24	2144	14	O1	3745	                                    Rosaceae
+  0.16	1385	12	O2	171637	                                      Amygdaloideae
+  0.09	795	0	O3	721813	                                        Maleae
+  0.09	795	0	G	3749	                                          Malus
+  0.09	795	795	S	3750	                                            Malus domestica
+  0.07	578	0	O3	721805	                                        Amygdaleae
+  0.07	578	88	G	3754	                                          Prunus
+  0.03	265	265	S	3760	                                            Prunus persica
+  0.03	225	225	S	102107	                                            Prunus mume
+  0.08	745	15	O2	171638	                                      Rosoideae
+  0.05	479	0	O3	1176516	                                        Rosoideae incertae sedis
+  0.05	479	0	G	3764	                                          Rosa
+  0.05	479	479	S	74649	                                            Rosa chinensis
+  0.03	251	0	O3	721789	                                        Potentilleae
+  0.03	251	0	O4	1184124	                                          Fragariinae
+  0.03	251	0	G	3746	                                            Fragaria
+  0.03	251	0	S	57918	                                              Fragaria vesca
+  0.03	251	251	S1	101020	                                                Fragaria vesca subsp. vesca
+  0.11	993	0	O1	3481	                                    Cannabaceae
+  0.11	993	0	G	3482	                                      Cannabis
+  0.11	993	993	S	3483	                                        Cannabis sativa
+  0.06	544	0	O1	3608	                                    Rhamnaceae
+  0.06	544	0	O2	325284	                                      Paliureae
+  0.06	544	0	G	72171	                                        Ziziphus
+  0.06	544	544	S	326968	                                          Ziziphus jujuba
+  2.74	24377	29	O	3646	                                  Malpighiales
+  2.66	23667	0	O1	3688	                                    Salicaceae
+  2.66	23667	0	O2	238069	                                      Saliceae
+  2.66	23667	2459	G	3689	                                        Populus
+  1.73	15363	15363	S	3693	                                          Populus tremuloides
+  0.62	5483	5483	S	3696	                                          Populus deltoides
+  0.04	362	362	S	3694	                                          Populus trichocarpa
+  0.08	681	0	O1	3977	                                    Euphorbiaceae
+  0.08	681	0	O2	235631	                                      Crotonoideae
+  0.08	681	0	O3	235883	                                        Manihoteae
+  0.08	681	0	G	3982	                                          Manihot
+  0.08	681	681	S	3983	                                            Manihot esculenta
+  1.52	13478	0	O	72025	                                  Fabales
+  1.52	13478	0	O1	3803	                                    Fabaceae
+  1.52	13478	0	O2	3814	                                      Papilionoideae
+  1.52	13478	319	O3	2231393	                                        50 kb inversion clade
+  0.98	8718	138	O4	2231382	                                          NPAAA clade
+  0.72	6382	0	O5	2233855	                                            indigoferoid/millettioid clade
+  0.72	6382	181	O6	163735	                                              Phaseoleae
+  0.28	2452	178	G	3913	                                                Vigna
+  0.09	799	799	S	3917	                                                  Vigna unguiculata
+  0.09	771	0	S	157791	                                                  Vigna radiata
+  0.09	771	771	S1	3916	                                                    Vigna radiata var. radiata
+  0.08	704	704	S	3914	                                                  Vigna angularis
+  0.21	1885	0	G	3846	                                                Glycine
+  0.21	1885	1525	G1	1462606	                                                  Soja
+  0.03	237	237	S	3848	                                                    Glycine soja
+  0.01	123	123	S	3847	                                                    Glycine max
+  0.12	1075	0	G	3820	                                                Cajanus
+  0.12	1075	1075	S	3821	                                                  Cajanus cajan
+  0.09	789	0	G	3883	                                                Phaseolus
+  0.09	789	789	S	3885	                                                  Phaseolus vulgaris
+  0.25	2198	0	O5	2233838	                                            Hologalegina
+  0.25	2198	15	O6	2233839	                                              IRL clade
+  0.17	1522	0	O7	163722	                                                Cicereae
+  0.17	1522	0	G	3826	                                                  Cicer
+  0.17	1522	1522	S	3827	                                                    Cicer arietinum
+  0.07	661	0	O7	163742	                                                Trifolieae
+  0.07	661	0	G	3877	                                                  Medicago
+  0.07	661	661	S	3880	                                                    Medicago truncatula
+  0.32	2821	0	O4	2231387	                                          dalbergioids sensu lato
+  0.32	2821	0	O5	163725	                                            Dalbergieae
+  0.32	2821	0	O6	2231390	                                              Pterocarpus clade
+  0.32	2821	2208	G	3817	                                                Arachis
+  0.04	377	377	S	3818	                                                  Arachis hypogaea
+  0.02	195	195	S	130453	                                                  Arachis duranensis
+  0.00	41	41	S	130454	                                                  Arachis ipaensis
+  0.18	1620	0	O4	2231384	                                          genistoids sensu lato
+  0.18	1620	0	O5	2231385	                                            core genistoids
+  0.18	1620	0	O6	163729	                                              Genisteae
+  0.18	1620	0	G	3869	                                                Lupinus
+  0.18	1620	1620	S	3871	                                                  Lupinus angustifolius
+  0.34	2997	14	O	3502	                                  Fagales
+  0.18	1620	0	O1	16714	                                    Juglandaceae
+  0.18	1620	0	G	13402	                                      Carya
+  0.18	1620	1620	S	32201	                                        Carya illinoinensis
+  0.15	1363	0	O1	3503	                                    Fagaceae
+  0.15	1363	0	G	3511	                                      Quercus
+  0.15	1363	1363	S	97700	                                        Quercus lobata
+  0.07	588	0	O	71239	                                  Cucurbitales
+  0.07	588	2	O1	3650	                                    Cucurbitaceae
+  0.04	339	0	O2	1003877	                                      Benincaseae
+  0.04	339	0	G	3655	                                        Cucumis
+  0.04	339	339	S	3659	                                          Cucumis sativus
+  0.03	247	0	O2	1003878	                                      Cucurbiteae
+  0.03	247	0	G	3660	                                        Cucurbita
+  0.03	247	0	S	3663	                                          Cucurbita pepo
+  0.03	247	247	S1	3664	                                            Cucurbita pepo subsp. pepo
+  0.96	8554	69	C6	91836	                                malvids
+  0.58	5181	0	O	41938	                                  Malvales
+  0.58	5181	20	O1	3629	                                    Malvaceae
+  0.51	4494	0	O2	214907	                                      Malvoideae
+  0.51	4494	2052	G	3633	                                        Gossypium
+  0.14	1231	1231	S	3635	                                          Gossypium hirsutum
+  0.08	753	753	S	29729	                                          Gossypium arboreum
+  0.05	458	458	S	29730	                                          Gossypium raimondii
+  0.08	667	0	O2	214909	                                      Byttnerioideae
+  0.08	667	0	G	3640	                                        Theobroma
+  0.08	667	667	S	3641	                                          Theobroma cacao
+  0.29	2588	0	O	3699	                                  Brassicales
+  0.29	2588	47	O1	3700	                                    Brassicaceae
+  0.16	1436	0	O2	981071	                                      Brassiceae
+  0.16	1436	813	G	3705	                                        Brassica
+  0.03	266	266	S	3708	                                          Brassica napus
+  0.02	206	0	S	3712	                                          Brassica oleracea
+  0.02	206	206	S1	109376	                                            Brassica oleracea var. oleracea
+  0.02	151	151	S	3711	                                          Brassica rapa
+  0.12	1105	6	O2	980083	                                      Camelineae
+  0.10	900	0	G	71323	                                        Camelina
+  0.10	900	900	S	90675	                                          Camelina sativa
+  0.02	199	0	G	3701	                                        Arabidopsis
+  0.02	199	199	S	3702	                                          Arabidopsis thaliana
+  0.05	481	0	O	41937	                                  Sapindales
+  0.05	481	0	O1	23513	                                    Rutaceae
+  0.05	481	0	O2	1728959	                                      Aurantioideae
+  0.05	481	0	G	2706	                                        Citrus
+  0.05	481	481	S	2711	                                          Citrus sinensis
+  0.03	235	0	O	41944	                                  Myrtales
+  0.03	235	0	O1	3928	                                    Lythraceae
+  0.03	235	0	G	22662	                                      Punica
+  0.03	235	235	S	22663	                                        Punica granatum
+  0.08	694	0	C6	91834	                                rosids incertae sedis
+  0.08	694	0	O	403667	                                  Vitales
+  0.08	694	0	O1	3602	                                    Vitaceae
+  0.08	694	0	O2	2304100	                                      Viteae
+  0.08	694	0	G	3603	                                        Vitis
+  0.08	694	694	S	29760	                                          Vitis vinifera
+  0.33	2893	0	O	3524	                              Caryophyllales
+  0.33	2893	24	O1	1804623	                                Chenopodiaceae
+  0.19	1723	0	O2	1308824	                                  Camphorosmoideae
+  0.19	1723	0	O3	1308839	                                    Camphorosmeae
+  0.19	1723	0	G	83153	                                      Bassia
+  0.19	1723	1723	S	83154	                                        Bassia scoparia
+  0.13	1146	0	O2	1804621	                                  Betoideae
+  0.13	1146	0	G	3554	                                    Beta
+  0.13	1146	0	S	161934	                                      Beta vulgaris
+  0.13	1146	1146	S1	3555	                                        Beta vulgaris subsp. vulgaris
+  0.88	7840	0	C2	4447	                        Liliopsida
+  0.88	7840	32	C3	1437197	                          Petrosaviidae
+  0.73	6455	39	C4	4734	                            commelinids
+  0.50	4413	0	O	38820	                              Poales
+  0.46	4054	48	O1	4479	                                Poaceae
+  0.28	2473	0	O2	147370	                                  PACMAD clade
+  0.28	2473	23	O3	147369	                                    Panicoideae
+  0.21	1847	0	O4	1648033	                                      Andropogonodae
+  0.21	1847	8	O5	147429	                                        Andropogoneae
+  0.14	1272	0	O6	1648029	                                          Tripsacinae
+  0.14	1272	0	G	4575	                                            Zea
+  0.14	1272	1272	S	4577	                                              Zea mays
+  0.06	567	0	O6	1648028	                                          Sorghinae
+  0.06	567	0	G	4557	                                            Sorghum
+  0.06	567	567	S	4558	                                              Sorghum bicolor
+  0.07	603	0	O4	1648036	                                      Panicodae
+  0.07	603	10	O5	147428	                                        Paniceae
+  0.03	303	0	O6	1293361	                                          Cenchrinae
+  0.03	303	0	G	4554	                                            Setaria
+  0.03	303	303	S	4555	                                              Setaria italica
+  0.03	290	0	O6	1293365	                                          Panicinae
+  0.03	290	0	G	4539	                                            Panicum
+  0.03	290	0	G1	2100772	                                              Panicum sect. Panicum
+  0.03	290	290	S	206008	                                                Panicum hallii
+  0.17	1533	2	O2	359160	                                  BOP clade
+  0.11	948	0	O3	147368	                                    Pooideae
+  0.08	750	0	O4	1648037	                                      Poodae
+  0.08	750	0	O5	147387	                                        Poeae
+  0.08	750	0	O6	1652081	                                          Poeae Chloroplast Group 2 (Poeae type)
+  0.08	750	0	O7	640628	                                            Poinae
+  0.08	750	0	G	4544	                                              Poa
+  0.08	750	750	S	4545	                                                Poa pratensis
+  0.02	198	0	O4	147385	                                      Brachypodieae
+  0.02	198	0	G	15367	                                        Brachypodium
+  0.02	198	198	S	15368	                                          Brachypodium distachyon
+  0.07	583	0	O3	147367	                                    Oryzoideae
+  0.07	583	0	O4	147380	                                      Oryzeae
+  0.07	583	0	O5	1648021	                                        Oryzinae
+  0.07	583	7	G	4527	                                          Oryza
+  0.03	290	0	S	4530	                                            Oryza sativa
+  0.03	290	290	S1	39947	                                              Oryza sativa Japonica Group
+  0.03	286	286	S	4533	                                            Oryza brachyantha
+  0.04	359	0	O1	4613	                                Bromeliaceae
+  0.04	359	0	O2	1909378	                                  Bromelioideae
+  0.04	359	0	G	4614	                                    Ananas
+  0.04	359	359	S	4615	                                      Ananas comosus
+  0.16	1461	0	O	40551	                              Arecales
+  0.16	1461	0	O1	4710	                                Arecaceae
+  0.16	1461	0	O2	169697	                                  Arecoideae
+  0.16	1461	0	O3	169705	                                    Cocoseae
+  0.16	1461	0	O4	169729	                                      Elaeidinae
+  0.16	1461	0	G	51952	                                        Elaeis
+  0.16	1461	1461	S	51953	                                          Elaeis guineensis
+  0.06	542	0	O	4618	                              Zingiberales
+  0.06	542	0	O1	4637	                                Musaceae
+  0.06	542	0	G	4640	                                  Musa
+  0.06	542	0	S	4641	                                    Musa acuminata
+  0.06	542	542	S1	214687	                                      Musa acuminata subsp. malaccensis
+  0.15	1353	0	O	73496	                            Asparagales
+  0.15	1353	0	O1	40552	                              Asparagaceae
+  0.15	1353	0	O2	703533	                                Asparagoideae
+  0.15	1353	0	G	4685	                                  Asparagus
+  0.15	1353	1353	S	4686	                                    Asparagus officinalis
+  0.22	1933	0	O	41768	                        Ranunculales
+  0.22	1933	0	O1	3465	                          Papaveraceae
+  0.22	1933	0	O2	1462614	                            Papaveroideae
+  0.22	1933	0	G	3468	                              Papaver
+  0.22	1933	1933	S	3469	                                Papaver somniferum
+  0.04	356	0	O	261007	                      Nymphaeales
+  0.04	356	0	O1	4410	                        Nymphaeaceae
+  0.04	356	0	G	4418	                          Nymphaea
+  0.04	356	356	S	210225	                            Nymphaea colorata
+  0.05	457	0	P3	3208	              Bryophyta
+  0.05	457	0	P4	404260	                Bryophytina
+  0.05	457	0	C	3214	                  Bryopsida
+  0.05	457	0	C1	114656	                    Funariidae
+  0.05	457	0	O	3215	                      Funariales
+  0.05	457	0	O1	3216	                        Funariaceae
+  0.05	457	0	G	3217	                          Physcomitrella
+  0.05	457	457	S	3218	                            Physcomitrella patens
+  0.00	7	0	P	3041	        Chlorophyta
+  0.00	7	0	C	1035538	          Mamiellophyceae
+  0.00	7	0	O	13792	            Mamiellales
+  0.00	7	0	O1	1525212	              Bathycoccaceae
+  0.00	5	0	G	41874	                Bathycoccus
+  0.00	5	5	S	41875	                  Bathycoccus prasinos
+  0.00	2	0	G	70447	                Ostreococcus
+  0.00	1	1	S	70448	                  Ostreococcus tauri
+  0.00	1	0	G1	2268852	                  unclassified Ostreococcus
+  0.00	1	0	S	242159	                    Ostreococcus sp. 'lucimarinus'
+  0.00	1	1	S1	436017	                      Ostreococcus lucimarinus CCE9901
+  0.00	0	0	O1	41873	              Mamiellaceae
+  0.00	0	0	G	38832	                Micromonas
+  0.00	0	0	S	296587	                  Micromonas commoda
+  0.00	2	0	P	2763	      Rhodophyta
+  0.00	2	0	C	2797	        Bangiophyceae
+  0.00	2	0	O	265318	          Cyanidiales
+  0.00	2	0	O1	265316	            Cyanidiaceae
+  0.00	2	0	G	45156	              Cyanidioschyzon
+  0.00	2	0	S	45157	                Cyanidioschyzon merolae
+  0.00	2	2	S1	280699	                  Cyanidioschyzon merolae strain 10D
