@@ -89,6 +89,8 @@ The **metadata** are the same for the WGS and amplicon data, as both were run fr
 
 For the **WGS Kraken data**, Jamieson Botsch formatted these (25-Apr-2018) from the raw Kraken output to combine the two data sources (we sequenced WGS data both at Emory and at UGA), and to have the family / genus / species separated out into columns; see `Shotgun_data_prep.Rmd`. Unlike the QIIME Illumina data, we do not need to do any aggregation of read counts as this was done automatically by Kraken (nice touch); i.e. all read counts at the species level are also included in genus-level matches and so on. We do just a couple of steps of very basic / simple formatting with the data import here (removal of superfluous numeric column a the beginning of the data; removal of duplicate rows).
 
+* in addition, at some point in 2020 Robert Petit merged the forward and reverse reads from the shotgun data in response to reviews, so that is a fairly substantial change from the previous version. Analyses in late 2020 reflect his update.
+
 The **amplicon data** are represented by 7 data files: The first (`amp_all`) is already merged with the sample metadata and already formatted for false-negative analyses (with a separate row for each species within each sample). There are separate columns for the presence or absence of that taxon at three different taxonomic levels (species, genus, and family) and for each marker (ITS2 and *rbcL*).
 
 This `amp_all` dataset, however, does not include data on false positives. Thus, the remaining six datafiles are there to provide data on how many of the hits were to true positives (known to be present in the sample) vs. false positives (not included in the sample). In contrast to `amp_all`, these are formatted as six separate files, one each for the two markers (ITS2 and *rbcL*) and three levels of taxonomic matching (species, genus, and family). The format of these files matches basically what comes from QIIME: taxa are the rows, and samples are the columns. We re-format these to the tidy format of having samples as rows later. 
@@ -181,7 +183,7 @@ krak_uniqueid <- unique.data.frame(krak_uniqueid)
 ```
 ## combine Kraken & sample metadata
 
-Create a new aggregated datasheet, based on sample metadata, but which matches sample data back to the Kraken data so we can run analyses about probability of matching (both qualitative and quantitative). In particular this is taking account of sample "replicates" (including some that are not true replicates, but rather forward vs. reverse reads); also different Illumina lanes in the Emory Genome Center data.
+Create a new aggregated datasheet, based on sample metadata, but which matches sample data back to the Kraken data so we can run analyses about probability of matching (both qualitative and quantitative). In particular this is taking account of sample "replicates" (originally including some that are not true replicates, but rather forward vs. reverse reads---this is not the case in the later 2020 data); also different Illumina lanes in the Emory Genome Center data.
 
 1. Merge the unique krak IDs with mixes to subset the sample data to only the samples in the kraken dataset 
 1. Create a dataset for analysis of false negatives by only including taxa that are present in sample data
