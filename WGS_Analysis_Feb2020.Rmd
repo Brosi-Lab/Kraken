@@ -646,9 +646,9 @@ for(q in 1:3) { # 'question': response variables for Q1 / Q2 / Q3
         # fourth, set whether or not data subset is used (vs. all data)
         if(datasubset[l]=="sub") {data.to.use = "data.sub"} # i.e., doesn't change if all data are to be used
         # fifth, set up mixed-effects model: 
-        mixed = paste(namer, " = suppressWarnings(glmer(qual.", taxon[k],
+        mixed = paste(namer, " = try(suppressWarnings(glmer(qual.", taxon[k],
           " ~ ",  question[q], " + (1|mix.ID) + (1|", taxon[k], "), family = binomial, 
-          data = ", data.to.use, ", control = glmerControl(optimizer=\"bobyqa\")))", sep = "")
+          data = ", data.to.use, ", control = glmerControl(optimizer=\"bobyqa\"))))", sep = "")
         # sixth, evaluate the mixed-effects model
         eval(parse(text = mixed))
             # # eighth, print summary of model [SKIP FOR NOW]
@@ -1319,7 +1319,7 @@ kable(quant.amp.table) %>% kable_styling(bootstrap_options = "striped", full_wid
 
 ```
 
-Comparing this table to the table from the WGS only quantitative matching, we can see that the $R^2$ values are are substantially higher for WGS / kraken as compared to the amplicon data. Consistently with the residual-based analysis, the slopes of the relationships for the amplicon data are much large / much closer to one than for the WGS data. 
+Comparing this table to the table from the WGS only quantitative matching, we can see that the $R^2$ values are are substantially higher for WGS / kraken as compared to the amplicon data. Consistently with the residual-based analysis, the slopes of the relationships for the amplicon data are much larger / much closer to one than for the WGS data. 
 
 This is consistent with:
 
