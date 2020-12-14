@@ -863,7 +863,10 @@ After combining *rbcL* and ITS2, where taxa were determined as present if they w
 
 ### sample complexity: false positives
 
-this analysis has the same structure as for the false negatives analysis of sample complexity, again examining 3 taxonomic levels (family / genus / species) for three dimensions of sample complexity (species richness / taxonomic relatedness / rarity), each with two datasets (the subsample specifically designed for the sample complexity component of interest and the entire dataset). 
+this analysis has the same structure as for the false negatives analysis of sample complexity, again examining 3 taxonomic levels (family / genus / species) for three dimensions of sample complexity (species richness / taxonomic relatedness / rarity). 
+
+* update Dec 2020: we had intended to also run this for each of two datasets (the subsample specifically designed for the sample complexity component of interest and the entire dataset), but did not do so, I (Berry) think that when we merged the forward and reverse reads we ended up with too few samples to do the subsets (even when accounting previously for the lack of independence of forward and reverse reads)
+* take home is that all analyses are only from all of the data, not the subset
 
 Some difference from the false negatives analysis:
 
@@ -877,14 +880,16 @@ Some difference from the false negatives analysis:
 
 # set up the three factors by which we are running the models
 taxon = c("species", "genus")
-datasubset = c("sub", "all") # whether we are using the designated subset of data designed for the question, or all data
+# datasubset = c("sub", "all") # whether we are using the designated subset of data designed for the question, or all data
+# taking this out, Dec 2020, because data subsets are too small to be meaningful and may be throwing other analyses off
 question = c("spp.rich", "relatedness", "pollen.grain.proportion")
 
 # calculate total number of models
-total = length(taxon)*length(datasubset)*length(question)
+total = length(taxon)*length(question) # was previously also *length(datasubset)
 
 # first set up a table for the results with a number of entries equal to the 'total' variable above (18):
-results.table.falsepos = data.frame(question = rep(NA,total), taxon  = rep(NA,total), data.subset  = rep(NA,total), model.name = rep(NA,total), p.val  = rep(1.000001,total), n  = rep(9999,total), warning.msg = rep(NA,total))
+results.table.falsepos = data.frame(question = rep(NA,total), taxon  = rep(NA,total), model.name = rep(NA,total), p.val  = rep(1.000001,total), n  = rep(9999,total), warning.msg = rep(NA,total))
+# previously also included 'data.subset  = rep(NA,total)'
 
 # keep track of which row of the table to record in:
 tracker = 1
@@ -896,7 +901,7 @@ tracker = 1
 
 for(q in 1:3) { # 'question': response variables for Q1 / Q2 / Q3
   for(k in 1:2){ # 'taxon': species, genus
-    for(l in 1:2) { # 'datasubset': sub or all
+#    for(l in 1:2) { # 'datasubset': sub or all
       # first, name the analysis:
       namer = paste("Krak.falsepos.Q", q, ".", taxon[k], ".", datasubset[l], sep = "")
       # second, set which taxonomic data to use:
@@ -905,10 +910,18 @@ for(q in 1:3) { # 'question': response variables for Q1 / Q2 / Q3
       subster = paste("data.sub = filter(", data.to.use, ", question.1 == ", q, " | question.2 == ", q, " | question.3 == ", q, ")", sep = "")
       eval(parse(text = subster)) # probably not the most efficient thing ever... 
       # fourth, set whether or not data subset is used (vs. all data)
-      if(datasubset[l]=="sub") {data.to.use = "data.sub"} # i.e., doesn't change if all data are to be used
+      # if(datasubset[l]=="sub") {data.to.use = "data.sub"} # i.e., doesn't change if all data are to be used
+        # above taken out when datasubsets removed
       # fifth, set up mixed-effects model: 
-      mixed = paste(namer, " = suppressWarnings(glmer(cbind(false_pos, true_pos) ~ ",  question[q], " + (1|mix.ID/sample), family = binomial, 
+      mixed = paste(namer, " = suppressWarnings(glmer(cbind(false_pos, true_pos) ~ ",  question[q], " + (1|mix.ID), family = binomial, 
                     data = ", data.to.use, ", control = glmerControl(optimizer=\"bobyqa\", optCtrl = list(maxfun = 10000))))", sep = "")
+      
+      # NOTE (update Dec 2020): random effects specification changed from
+      # (1|mix.ID/sample) to
+      # (1|mix.ID) given that there is only one replicate per sample now
+      # this is because of merging forward and reverse reads
+      # this did not change anything at all results-wise (exact same *p*-values)
+      
       # sixth, evaluate the mixed-effects model
       eval(parse(text = mixed))
       # # eighth, print summary of model [SKIP FOR NOW]
@@ -929,17 +942,17 @@ for(q in 1:3) { # 'question': response variables for Q1 / Q2 / Q3
       # record results in table
       results.table.falsepos[tracker,1] = question[q]
       results.table.falsepos[tracker,2] = taxon[k]
-      results.table.falsepos[tracker,3] = datasubset[l]
-      results.table.falsepos[tracker,4] = namer
-      results.table.falsepos[tracker,5] = pval
-      results.table.falsepos[tracker,6] = nrow(eval(parse(text = data.to.use)))
-      results.table.falsepos[tracker,7] = converg.return
+      # results.table.falsepos[tracker,3] = datasubset[l]
+      results.table.falsepos[tracker,3] = namer # was '[tracker, 4]'
+      results.table.falsepos[tracker,4] = pval # was '[tracker, 5]' (etc for 6 and 7)
+      results.table.falsepos[tracker,5] = nrow(eval(parse(text = data.to.use)))
+      results.table.falsepos[tracker,6] = converg.return
       
       # advance tracker
       tracker = tracker + 1
     }
   }
-}
+# } # (was here for datasubset)
 
 # display results table
 # note that the 'kable' function is part of the 'knitr' package and `kable_styling` is from the `kableExtra` package 
@@ -948,13 +961,28 @@ kable(results.table.falsepos) %>%
 
 ```
 
-Yet again, we got back `boundary` (singular) fits for many of these models. These were because the fine-scale random effects showed almost no variance. That is probably a good thing, we do not want to have any variability among (say) forward vs. reverse reads of the same sample or across sample replicates.
+**Results interpretation: updated Dec 2020**
 
-**Unfortunately**, most (8/12) of the false positive analyses had errors. Three of the four that did not have errors showed a statistically significant relationship between sample complexity and the proportion of false positive reads (i.e. compared to true positives). These were for relatedness (one result) and pollen grain proportion (three results). We did not see an effect for species richness. Specifically:
+* **take-home message:** we do not see any statistically significant relationships between any of the sample complexity components (species richness, relatedness, or minimum pollen grain proportions) and increasing false positive reads, assessed at either the genus or the species level
+    + two of the results were marginally significant (with marginality set at $0.05 < p < 0.10$)
+    + I SUGGEST NOT DISCUSSING THESE MARGINAL RESULTS---not worth it relative to our more substantive results, and ultimately they are not statistically significant
+    + both were for genus-level data
+    + pollen grain relatedness: while marginal, if you look at figure J you can see that while the CIs are tiny, there doesn't really seem to be any *meaningful* difference among relatedness categories
+    + pollen grain proportion: while marginal, again, tiny CIs and a pattern that doesn't seem particularly meaningful, with slightly higher false positive rates in the middle range of the minimum proportions (hard to interpret---we were expecting more false positives when minimum proportions got lower)
+* again, we did not analyze the data based on the "subsample" of data designed for each question, instead we used all data, otherwise we were left with sample sizes e.g. of 4 and 2 for many of the questions
+* in contrast to previous results, we did not get any warning messages / models seemed to fit well; this could be in part due to the fact that we did not have within-sample random effects due to the merging of the forward and reverse reads
 
-* for species richness, at the family level, and considering all samples, there was no statistically significant effect of richness on the proportion of false positive reads
-* for relatedness, again at the family level, but this time considering only the subset we set up to compare relatedness, relatedness *was* significantly related to the proportion of false positive reads. We will have to go into the plots to see the directionality of this effect
-* for pollen grain proportion, at the species, genus, and family levels---but only for the subset of samples we set up to examine relatedness in each of those cases---pollen grain proportion *was* significantly related to the proportion of false positive reads. Again, we will have to go into the plots to see the directionality of this effect
+
+<!-- ######################################## -->
+<!-- COMMENTED OUT PREVIOUS RESULTS -->
+<!-- ######################################## -->
+<!-- Yet again, we got back `boundary` (singular) fits for many of these models. These were because the fine-scale random effects showed almost no variance. That is probably a good thing, we do not want to have any variability among (say) forward vs. reverse reads of the same sample or across sample replicates. -->
+
+<!-- **Unfortunately**, most (8/12) of the false positive analyses had errors. Three of the four that did not have errors showed a statistically significant relationship between sample complexity and the proportion of false positive reads (i.e. compared to true positives). These were for relatedness (one result) and pollen grain proportion (three results). We did not see an effect for species richness. Specifically: -->
+
+<!-- * for species richness, at the family level, and considering all samples, there was no statistically significant effect of richness on the proportion of false positive reads -->
+<!-- * for relatedness, again at the family level, but this time considering only the subset we set up to compare relatedness, relatedness *was* significantly related to the proportion of false positive reads. We will have to go into the plots to see the directionality of this effect -->
+<!-- * for pollen grain proportion, at the species, genus, and family levels---but only for the subset of samples we set up to examine relatedness in each of those cases---pollen grain proportion *was* significantly related to the proportion of false positive reads. Again, we will have to go into the plots to see the directionality of this effect -->
 
 ### Amplicon vs. Shotgun comparison, false positives
 
