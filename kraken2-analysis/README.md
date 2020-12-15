@@ -1,5 +1,5 @@
 
-# Directory Layout
+#### Directory Layout
 
 ```
 kraken2-analysis
@@ -22,13 +22,13 @@ kraken2-analysis
 
 ```
 
-# Base Directory
+#### Base Directory
 
 | Filename    | Description                                           |
 |-------------|-------------------------------------------------------|
 | commands.sh | The commands used for the Kraken2 setup and analysis. |
 
-# `public-samples` Directory
+#### `public-samples` Directory
 The `public-samples` directory includes information of additional sequences that were added to the default `plant` database for Kraken2.
 
 
@@ -39,7 +39,7 @@ The `public-samples` directory includes information of additional sequences that
 | ${BIOPROJECT}-random.txt     | A random subset of SRA Runs to download.                 |
 | ${BIOPROJECT}-runs.txt       | The full list of SRA Runs associated with a BioProject.  |
 
-# `results` Directory
+#### `results` Directory
 The `results` directory contains the summary statistics of the input FASTQs and the Kraken2 report files.
 
 | Extension    | Description                                                                            |
