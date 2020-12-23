@@ -2,14 +2,21 @@
 title: "Whole-Genome Shotgun Sequencing for Pollen Identification"
 author: "Anya Cutler and Berry Brosi"
 date: "started 16 August 2018; most recent edits `r format(Sys.time(), '%d %B %Y')`"
-output: 
-  html_document:
+always_allow_html: true # needed to allow for `github_document` output
+output:
+  github_document:
     toc: true
     toc_depth: 4
-    toc_float: true
-    number_sections: true
+  html_document:
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+    number_sections: yes
     code_folding: hide
     theme: cosmo
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
 ---
 
 ```{r setup, include=FALSE}
