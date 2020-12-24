@@ -3,10 +3,8 @@ title: "Whole-Genome Shotgun Sequencing for Pollen Identification"
 author: "Anya Cutler and Berry Brosi"
 date: "started 16 August 2018; most recent edits `r format(Sys.time(), '%d %B %Y')`"
 always_allow_html: true # needed to allow for `github_document` output
+geometry: margin=2cm # so that .pdf margins don't run over
 output:
-  github_document:
-    toc: true
-    toc_depth: 4
   html_document:
     toc: yes
     toc_depth: 4
@@ -14,31 +12,13 @@ output:
     number_sections: yes
     code_folding: hide
     theme: cosmo
+  github_document:
+    toc: true
+    toc_depth: 4
   pdf_document:
     toc: yes
     toc_depth: '4'
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, error = TRUE)
-
-suppressPackageStartupMessages(require(kableExtra))
-suppressPackageStartupMessages(require(dplyr))
-suppressPackageStartupMessages(require(stringr))
-suppressPackageStartupMessages(require(reshape2))
-suppressPackageStartupMessages(require(lme4))
-suppressPackageStartupMessages(require(lmerTest))
-suppressPackageStartupMessages(require(r2glmm))
-suppressPackageStartupMessages(require(knitr))
-suppressPackageStartupMessages(require(stringr))
-suppressPackageStartupMessages(require(tidyr))
-suppressPackageStartupMessages(require(tibble))
-suppressPackageStartupMessages(require(data.table))
-suppressPackageStartupMessages(require(binom))
-suppressPackageStartupMessages(require(ggplot2))
-suppressPackageStartupMessages(require(gridExtra))
-suppressPackageStartupMessages(require(broom.mixed))
-```
 
 **update Dec 2020**
 
@@ -89,6 +69,28 @@ We considered this issue in detail and decided that a linear model is better in 
 
 An alternative possibility is to specify the intercept (0) and slope (1) and see how well the data do at fitting that line. We also pursued this approach, by examining the *residuals* of WGS vs. amplicon data to that regression line. Smaller residuals are better. One thing to note about this approach is that it is probably dominated by the proportion of false positive reads---more false positives will mean that the proportion of true matches will be further from the 1:1 ratio. We thus used both of the approaches above to assess quantitative matching.
 
+```{r setup}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+
+suppressPackageStartupMessages(require(kableExtra))
+suppressPackageStartupMessages(require(dplyr))
+suppressPackageStartupMessages(require(stringr))
+suppressPackageStartupMessages(require(reshape2))
+suppressPackageStartupMessages(require(lme4))
+suppressPackageStartupMessages(require(lmerTest))
+suppressPackageStartupMessages(require(r2glmm))
+suppressPackageStartupMessages(require(knitr))
+suppressPackageStartupMessages(require(stringr))
+suppressPackageStartupMessages(require(tidyr))
+suppressPackageStartupMessages(require(tibble))
+suppressPackageStartupMessages(require(data.table))
+suppressPackageStartupMessages(require(binom))
+suppressPackageStartupMessages(require(ggplot2))
+suppressPackageStartupMessages(require(gridExtra))
+suppressPackageStartupMessages(require(broom.mixed))
+```
+
+
 # Data import
 
 Three groups of data sets to import: 
@@ -121,7 +123,8 @@ amp_rbc_genus = read.csv("Amplicon_rbcL_Genus.csv")
 amp_rbc_species = read.csv("Amplicon_rbcL_Species.csv")
 amp_all = read.csv("Amplicon_all.csv")
 
-# 'mixes' comes in with some rows duplicated (because in the spreadsheet, each was assessed with both ITS2 and with rbcL); fix this here:
+# 'mixes' comes in with some rows duplicated (because in the spreadsheet, each 
+# was assessed with both ITS2 and with rbcL); fix this here:
 mixes = unique(mixes)
 
 #Create list of kraken2 report files
@@ -135,7 +138,7 @@ for (i in 1:length(kraken2)){kraken2[[i]]<-cbind(reports[i],kraken2[[i]])}
 kraken2_rbind <- do.call("rbind", kraken2) 
 
 #Rename column names
-colnames(kraken2_rbind)[c(1,2,3,4,5,6,7)]<-c("sample.id", "perc.hit", "hits","misses","tax","tax.id","id")
+colnames(kraken2_rbind)[c(1,2,3,4,5,6,7)]<-c("sample.id", "perc.hit", "hits", "misses","tax","tax.id","id")
 
 ```
 
@@ -166,31 +169,36 @@ colnames(kraken2_rbind)[c(1,2,3,4,5,6,7)]<-c("sample.id", "perc.hit", "hits","mi
 #Create mixID column
 kraken2_rbind$mix.ID = substr(kraken2_rbind$sample.id, 19, 24)
 
-# Want to remove the 6th character if mix.id does not contain the word "mix" or contains 2 dashes. Only want six characters if the mix number is double digits.
+# Want to remove the 6th character if mix.id does not contain the word "mix" 
+# or contains 2 dashes. Only want six characters if the mix number is 
+# double digits.
 kraken2_rbind$mix.ID = ifelse(!grepl("mix", kraken2_rbind$mix.ID) | str_count(kraken2_rbind$mix.ID, pattern="-")==2, substr(kraken2_rbind$mix.ID, 1, 5), kraken2_rbind$mix.ID)
 
-#replace dashes in 'mix.ID' with periods so that they match the 'mixes' data and remove underscores
+# replace dashes in 'mix.ID' with periods so that they match the 'mixes' data
+# and remove underscores
 kraken2_rbind$mix.ID = gsub("-", ".", kraken2_rbind$mix.ID)
 
-#remove periods if mix.ID contains "mix" so it matches the mix data
+# remove periods if mix.ID contains "mix" so it matches the mix data
 kraken2_rbind$mix.ID = gsub("mix.","mix", kraken2_rbind$mix.ID)
 
-# move the new column to be second in order (not at the end where it's hard to see)
+# move the new column to be second in order 
+# (not at the end where it's hard to see)
 kraken2_rbind = kraken2_rbind[, c(1, ncol(kraken2_rbind), 3:ncol(kraken2_rbind)-1)]
 
-#Remove any rows that are identified to anything other than family, genus, or species (not higher tax or subgroups)
+# Remove any rows that are identified to anything other than family, genus, 
+# or species (not higher tax or subgroups)
 kraken2_rbind = kraken2_rbind[(kraken2_rbind$tax == "F" | kraken2_rbind$tax == "G" | kraken2_rbind$tax == "S"),]
 
-#Remove leading white space in tax names
+# Remove leading white space in tax names
 kraken2_rbind$id = trimws(kraken2_rbind$id, "left")
 
-#Rename dataframe so it can run through script
+# Rename dataframe so it can run through script
 krak = kraken2_rbind
 
-#Create list of unique combinations of mix ID and rep ID to properly merge kraken with mixes data at later point
+# Create list of unique combinations of mix ID and rep ID to properly merge 
+# kraken with mixes data at later point
 krak_uniqueid <- data.frame(krak$mix.ID)
 krak_uniqueid <- unique.data.frame(krak_uniqueid)
-
 
 ```
 ## combine Kraken & sample metadata
@@ -209,14 +217,17 @@ use 'mix.ID' as the variable to combine by...
 ## Merge sample and replicate IDs with mixes data
 krak_mixes <- merge(mixes,krak_uniqueid, by.x="mix.ID", by.y="krak.mix.ID")
 
-# create separate datasets for family, genus, and species level, both including and excluding false positives
+# create separate datasets for family, genus, and species level, 
+# both including and excluding false positives
 # excluding false positives (focus on true positives / false negatives):
-#truepos.krak.family =  merge(krak_mixes, filter(krak, tax == "F"), by.x = c("mix.ID", "family"), by.y = c("mix.ID", "id"), all.x=T)
+# truepos.krak.family =  merge(krak_mixes, filter(krak, tax == "F"), 
+# by.x = c("mix.ID", "family"), by.y = c("mix.ID", "id"), all.x=T)
 truepos.krak.genus =  merge(krak_mixes, filter(krak, tax == "G"), by.x = c("mix.ID", "genus"), by.y = c("mix.ID", "id"), all.x=T)
 truepos.krak.species =  merge(krak_mixes, filter(krak, tax == "S"), by.x = c("mix.ID", "species"), by.y = c("mix.ID", "id"), all.x=T)
 
 # including false positives:
-#all.krak.family =  merge(krak_mixes, filter(krak, tax == "F"), by.x = c("mix.ID", "family"), by.y = c("mix.ID", "id"), all.x = T, all.y = T)
+# all.krak.family =  merge(krak_mixes, filter(krak, tax == "F"), 
+# by.x = c("mix.ID", "family"), by.y = c("mix.ID", "id"), all.x = T, all.y = T)
 all.krak.genus =  merge(krak_mixes, filter(krak, tax == "G"), by.x = c("mix.ID", "genus"), by.y = c("mix.ID", "id"), all.x = T, all.y = T)
 all.krak.species =  merge(krak_mixes, filter(krak, tax == "S"), by.x = c("mix.ID", "species"), by.y = c("mix.ID", "id"), all.x = T, all.y = T)
 
@@ -241,7 +252,8 @@ maxy = max(krak$hits[krak$mix.ID=="negat"])
 truepos.indexy_genus = which(truepos.krak.genus$hits <= maxy)
 truepos.indexy_species = which(truepos.krak.species$hits <= maxy)
 
-# No rows for false negative analysis with read level below threshold - can continue with analysis 
+# No rows for false negative analysis with read level below threshold
+# (can continue with analysis)
 
 # Identify rows that fall below thresshold for false positive analysis
 #all.indexy_family = which(all.krak.family$hits <= maxy)
@@ -259,7 +271,8 @@ all.krak.genus = filter(all.krak.genus, mix.ID!="negat")
 all.krak.species = filter(all.krak.species, mix.ID!="negat")
 
 # Clean up
-rm(maxy, all.indexy_family, all.indexy_genus, all.indexy_species, truepos.indexy_family, truepos.indexy_genus, truepos.indexy_species)
+rm(maxy, all.indexy_genus, all.indexy_species, truepos.indexy_genus, truepos.indexy_species)
+# rm(all.indexy_family,truepos.indexy_family)
 
 ```
 
@@ -273,18 +286,23 @@ rm(maxy, all.indexy_family, all.indexy_genus, all.indexy_species, truepos.indexy
 
 ```{r match kraken to sample data}
 
-# create quantitative variable by simply dividing the percentage hits (perc.hit) by 100
+# create quantitative variable by simply dividing the percentage hits 
+# (perc.hit) by 100:
 #truepos.krak.family$quant.family = truepos.krak.family$perc.hit/100
 truepos.krak.genus$quant.genus = truepos.krak.genus$perc.hit/100
 truepos.krak.species$quant.species = truepos.krak.species$perc.hit/100
 
-# for taxa that were not detected, NAs are currently present. Need to change this to 0 for quantitative variable before running analysis.
-#truepos.krak.family$quant.family = ifelse(is.na(truepos.krak.family$quant.family), 0, truepos.krak.family$quant.family)
+# for taxa that were not detected, NAs are currently present. 
+# need to change this to 0 for quantitative variable before running analysis.
+# truepos.krak.family$quant.family = 
+#   ifelse(is.na(truepos.krak.family$quant.family), 0,
+#          truepos.krak.family$quant.family)
 truepos.krak.genus$quant.genus = ifelse(is.na(truepos.krak.genus$quant.genus), 0, truepos.krak.genus$quant.genus)
 truepos.krak.species$quant.species = ifelse(is.na(truepos.krak.species$quant.species), 0, truepos.krak.species$quant.species)
 
 #Create qualitative variable based on quantitative variable
-#truepos.krak.family$qual.family = ifelse(truepos.krak.family$quant.family > 0, 1, 0)
+#truepos.krak.family$qual.family = 
+# ifelse(truepos.krak.family$quant.family > 0, 1, 0)
 truepos.krak.genus$qual.genus = ifelse(truepos.krak.genus$quant.genus > 0, 1, 0)
 truepos.krak.species$qual.species = ifelse(truepos.krak.species$quant.species > 0, 1, 0)
 ```
@@ -295,10 +313,14 @@ Using the kraken data formatted for true positive/false negative analysis ("true
 
 ```{r combine amplicon and kraken data for true positive/false negative}
 
-#Add "K-" to beginning of sample number of kraken dataset and add variable "source" to indicate that data is from kraken dataset
-#truepos.krak.family$sample <- paste("K-", truepos.krak.family$krak.sample, sep="")
-truepos.krak.genus$sample <- paste("K-", truepos.krak.genus$krak.sample, sep="")
-truepos.krak.species$sample <- paste("K-", truepos.krak.species$krak.sample, sep="")
+# Add "K-" to beginning of sample number of kraken dataset 
+# and add variable "source" to indicate that data is from kraken dataset
+# truepos.krak.family$sample <- 
+#   paste("K-", truepos.krak.family$krak.sample, sep="")
+truepos.krak.genus$sample <- 
+  paste("K-", truepos.krak.genus$krak.sample, sep="")
+truepos.krak.species$sample <- 
+  paste("K-", truepos.krak.species$krak.sample, sep="")
 
 #Add "source" variable to indicate if data is WGS or amplicon
 #truepos.krak.family$source = "krak"
@@ -306,20 +328,39 @@ truepos.krak.genus$source = "krak"
 truepos.krak.species$source = "krak"
 amp_all$source = "amp"
 
-#Concatenate WGS and amplicon data using mapply so that mismatching variable names of the amplicon data will be ignored
+# Concatenate WGS and amplicon data using mapply so that 
+# mismatching variable names of the amplicon data will be ignored
 # 'fn' appended at the end of the variable names signifies "false negatives"
 
-#krakamp_rbc_family_fn <- as.data.frame(mapply(c, truepos.krak.family[,c("mix.ID", "family", "sample", "qual.family", "source")], amp_all[,c("mix.ID","family","sample", "qual.family.rbcL", "source")]))
+# krakamp_rbc_family_fn <- 
+# as.data.frame(mapply(c, truepos.krak.family[,c("mix.ID", "family", "sample",
+#  "qual.family", "source")], 
+# amp_all[,c("mix.ID","family","sample", "qual.family.rbcL", "source")]))
 
-#krakamp_its_family_fn <- as.data.frame(mapply(c, truepos.krak.family[,c("mix.ID", "family", "sample", "qual.family", "source")], amp_all[,c("mix.ID","family","sample", "qual.family.ITS", "source")]))
+# krakamp_its_family_fn <- 
+# as.data.frame(mapply(c, truepos.krak.family[,c("mix.ID", "family", "sample",
+# "qual.family", "source")], 
+# amp_all[,c("mix.ID","family","sample", "qual.family.ITS", "source")]))
 
 krakamp_rbc_genus_fn <- as.data.frame(mapply(c, truepos.krak.genus[,c("mix.ID", "genus", "sample", "qual.genus", "source")], amp_all[,c("mix.ID","genus","sample", "qual.genus.rbcL", "source")]))
 
+  # make `qual.genus` numerical:
+  krakamp_rbc_genus_fn$qual.genus = as.numeric(krakamp_rbc_genus_fn$qual.genus)
+
 krakamp_its_genus_fn <- as.data.frame(mapply(c, truepos.krak.genus[,c("mix.ID", "genus", "sample", "qual.genus", "source")], amp_all[,c("mix.ID","genus","sample", "qual.genus.ITS", "source")]))
+
+  # make `qual.genus` numerical:
+  krakamp_its_genus_fn$qual.genus = as.numeric(krakamp_its_genus_fn$qual.genus)
 
 krakamp_rbc_species_fn <- as.data.frame(mapply(c, truepos.krak.species[,c("mix.ID", "species", "sample", "qual.species", "source")], amp_all[,c("mix.ID","species","sample", "qual.species.rbcL", "source")]))
 
+  # make `qual.species` numerical:
+  krakamp_rbc_species_fn$qual.species = as.numeric(krakamp_rbc_species_fn$qual.species)
+
 krakamp_its_species_fn <- as.data.frame(mapply(c, truepos.krak.species[,c("mix.ID", "species", "sample", "qual.species", "source")], amp_all[,c("mix.ID","species","sample", "qual.species.ITS", "source")]))
+
+  # make `qual.species` numerical:
+  krakamp_its_species_fn$qual.species = as.numeric(krakamp_its_species_fn$qual.species)
 
 ```
 
@@ -347,7 +388,8 @@ In addition :
 all.krak.genus$type <- ifelse(is.na(all.krak.genus$question.1), "false_pos", "true_pos")
 all.krak.species$type <- ifelse(is.na(all.krak.species$question.1), "false_pos", "true_pos")
 
-# If hits = N/A, indicates a false negative (in sample data but not in Kraken data). Remove because we are not considering for this analysis
+# If hits = N/A, indicates a false negative (in sample data but not in Kraken data). 
+# Remove because we are not considering for this analysis
 # (for the future, probably easier with `filter` in `dplyr` package)
 #all.krak.family <- all.krak.family[-which(is.na(all.krak.family$sample.id)),]
 #all.krak.genus <- all.krak.genus[-which(is.na(all.krak.genus$sample.id)),]
@@ -745,7 +787,7 @@ tracker = 1
 # response variables relating to each of the three questions (column names in data)
 
 for(q in 1:2) { # 'marker': its or rbc
-    for(k in 1:2){ # 'taxon': species, genus, family
+    for(k in 1:2){ # 'taxon': species or genus
         # first, name the analysis (i.e. name the result object):
         namer = paste(marker[q], ".", taxon[k], sep = "")
         
@@ -753,9 +795,7 @@ for(q in 1:2) { # 'marker': its or rbc
         data.to.use = paste("krakamp_", marker[q], "_", taxon[k],"_fn", sep = "")
         
         # third, set up mixed-effects model: 
-        mixed = paste(namer, " = suppressWarnings(glmer(qual.", taxon[k],
-          " ~ source + (1|mix.ID/sample) + (1|", taxon[k], "), family = binomial, 
-          data = ", data.to.use, ", control = glmerControl(optimizer=\"bobyqa\")))", sep = "")
+        mixed = paste(namer, " = suppressWarnings(glmer(qual.", taxon[k], " ~ source + (1|mix.ID/sample) + (1|", taxon[k], "), family = binomial, data = ", data.to.use, ", control = glmerControl(optimizer=\"bobyqa\")))", sep = "")
         
         # fourth, evaluate the mixed-effects model
         eval(parse(text = mixed))
