@@ -27,6 +27,7 @@ kraken2-analysis
 | Filename    | Description                                           |
 |-------------|-------------------------------------------------------|
 | commands.sh | The commands used for the Kraken2 setup and analysis. |
+| kraken2-dbinfo.txt | A summary of the Kraken2 database base used in this study (`kraken2-inspect`). |
 
 #### `public-samples` Directory
 The `public-samples` directory includes information of additional sequences that were added to the default `plant` database for Kraken2.
